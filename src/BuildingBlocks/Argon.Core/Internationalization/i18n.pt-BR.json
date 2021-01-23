@@ -1,4 +1,5 @@
 {
   "InvalidEmail": "Email inválido",
-  "InvalidCpf": "CPF inválido"
+  "InvalidCpf": "CPF inválido",
+  "InvalidFullName": "Nome inválido"
 }

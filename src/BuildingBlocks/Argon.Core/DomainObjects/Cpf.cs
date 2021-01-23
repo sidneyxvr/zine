@@ -1,18 +1,18 @@
-﻿using Argon.Core.Internationalization;
-using Argon.Core.Utils;
+﻿using Argon.Core.Utils;
+using System.Collections.Generic;
 
 namespace Argon.Core.DomainObjects
 {
-    public class Cpf
+    public class Cpf : ValueObject
     {
-        public const int CpfMaxLength = 11;
+        public const int NumberLength = 11;
         public string Number { get; private set; }
 
         protected Cpf() { }
 
         public Cpf(string number)
         {
-            if (!Validate(number)) throw new DomainException(Localizer.GetValue("InvalidName"));
+            if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidName"));
             Number = number;
         }
 
@@ -21,22 +21,22 @@ namespace Argon.Core.DomainObjects
             return new Cpf(number);
         }
 
-        public static bool Validate(string cpf)
+        public static bool IsValid(string cpf)
         {
             cpf = cpf.OnlyNumbers(cpf);
 
-            if (cpf.Length > 11)
+            if (cpf.Length > NumberLength)
             {
                 return false;
             }
 
-            while (cpf.Length != 11)
+            while (cpf.Length != NumberLength)
             {
                 cpf = '0' + cpf;
             }
 
             var equal = true;
-            for (var i = 1; i < 11 && equal; i++)
+            for (var i = 1; i < NumberLength && equal; i++)
             {
                 if (cpf[i] != cpf[0])
                 {
@@ -49,9 +49,9 @@ namespace Argon.Core.DomainObjects
                 return false;
             }
                
-            var numbers = new int[11];
+            var numbers = new int[NumberLength];
 
-            for (var i = 0; i < 11; i++)
+            for (var i = 0; i < NumberLength; i++)
             {
                 numbers[i] = int.Parse(cpf[i].ToString());
             }
@@ -62,7 +62,7 @@ namespace Argon.Core.DomainObjects
                 sum += (10 - i) * numbers[i];
             }
 
-            var result = sum % 11;
+            var result = sum % NumberLength;
 
             if (result == 1 || result == 0)
             {
@@ -71,7 +71,7 @@ namespace Argon.Core.DomainObjects
                     return false;
                 }
             }
-            else if (numbers[9] != 11 - result)
+            else if (numbers[9] != NumberLength - result)
             {
                 return false;
             }
@@ -79,10 +79,10 @@ namespace Argon.Core.DomainObjects
             sum = 0;
             for (var i = 0; i < 10; i++)
             {
-                sum += (11 - i) * numbers[i];
+                sum += (NumberLength - i) * numbers[i];
             }
 
-            result = sum % 11;
+            result = sum % NumberLength;
 
             if (result == 1 || result == 0)
             {
@@ -91,12 +91,17 @@ namespace Argon.Core.DomainObjects
                     return false;
                 }
             }
-            else if (numbers[10] != 11 - result)
+            else if (numbers[10] != NumberLength - result)
             {
                 return false;
             }
 
             return true;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Number;
         }
     }
 }

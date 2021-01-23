@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Argon.Core.Internationalization;
+using System;
 
 namespace Argon.Core.DomainObjects
 {
     public abstract class Entity
     {
         public Guid Id { get; set; }
+        protected Localizer Localizer;
 
         protected Entity()
         {
             Id = Guid.NewGuid();
+            Localizer = Localizer.GetLocalizer();
         }
 
         public override bool Equals(object obj)
