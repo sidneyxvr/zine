@@ -13,7 +13,7 @@ namespace Argon.Core.DomainObjects
 
         public Phone(string number)
         {
-            if (!Validate(number)) throw new DomainException(Localizer.GetTranslation("InvalidPhone"));
+            if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidPhone"));
             Number = number;
         }
 
@@ -22,7 +22,7 @@ namespace Argon.Core.DomainObjects
             return new Phone(number);
         }
 
-        public static bool Validate(string email)
+        public static bool IsValid(string email)
         {
             var regexEmail = new Regex(@"^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$");
             return regexEmail.IsMatch(email);
