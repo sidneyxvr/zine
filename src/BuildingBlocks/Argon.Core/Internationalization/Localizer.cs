@@ -16,7 +16,8 @@ namespace Argon.Core.Internationalization
 
         private Localizer()
         {
-            var folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var pathBase = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            const string folder = "Internationalization";
 
             _languages = new List<JsonLocalization>
             {
@@ -26,7 +27,7 @@ namespace Argon.Core.Internationalization
                     Resources =
                     JsonSerializer.Deserialize<Dictionary<string, string>>(
                         File.ReadAllText(
-                            Path.Combine(folder, "Internationalization", "i18n.en-US.json"), 
+                            Path.Combine(pathBase, folder, "i18n.en-US.json"), 
                             Encoding.UTF8))
                 },
 
@@ -36,7 +37,7 @@ namespace Argon.Core.Internationalization
                     Resources =
                     JsonSerializer.Deserialize<Dictionary<string, string>>(
                         File.ReadAllText(
-                            Path.Combine(folder, "Internationalization", "i18n.pt-BR.json"), 
+                            Path.Combine(pathBase, folder, "i18n.pt-BR.json"), 
                             Encoding.GetEncoding("iso-8859-1")))
                 }
             };

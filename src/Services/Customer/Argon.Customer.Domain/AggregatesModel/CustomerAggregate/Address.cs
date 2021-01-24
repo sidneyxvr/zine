@@ -1,6 +1,7 @@
 ﻿using Argon.Core.DomainObjects;
+using System;
 
-namespace Argon.Clients.Domain.AggregatesModel.ClientAggregate
+namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 {
     public class Address : Entity
     {
@@ -12,5 +13,7 @@ namespace Argon.Clients.Domain.AggregatesModel.ClientAggregate
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
         public string Complement { get; private set; }
+        public Guid CustomerId { get; private set; }
+        protected Address() { }
     }
 }

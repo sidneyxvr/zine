@@ -1,5 +1,7 @@
 ﻿using Argon.Core.Internationalization;
+using Argon.Core.Messages.Events;
 using System;
+using System.Collections.Generic;
 
 namespace Argon.Core.DomainObjects
 {
@@ -12,6 +14,25 @@ namespace Argon.Core.DomainObjects
         {
             Id = Guid.NewGuid();
             Localizer = Localizer.GetLocalizer();
+        }
+
+        private List<Event> _domainEvents;
+        public IReadOnlyCollection<Event> DomainEvents => _domainEvents?.AsReadOnly();
+
+        public void AddDomainEvent(Event @event)
+        {
+            _domainEvents ??= new List<Event>();
+            _domainEvents.Add(@event);
+        }
+
+        public void RemoveDomainEvent(Event @event)
+        {
+            _domainEvents?.Remove(@event);
+        }
+
+        public void ClearDomainEvents()
+        {
+            _domainEvents?.Clear();
         }
 
         public override bool Equals(object obj)

@@ -6,9 +6,8 @@
 
   <ItemGroup>
     <Folder Include="AggregatesModel\" />
-    <Folder Include="Commands\Validations\" />
+    <Folder Include="AggregatesModel\ProductAggregate\" />
     <Folder Include="Events\" />
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>

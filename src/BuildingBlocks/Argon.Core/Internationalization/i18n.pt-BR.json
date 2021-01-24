@@ -1,5 +1,6 @@
 {
   "InvalidEmail": "Email inválido",
   "InvalidCpf": "CPF inválido",
-  "InvalidFullName": "Nome inválido"
+  "InvalidFullName": "Nome inválido",
+  "EmptyFullName": "O campo Nome é obrigatório"
 }

@@ -1,8 +1,10 @@
 ﻿using Argon.Core.DomainObjects;
+using System;
 
 namespace Argon.Core.Data
 {
-    public interface IRepository<TEntity> where TEntity : IAggregaeteRoot
+    public interface IRepository<TEntity> : IDisposable where TEntity : IAggregaeteRoot
     {
+        IUnitOfWork UnitOfWork { get; }
     }
 }
