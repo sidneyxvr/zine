@@ -3,6 +3,7 @@ using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.Net.Mail;
 
 namespace Argon.Customers.Infra.Data.Mappings
 {
@@ -12,8 +13,14 @@ namespace Argon.Customers.Infra.Data.Mappings
         {
             builder.Ignore(c => c.DomainEvents);
 
-            builder.Property(c => c.FullName)
-                .HasColumnType("varchar(100)");
+            builder.HasQueryFilter(c => !c.IsDelete);
+
+            builder.OwnsOne(c => c.FullName, c =>
+            {
+                c.Property(p => p.Name)
+                    .HasColumnName("Name")
+                    .HasColumnType($"varchar({FullName.NameMaxLength})");
+            });
 
             builder.Property(c => c.BirthDate)
                 .HasColumnType("date");
@@ -44,8 +51,8 @@ namespace Argon.Customers.Infra.Data.Mappings
 
             builder.HasOne(c => c.MainAddress)
                 .WithOne()
-                .HasForeignKey<Address>(a => a.CustomerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey<Customer>("MainAddressId")
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Metadata
                 .FindNavigation(nameof(Customer.Addresses))
@@ -53,7 +60,8 @@ namespace Argon.Customers.Infra.Data.Mappings
 
             builder.HasMany(c => c.Addresses)
                 .WithOne()
-                .HasForeignKey(a => a.CustomerId)
+                .HasForeignKey("CustomerId")
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

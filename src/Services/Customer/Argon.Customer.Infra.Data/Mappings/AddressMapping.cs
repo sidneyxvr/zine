@@ -9,29 +9,34 @@ namespace Argon.Customers.Infra.Data.Mappings
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.Property(a => a.City)
-                .HasColumnType("varchar(40)");
+                .HasColumnType("varchar(40)")
+                .IsRequired();
 
             builder.Property(a => a.Complement)
                 .HasColumnType("varchar(50)");
 
             builder.Property(a => a.Country)
                 .HasColumnType("varchar(10)")
-                .HasColumnName("Country");
+                .IsRequired();
 
             builder.Property(a => a.District)
-                .HasColumnType("varchar(50)");
+                .HasColumnType("varchar(50)")
+                .IsRequired();
 
             builder.Property(a => a.Number)
                 .HasColumnType("varchar(5)");
 
             builder.Property(a => a.PostalCode)
-                .HasColumnType("char(8)");
+                .HasColumnType("char(8)")
+                .IsRequired();
 
             builder.Property(a => a.State)
-                .HasColumnType("char(2)");
+                .HasColumnType("char(2)")
+                .IsRequired();
 
             builder.Property(a => a.Street)
-                .HasColumnType("varchar(50)");
+                .HasColumnType("varchar(50)")
+                .IsRequired();
         }
     }
 }

@@ -19,9 +19,9 @@ namespace Argon.Customers.Infra.Data.Repositories
 
         public async Task AddAsync(Customer customer)
         {
-            _context.Entry(customer).Property("CreatedAy").CurrentValue = DateTime.UtcNow;
-
             await _context.AddAsync(customer);
+
+            _context.Entry(customer).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
         }
 
         public void Dispose()
@@ -30,7 +30,7 @@ namespace Argon.Customers.Infra.Data.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public async Task<Customer> GetById(Guid id)
+        public async Task<Customer> GetByIdAsync(Guid id)
         {
             return await _context.Customers
                 .Include(c => c.Addresses)

@@ -8,6 +8,6 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
     {
         Task AddAsync(Customer customer);
         Task UpdateAsync(Customer customer);
-        Task<Customer> GetById(Guid id);
+        Task<Customer> GetByIdAsync(Guid id);
     }
 }
