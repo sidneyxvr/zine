@@ -22,10 +22,10 @@ namespace Argon.Core.DomainObjects
             return new Phone(number);
         }
 
-        public static bool IsValid(string email)
+        public static bool IsValid(string phone)
         {
-            var regexEmail = new Regex(@"^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$");
-            return regexEmail.IsMatch(email);
+            var regexEmail = new Regex(@"^[1-9]{2}9[1-9][0-9]{7}$");
+            return phone is null || regexEmail.IsMatch(phone);
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

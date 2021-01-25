@@ -1,9 +1,8 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages;
-using Argon.Customers.Application.Commands.Validations.CustomerValidations;
+using Argon.Core.Messages.IntegrationCommands.Validations;
 using System;
 
-namespace Argon.Customers.Application.Commands.CustomerCommands
+namespace Argon.Core.Messages.IntegrationCommands
 {
     public class CreateCustomerCommand : Command
     {
@@ -14,7 +13,7 @@ namespace Argon.Customers.Application.Commands.CustomerCommands
         public DateTime BirthDate { get; private set; }
         public Gender Gender { get; private set; }
 
-        public CreateCustomerCommand(Guid aggregateId, string fullName, 
+        public CreateCustomerCommand(Guid aggregateId, string fullName,
             string email, string phone, string cpf, DateTime birthDate, Gender gender)
         {
             AggregateId = aggregateId;

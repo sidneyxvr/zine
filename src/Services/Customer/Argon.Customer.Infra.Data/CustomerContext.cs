@@ -1,6 +1,6 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.Data;
-using Argon.Core.Messages.Events;
+using Argon.Core.Messages;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

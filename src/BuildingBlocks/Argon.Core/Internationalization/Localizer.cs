@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace Argon.Core.Internationalization
         public string GetTranslation(string name)
         {
             return _languages
-                .FirstOrDefault(l => l.Name == CultureInfo.CurrentCulture.Name)?
+                .FirstOrDefault(l => l.Name.Equals(CultureInfo.CurrentCulture.Name, StringComparison.OrdinalIgnoreCase))?
                 .Resources[name]!;
         }
     }

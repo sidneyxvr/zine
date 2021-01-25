@@ -1,4 +1,4 @@
-﻿using Argon.Customers.Application.Commands.CustomerCommands;
+﻿using Argon.Core.Messages.IntegrationCommands;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Argon.Customers.Domain.Events;
 using FluentValidation.Results;

@@ -45,7 +45,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 
             IsActive = true;
             IsDelete = false;
-            IsSuspended = false;
+            IsSuspended = true;
         }
 
         public void Update(string fullName, DateTime birthDate, Gender gender)

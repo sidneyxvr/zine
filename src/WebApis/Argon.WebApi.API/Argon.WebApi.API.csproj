@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Identity\Argon.Identity.Application\Argon.Identity.Application.csproj" />
   </ItemGroup>
   
 </Project>

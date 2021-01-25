@@ -1,5 +1,5 @@
 ﻿using Argon.Core.Internationalization;
-using Argon.Core.Messages.Events;
+using Argon.Core.Messages;
 using System;
 using System.Collections.Generic;
 

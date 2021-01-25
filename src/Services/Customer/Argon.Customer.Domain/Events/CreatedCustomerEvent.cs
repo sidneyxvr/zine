@@ -1,5 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages.Events;
+using Argon.Core.Messages;
 using System;
 
 namespace Argon.Customers.Domain.Events

@@ -8,4 +8,9 @@
     <ProjectReference Include="..\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\CustomerCommands\" />
+    <Folder Include="Commands\Validations\CustomerValidations\" />
+  </ItemGroup>
+
 </Project>

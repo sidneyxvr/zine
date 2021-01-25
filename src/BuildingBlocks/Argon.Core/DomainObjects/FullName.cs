@@ -20,9 +20,6 @@ namespace Argon.Core.DomainObjects
 
         public string FirstName() => Name.Split(' ')?.FirstOrDefault();
 
-        public string ShortName() => string.Join(' ', Name.Split(' ')?.Take(2));
-
-
         public static implicit operator FullName(string name)
         {
             return new FullName(name);
@@ -35,7 +32,7 @@ namespace Argon.Core.DomainObjects
 
         public static bool IsValid(string name)
         {
-            return name is not null && name.Length <= NameMaxLength &&
+            return name is not null && name.Length <= NameMaxLength && name.Contains(' ') &&
                 Regex.IsMatch(name, @"^(?![ ])(?!.*[ ]{2})((?:e|da|do|das|dos|de|d'|D'|la|las|el|los)\s*?|(?:[A-Z][^\s]*\s*?)(?!.*[ ]$))+$");
         }
     }

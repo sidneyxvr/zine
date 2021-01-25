@@ -12,7 +12,7 @@ namespace Argon.Core.DomainObjects
 
         public Cpf(string number)
         {
-            if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidName"));
+            if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidCPF"));
             Number = number;
         }
 
@@ -23,7 +23,7 @@ namespace Argon.Core.DomainObjects
 
         public static bool IsValid(string cpf)
         {
-            cpf = cpf.OnlyNumbers(cpf);
+            cpf = cpf.OnlyNumbers();
 
             if (cpf.Length > NumberLength)
             {

@@ -1,9 +1,8 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application.Commands.CustomerCommands;
 using FluentValidation;
 using System;
 
-namespace Argon.Customers.Application.Commands.Validations.CustomerValidations
+namespace Argon.Core.Messages.IntegrationCommands.Validations
 {
     public class CreateCustomerValidation : BaseValidation<CreateCustomerCommand>
     {

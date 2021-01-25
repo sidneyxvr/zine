@@ -18,4 +18,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Messages\IntegrationEvents\" />
+  </ItemGroup>
+
 </Project>

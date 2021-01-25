@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace Argon.Core.Messages.Events
+namespace Argon.Core.Messages
 {
     public abstract class Event : Message, INotification
     {

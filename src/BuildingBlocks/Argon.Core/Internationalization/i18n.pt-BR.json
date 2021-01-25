@@ -2,7 +2,7 @@
   "InvalidEmail": "Email inválido",
   "EmptyEmail": "",
   "EmailOutOfRange": "",
-  "InvalidCpf": "CPF inválido",
+  "InvalidCPF": "CPF inválido",
   "EmptyCPF": "",
   "InvalidFullName": "Nome inválido",
   "MaxLengthFullName": "",

@@ -1,5 +1,4 @@
 ﻿using Argon.Core.Messages;
-using Argon.Core.Messages.Events;
 using FluentValidation.Results;
 using System.Threading.Tasks;
 
