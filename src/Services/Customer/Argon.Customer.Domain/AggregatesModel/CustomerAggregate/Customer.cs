@@ -69,12 +69,13 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 
         public void Resume() => IsSuspended = false;
 
-        public void AddAddress(string street, string number, string district, 
-            string city, string state, string country, string postalCode, string complement)
+        public void AddAddress(string street, string number, string district, string city, string state, 
+            string country, string postalCode, string complement, double latitude, double longitude)
         {
             _addresses ??= new List<Address>();
 
-            _addresses.Add(new Address(street, number, district, city, state, country, postalCode, complement));
+            _addresses.Add(new Address(
+                street, number, district, city, state, country, postalCode, complement, latitude, longitude));
         }
 
         public void DeleteAddress(Guid addressId)

@@ -58,7 +58,7 @@ namespace Argon.Core.DomainObjects
 
         public static void AssertArgumentNotEmpty(string stringValue, string message)
         {
-            if (stringValue == null || stringValue.Trim().Length == 0)
+            if (string.IsNullOrWhiteSpace(stringValue))
             {
                 throw new DomainException(message);
             }

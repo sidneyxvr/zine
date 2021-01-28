@@ -14,17 +14,18 @@ namespace Argon.Customers.Test.Domain.Fixtures
         public Address CreateValidAddress()
         {
             var country = _faker.Address.Country();
-            var state = _faker.Address.State();
+            var state = _faker.Address.StateAbbr();
             var street = _faker.Address.StreetName();
             var number = _faker.Address.BuildingNumber();
-            var district = _faker.Lorem.Sentence(50);
+            var district = _faker.Lorem.Letter(_faker.Random.Int(2, 50));
             var city = _faker.Address.City();
-            var postalCode = _faker.Random.Int(00000000, 99999999).ToString();
-            var complement = _faker.Lorem.Sentence(100);
+            var postalCode = _faker.Address.ZipCode("########");
+            var complement = _faker.Lorem.Letter(_faker.Random.Int(2, 50));
 
-            var address = new Address(street, number, district, city, state, country, postalCode, complement);
+            var latitude = _faker.Address.Latitude();
+            var longitude = _faker.Address.Longitude();
 
-            return address;
+            return new Address(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
         }
     }
 }

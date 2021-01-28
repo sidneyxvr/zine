@@ -16,7 +16,7 @@ namespace Argon.Customers.Infra.Data.Mappings
                 .HasColumnType("varchar(50)");
 
             builder.Property(a => a.Country)
-                .HasColumnType("varchar(10)")
+                .HasColumnType("varchar(50)")
                 .IsRequired();
 
             builder.Property(a => a.District)

@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using NetTopologySuite.Geometries;
 
 namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 {
@@ -12,10 +13,14 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
         public string Complement { get; private set; }
+
+        private readonly Point _location;
+        public double? Latitude => _location?.X;
+        public double? Longitude => _location?.Y;
         protected Address() { }
 
-        public Address(string street, string number, string district, string city, 
-            string state, string country, string postalCode, string complement)
+        public Address(string street, string number, string district, string city, string state, 
+            string country, string postalCode, string complement, double? latitude, double? longitude)
         {
             ValidateStreet(street);
             ValidateNumber(number);
@@ -25,6 +30,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             ValidateCountry(country);
             ValidatePostalCode(postalCode);
             ValidateComplement(complement);
+            ValidateCoordinates(latitude, longitude);
 
             Street = street;
             Number = number;
@@ -34,13 +40,17 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             Country = country;
             PostalCode = postalCode;
             Complement = complement;
+            _location = latitude.HasValue && longitude.HasValue ? new Point(latitude.Value, longitude.Value) : null;
         }
 
-        private void ValidateStreet(string street) => 
+        private void ValidateStreet(string street)
+        {
+            AssertionConcern.AssertArgumentNotEmpty(street, Localizer.GetTranslation("EmptyStreet"));
             AssertionConcern.AssertArgumentRange(street, 2, 50, Localizer.GetTranslation("StreetOutOfRange"));
+        } 
 
         private void ValidateNumber(string number) =>
-            AssertionConcern.AssertArgumentRange(number, 1, 5, Localizer.GetTranslation("NumberOutOfRange"));
+            AssertionConcern.AssertArgumentRange(number, 1, 5, Localizer.GetTranslation("NumberMaxLength"));
 
         private void ValidateComplement(string complement) =>
             AssertionConcern.AssertArgumentRange(complement, 2, 50, Localizer.GetTranslation("ComplementOutOfRange"));
@@ -72,7 +82,23 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         private void ValidateCountry(string country)
         {
             AssertionConcern.AssertArgumentNotEmpty(country, Localizer.GetTranslation("EmptyCountry"));
-            AssertionConcern.AssertArgumentRange(country, 2, 10, Localizer.GetTranslation("CountryOutOfRange"));
+            AssertionConcern.AssertArgumentRange(country, 2, 50, Localizer.GetTranslation("CountryOutOfRange"));
+        }
+
+        private void ValidateCoordinates(double? latitude, double? longitude)
+        {
+            if(latitude is null && longitude is null)
+            {
+                return;
+            }
+
+            if((latitude is null && longitude is not null) || (latitude is not null && longitude is null))
+            {
+                throw new DomainException(Localizer.GetTranslation("InvalidCoordinates"));
+            }
+
+            AssertionConcern.AssertArgumentRange(latitude.Value, -90, 90, Localizer.GetTranslation("InvalidLatitude"));
+            AssertionConcern.AssertArgumentRange(longitude.Value, -180, 180, Localizer.GetTranslation("InvalidLongitude"));
         }
     }
 }

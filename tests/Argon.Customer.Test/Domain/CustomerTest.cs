@@ -1,5 +1,4 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Internationalization;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Argon.Customers.Test.Domain.Fixtures;
 using System;
@@ -10,12 +9,10 @@ namespace Argon.Customers.Test.Domain
 {
     public class CustomerTest
     {
-        private readonly Localizer _localizer;
         private readonly CustomerFixture _customerFixture;
         
         public CustomerTest()
         {
-            _localizer = Localizer.GetLocalizer();
             _customerFixture = new CustomerFixture();
         }
 
@@ -39,7 +36,7 @@ namespace Argon.Customers.Test.Domain
                 birthDate, customer.Gender, customer.Phone));
 
             //Assert
-            Assert.Equal(_localizer.GetTranslation("MinBirthDate"), result.Message);
+            Assert.Equal("A idade mínima permitida é 18 anos", result.Message);
         }
 
         public static IEnumerable<object[]> BirthDateOlderThan100Data =>
@@ -62,7 +59,7 @@ namespace Argon.Customers.Test.Domain
                 birthDate, customer.Gender, customer.Phone));
 
             //Assert
-            Assert.Equal(_localizer.GetTranslation("MaxBirthDate"), result.Message);
+            Assert.Equal("A idade máxima permitida é 100 anos", result.Message);
         }
 
         [Fact]
@@ -78,7 +75,7 @@ namespace Argon.Customers.Test.Domain
                 customer.BirthDate, (Gender)gender, customer.Phone));
 
             //Assert
-            Assert.Equal(_localizer.GetTranslation("InvalidGender"), result.Message);
+            Assert.Equal("Sexo inválido", result.Message);
         }
 
         [Fact]
@@ -111,7 +108,7 @@ namespace Argon.Customers.Test.Domain
                 customer.Update(validCustomer.FullName, birthDate, validCustomer.Gender));
 
             //Assert
-            Assert.Equal(_localizer.GetTranslation("MinBirthDate"), result.Message);
+            Assert.Equal("A idade mínima permitida é 18 anos", result.Message);
         }
 
         [Theory]
@@ -127,7 +124,7 @@ namespace Argon.Customers.Test.Domain
                 customer.Update(validCustomer.FullName, birthDate, validCustomer.Gender));
 
             //Assert
-            Assert.Equal(_localizer.GetTranslation("MaxBirthDate"), result.Message);
+            Assert.Equal("A idade máxima permitida é 100 anos", result.Message);
         }
 
         [Fact]
