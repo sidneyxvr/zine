@@ -254,36 +254,6 @@ namespace Argon.Customers.Test.Domain
         }
 
         [Fact]
-        public void CreateAddressEmptyLatitudeOnlyShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Country, null, address.Longitude));
-
-            //Assert
-            Assert.Equal("Latitude ou Longitude inválida(s)", result.Message);
-        }
-
-        [Fact]
-        public void CreateAddressEmptyLongitudeOnlyShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, null));
-
-            //Assert
-            Assert.Equal("Latitude ou Longitude inválida(s)", result.Message);
-        }
-
-        [Fact]
         public void CreateAddressInvalidLatitudeShouldThrowDomainException()
         {
             //Arrange
@@ -337,8 +307,8 @@ namespace Argon.Customers.Test.Domain
             Assert.Equal(address.PostalCode, result.PostalCode);
             Assert.Equal(address.Complement, result.Complement);
 
-            Assert.Equal(address.Latitude, result.Latitude);
-            Assert.Equal(address.Longitude, result.Longitude);
+            Assert.Equal(address.Latitude, result.Location.Latitude);
+            Assert.Equal(address.Longitude, result.Location.Longitude);
         }
 
         [Fact]
@@ -352,8 +322,7 @@ namespace Argon.Customers.Test.Domain
                 address.State, address.Country, address.PostalCode, address.Complement, null, null);
 
             //Assert
-            Assert.Null(result.Latitude);
-            Assert.Null(result.Longitude);
+            Assert.Null(result.Location);
         }
     }
 }

@@ -13,20 +13,6 @@ namespace Argon.Core.DomainObjects
             Localizer = Localizer.GetLocalizer();
         }
 
-        protected static bool EqualOperator(ValueObject left, ValueObject right)
-        {
-            if (left is null ^ right is null)
-            {
-                return false;
-            }
-            return left is null || left.Equals(right);
-        }
-
-        protected static bool NotEqualOperator(ValueObject left, ValueObject right)
-        {
-            return !(EqualOperator(left, right));
-        }
-
         protected abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object obj)
@@ -39,6 +25,22 @@ namespace Argon.Core.DomainObjects
             var other = (ValueObject)obj;
 
             return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        }
+
+        public static bool operator ==(ValueObject left, ValueObject right)
+        {
+            if (left is null && right is null)
+                return true;
+
+            if (left is null || right is null)
+                return false;
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(ValueObject left, ValueObject right)
+        {
+            return !(left == right);
         }
 
         public override int GetHashCode()

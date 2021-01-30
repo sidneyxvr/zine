@@ -1,6 +1,7 @@
 ﻿using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NetTopologySuite;
 
 namespace Argon.Customers.Infra.Data.Mappings
 {
@@ -37,6 +38,15 @@ namespace Argon.Customers.Infra.Data.Mappings
             builder.Property(a => a.Street)
                 .HasColumnType("varchar(50)")
                 .IsRequired();
+
+            NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+
+            builder.OwnsOne(a => a.Location, e =>
+            {
+                e.Property("_coordinate")
+                    .HasColumnName("Location")
+                    .HasColumnType("geography (point)");
+            });
         }
     }
 }

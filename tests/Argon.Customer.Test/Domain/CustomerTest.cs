@@ -2,7 +2,6 @@
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Argon.Customers.Test.Domain.Fixtures;
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace Argon.Customers.Test.Domain
@@ -14,52 +13,6 @@ namespace Argon.Customers.Test.Domain
         public CustomerTest()
         {
             _customerFixture = new CustomerFixture();
-        }
-
-        public static IEnumerable<object[]> BirthDateYoungerThan18Data =>
-            new List<object[]>
-            {
-                new object[] { DateTime.UtcNow.AddYears(-17) },
-                new object[] { DateTime.UtcNow.AddYears(-18).AddHours(1) },
-            };
-
-        [Theory]
-        [MemberData(nameof(BirthDateYoungerThan18Data))]
-        public void CreateCustomerYoungerThan18ShouldThrowDomainException(DateTime birthDate)
-        {
-            //Arrange
-            var customer = _customerFixture.GetCustomerTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf, 
-                birthDate, customer.Gender, customer.Phone));
-
-            //Assert
-            Assert.Equal("A idade mínima permitida é 18 anos", result.Message);
-        }
-
-        public static IEnumerable<object[]> BirthDateOlderThan100Data =>
-            new List<object[]>
-            {
-                new object[] { DateTime.UtcNow.AddYears(-101) },
-                new object[] { DateTime.UtcNow.AddYears(-100).AddMinutes(-10) },
-            };
-
-        [Theory]
-        [MemberData(nameof(BirthDateOlderThan100Data))]
-        public void CreateCustomerOlderThan100ShouldThrowDomainException(DateTime birthDate)
-        {
-            //Arrange
-            var customer = _customerFixture.GetCustomerTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf, 
-                birthDate, customer.Gender, customer.Phone));
-
-            //Assert
-            Assert.Equal("A idade máxima permitida é 100 anos", result.Message);
         }
 
         [Fact]
@@ -93,38 +46,6 @@ namespace Argon.Customers.Test.Domain
             Assert.True(result.IsActive);
             Assert.False(result.IsDelete);
             Assert.True(result.IsSuspended);
-        }
-
-        [Theory]
-        [MemberData(nameof(BirthDateYoungerThan18Data))]
-        public void UpdateCustomerYoungerThan18ShouldThrowDomainException(DateTime birthDate)
-        {
-            //Arrange
-            var customer = _customerFixture.CreateValidCustomer();
-            var customerDTO = _customerFixture.GetCustomerTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => 
-                customer.Update(customerDTO.FirstName, customerDTO.Surname, birthDate, customerDTO.Gender));
-
-            //Assert
-            Assert.Equal("A idade mínima permitida é 18 anos", result.Message);
-        }
-
-        [Theory]
-        [MemberData(nameof(BirthDateOlderThan100Data))]
-        public void UpdateCustomerOlderThan100ShouldThrowDomainException(DateTime birthDate)
-        {
-            //Arrange
-            var customer = _customerFixture.CreateValidCustomer();
-            var customerDTO = _customerFixture.GetCustomerTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => 
-                customer.Update(customerDTO.FirstName, customerDTO.Surname, birthDate, customerDTO.Gender));
-
-            //Assert
-            Assert.Equal("A idade máxima permitida é 100 anos", result.Message);
         }
 
         [Fact]

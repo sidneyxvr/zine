@@ -3,7 +3,6 @@ using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Net.Mail;
 
 namespace Argon.Customers.Infra.Data.Mappings
 {
@@ -26,8 +25,12 @@ namespace Argon.Customers.Infra.Data.Mappings
                     .HasColumnType($"varchar({Name.SurnameMaxLength})");
             });
 
-            builder.Property(c => c.BirthDate)
-                .HasColumnType("date");
+            builder.OwnsOne(c => c.BirthDate, e =>
+            {
+                e.Property("_date")
+                    .HasColumnName("BirthDate")
+                    .HasColumnType("date");
+            });
 
             builder.Property<DateTime>("CreatedAt")
                 .HasColumnType("smalldatetime");

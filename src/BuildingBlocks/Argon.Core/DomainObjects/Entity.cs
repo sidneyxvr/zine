@@ -45,15 +45,15 @@ namespace Argon.Core.DomainObjects
             return Id.Equals(compareTo.Id);
         }
 
-        public static bool operator ==(Entity a, Entity b)
+        public static bool operator ==(Entity left, Entity right)
         {
-            if (a is null && b is null)
+            if (left is null && right is null)
                 return true;
 
-            if (a is null || b is null)
+            if (left is null || right is null)
                 return false;
 
-            return a.Equals(b);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Entity a, Entity b)

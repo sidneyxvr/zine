@@ -33,5 +33,7 @@
   "InvalidLatitude": "Latitude inválida",
   "InvalidLongitude": "Longitude inválida",
   "InvalidCoordinates": "Latitude ou Longitude inválida(s)",
-  "EmptyCustomerId":  "Informe o indentificador do cliente"
+  "EmptyCustomerId": "Informe o indentificador do cliente",
+  "EmptyAggregateId": "Não é possível realizar a operação com o identificador do agregado vazio",
+  "EmptyAddressId": "Informe o identificador do endereço"
 }

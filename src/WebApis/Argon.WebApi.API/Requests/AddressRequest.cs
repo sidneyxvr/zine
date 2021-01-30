@@ -15,6 +15,5 @@ namespace Argon.WebApi.API.Requests
         public string Complement { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
-        public Guid CustomerId { get; set; }
     }
 }

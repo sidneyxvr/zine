@@ -18,10 +18,8 @@ namespace Argon.Core.DomainObjects
             Address = address;
         }
 
-        public static implicit operator Email(string address)
-        {
-            return new Email(address);
-        }
+        public static implicit operator Email(string address) => 
+            new (address);
 
         public static bool IsValid(string email)
         {

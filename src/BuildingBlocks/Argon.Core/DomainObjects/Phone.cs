@@ -18,14 +18,12 @@ namespace Argon.Core.DomainObjects
         }
 
         public static implicit operator Phone(string number)
-        {
-            return new Phone(number);
-        }
+            =>  new Phone(number);
 
         public static bool IsValid(string phone)
         {
             var regexEmail = new Regex(@"^[1-9]{2}9[1-9][0-9]{7}$");
-            return phone is null || regexEmail.IsMatch(phone);
+            return regexEmail.IsMatch(phone);
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -10,7 +10,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         public Name Name { get; private set; }
         public Email Email { get; private set; }
         public Cpf Cpf { get; private set; }
-        public DateTime BirthDate { get; set; }
+        public BirthDate BirthDate { get; set; }
         public Phone Phone { get; set; }
         public Gender Gender { get; private set; }
         public bool IsActive { get; private set; }
@@ -22,12 +22,10 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         private List<Address> _addresses;
         public IReadOnlyCollection<Address> Addresses => _addresses?.AsReadOnly();
 
-        public const int MinAge = 18;
-        public const int MaxAge = 100;
 
         protected Customer() { }
 
-        public Customer(Guid id, string firstName, string surname, string email, 
+        public Customer(Guid id, string firstName, string surname, string email,
             string cpf, DateTime birthDate, Gender gender, string phone)
         {
             Id = id;
@@ -38,7 +36,6 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             ValidateGender(gender);
             Gender = gender;
 
-            ValidateBirthDate(birthDate);
             BirthDate = birthDate;
 
             Phone = phone;
@@ -55,7 +52,6 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             ValidateGender(gender);
             Gender = gender;
 
-            ValidateBirthDate(birthDate);
             BirthDate = birthDate;
         }
 
@@ -69,13 +65,27 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 
         public void Resume() => IsSuspended = false;
 
-        public void AddAddress(string street, string number, string district, string city, string state, 
-            string country, string postalCode, string complement, double latitude, double longitude)
+        public void AddAddress(string street, string number, string district, string city, string state,
+            string country, string postalCode, string complement, double? latitude, double? longitude)
         {
             _addresses ??= new List<Address>();
 
             _addresses.Add(new Address(
                 street, number, district, city, state, country, postalCode, complement, latitude, longitude));
+        }
+
+        public void UpdateAddress(Guid addressId, string street, string number, string district, string city,
+            string state, string country, string postalCode, string complement, double? latitude, double? longitude)
+        {
+            var address = _addresses.FirstOrDefault(a => a.Id == addressId);
+            if (address is null)
+            {
+                throw new DomainException(Localizer.GetTranslation("AddressNotFound"));
+            }
+
+            _addresses ??= new List<Address>();
+
+            address.Update(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
         }
 
         public void DeleteAddress(Guid addressId)
@@ -87,7 +97,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             _addresses.Remove(address);
         }
 
-        public void SetAddressAsMain(Guid addressId)
+        public void DefineMainAddress(Guid addressId)
         {
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
@@ -96,13 +106,6 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             MainAddress = address;
         }
 
-        private void ValidateBirthDate(DateTime birthDate)
-        {
-            AssertionConcern.AssertArgumentMin(birthDate, DateTime.UtcNow.AddYears(-MinAge), Localizer.GetTranslation("MinBirthDate"));
-
-            AssertionConcern.AssertArgumentMax(birthDate, DateTime.UtcNow.AddYears(-MaxAge), Localizer.GetTranslation("MaxBirthDate"));
-        }
-        
         private void ValidateGender(Gender gender)
         {
             AssertionConcern.AssertIsEnum(gender, typeof(Gender), Localizer.GetTranslation("InvalidGender"));

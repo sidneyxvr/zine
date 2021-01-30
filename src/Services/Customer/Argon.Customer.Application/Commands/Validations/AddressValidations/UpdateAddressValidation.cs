@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace Argon.Customers.Application.Commands.Validations.AddressValidations
 {
-    public class CreateAddressValidation : BaseValidation<CreateAddressCommand>
+    public class UpdateAddressValidation : BaseValidation<UpdateAddressCommand>
     {
-        public CreateAddressValidation()
+        public UpdateAddressValidation()
         {
             RuleFor(a => a.City)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCity"))
@@ -37,6 +37,9 @@ namespace Argon.Customers.Application.Commands.Validations.AddressValidations
 
             RuleFor(a => a.Complement)
                 .MaximumLength(50).WithMessage(Localizer.GetTranslation("ComplementMaxLength"));
+
+            RuleFor(a => a.AddressId)
+               .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyAddressId"));
 
             RuleFor(a => a.AggregateId)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyAggregateId"));
