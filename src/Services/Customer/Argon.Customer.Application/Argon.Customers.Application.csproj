@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CommandHandlers\AddressHandlers\" />
     <Folder Include="Commands\CustomerCommands\" />
     <Folder Include="Commands\Validations\CustomerValidations\" />
   </ItemGroup>

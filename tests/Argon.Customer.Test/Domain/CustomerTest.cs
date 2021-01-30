@@ -20,7 +20,7 @@ namespace Argon.Customers.Test.Domain
             new List<object[]>
             {
                 new object[] { DateTime.UtcNow.AddYears(-17) },
-                new object[] { DateTime.UtcNow.AddYears(-18).AddMinutes(10) },
+                new object[] { DateTime.UtcNow.AddYears(-18).AddHours(1) },
             };
 
         [Theory]
@@ -28,11 +28,11 @@ namespace Argon.Customers.Test.Domain
         public void CreateCustomerYoungerThan18ShouldThrowDomainException(DateTime birthDate)
         {
             //Arrange
-            var customer = _customerFixture.GetValidCustomerProperties();
+            var customer = _customerFixture.GetCustomerTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FullName, customer.Email, customer.Cpf, 
+                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf, 
                 birthDate, customer.Gender, customer.Phone));
 
             //Assert
@@ -51,11 +51,11 @@ namespace Argon.Customers.Test.Domain
         public void CreateCustomerOlderThan100ShouldThrowDomainException(DateTime birthDate)
         {
             //Arrange
-            var customer = _customerFixture.GetValidCustomerProperties();
+            var customer = _customerFixture.GetCustomerTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FullName, customer.Email, customer.Cpf, 
+                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf, 
                 birthDate, customer.Gender, customer.Phone));
 
             //Assert
@@ -67,11 +67,11 @@ namespace Argon.Customers.Test.Domain
         {
             //Arrange
             var gender = 0;
-            var customer = _customerFixture.GetValidCustomerProperties();
+            var customer = _customerFixture.GetCustomerTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FullName, customer.Email, customer.Cpf,
+                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf,
                 customer.BirthDate, (Gender)gender, customer.Phone));
 
             //Assert
@@ -82,11 +82,11 @@ namespace Argon.Customers.Test.Domain
         public void CreateValidCustomerShouldBeActiveAndSuspended()
         {
             //Arrange
-            var customer = _customerFixture.GetValidCustomerProperties();
+            var customer = _customerFixture.GetCustomerTestDTO();
 
             //Act
             var result = new Customer(
-                Guid.NewGuid(), customer.FullName, customer.Email, customer.Cpf,
+                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf,
                 customer.BirthDate, customer.Gender, customer.Phone);
 
             //Assert
@@ -101,11 +101,11 @@ namespace Argon.Customers.Test.Domain
         {
             //Arrange
             var customer = _customerFixture.CreateValidCustomer();
-            var validCustomer = _customerFixture.GetValidCustomerProperties();
+            var customerDTO = _customerFixture.GetCustomerTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() => 
-                customer.Update(validCustomer.FullName, birthDate, validCustomer.Gender));
+                customer.Update(customerDTO.FirstName, customerDTO.Surname, birthDate, customerDTO.Gender));
 
             //Assert
             Assert.Equal("A idade mínima permitida é 18 anos", result.Message);
@@ -117,11 +117,11 @@ namespace Argon.Customers.Test.Domain
         {
             //Arrange
             var customer = _customerFixture.CreateValidCustomer();
-            var validCustomer = _customerFixture.GetValidCustomerProperties();
+            var customerDTO = _customerFixture.GetCustomerTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() => 
-                customer.Update(validCustomer.FullName, birthDate, validCustomer.Gender));
+                customer.Update(customerDTO.FirstName, customerDTO.Surname, birthDate, customerDTO.Gender));
 
             //Assert
             Assert.Equal("A idade máxima permitida é 100 anos", result.Message);

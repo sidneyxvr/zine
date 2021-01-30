@@ -1,5 +1,4 @@
-﻿using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
-using Bogus;
+﻿using Bogus;
 
 namespace Argon.Customers.Test.Domain.Fixtures
 {
@@ -11,7 +10,7 @@ namespace Argon.Customers.Test.Domain.Fixtures
             _faker = new Faker("pt_BR");
         }
 
-        public Address CreateValidAddress()
+        public AddressTestDTO GetAddressTestDTO()
         {
             var country = _faker.Address.Country();
             var state = _faker.Address.StateAbbr();
@@ -25,7 +24,10 @@ namespace Argon.Customers.Test.Domain.Fixtures
             var latitude = _faker.Address.Latitude();
             var longitude = _faker.Address.Longitude();
 
-            return new Address(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
+            return new AddressTestDTO(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
         }
     }
+
+    public record AddressTestDTO(string Street, string Number, string District, string City, string State, 
+        string Country, string PostalCode, string Complement, double Latitude, double Longitude);
 }

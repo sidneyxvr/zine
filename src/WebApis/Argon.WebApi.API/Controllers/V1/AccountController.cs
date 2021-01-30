@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Argon.WebApi.API.Controllers.V1
 {
-    [Route("api/[controller]")]
+    [Route("api/account")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseController
     {
         private readonly IBus _bus;
 
@@ -21,15 +21,10 @@ namespace Argon.WebApi.API.Controllers.V1
         public async Task<IActionResult> PostAsync(UserRequest request)
         {
             var result = await _bus.SendAsync(new CreateUserCommand(
-                request.FullName, request.Email, request.Phone, 
+                request.FirstName, request.Surname, request.Email, request.Phone, 
                 request.Cpf, request.BirthDate, request.Gender, request.Password));
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
-
-            return Ok();
+            return CustomResponse(result);
         }
     }
 }

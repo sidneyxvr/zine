@@ -24,7 +24,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddresssEmptyStreetShouldThrowDomainException(string street)
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -39,7 +39,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddresssStreetOutOfRangeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var street = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
             //Act
@@ -55,7 +55,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddresssInvalidNumberShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var number = _faker.Lorem.Letter(_faker.Random.Int(6, 10));
 
             //Act
@@ -74,7 +74,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddresssEmptyDistrictShouldThrowDomainException(string district)
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -89,7 +89,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressDistrictOutOfRangeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var district = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
             //Act
@@ -108,7 +108,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressEmptyCityShouldThrowDomainException(string city)
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -123,7 +123,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressCityOutOfRangeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var city = _faker.Lorem.Letter(_faker.Random.Int(41, 100));
 
             //Act
@@ -142,7 +142,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressEmptyStateShouldThrowDomainException(string state)
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -157,7 +157,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressInvalidStateShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var state = _faker.Lorem.Letter(_faker.Random.Int(3, 100));
 
             //Act
@@ -176,7 +176,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressEmptyCountryShouldThrowDomainException(string country)
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -191,7 +191,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressCountryOutOfRangeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var country = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
             //Act
@@ -210,7 +210,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressEmptyPostalCodeShouldThrowDomainException(string postalCode)
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -225,7 +225,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressInvalidPostalCodeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var country = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
             //Act
@@ -241,7 +241,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressComplementOutOfRangeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
             //Act
@@ -250,14 +250,14 @@ namespace Argon.Customers.Test.Domain
                 address.Country, address.PostalCode, complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O complemento deve ter entre 2 e 50 caracteres", result.Message);
+            Assert.Equal("O complemento deve ter no máximo 50 caracteres", result.Message);
         }
 
         [Fact]
         public void CreateAddressEmptyLatitudeOnlyShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -272,7 +272,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressEmptyLongitudeOnlyShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = Assert.Throws<DomainException>(() =>
@@ -287,7 +287,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressInvalidLatitudeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var greaterThanPositive90 = _faker.Random.Double(91, 1e9);
             var lessThanNegative90 = _faker.Random.Double(-1e9, -91);
             var latitude = _faker.Random.Bool() ? greaterThanPositive90 : lessThanNegative90;
@@ -304,7 +304,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressInvalidLongitudeShouldThrowDomainException()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
             var greaterThanPositive180 = _faker.Random.Double(181, 1e9);
             var lessThanNegative180 = _faker.Random.Double(-1e9, -181);
             var longitude = _faker.Random.Bool() ? greaterThanPositive180 : lessThanNegative180;
@@ -321,7 +321,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateValidAddressShouldWorkSuccessfully()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = new Address(address.Street, address.Number, address.District, address.City, address.State,
@@ -345,7 +345,7 @@ namespace Argon.Customers.Test.Domain
         public void CreateAddressNullCoordinatesShouldWorkSuccessfully()
         {
             //Arrange
-            var address = _addressFixture.CreateValidAddress();
+            var address = _addressFixture.GetAddressTestDTO();
 
             //Act
             var result = new Address(address.Street, address.Number, address.District, address.City, 

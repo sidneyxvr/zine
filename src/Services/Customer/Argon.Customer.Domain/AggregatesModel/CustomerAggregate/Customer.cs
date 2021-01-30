@@ -7,7 +7,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 {
     public class Customer : Entity, IAggregaeteRoot
     {
-        public FullName FullName { get; private set; }
+        public Name Name { get; private set; }
         public Email Email { get; private set; }
         public Cpf Cpf { get; private set; }
         public DateTime BirthDate { get; set; }
@@ -27,11 +27,11 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 
         protected Customer() { }
 
-        public Customer(Guid id, string fullName, string email, 
+        public Customer(Guid id, string firstName, string surname, string email, 
             string cpf, DateTime birthDate, Gender gender, string phone)
         {
             Id = id;
-            FullName = fullName;
+            Name = new Name(firstName, surname);
             Email = email;
             Cpf = cpf;
 
@@ -48,9 +48,9 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             IsSuspended = true;
         }
 
-        public void Update(string fullName, DateTime birthDate, Gender gender)
+        public void Update(string firstName, string surname, DateTime birthDate, Gender gender)
         {
-            FullName = fullName;
+            Name = new Name(firstName, surname);
 
             ValidateGender(gender);
             Gender = gender;

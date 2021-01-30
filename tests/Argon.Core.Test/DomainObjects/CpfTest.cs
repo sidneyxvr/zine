@@ -1,5 +1,4 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Internationalization;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using Xunit;
@@ -9,12 +8,10 @@ namespace Argon.Core.Test.DomainObjects
     public class CpfTest
     {
         private readonly Faker _faker;
-        private readonly Localizer _localizer;
 
         public CpfTest()
         {
             _faker = new Faker("pt_BR");
-            _localizer = Localizer.GetLocalizer();
         }
 
         [Theory]
@@ -31,7 +28,20 @@ namespace Argon.Core.Test.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Cpf(cpf));
 
             //Assert
-            Assert.Equal(result.Message, _localizer.GetTranslation("InvalidCPF"));
+            Assert.Equal("CPF inválido", result.Message);
+        }
+
+        [Theory]
+        [InlineData("   ")]
+        [InlineData("")]
+        [InlineData(null)]
+        public void CreateCPFEmptyNumberShouldThrowDomainException(string cpf)
+        {
+            //Act
+            var result = Assert.Throws<DomainException>(() => new Cpf(cpf));
+
+            //Assert
+            Assert.Equal("Informe o CPF", result.Message);
         }
 
         [Fact]

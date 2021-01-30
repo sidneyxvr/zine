@@ -25,10 +25,10 @@ namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
             }
 
             var customer = new Customer(
-                request.AggregateId, request.FullName, request.Email, request.Cpf, request.BirthDate, request.Gender, request.Phone);
+                request.AggregateId, request.FirstName, request.Surname, request.Email, request.Cpf, request.BirthDate, request.Gender, request.Phone);
 
             customer.AddDomainEvent(new CreatedCustomerEvent(
-                request.AggregateId, request.FullName, request.Email, request.Gender));
+                request.AggregateId, $"{request.FirstName} {request.Surname}", request.Email, request.Gender));
 
             await _customerRepository.AddAsync(customer);
             await _customerRepository.UnitOfWork.CommitAsync();

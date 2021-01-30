@@ -12,6 +12,7 @@ namespace Argon.Core.DomainObjects
 
         public Cpf(string number)
         {
+            AssertionConcern.AssertArgumentNotEmpty(number, Localizer.GetTranslation("EmptyCPF"));
             if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidCPF"));
             Number = number;
         }

@@ -53,7 +53,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             AssertionConcern.AssertArgumentRange(number, 1, 5, Localizer.GetTranslation("NumberMaxLength"));
 
         private void ValidateComplement(string complement) =>
-            AssertionConcern.AssertArgumentRange(complement, 2, 50, Localizer.GetTranslation("ComplementOutOfRange"));
+            AssertionConcern.AssertArgumentRange(complement, 2, 50, Localizer.GetTranslation("ComplementMaxLength"));
 
         private void ValidateDistrict(string district)
         {

@@ -5,7 +5,9 @@ namespace Argon.WebApi.API.Requests
 {
     public class CustomerRequest
     {
-        public string FullName { get; set; }
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Cpf { get; set; }

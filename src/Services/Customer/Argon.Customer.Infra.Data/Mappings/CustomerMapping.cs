@@ -15,11 +15,15 @@ namespace Argon.Customers.Infra.Data.Mappings
 
             builder.HasQueryFilter(c => !c.IsDelete);
 
-            builder.OwnsOne(c => c.FullName, c =>
+            builder.OwnsOne(c => c.Name, c =>
             {
-                c.Property(p => p.Name)
-                    .HasColumnName("Name")
-                    .HasColumnType($"varchar({FullName.NameMaxLength})");
+                c.Property(p => p.FirstName)
+                    .HasColumnName("FirstName")
+                    .HasColumnType($"varchar({Name.FirstNameMaxLength})");
+
+                c.Property(p => p.Surname)
+                    .HasColumnName("Surname")
+                    .HasColumnType($"varchar({Name.SurnameMaxLength})");
             });
 
             builder.Property(c => c.BirthDate)

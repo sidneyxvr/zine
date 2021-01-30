@@ -53,7 +53,8 @@ namespace Argon.Identity.Application.CommandHandlers
             }
 
             var validationResult = await _bus.SendAsync(new CreateCustomerCommand(
-                user.Id, request.FullName, request.Email, request.Phone, request.Cpf, request.BirthDate, request.Gender));
+                user.Id, request.FirstName, request.Surname, request.Email, 
+                request.Phone, request.Cpf, request.BirthDate, request.Gender));
 
             if (!validationResult.IsValid)
             {

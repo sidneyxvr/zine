@@ -4,9 +4,10 @@
   "EmailOutOfRange": "O email deve ter entre X e Y caracteres",
   "InvalidCPF": "CPF inválido",
   "EmptyCPF": "Informe o CPF",
-  "InvalidFullName": "Nome inválido",
-  "FullNameMaxLength": "O nome deve ter no máximo 100 caracteres",
-  "EmptyFullName": "O nome é obrigatório",
+  "EmptyFirstName": "Informe o nome",
+  "EmptySurname": "Informe o sobrenome",
+  "FirstNameMaxLength": "O nome de deve ter no máximo 50 caracteres",
+  "SurnameMaxLength": "O sobrenome de deve ter no máximo 50 caracteres",
   "MinBirthDate": "A idade mínima permitida é 18 anos",
   "MaxBirthDate": "A idade máxima permitida é 100 anos",
   "EmptyBirthDate": "A data de Nascimento é obrigatório",
@@ -28,8 +29,9 @@
   "InvalidPostalCode": "CEP inválido",
   "EmptyCountry": "Informe o país",
   "CountryOutOfRange": "O país deve ter entre 2 e 50 caracteres",
-  "ComplementOutOfRange": "O complemento deve ter entre 2 e 50 caracteres",
+  "ComplementMaxLength": "O complemento deve ter no máximo 50 caracteres",
   "InvalidLatitude": "Latitude inválida",
   "InvalidLongitude": "Longitude inválida",
-  "InvalidCoordinates": "Latitude ou Longitude inválida(s)"
+  "InvalidCoordinates": "Latitude ou Longitude inválida(s)",
+  "EmptyCustomerId":  "Informe o indentificador do cliente"
 }

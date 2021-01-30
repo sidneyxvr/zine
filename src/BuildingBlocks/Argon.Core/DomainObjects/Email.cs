@@ -13,6 +13,7 @@ namespace Argon.Core.DomainObjects
 
         public Email(string address)
         {
+            AssertionConcern.AssertArgumentNotEmpty(address, Localizer.GetTranslation("EmptyEmail"));
             if (!IsValid(address)) throw new DomainException(Localizer.GetTranslation("InvalidEmail"));
             Address = address;
         }

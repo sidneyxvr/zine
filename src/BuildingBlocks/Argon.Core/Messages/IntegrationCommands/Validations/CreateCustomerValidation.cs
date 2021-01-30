@@ -8,10 +8,13 @@ namespace Argon.Core.Messages.IntegrationCommands.Validations
     {
         public CreateCustomerValidation()
         {
-            RuleFor(c => c.FullName)
-                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFullName"))
-                .MaximumLength(FullName.NameMaxLength).WithMessage("MaxLengthFullName")
-                .Must(n => FullName.IsValid(n)).WithMessage("InvalidFullName");
+            RuleFor(c => c.FirstName)
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
+                .MaximumLength(Name.FirstNameMaxLength).WithMessage("MaxLengthFirstName");
+
+            RuleFor(c => c.Surname)
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
+                .MaximumLength(Name.SurnameMaxLength).WithMessage("MaxLengthSurname");
 
             RuleFor(c => c.Cpf)
                 .NotEmpty().WithMessage("EmptyCPF")

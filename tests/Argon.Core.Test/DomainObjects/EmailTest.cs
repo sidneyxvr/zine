@@ -1,5 +1,4 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Internationalization;
 using Bogus;
 using Xunit;
 
@@ -8,12 +7,10 @@ namespace Argon.Core.Test.DomainObjects
     public class EmailTest
     {
         private readonly Faker _faker;
-        private readonly Localizer _localizer;
 
         public EmailTest()
         {
             _faker = new Faker("pt_BR");
-            _localizer = Localizer.GetLocalizer();
         }
 
         [Theory]
@@ -33,13 +30,27 @@ namespace Argon.Core.Test.DomainObjects
         [InlineData("email@111.222.333.44444")]
         [InlineData("email@example..com")]
         [InlineData("Abc..123@example.com")]
-        public void CreateCPFInvalidNumberShouldThrowDomainException(string email)
+        public void CreateCPFInvalidAddressShouldThrowDomainException(string email)
         {
             //Act
             var result = Assert.Throws<DomainException>(() => new Email(email));
 
             //Assert
-            Assert.Equal(result.Message, _localizer.GetTranslation("InvalidEmail"));
+            Assert.Equal("Email inválido", result.Message);
+        }
+
+
+        [Theory]
+        [InlineData("  ")]
+        [InlineData("")]
+        [InlineData(null)]
+        public void CreateCPFEmptyAddressShouldThrowDomainException(string email)
+        {
+            //Act
+            var result = Assert.Throws<DomainException>(() => new Email(email));
+
+            //Assert
+            Assert.Equal("Informe o email", result.Message);
         }
 
         [Fact]
