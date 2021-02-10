@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using Argon.Core.Messages;
 using Argon.Customers.Application.Commands.AddressCommands;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using FluentValidation.Results;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 {
-    public class DefineMainAddressHandler : IRequestHandler<DefineMainAddressCommand, ValidationResult>
+    public class DefineMainAddressHandler : BaseHandler, IRequestHandler<DefineMainAddressCommand, ValidationResult>
     {
         private readonly ICustomerRepository _customerRepository;
 
@@ -24,11 +25,11 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
                 return request.ValidationResult;
             }
 
-            var customer = await _customerRepository.GetByIdAsync(request.AggregateId);
+            var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
 
             if (customer is null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException(Localizer.GetTranslation("CustomerNotFound"));
             }
 
             customer.DefineMainAddress(request.AddressId);

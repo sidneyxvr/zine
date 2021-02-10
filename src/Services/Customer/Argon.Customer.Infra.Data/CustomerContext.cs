@@ -19,6 +19,11 @@ namespace Argon.Customers.Infra.Data
             _bus = bus;
         }
 
+        public CustomerContext(DbContextOptions<CustomerContext> options) 
+            : base(options) 
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Event>();

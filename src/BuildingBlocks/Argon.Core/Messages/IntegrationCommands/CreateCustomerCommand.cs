@@ -6,6 +6,7 @@ namespace Argon.Core.Messages.IntegrationCommands
 {
     public class CreateCustomerCommand : Command
     {
+        public Guid CustomerId { get; private set; }
         public string FirstName { get; private set; }
         public string Surname { get; private set; }
         public string Email { get; private set; }
@@ -14,10 +15,10 @@ namespace Argon.Core.Messages.IntegrationCommands
         public DateTime BirthDate { get; private set; }
         public Gender Gender { get; private set; }
 
-        public CreateCustomerCommand(Guid aggregateId, string firstName, string surname,
+        public CreateCustomerCommand(Guid customerId, string firstName, string surname,
             string email, string phone, string cpf, DateTime birthDate, Gender gender)
         {
-            AggregateId = aggregateId;
+            CustomerId = customerId;
             FirstName = firstName;
             Surname = surname;
             Email = email;

@@ -18,7 +18,7 @@
   "AddressNotFound": "Endereço não encontrado",
   "EmptyStreet": "Informe a rua",
   "StreetOutOfRange": "A rua deve ter entre 2 e 50 caracteres",
-  "NumberMaxLength": "O número deve ter no máximo 5 caracteres",
+  "NumberMaxLength": "O número deve ter no máximo 10 caracteres",
   "EmptyDistrict": "Informe o bairro",
   "DistrictOutOfRange": "O bairro deve ter entre 2 e 50 caracteres",
   "EmptyCity": "Informe a cidade",
@@ -33,7 +33,8 @@
   "InvalidLatitude": "Latitude inválida",
   "InvalidLongitude": "Longitude inválida",
   "InvalidCoordinates": "Latitude ou Longitude inválida(s)",
-  "EmptyCustomerId": "Informe o indentificador do cliente",
-  "EmptyAggregateId": "Não é possível realizar a operação com o identificador do agregado vazio",
-  "EmptyAddressId": "Informe o identificador do endereço"
+  "EmptyCustomerId": "Informe o identificador do cliente",
+  "EmptyAddressId": "Informe o identificador do endereço",
+  "EmptyAddress": "Informe o endereço",
+  "CustomerNotFound": "Cliente não encontrado"
 }

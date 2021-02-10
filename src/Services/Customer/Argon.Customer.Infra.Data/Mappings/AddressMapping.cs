@@ -25,7 +25,7 @@ namespace Argon.Customers.Infra.Data.Mappings
                 .IsRequired();
 
             builder.Property(a => a.Number)
-                .HasColumnType("varchar(5)");
+                .HasColumnType("varchar(10)");
 
             builder.Property(a => a.PostalCode)
                 .HasColumnType("char(8)")

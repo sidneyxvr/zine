@@ -6,11 +6,12 @@ namespace Argon.Customers.Application.Commands.AddressCommands
 {
     public class DeleteAddressCommand : Command
     {
+        public Guid CustomerId { get; private set; }
         public Guid AddressId { get; set; }
 
-        public DeleteAddressCommand(Guid aggreateId, Guid addressId)
+        public DeleteAddressCommand(Guid customerId, Guid addressId)
         {
-            AggregateId = aggreateId;
+            CustomerId = customerId;
             AddressId = addressId;
         }
 

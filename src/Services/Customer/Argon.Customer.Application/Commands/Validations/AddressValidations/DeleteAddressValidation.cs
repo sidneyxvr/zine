@@ -8,8 +8,8 @@ namespace Argon.Customers.Application.Commands.Validations.AddressValidations
     {
         public DeleteAddressValidation()
         {
-            RuleFor(a => a.AggregateId)
-                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyAggregateId"));
+            RuleFor(a => a.CustomerId)
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCustomerId"));
 
             RuleFor(a => a.AddressId)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyAddressId"));

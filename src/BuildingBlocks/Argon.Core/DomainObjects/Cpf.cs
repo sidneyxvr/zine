@@ -31,7 +31,7 @@ namespace Argon.Core.DomainObjects
                 return false;
             }
 
-            while (cpf.Length != NumberLength)
+            while (cpf.Length < NumberLength)
             {
                 cpf = '0' + cpf;
             }

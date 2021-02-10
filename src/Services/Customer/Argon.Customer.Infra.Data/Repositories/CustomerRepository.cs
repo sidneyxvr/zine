@@ -30,11 +30,18 @@ namespace Argon.Customers.Infra.Data.Repositories
             GC.SuppressFinalize(this);
         }
 
+        public async Task<Address> GetAddressAsync(Guid customerId, Guid addressId)
+        {
+            return await _context.Addresses
+                .FirstOrDefaultAsync(a => EF.Property<Guid>(a, "CustomerId") == customerId && a.Id == addressId);
+        }
+
         public async Task<Customer> GetByIdAsync(Guid id)
         {
             return await _context.Customers
                 .Include(c => c.Addresses)
                 .Include(c => c.MainAddress)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 

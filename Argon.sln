@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Identity.Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Customers.Test", "tests\Argon.Customer.Test\Argon.Customers.Test.csproj", "{22E8AD9D-AC58-4561-B0AC-C623B4F04D62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Core.Test", "tests\Argon.Core.Test\Argon.Core.Test.csproj", "{ECE1DC89-C3B7-496C-9D8F-351CFDB941FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Core.Test", "tests\Argon.Core.Test\Argon.Core.Test.csproj", "{ECE1DC89-C3B7-496C-9D8F-351CFDB941FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

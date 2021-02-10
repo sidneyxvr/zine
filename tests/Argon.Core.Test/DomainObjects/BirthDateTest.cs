@@ -8,18 +8,11 @@ namespace Argon.Core.Test.DomainObjects
 {
     public class BirthDateTest
     {
-        private readonly Faker _faker;
-
-        public BirthDateTest()
-        {
-            _faker = new Faker("pt_BR");
-        }
-
         public static IEnumerable<object[]> BirthDateYoungerThan18Data =>
             new List<object[]>
             {
                 new object[] { DateTime.UtcNow.AddYears(-17) },
-                new object[] { DateTime.UtcNow.AddYears(-18).AddHours(1) },
+                new object[] { DateTime.UtcNow.AddYears(-18).AddDays(1) },
             };
 
         [Theory]

@@ -1,17 +1,20 @@
 ﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using System;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using System.Linq;
 
-namespace Argon.Customers.Test.Domain.Fixtures
+namespace Argon.Customers.Test.Fixtures
 {
     public class CustomerFixture
     {
         private readonly Faker _faker;
+        private readonly AddressFixture _addressFixture;
         public CustomerFixture()
         {
             _faker = new Faker("pt_BR");
+            _addressFixture = new AddressFixture();
         }
 
         public CustomerTestDTO GetCustomerTestDTO()
@@ -38,6 +41,23 @@ namespace Argon.Customers.Test.Domain.Fixtures
             var gender = _faker.PickRandom<Gender>();
 
             return new Customer(Guid.NewGuid(), firstName, surname, email, cpf, birthDate, gender, phone);
+        }
+
+        public Customer CreateValidCustomerWithAddresses()
+        {
+            var customer = CreateValidCustomer();
+
+            var addresses = Enumerable
+                .Range(1, _faker.Random.Int(1, 5))
+                .Select(_ => _addressFixture.CreateValidAddress())
+                .ToList();
+
+            var mainAddress = addresses.First();
+
+            addresses.ForEach(address => customer.AddAddress(address));
+            customer.DefineMainAddress(mainAddress.Id);
+
+            return customer;
         }
     }
 

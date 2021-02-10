@@ -1,16 +1,15 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Internationalization;
+using Argon.Core.Messages;
 using Argon.Customers.Application.Commands.AddressCommands;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 {
-    public class CreateAddressHandler : IRequestHandler<CreateAddressCommand, ValidationResult>
+    public class CreateAddressHandler : BaseHandler, IRequestHandler<CreateAddressCommand, ValidationResult>
     {
         private readonly ICustomerRepository _customerRepository;
 
@@ -26,16 +25,18 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
                 return request.ValidationResult;
             }
 
-            var customer = await _customerRepository.GetByIdAsync(request.AggregateId);
+            var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
 
             if(customer is null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException(Localizer.GetTranslation("CustomerNotFound"));
             }
 
-            customer.AddAddress(request.Street, request.Number, request.District, 
-                request.City, request.State, request.Country, request.PostalCode, 
+            var address = new Address(request.Street, request.Number, request.District,
+                request.City, request.State, request.Country, request.PostalCode,
                 request.Complement, request.Latitude, request.Longitude);
+
+            customer.AddAddress(address);
 
             await _customerRepository.UnitOfWork.CommitAsync();
 

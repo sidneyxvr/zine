@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="32.0.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="5.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Moq.AutoMock" Version="3.0.0-ci0146" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
     <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

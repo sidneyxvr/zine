@@ -24,7 +24,7 @@ namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
                 return request.ValidationResult;
             }
 
-            var customer = await _customerRepository.GetByIdAsync(request.AggregateId);
+            var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
 
             if (customer is null)
             {

@@ -1,6 +1,6 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
-using Argon.Customers.Test.Domain.Fixtures;
+using Argon.Customers.Test.Fixtures;
 using Bogus;
 using Xunit;
 
@@ -64,7 +64,7 @@ namespace Argon.Customers.Test.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O número deve ter no máximo 5 caracteres", result.Message);
+            Assert.Equal("O número deve ter no máximo 10 caracteres", result.Message);
         }
 
         [Theory]
@@ -323,6 +323,31 @@ namespace Argon.Customers.Test.Domain
 
             //Assert
             Assert.Null(result.Location);
+        }
+
+        [Fact]
+        public void UpdateAddressShouldUpdate()
+        {
+            //Arrange
+            var street = "Rua nome 1";
+            var number = "12345";
+            var district = "Bairro 1";
+            var city = "Cidade 1";
+            var state = "CE";
+            var country = "Brasil";
+            var postalCode = "50000999";
+
+            //Act
+            var result = new Address(street, number, district, city, state, country, postalCode, null, null, null);
+
+            //Assert
+            Assert.Equal(street, result.Street);
+            Assert.Equal(number, result.Number);
+            Assert.Equal(district, result.District);
+            Assert.Equal(city, result.City);
+            Assert.Equal(state, result.State);
+            Assert.Equal(country, result.Country);
+            Assert.Equal(postalCode, result.PostalCode);
         }
     }
 }

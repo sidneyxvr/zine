@@ -15,18 +15,9 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         public Location Location { get; private set; }
         protected Address() { }
 
-        public Address(string street, string number, string district, string city, string state, 
+        public Address(string street, string number, string district, string city, string state,
             string country, string postalCode, string complement, double? latitude, double? longitude)
         {
-            ValidateStreet(street);
-            ValidateNumber(number);
-            ValidateDistrict(district);
-            ValidateCity(city);
-            ValidateState(state);
-            ValidateCountry(country);
-            ValidatePostalCode(postalCode);
-            ValidateComplement(complement);
-
             Street = street;
             Number = number;
             District = district;
@@ -36,20 +27,13 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             PostalCode = postalCode;
             Complement = complement;
             Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
+
+            Validate();
         }
 
         public void Update(string street, string number, string district, string city, string state,
             string country, string postalCode, string complement, double? latitude, double? longitude)
         {
-            ValidateStreet(street);
-            ValidateNumber(number);
-            ValidateDistrict(district);
-            ValidateCity(city);
-            ValidateState(state);
-            ValidateCountry(country);
-            ValidatePostalCode(postalCode);
-            ValidateComplement(complement);
-
             Street = street;
             Number = number;
             District = district;
@@ -59,48 +43,33 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             PostalCode = postalCode;
             Complement = complement;
             Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
+
+            Validate();
         }
 
-        private void ValidateStreet(string street)
+        private void Validate()
         {
-            AssertionConcern.AssertArgumentNotEmpty(street, Localizer.GetTranslation("EmptyStreet"));
-            AssertionConcern.AssertArgumentRange(street, 2, 50, Localizer.GetTranslation("StreetOutOfRange"));
-        } 
+            AssertionConcern.AssertArgumentNotEmpty(Street, Localizer.GetTranslation("EmptyStreet"));
+            AssertionConcern.AssertArgumentRange(Street, 2, 50, Localizer.GetTranslation("StreetOutOfRange"));
 
-        private void ValidateNumber(string number) =>
-            AssertionConcern.AssertArgumentRange(number, 1, 5, Localizer.GetTranslation("NumberMaxLength"));
+            AssertionConcern.AssertArgumentRange(Number, 1, 5, Localizer.GetTranslation("NumberMaxLength"));
 
-        private void ValidateComplement(string complement) =>
-            AssertionConcern.AssertArgumentRange(complement, 2, 50, Localizer.GetTranslation("ComplementMaxLength"));
+            AssertionConcern.AssertArgumentRange(Complement, 2, 50, Localizer.GetTranslation("ComplementMaxLength"));
 
-        private void ValidateDistrict(string district)
-        {
-            AssertionConcern.AssertArgumentNotEmpty(district, Localizer.GetTranslation("EmptyDistrict"));
-            AssertionConcern.AssertArgumentRange(district, 2, 50, Localizer.GetTranslation("DistrictOutOfRange"));
-        }
+            AssertionConcern.AssertArgumentNotEmpty(District, Localizer.GetTranslation("EmptyDistrict"));
+            AssertionConcern.AssertArgumentRange(District, 2, 50, Localizer.GetTranslation("DistrictOutOfRange"));
 
-        private void ValidateCity(string city)
-        {
-            AssertionConcern.AssertArgumentNotEmpty(city, Localizer.GetTranslation("EmptyCity"));
-            AssertionConcern.AssertArgumentRange(city, 2, 40, Localizer.GetTranslation("CityOutOfRange"));
-        }
+            AssertionConcern.AssertArgumentNotEmpty(City, Localizer.GetTranslation("EmptyCity"));
+            AssertionConcern.AssertArgumentRange(City, 2, 40, Localizer.GetTranslation("CityOutOfRange"));
 
-        private void ValidateState(string state)
-        {
-            AssertionConcern.AssertArgumentNotEmpty(state, Localizer.GetTranslation("EmptyState"));
-            AssertionConcern.AssertArgumentExactLength(state, 2, Localizer.GetTranslation("InvalidState"));
-        }
+            AssertionConcern.AssertArgumentNotEmpty(State, Localizer.GetTranslation("EmptyState"));
+            AssertionConcern.AssertArgumentExactLength(State, 2, Localizer.GetTranslation("InvalidState"));
 
-        private void ValidatePostalCode(string postalCode)
-        {
-            AssertionConcern.AssertArgumentNotEmpty(postalCode, Localizer.GetTranslation("EmptyPostalCode"));
-            AssertionConcern.AssertArgumentExactLength(postalCode, 8, Localizer.GetTranslation("InvalidPostalCode"));
-        }
+            AssertionConcern.AssertArgumentNotEmpty(PostalCode, Localizer.GetTranslation("EmptyPostalCode"));
+            AssertionConcern.AssertArgumentExactLength(PostalCode, 8, Localizer.GetTranslation("InvalidPostalCode"));
 
-        private void ValidateCountry(string country)
-        {
-            AssertionConcern.AssertArgumentNotEmpty(country, Localizer.GetTranslation("EmptyCountry"));
-            AssertionConcern.AssertArgumentRange(country, 2, 50, Localizer.GetTranslation("CountryOutOfRange"));
+            AssertionConcern.AssertArgumentNotEmpty(Country, Localizer.GetTranslation("EmptyCountry"));
+            AssertionConcern.AssertArgumentRange(Country, 2, 50, Localizer.GetTranslation("CountryOutOfRange"));
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Argon.Customers.Application.Commands.AddressCommands
 {
     public class CreateAddressCommand : Command
     {
+        public Guid CustomerId { get; private set; }
         public string Street { get; private set; }
         public string Number { get; private set; }
         public string District { get; private set; }
@@ -17,10 +18,10 @@ namespace Argon.Customers.Application.Commands.AddressCommands
         public double? Latitude { get; private set; }
         public double? Longitude { get; private set; }
 
-        public CreateAddressCommand(Guid aggregateId, string street, string number, string district, string city, 
+        public CreateAddressCommand(Guid customerId, string street, string number, string district, string city, 
             string state, string country, string postalCode, string complement, double? latitude, double? longitude)
         {
-            AggregateId = aggregateId;
+            CustomerId = customerId;
             Street = street;
             Number = number;
             District = district;

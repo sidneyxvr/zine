@@ -80,6 +80,14 @@ namespace Argon.Core.DomainObjects
             }
         }
 
+        public static void AssertArgumentFound(object object1, string message)
+        {
+            if (object1 is null)
+            {
+                throw new NotFoundException(message);
+            }
+        }
+
         public static void AssertArgumentNotNull(object object1, string message)
         {
             if (object1 is null)

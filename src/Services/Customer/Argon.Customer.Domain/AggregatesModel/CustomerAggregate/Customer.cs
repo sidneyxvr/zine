@@ -10,8 +10,8 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         public Name Name { get; private set; }
         public Email Email { get; private set; }
         public Cpf Cpf { get; private set; }
-        public BirthDate BirthDate { get; set; }
-        public Phone Phone { get; set; }
+        public BirthDate BirthDate { get; private set; }
+        public Phone Phone { get; private set; }
         public Gender Gender { get; private set; }
         public bool IsActive { get; private set; }
         public bool IsDelete { get; private set; }
@@ -32,27 +32,23 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
             Name = new Name(firstName, surname);
             Email = email;
             Cpf = cpf;
-
-            ValidateGender(gender);
             Gender = gender;
-
             BirthDate = birthDate;
-
             Phone = phone;
-
             IsActive = true;
             IsDelete = false;
             IsSuspended = true;
+
+            Validate();
         }
 
         public void Update(string firstName, string surname, DateTime birthDate, Gender gender)
         {
             Name = new Name(firstName, surname);
-
-            ValidateGender(gender);
             Gender = gender;
-
             BirthDate = birthDate;
+
+            Validate();
         }
 
         public void Enable() => IsActive = true;
@@ -65,50 +61,49 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 
         public void Resume() => IsSuspended = false;
 
-        public void AddAddress(string street, string number, string district, string city, string state,
-            string country, string postalCode, string complement, double? latitude, double? longitude)
+        public void AddAddress(Address address)
         {
             _addresses ??= new List<Address>();
 
-            _addresses.Add(new Address(
-                street, number, district, city, state, country, postalCode, complement, latitude, longitude));
-        }
-
-        public void UpdateAddress(Guid addressId, string street, string number, string district, string city,
-            string state, string country, string postalCode, string complement, double? latitude, double? longitude)
-        {
-            var address = _addresses.FirstOrDefault(a => a.Id == addressId);
-            if (address is null)
-            {
-                throw new DomainException(Localizer.GetTranslation("AddressNotFound"));
-            }
-
-            _addresses ??= new List<Address>();
-
-            address.Update(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
+            _addresses.Add(address ?? throw new ArgumentNullException(nameof(address)));
         }
 
         public void DeleteAddress(Guid addressId)
         {
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
-            AssertionConcern.AssertArgumentNotNull(address, Localizer.GetTranslation("AddressNotFound"));
+            AssertionConcern.AssertArgumentFound(address, Localizer.GetTranslation("AddressNotFound"));
+
+            if(MainAddress.Id == address.Id)
+            {
+                MainAddress = null;
+            }
 
             _addresses.Remove(address);
+        }
+
+        public void UpdateAddress(Guid addressId, string street, string number, string district, string city, 
+            string state, string country, string postalCode, string complement, double? latitude, double? longitude)
+        {
+            var address = _addresses.FirstOrDefault(a => a.Id == addressId);
+
+            AssertionConcern.AssertArgumentFound(address, Localizer.GetTranslation("AddressNotFound"));
+
+            address.Update(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
         }
 
         public void DefineMainAddress(Guid addressId)
         {
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
-            AssertionConcern.AssertArgumentNotNull(address, Localizer.GetTranslation("AddressNotFound"));
+            AssertionConcern.AssertArgumentFound(address, Localizer.GetTranslation("AddressNotFound"));
 
             MainAddress = address;
         }
 
-        private void ValidateGender(Gender gender)
+        private void Validate()
         {
-            AssertionConcern.AssertIsEnum(gender, typeof(Gender), Localizer.GetTranslation("InvalidGender"));
+            AssertionConcern.AssertIsEnum(Gender, typeof(Gender), Localizer.GetTranslation("InvalidGender"));
         }
     }
 }

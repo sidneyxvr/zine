@@ -47,9 +47,9 @@ namespace Argon.WebApi.API.Controllers.V1
         {
             var customerId = Guid.NewGuid();
 
-            var command = new UpdateAddressCommand(customerId, request.Id, request.Street, 
-                request.Number, request.District, request.City, request.State, request.Complement, 
-                request.PostalCode, request.Complement, request.Latitude, request.Longitude);
+            var command = new UpdateAddressCommand(customerId, request.Id, request.Street, request.Number, 
+                request.District, request.City, request.State, request.Complement, request.PostalCode, 
+                request.Complement, request.Latitude, request.Longitude);
 
             var result = await _bus.SendAsync(command);
 
