@@ -1,6 +1,7 @@
 ﻿using Argon.Core.DomainObjects;
 using Bogus;
 using Bogus.Extensions.Brazil;
+using RTools_NTS.Util;
 using Xunit;
 
 namespace Argon.Core.Test.DomainObjects
@@ -44,17 +45,56 @@ namespace Argon.Core.Test.DomainObjects
             Assert.Equal("Informe o CPF", result.Message);
         }
 
-        [Fact]
-        public void CreateCpfValidNumberShouldCreateSuccessfully()
+        [Theory]
+        [InlineData("54917489008")]
+        [InlineData("38546466076")]
+        [InlineData("71980843031")]
+        [InlineData("68326140040")]
+        [InlineData("13830803800")]
+        public void CreateCpfValidNumberShouldCreateSuccessfully(string cpf)
         {
-            //Arrange
-            var cpf = _faker.Person.Cpf(false);
-
             //Act
             var result = new Cpf(cpf);
 
             //Assert
             Assert.Equal(result.Number, cpf);
+        }
+
+        [Fact]
+        public void CreateCpfImplictValidNumberShouldCreateSuccessfully()
+        {
+            //Arrange
+            var cpfNumber = _faker.Person.Cpf(false);
+
+            //Act
+            Cpf cpf = cpfNumber;
+
+            //Assert
+            Assert.Equal(cpf.Number, cpfNumber);
+        }
+
+        [Fact]
+        public void CompreCpfShouldReturnTrue()
+        {
+            //Act
+            var cpf1 = new Cpf("54917489008");
+            Cpf cpf2 = "54917489008";
+
+            //Assert
+            Assert.True(cpf1.Equals(cpf2));
+            Assert.True(cpf1 == cpf2);
+        }
+
+        [Fact]
+        public void CompreCpfShouldReturnFalse()
+        {
+            //Act
+            var cpf1 = new Cpf("54917489008");
+            Cpf cpf2 = "38546466076";
+
+            //Assert
+            Assert.False(cpf1.Equals(cpf2));
+            Assert.True(cpf1 != cpf2);
         }
     }
 }

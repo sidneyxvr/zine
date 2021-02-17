@@ -103,5 +103,29 @@ namespace Argon.Core.Test.DomainObjects
             //Assert
             Assert.Equal(10, distance);
         }
+
+        [Fact]
+        public void CompreLocationShouldReturnTrue()
+        {
+            //Act
+            var location1 = new Location(10, 10);
+            var location2 = new Location(10, 10);
+
+            //Assert
+            Assert.True(location1.Equals(location2));
+            Assert.True(location1 == location2);
+        }
+
+        [Fact]
+        public void CompreLocationShouldReturnFalse()
+        {
+            //Act
+            var location1 = new Location(10, 11);
+            var location2 = new Location(10, 10);
+
+            //Assert
+            Assert.False(location1.Equals(location2));
+            Assert.True(location1 != location2);
+        }
     }
 }

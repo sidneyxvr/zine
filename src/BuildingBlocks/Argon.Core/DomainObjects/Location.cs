@@ -14,7 +14,7 @@ namespace Argon.Core.DomainObjects
 
         public Location(double? latitude, double? longitude)
         {
-            if ((latitude is null && longitude is not null) || (latitude is not null && longitude is null))
+            if (latitude is null || longitude is null)
             {
                 throw new DomainException(Localizer.GetTranslation("InvalidCoordinates"));
             }

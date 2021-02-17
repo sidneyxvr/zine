@@ -34,5 +34,71 @@ namespace Argon.Core.Test.DomainObjects
             //Assert
             Assert.Equal(result.Number, phone);
         }
+
+        [Fact]
+        public void CreatePhoneImplictValidNumberShouldCreateSuccessfully()
+        {
+            //Act
+            Phone phone = "56930056970";
+
+            //Assert
+            Assert.Equal("56930056970", phone.Number);
+        }
+
+        [Fact]
+        public void ComprePhoneNumberShouldReturnTrue()
+        {
+            //Act
+            Phone phone1 = "56930056970";
+            var phone2 = new Phone("56930056970");
+
+            //Assert
+            Assert.True(phone1.Equals(phone2));
+            Assert.True(phone1 == phone2);
+        }
+
+        [Fact]
+        public void ComprePhoneNumberShouldReturnFalse()
+        {
+            //Act
+            Phone phone1 = "56930056970";
+            var phone2 = new Phone("56930056971");
+
+            //Assert
+            Assert.False(phone1.Equals(phone2));
+            Assert.True(phone1 != phone2);
+        }
+
+        [Fact]
+        public void ComprePhoneNumberBothNullShouldReturnTrue()
+        {
+            //Act
+            Phone phone1 = null;
+            Phone phone2 = null;
+
+            //Assert
+            Assert.True(phone1 == phone2);
+        }
+
+        [Fact]
+        public void ComprePhoneNumberLeftNullShouldReturnFalse()
+        {
+            //Act
+            Phone phone1 = null;
+            Phone phone2 = "56930056971";
+
+            //Assert
+            Assert.False(phone1 == phone2);
+        }
+
+        [Fact]
+        public void GetHashCodeShouldReturnHashCode()
+        {
+            //Act
+            Phone phone = "56930056971";
+
+            //Assert
+            Assert.NotEqual(0, phone.GetHashCode());
+        }
     }
 }

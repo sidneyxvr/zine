@@ -14,7 +14,7 @@ namespace Argon.Core.DomainObjects
         {
             AssertionConcern.AssertArgumentNotEmpty(number, Localizer.GetTranslation("EmptyCPF"));
             if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidCPF"));
-            Number = number;
+            Number = number.OnlyNumbers();
         }
 
         public static implicit operator Cpf(string number)

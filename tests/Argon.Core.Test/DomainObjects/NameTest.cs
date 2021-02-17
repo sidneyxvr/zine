@@ -118,5 +118,29 @@ namespace Argon.Core.Test.DomainObjects
             //Assert
             Assert.Equal("Nome da Pessoa Silva", name.FullName);
         }
+
+        [Fact]
+        public void CompreNameShouldReturnTrue()
+        {
+            //Act
+            var name1 = new Name("User", "Teste");
+            var name2 = new Name("User", "Teste");
+
+            //Assert
+            Assert.True(name1.Equals(name2));
+            Assert.True(name1 == name2);
+        }
+
+        [Fact]
+        public void CompreNameShouldReturnFalse()
+        {
+            //Act
+            var name1 = new Name("User", "Teste1");
+            var name2 = new Name("User", "Teste");
+
+            //Assert
+            Assert.False(name1.Equals(name2));
+            Assert.True(name1 != name2);
+        }
     }
 }

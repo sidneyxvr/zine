@@ -112,5 +112,23 @@ namespace Argon.Customers.Test.Domain
             //Assert
             Assert.True(customer.IsDelete);
         }
+
+        [Fact]
+        public void UpdateCustomerShouldWorkSuccessfully()
+        {
+            //Arrange
+            var customer = _customerFixture.GetCustomerTestDTO();
+            var validCustomer = _customerFixture.CreateValidCustomer();
+
+            //Act
+            validCustomer.Update(customer.FirstName, customer.Surname, customer.BirthDate, customer.Gender);
+
+            //Assert
+            Assert.Equal(customer.FirstName, validCustomer.Name.FirstName);
+            Assert.Equal(customer.Surname, validCustomer.Name.Surname);
+            Assert.Equal(customer.BirthDate.Date, validCustomer.BirthDate.Date);
+            Assert.Equal(customer.BirthDate.Day, validCustomer.BirthDate.Birthday);
+            Assert.Equal(customer.Gender, validCustomer.Gender);
+        }
     }
 }

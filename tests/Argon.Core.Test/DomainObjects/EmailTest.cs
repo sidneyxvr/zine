@@ -65,5 +65,42 @@ namespace Argon.Core.Test.DomainObjects
             //Assert
             Assert.Equal(result.Address, email);
         }
+
+        [Fact]
+        public void CreateEmailImplictValidAddressShouldCreateSuccessfully()
+        {
+            //Arrange
+            var emailAddress = _faker.Person.Email;
+
+            //Act
+            Email email = emailAddress;
+
+            //Assert
+            Assert.Equal(emailAddress, email.Address);
+        }
+
+        [Fact]
+        public void CompreEmailShouldReturnTrue()
+        {
+            //Act
+            var email1 = new Email("teste@email.com");
+            var email2 = new Email("teste@email.com");
+
+            //Assert
+            Assert.True(email1.Equals(email2));
+            Assert.True(email1 == email2);
+        }
+
+        [Fact]
+        public void CompreEmailShouldReturnFalse()
+        {
+            //Act
+            var email1 = new Email("teste@email.com");
+            var email2 = new Email("teste1@email.com");
+
+            //Assert
+            Assert.False(email1.Equals(email2));
+            Assert.True(email1 != email2);
+        }
     }
 }

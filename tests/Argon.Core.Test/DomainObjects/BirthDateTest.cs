@@ -132,5 +132,52 @@ namespace Argon.Core.Test.DomainObjects
             //Assert
             Assert.Equal("15/06/2000", birthDate.ToString());
         }
+
+        [Fact]
+        public void CreateBirthImplicitDatesShouldWorkSuccessfully()
+        {
+            //Act
+            BirthDate birthDate = new DateTime(2000, 6, 15);
+
+            //Assert
+            Assert.Equal("15/06/2000", birthDate.ToString());
+        }
+
+        [Fact]
+        public void CreateBirthDatesShouldReturnDate()
+        {
+            //Arrange
+            var date = new DateTime(2000, 6, 15);
+
+            //Act
+            BirthDate birthDate = date;
+
+            //Assert
+            Assert.Equal(date.Date, birthDate.Date);
+        }
+
+        [Fact]
+        public void CompreBirthDateShouldReturnTrue()
+        {
+            //Act
+            var birthDate1 = new BirthDate(2000, 1, 1);
+            BirthDate birthDate2 = new DateTime(2000, 1, 1);
+
+            //Assert
+            Assert.True(birthDate1.Equals(birthDate2));
+            Assert.True(birthDate1 == birthDate2);
+        }
+
+        [Fact]
+        public void CompreBirthDateShouldReturnFalse()
+        {
+            //Act
+            var birthDate1 = new BirthDate(2000, 1, 2);
+            BirthDate birthDate2 = new DateTime(2000, 1, 1);
+
+            //Assert
+            Assert.False(birthDate1.Equals(birthDate2));
+            Assert.True(birthDate1 != birthDate2);
+        }
     }
 }

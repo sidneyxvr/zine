@@ -10,6 +10,10 @@ namespace Argon.Core.DomainObjects
 
         private readonly DateTime _date;
 
+        public DateTime Date => _date.Date;
+
+        protected BirthDate() { }
+
         public BirthDate(int year, int month, int day)
         {
             var date = new DateTime(year, month, day);
