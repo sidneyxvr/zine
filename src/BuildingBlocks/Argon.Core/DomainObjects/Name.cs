@@ -4,8 +4,8 @@ namespace Argon.Core.DomainObjects
 {
     public class Name : ValueObject
     {
-        public const int FirstNameMaxLength = 50;
-        public const int SurnameMaxLength = 50;
+        public const int MaxLengthFirstName = 50;
+        public const int MaxLengthSurname = 50;
         public string FirstName { get; private set; }
         public string Surname { get; private set; }
         protected Name() { }
@@ -16,8 +16,10 @@ namespace Argon.Core.DomainObjects
         {
             AssertionConcern.AssertArgumentNotEmpty(firstName, Localizer.GetTranslation("EmptyFirstName"));
             AssertionConcern.AssertArgumentNotEmpty(surname, Localizer.GetTranslation("EmptySurname"));
-            AssertionConcern.AssertArgumentLength(firstName, FirstNameMaxLength, Localizer.GetTranslation("FirstNameMaxLength"));
-            AssertionConcern.AssertArgumentLength(surname, SurnameMaxLength, Localizer.GetTranslation("SurnameMaxLength"));
+            AssertionConcern.AssertArgumentLength(firstName, MaxLengthFirstName, 
+                string.Format(Localizer.GetTranslation("MaxLengthFirstName"), MaxLengthFirstName));
+            AssertionConcern.AssertArgumentLength(surname, MaxLengthSurname, 
+                string.Format(Localizer.GetTranslation("MaxLengthSurname"), MaxLengthSurname));
 
             FirstName = firstName;
             Surname = surname;

@@ -30,7 +30,7 @@ namespace Argon.Core.Test.DomainObjects
         }
 
         [Fact]
-        public void CreateNameFirstNameMaxLengthShouldThrowDomainException()
+        public void CreateNameMaxLengthFirstNameShouldThrowDomainException()
         {
             //Arrange
             var firstName = _faker.Lorem.Letter(_faker.Random.Int(51, 1000));
@@ -44,7 +44,7 @@ namespace Argon.Core.Test.DomainObjects
         }
 
         [Fact]
-        public void CreateNameSurnameMaxLengthShouldThrowDomainException()
+        public void CreateNameMaxLengthSurnameShouldThrowDomainException()
         {
             //Arrange
             var firstName = _faker.Person.FirstName;

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 {
-    public class Customer : Entity, IAggregaeteRoot
+    public class Customer : Entity, IAggregateRoot
     {
         public Name Name { get; private set; }
         public Email Email { get; private set; }
@@ -26,7 +26,7 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
         protected Customer() { }
 
         public Customer(Guid id, string firstName, string surname, string email,
-            string cpf, DateTime birthDate, Gender gender, string phone)
+            string cpf, DateTime? birthDate, Gender gender, string phone)
         {
             Id = id;
             Name = new Name(firstName, surname);

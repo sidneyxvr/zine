@@ -3,7 +3,6 @@ using Argon.Customers.Application.Commands.CustomerCommands;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

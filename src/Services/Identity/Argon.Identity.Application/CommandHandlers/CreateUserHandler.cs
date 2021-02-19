@@ -15,22 +15,17 @@ namespace Argon.Identity.Application.CommandHandlers
     {
         private readonly IBus _bus;
         private readonly UserManager<IdentityUser<Guid>> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public CreateUserHandler(
             IBus bus, 
-            UserManager<IdentityUser<Guid>> userManager,
-            RoleManager<IdentityRole<Guid>> roleManager)
+            UserManager<IdentityUser<Guid>> userManager)
         {
             _bus = bus;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         public async Task<ValidationResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            await CreateRolesAsync();
-
             if (!request.IsValid())
             {
                 return request.ValidationResult;
@@ -64,15 +59,6 @@ namespace Argon.Identity.Application.CommandHandlers
             await _userManager.AddToRoleAsync(user, "Customer");
 
             return validationResult;
-        }
-
-        private async Task CreateRolesAsync()
-        {
-            if (!await _roleManager.RoleExistsAsync("Customer"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole<Guid>("Customer"));
-                await _roleManager.CreateAsync(new IdentityRole<Guid>("Supplier"));
-            }
         }
     }
 }

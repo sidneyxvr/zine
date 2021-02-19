@@ -63,7 +63,7 @@ namespace Argon.Core.DomainObjects
 
         public override int GetHashCode()
         {
-            return (GetType().GetHashCode() * 907) + Id.GetHashCode();
+            return Id.GetHashCode() ^ 31;
         }
 
         public override string ToString()

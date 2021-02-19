@@ -18,16 +18,14 @@ namespace Argon.Core.DomainObjects
         {
             var date = new DateTime(year, month, day);
 
-            AssertionConcern.AssertArgumentMin(date, DateTime.UtcNow.AddYears(-MinAge), Localizer.GetTranslation("MinBirthDate"));
-            AssertionConcern.AssertArgumentMax(date, DateTime.UtcNow.AddYears(-MaxAge), Localizer.GetTranslation("MaxBirthDate"));
+            ValidateBirthDate(date);
 
             _date = date;
         }
 
         public BirthDate(DateTime date)
         {
-            AssertionConcern.AssertArgumentMin(date, DateTime.UtcNow.AddYears(-MinAge), Localizer.GetTranslation("MinBirthDate"));
-            AssertionConcern.AssertArgumentMax(date, DateTime.UtcNow.AddYears(-MaxAge), Localizer.GetTranslation("MaxBirthDate"));
+            ValidateBirthDate(date);
 
             _date = date;
         }
@@ -45,6 +43,14 @@ namespace Argon.Core.DomainObjects
         public override string ToString()
         {
             return _date.ToString("dd/MM/yyyy");
+        }
+
+        public void ValidateBirthDate(DateTime birthDate)
+        {
+            AssertionConcern.AssertArgumentMin(birthDate, DateTime.UtcNow.AddYears(-MinAge), 
+                string.Format(Localizer.GetTranslation("MinBirthDate"), MinAge));
+            AssertionConcern.AssertArgumentMax(birthDate, DateTime.UtcNow.AddYears(-MaxAge), 
+                string.Format(Localizer.GetTranslation("MaxBirthDate"), MaxAge));
         }
     }
 }

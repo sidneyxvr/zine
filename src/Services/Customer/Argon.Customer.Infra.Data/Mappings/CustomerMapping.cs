@@ -18,11 +18,11 @@ namespace Argon.Customers.Infra.Data.Mappings
             {
                 c.Property(p => p.FirstName)
                     .HasColumnName("FirstName")
-                    .HasColumnType($"varchar({Name.FirstNameMaxLength})");
+                    .HasColumnType($"varchar({Name.MaxLengthFirstName})");
 
                 c.Property(p => p.Surname)
                     .HasColumnName("Surname")
-                    .HasColumnType($"varchar({Name.SurnameMaxLength})");
+                    .HasColumnType($"varchar({Name.MaxLengthSurname})");
             });
 
             builder.OwnsOne(c => c.BirthDate, e =>

@@ -130,5 +130,124 @@ namespace Argon.Customers.Test.Domain
             Assert.Equal(customer.BirthDate.Day, validCustomer.BirthDate.Birthday);
             Assert.Equal(customer.Gender, validCustomer.Gender);
         }
+
+        [Fact]
+        public void CustomerEqualShouldReturnTrue()
+        {
+            //Arrange
+            var customer1 = _customerFixture.CreateValidCustomer();
+            var customer2 = new Customer(customer1.Id, customer1.Name.FirstName, 
+                customer1.Name.Surname, customer1.Email.Address, customer1.Cpf.Number, 
+                customer1.BirthDate.Date, customer1.Gender, customer1.Phone.Number);
+
+            //Act
+            var isEqual1 = customer1.Equals(customer2);
+            var isEqual2 = customer1 == customer2;
+
+            //Assert
+            Assert.True(isEqual1);
+            Assert.True(isEqual2);
+        }
+
+        [Fact]
+        public void CustomerEqualShouldReturnFalse()
+        {
+            //Arrange
+            var customer1 = _customerFixture.CreateValidCustomer();
+            var customer2 = new Customer(Guid.NewGuid(), customer1.Name.FirstName,
+                customer1.Name.Surname, customer1.Email.Address, customer1.Cpf.Number,
+                customer1.BirthDate.Date, customer1.Gender, customer1.Phone.Number);
+
+            //Act
+            var isEqual1 = customer1.Equals(customer2);
+            var isEqual2 = customer1 != customer2;
+
+            //Assert
+            Assert.False(isEqual1);
+            Assert.True(isEqual2);
+        }
+
+        [Fact]
+        public void CustomerEqualLeftNullShouldReturnFalse()
+        {
+            //Arrange
+            Customer customer1 = null;
+            var customer2 = _customerFixture.CreateValidCustomer();
+
+            //Act
+            var isEqual = customer1 == customer2;
+
+            //Assert
+            Assert.False(isEqual);
+        }
+
+        [Fact]
+        public void CustomerEqualRightNullShouldReturnFalse()
+        {
+            //Arrange
+            var customer1 = _customerFixture.CreateValidCustomer();
+            Customer customer2 = null;
+
+            //Act
+            var isEqual = customer1 == customer2;
+
+            //Assert
+            Assert.False(isEqual);
+        }
+
+        [Fact]
+        public void CustomerEqualLeftNRightNullShouldReturnTrue()
+        {
+            //Arrange
+            Customer customer1 = null;
+            Customer customer2 = null;
+
+            //Act
+            var isEqual = customer1 == customer2;
+
+            //Assert
+            Assert.True(isEqual);
+        }
+
+        [Fact]
+        public void CustomerEqualLeftNotCustomerShouldReturnFalse()
+        {
+            //Arrange
+            Customer customer = _customerFixture.CreateValidCustomer();
+            var str = "test";
+
+            //Act
+            var isEqual = customer.Equals(str);
+
+            //Assert
+            Assert.False(isEqual);
+        }
+
+        [Fact]
+        public void CustomerToStringShouldReturnEntityNamePlusId()
+        {
+            //Arrange
+            var customer = _customerFixture.CreateValidCustomer();
+            var id = customer.Id;
+
+            //Act
+            var str = customer.ToString();
+
+            //Assert
+            Assert.Equal($"Customer [Id={id}]", str);
+        }
+
+        [Fact]
+        public void CustomerGetHashCodeShouldReturnNotZero()
+        {
+            //Arrange
+            var customer = _customerFixture.CreateValidCustomer();
+
+            //Act
+            var hashCode = customer.GetHashCode();
+
+            //Assert
+            Assert.NotEqual(0, hashCode);
+        }
     }
 }

@@ -24,6 +24,11 @@ namespace Argon.Core.DomainObjects
 
         public static bool IsValid(string cpf)
         {
+            if (cpf is null)
+            {
+                return true;
+            }
+
             cpf = cpf.OnlyNumbers();
 
             if (cpf.Length > NumberLength)

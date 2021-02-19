@@ -11,27 +11,26 @@ namespace Argon.Identity.Application.Commands.Validations
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-                .MaximumLength(Name.FirstNameMaxLength).WithMessage("MaxLengthFirstName");
+                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
 
             RuleFor(c => c.Surname)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
-                .MaximumLength(Name.SurnameMaxLength).WithMessage("MaxLengthSurname");
+                .MaximumLength(Name.MaxLengthSurname).WithMessage(Localizer.GetTranslation("MaxLengthSurname"));
 
             RuleFor(c => c.Cpf)
-                .NotEmpty().WithMessage("EmptyCPF")
-                .Must(c => Cpf.IsValid(c)).WithMessage("InvalidCPF");
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCPF"))
+                .Must(c => Cpf.IsValid(c)).WithMessage(Localizer.GetTranslation("InvalidCPF"));
 
             RuleFor(c => c.Email)
                 .NotEmpty().WithMessage("EmptyEmail")
-                .Length(Email.AddressMinLength, Email.AddressMaxLength).WithMessage("EmailOutOfRange")
-                .Must(e => Email.IsValid(e)).WithMessage("InvalidEmail");
+                .Length(Email.AddressMinLength, Email.AddressMaxLength).WithMessage(Localizer.GetTranslation("EmailOutOfRange"))
+                .Must(e => Email.IsValid(e)).WithMessage(Localizer.GetTranslation("InvalidEmail"));
 
             RuleFor(c => c.BirthDate)
-                .NotEmpty().WithMessage("EmptyBirthDate")
-                .InclusiveBetween(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow.AddYears(-18)).WithMessage("InvalidBirthDate");
+                .InclusiveBetween(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow.AddYears(-18)).WithMessage(Localizer.GetTranslation("InvalidBirthDate"));
 
             RuleFor(c => c.Phone)
-                .Must(p => Phone.IsValid(p)).WithMessage("InvalidPhone");
+                .Must(p => Phone.IsValid(p)).WithMessage(Localizer.GetTranslation("InvalidPhone"));
 
             RuleFor(c => c.Gender)
                 .NotEmpty().WithMessage("EmptyGender")

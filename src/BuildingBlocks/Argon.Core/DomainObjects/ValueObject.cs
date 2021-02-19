@@ -24,7 +24,7 @@ namespace Argon.Core.DomainObjects
 
             var other = (ValueObject)obj;
 
-            return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
         public static bool operator ==(ValueObject left, ValueObject right)
