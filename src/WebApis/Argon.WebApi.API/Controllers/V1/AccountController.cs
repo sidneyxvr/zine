@@ -1,5 +1,5 @@
-﻿using Argon.Core.Communication;
-using Argon.Identity.Application.Commands;
+﻿using Argon.Identity.Application.Models;
+using Argon.Identity.Application.Services;
 using Argon.WebApi.API.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -10,17 +10,17 @@ namespace Argon.WebApi.API.Controllers.V1
     [ApiController]
     public class AccountController : BaseController
     {
-        private readonly IBus _bus;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IBus bus)
+        public AccountController(IAccountService accountService)
         {
-            _bus = bus;
+            _accountService = accountService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(UserRequest request)
+        public async Task<IActionResult> PostAsync(UserModel request)
         {
-            var result = await _bus.SendAsync(new CreateUserCommand(
+            var result = await _accountService.CreateCustomerUserAsync(new CustomerUserRequest(
                 request.FirstName, request.Surname, request.Email, request.Phone, 
                 request.Cpf, request.BirthDate, request.Gender, request.Password));
 

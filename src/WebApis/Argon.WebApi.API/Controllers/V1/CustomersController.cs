@@ -19,7 +19,7 @@ namespace Argon.WebApi.API.Controllers.V1
         }
 
         [HttpPost("address")]
-        public async Task<IActionResult> AddAddressAsync(AddressRequest request)
+        public async Task<IActionResult> AddAddressAsync(AddressModel request)
         {
             var customerId = Guid.NewGuid();
 
@@ -43,7 +43,7 @@ namespace Argon.WebApi.API.Controllers.V1
         }
 
         [HttpPut("address")]
-        public async Task<IActionResult> UpdateAddressAsync(AddressRequest request)
+        public async Task<IActionResult> UpdateAddressAsync(AddressModel request)
         {
             var customerId = Guid.NewGuid();
 
@@ -57,7 +57,7 @@ namespace Argon.WebApi.API.Controllers.V1
         }
 
         [HttpPatch("define-main-address")]
-        public async Task<IActionResult> DefineMainAddressAsync(AddressRequest request)
+        public async Task<IActionResult> DefineMainAddressAsync(AddressModel request)
         {
             var customerId = Guid.NewGuid();
             var command = new DefineMainAddressCommand(customerId, request.Id);

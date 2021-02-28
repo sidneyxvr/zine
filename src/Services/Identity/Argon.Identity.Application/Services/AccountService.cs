@@ -1,34 +1,33 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.Messages.IntegrationCommands;
-using Argon.Identity.Application.Commands;
+using Argon.Identity.Application.Models;
+using Argon.Identity.Application.Responses;
+using Argon.Identity.Application.Validations;
 using FluentValidation.Results;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace Argon.Identity.Application.CommandHandlers
+namespace Argon.Identity.Application.Services
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, ValidationResult>
+    public class AccountService : IAccountService
     {
         private readonly IBus _bus;
         private readonly UserManager<IdentityUser<Guid>> _userManager;
 
-        public CreateUserHandler(
-            IBus bus, 
-            UserManager<IdentityUser<Guid>> userManager)
+        public AccountService(IBus bus, UserManager<IdentityUser<Guid>> userManager)
         {
             _bus = bus;
             _userManager = userManager;
         }
 
-        public async Task<ValidationResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<IdentityResponse> CreateCustomerUserAsync(CustomerUserRequest request)
         {
-            if (!request.IsValid())
+            var validationResult = new CustomerUserValidation().Validate(request);
+            if (!validationResult.IsValid)
             {
-                return request.ValidationResult;
+                return validationResult;
             }
 
             var user = new IdentityUser<Guid>
@@ -43,12 +42,12 @@ namespace Argon.Identity.Application.CommandHandlers
 
             if (!result.Succeeded)
             {
-                result.Errors.ToList().ForEach(e => request.NotifyError(e.Description));
-                return request.ValidationResult;
+                result.Errors.ToList().ForEach(e => validationResult.Errors.Add(new ValidationFailure(string.Empty, e.Description)));
+                return validationResult;
             }
 
-            var validationResult = await _bus.SendAsync(new CreateCustomerCommand(
-                user.Id, request.FirstName, request.Surname, request.Email, 
+            var requestResult = await _bus.SendAsync(new CreateCustomerCommand(
+                user.Id, request.FirstName, request.Surname, request.Email,
                 request.Phone, request.Cpf, request.BirthDate, request.Gender));
 
             if (!validationResult.IsValid)

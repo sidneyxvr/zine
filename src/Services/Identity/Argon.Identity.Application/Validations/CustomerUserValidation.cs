@@ -1,17 +1,18 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands.Validations;
+using Argon.Identity.Application.Models;
 using FluentValidation;
 using System;
 
-namespace Argon.Identity.Application.Commands.Validations
+namespace Argon.Identity.Application.Validations
 {
-    public class CreateUserValidation : BaseValidation<CreateUserCommand>
+    public class CustomerUserValidation : BaseValidation<CustomerUserRequest>
     {
-        public CreateUserValidation()
+        public CustomerUserValidation()
         {
             RuleFor(c => c.FirstName)
-                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
+               .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
+               .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
 
             RuleFor(c => c.Surname)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
@@ -33,8 +34,7 @@ namespace Argon.Identity.Application.Commands.Validations
                 .Must(p => Phone.IsValid(p)).WithMessage(Localizer.GetTranslation("InvalidPhone"));
 
             RuleFor(c => c.Gender)
-                .NotEmpty().WithMessage("EmptyGender")
-                .IsInEnum().WithMessage("InvalidGender");
+                .IsInEnum().WithMessage(Localizer.GetTranslation("InvalidGender"));
         }
     }
 }

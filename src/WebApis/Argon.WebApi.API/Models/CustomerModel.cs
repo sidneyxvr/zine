@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.WebApi.API.Requests
 {
-    public class CustomerRequest
+    public class CustomerModel
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

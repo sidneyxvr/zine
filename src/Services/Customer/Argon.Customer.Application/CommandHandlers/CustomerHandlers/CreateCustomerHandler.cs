@@ -1,10 +1,8 @@
 ﻿using Argon.Core.Messages.IntegrationCommands;
-using Argon.Core.Responses;
 using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
 using Argon.Customers.Domain.Events;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

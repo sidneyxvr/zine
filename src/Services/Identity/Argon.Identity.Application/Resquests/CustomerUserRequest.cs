@@ -1,11 +1,10 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages;
-using Argon.Identity.Application.Commands.Validations;
 using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace Argon.Identity.Application.Commands
+namespace Argon.Identity.Application.Models
 {
-    public class CreateUserCommand : Command
+    public class CustomerUserRequest
     {
         public string FirstName { get; private set; }
         public string Surname { get; private set; }
@@ -16,7 +15,7 @@ namespace Argon.Identity.Application.Commands
         public Gender Gender { get; private set; }
         public string Password { get; private set; }
 
-        public CreateUserCommand(string firstName, string surname, string email, string phone, 
+        public CustomerUserRequest(string firstName, string surname, string email, string phone,
             string cpf, DateTime birthDate, Gender gender, string password)
         {
             FirstName = firstName;
@@ -27,12 +26,6 @@ namespace Argon.Identity.Application.Commands
             BirthDate = birthDate;
             Gender = gender;
             Password = password;
-        }
-
-        public override bool IsValid()
-        {
-            ValidationResult = new CreateUserValidation().Validate(this);
-            return ValidationResult.IsValid;
         }
     }
 }

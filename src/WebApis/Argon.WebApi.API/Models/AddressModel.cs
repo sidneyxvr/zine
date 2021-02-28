@@ -2,7 +2,7 @@
 
 namespace Argon.WebApi.API.Requests
 {
-    public class AddressRequest
+    public class AddressModel
     {
         public Guid Id { get; set; }
         public string Street { get; set; }

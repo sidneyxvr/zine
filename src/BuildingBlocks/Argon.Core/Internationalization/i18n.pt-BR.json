@@ -36,5 +36,6 @@
   "EmptyCustomerId": "Informe o identificador do cliente",
   "EmptyAddressId": "Informe o identificador do endereço",
   "EmptyAddress": "Informe o endereço",
-  "CustomerNotFound": "Cliente não encontrado"
+  "CustomerNotFound": "Cliente não encontrado",
+  "InvalidLoginCredentials": "Email ou senha inválido(s)"
 }
