@@ -6,14 +6,8 @@ namespace Argon.Customers.Application.Commands.AddressCommands
 {
     public class DeleteAddressCommand : Command
     {
-        public Guid CustomerId { get; private set; }
-        public Guid AddressId { get; set; }
-
-        public DeleteAddressCommand(Guid customerId, Guid addressId)
-        {
-            CustomerId = customerId;
-            AddressId = addressId;
-        }
+        public Guid CustomerId { get; init; }
+        public Guid AddressId { get; init; }
 
         public override bool IsValid()
         {

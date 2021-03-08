@@ -38,9 +38,20 @@ namespace Argon.Customers.Test.Application.AddressHandlers
 
             var customer = _customerFixture.CreateValidCustomer();
 
-            var command = new CreateAddressCommand(customer.Id, properties.Street, properties.Number, 
-                properties.District, properties.City, properties.State, properties.Country, properties.PostalCode, 
-                properties.Complement, properties.Latitude, properties.Longitude);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = customer.Id,
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Complement = properties.Complement,
+                Latitude = properties.Latitude,
+                Longitude = properties.Longitude,
+            };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
@@ -66,9 +77,20 @@ namespace Argon.Customers.Test.Application.AddressHandlers
 
             var customer = _customerFixture.CreateValidCustomer();
 
-            var command = new CreateAddressCommand(customer.Id, properties.Street, properties.Number,
-                properties.District, properties.City, properties.State, properties.Country, properties.PostalCode,
-                properties.Complement, properties.Latitude, properties.Longitude);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = customer.Id,
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Complement = properties.Complement,
+                Latitude = properties.Latitude,
+                Longitude = properties.Longitude,
+            };
 
             //Act
             var result = await Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
@@ -81,7 +103,18 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task CreateAddressShouldReturnInvalid()
         {
             //Arrange
-            var command = new CreateAddressCommand(Guid.Empty, "", "", "", "", "", "", "", "", null, null);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = Guid.Empty,
+                Street = "",
+                Number = "",
+                District = "",
+                City = "",
+                State = "",
+                Country = "",
+                PostalCode = "",
+                Complement = "",
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -94,7 +127,10 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task CreateAddressNullFieldsShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new CreateAddressCommand(Guid.Empty, null, null, null, null, null, null, null, null, null, null);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = Guid.Empty
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -115,8 +151,18 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task CreateAddressEmptyFielsShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new CreateAddressCommand(Guid.NewGuid(), "",  _faker.Random.ULong(10_000_000_000).ToString(), 
-                "", "", "", "", "", _faker.Lorem.Letter(_faker.Random.Int(51, 100)), null, null);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                Street = "",
+                Number = _faker.Random.ULong(10_000_000_000).ToString(),
+                District = "",
+                City = "",
+                State = "",
+                Country = "",
+                PostalCode = "",
+                Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100)),
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -140,8 +186,19 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
 
-            var command = new CreateAddressCommand(Guid.NewGuid(), properties.Street, properties.Number, properties.District, 
-                properties.City, properties.State, properties.Country, properties.PostalCode, null, 91, 181);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Latitude = 91,
+                Longitude = 181,
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -160,8 +217,18 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
 
-            var command = new CreateAddressCommand(Guid.NewGuid(), properties.Street, properties.Number, properties.District,
-                properties.City, properties.State, properties.Country, properties.PostalCode, null, null, properties.Longitude);
+            var command = new CreateAddressCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Longitude = properties.Longitude,
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);

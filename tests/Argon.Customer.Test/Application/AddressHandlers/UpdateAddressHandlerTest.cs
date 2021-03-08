@@ -41,9 +41,21 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             var address = customer.Addresses
                 .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
 
-            var command = new UpdateAddressCommand(customer.Id, address.Id, properties.Street, properties.Number,
-                properties.District, properties.City, properties.State, properties.Country, properties.PostalCode,
-                properties.Complement, properties.Latitude, properties.Longitude);
+            var command = new UpdateAddressCommand
+            {
+                CustomerId = customer.Id,
+                AddressId = address.Id,
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Complement = properties.Complement,
+                Latitude = properties.Latitude,
+                Longitude = properties.Longitude
+            };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
@@ -69,16 +81,28 @@ namespace Argon.Customers.Test.Application.AddressHandlers
 
             var customer = _customerFixture.CreateValidCustomerWithAddresses();
 
-            var command = new UpdateAddressCommand(customer.Id, properties.Id, properties.Street, properties.Number,
-                properties.District, properties.City, properties.State, properties.Country, properties.PostalCode,
-                properties.Complement, properties.Latitude, properties.Longitude);
+            var command = new UpdateAddressCommand
+            {
+                CustomerId = customer.Id,
+                AddressId = properties.Id,
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Complement = properties.Complement,
+                Latitude = properties.Latitude,
+                Longitude = properties.Longitude
+            };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(customer);
 
             //Act
-            var result = await Assert.ThrowsAsync<NotFoundException>(() => 
+            var result = await Assert.ThrowsAsync<NotFoundException>(() =>
                 _handler.Handle(command, CancellationToken.None));
 
             //Assert
@@ -89,7 +113,19 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task UpdateAddressShouldReturnInvalid()
         {
             //Arrange
-            var command = new UpdateAddressCommand(Guid.Empty, Guid.Empty, "", "", "", "", "", "", "", "", null, null);
+            var command = new UpdateAddressCommand
+            {
+                CustomerId = Guid.Empty,
+                AddressId = Guid.Empty,
+                Street = "",
+                Number = "",
+                District = "",
+                City = "",
+                State = "",
+                Country = "",
+                PostalCode = "",
+                Complement = ""
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -102,7 +138,11 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task UpdateAddressNullFieldsShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new UpdateAddressCommand(Guid.Empty, Guid.Empty, null, null, null, null, null, null, null, null, null, null);
+            var command = new UpdateAddressCommand
+            {
+                CustomerId = Guid.Empty,
+                AddressId = Guid.Empty
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -124,9 +164,19 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task UpdateAddressEmptyFielsShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new UpdateAddressCommand(Guid.NewGuid(), Guid.NewGuid(), "", 
-                _faker.Random.ULong(10_000_000_000).ToString(), "", "", "", "", "", 
-                _faker.Lorem.Letter(_faker.Random.Int(51, 100)), null, null);
+            var command = new UpdateAddressCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                AddressId = Guid.NewGuid(),
+                Street = "",
+                Number = _faker.Random.ULong(10_000_000_000).ToString(),
+                District = "",
+                City = "",
+                State = "",
+                Country = "",
+                PostalCode = "",
+                Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100))
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -150,8 +200,21 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
 
-            var command = new UpdateAddressCommand(Guid.NewGuid(), Guid.NewGuid(), properties.Street, properties.Number, properties.District,
-                properties.City, properties.State, properties.Country, properties.PostalCode, null, 91, 181);
+            var command = new UpdateAddressCommand
+            {
+                AddressId = Guid.NewGuid(),
+                CustomerId = Guid.NewGuid(),
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Complement = null,
+                Latitude = 91,
+                Longitude = 181,
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -170,8 +233,19 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
 
-            var command = new UpdateAddressCommand(Guid.NewGuid(), properties.Id, properties.Street, properties.Number, properties.District,
-                properties.City, properties.State, properties.Country, properties.PostalCode, null, null, properties.Longitude);
+            var command = new UpdateAddressCommand
+            {
+                AddressId = properties.Id,
+                CustomerId = Guid.NewGuid(),
+                Street = properties.Street,
+                Number = properties.Number,
+                District = properties.District,
+                City = properties.City,
+                State = properties.State,
+                Country = properties.Country,
+                PostalCode = properties.PostalCode,
+                Longitude = properties.Longitude,
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);

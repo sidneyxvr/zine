@@ -19,14 +19,8 @@ namespace Argon.WebApi.API.Controllers.V1
         }
 
         [HttpPost("address")]
-        public async Task<IActionResult> AddAddressAsync(AddressModel request)
+        public async Task<IActionResult> AddAddressAsync(CreateAddressCommand command)
         {
-            var customerId = Guid.NewGuid();
-
-            var command = new CreateAddressCommand(customerId, request.Street, request.Number,
-                request.District, request.City, request.State, request.Complement, request.PostalCode, 
-                request.Complement, request.Latitude, request.Longitude);
-
             var result = await _bus.SendAsync(command);
 
             return CustomResponse(result);
@@ -35,33 +29,22 @@ namespace Argon.WebApi.API.Controllers.V1
         [HttpDelete("address/{addressId:Guid}")]
         public async Task<IActionResult> DeleteAddressAsync(Guid addressId)
         {
-            var customerId = Guid.NewGuid();
-            
-            var result = await _bus.SendAsync(new DeleteAddressCommand(customerId, addressId));
+            var result = await _bus.SendAsync(new DeleteAddressCommand { AddressId = addressId });
 
             return CustomResponse(result);
         }
 
         [HttpPut("address")]
-        public async Task<IActionResult> UpdateAddressAsync(AddressModel request)
+        public async Task<IActionResult> UpdateAddressAsync(UpdateAddressCommand command)
         {
-            var customerId = Guid.NewGuid();
-
-            var command = new UpdateAddressCommand(customerId, request.Id, request.Street, request.Number, 
-                request.District, request.City, request.State, request.Complement, request.PostalCode, 
-                request.Complement, request.Latitude, request.Longitude);
-
             var result = await _bus.SendAsync(command);
 
             return CustomResponse(result);
         }
 
         [HttpPatch("define-main-address")]
-        public async Task<IActionResult> DefineMainAddressAsync(AddressModel request)
+        public async Task<IActionResult> DefineMainAddressAsync(DefineMainAddressCommand command)
         {
-            var customerId = Guid.NewGuid();
-            var command = new DefineMainAddressCommand(customerId, request.Id);
-
             var result = await _bus.SendAsync(command);
 
             return CustomResponse(result);

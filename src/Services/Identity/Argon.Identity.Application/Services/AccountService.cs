@@ -49,10 +49,18 @@ namespace Argon.Identity.Services
                 return ValidationResult;
             }
 
-            var requestResult = await _bus.SendAsync(new CreateCustomerCommand(
-                user.Id, request.FirstName, request.Surname, request.Email, 
-                request.Phone, request.Cpf, request.BirthDate, request.Gender));
-
+            var requestResult = await _bus.SendAsync(new CreateCustomerCommand
+            {
+                CustomerId = user.Id,
+                FirstName = request.FirstName,
+                Surname = request.Surname,
+                Email = request.Email,
+                Phone = request.Phone,
+                Cpf = request.Cpf,
+                BirthDate = request.BirthDate,
+                Gender = request.Gender
+            });
+            
             if (!requestResult.IsValid)
             {
                 await _userManager.DeleteAsync(user);

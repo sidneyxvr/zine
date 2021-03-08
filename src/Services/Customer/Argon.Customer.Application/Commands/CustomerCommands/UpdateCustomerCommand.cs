@@ -7,23 +7,12 @@ namespace Argon.Customers.Application.Commands.CustomerCommands
 {
     public class UpdateCustomerCommand : Command
     {
-        public Guid CustomerId { get; private set; }
-        public string FirstName { get; private set; }
-        public string Surname { get; private set; }
-        public string Phone { get; private set; }
-        public DateTime BirthDate { get; private set; }
-        public Gender Gender { get; private set; }
-
-        public UpdateCustomerCommand(Guid customerId, string firstName,
-            string surname, string phone, DateTime birthDate, Gender gender)
-        {
-            CustomerId = customerId;
-            FirstName = firstName;
-            Surname = surname;
-            Phone = phone;
-            BirthDate = birthDate;
-            Gender = gender;
-        }
+        public Guid CustomerId { get; init; }
+        public string FirstName { get; init; }
+        public string Surname { get; init; }
+        public string Phone { get; init; }
+        public DateTime BirthDate { get; init; }
+        public Gender Gender { get; init; }
 
         public override bool IsValid()
         {

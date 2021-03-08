@@ -37,7 +37,7 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             var address = customer.Addresses
                 .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
 
-            var command = new DefineMainAddressCommand(Guid.NewGuid(), address.Id);
+            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = address.Id };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
@@ -60,7 +60,7 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task DeleteAddressShouldReturnInvalid()
         {
             //Arrange
-            var command = new DefineMainAddressCommand(Guid.Empty, Guid.Empty);
+            var command = new DefineMainAddressCommand { CustomerId = Guid.Empty, AddressId = Guid.Empty };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -76,7 +76,7 @@ namespace Argon.Customers.Test.Application.AddressHandlers
         public async Task DefineMainAddressShouldThrowNotFoundCustomer()
         {
             //Arrange
-            var command = new DefineMainAddressCommand(Guid.NewGuid(), Guid.NewGuid());
+            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = Guid.NewGuid() };
 
             //Act
             var result = await Assert.ThrowsAsync<NotFoundException>(() =>
@@ -94,7 +94,7 @@ namespace Argon.Customers.Test.Application.AddressHandlers
             var address = customer.Addresses
                 .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
 
-            var command = new DefineMainAddressCommand(Guid.NewGuid(), Guid.NewGuid());
+            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = Guid.NewGuid() };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))

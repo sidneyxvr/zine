@@ -33,8 +33,15 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         {
             //Arrange
             var props = _customerFixture.GetCustomerTestDTO();
-            var command = new UpdateCustomerCommand(Guid.NewGuid(), props.FirstName,
-                props.Surname, props.Phone, props.BirthDate, props.Gender);
+            var command = new UpdateCustomerCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                FirstName = props.FirstName,
+                Surname = props.Surname,
+                Phone = props.Phone,
+                BirthDate = props.BirthDate,
+                Gender = props.Gender
+            };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(r => r.UnitOfWork.CommitAsync())
@@ -55,8 +62,12 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         public async Task UpdateCustomerNullPropertiesShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new UpdateCustomerCommand(Guid.Empty, null, 
-                null, null, DateTime.Now.AddYears(-19), Gender.Other);
+            var command = new UpdateCustomerCommand
+            {
+                CustomerId = Guid.Empty,
+                BirthDate = DateTime.Now.AddYears(-19),
+                Gender = Gender.Other
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -72,8 +83,15 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         public async Task UpdateCustomerInvalidPropertiesShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new UpdateCustomerCommand(Guid.Empty, _faker.Random.String2(Name.MaxLengthFirstName + 1),
-                _faker.Random.String2(Name.MaxLengthSurname + 1), _faker.Person.Email, DateTime.Now, 0);
+            var command = new UpdateCustomerCommand
+            {
+                CustomerId = Guid.Empty,
+                FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
+                Surname = _faker.Random.String2(Name.MaxLengthSurname + 1),
+                Phone = _faker.Person.Email,
+                BirthDate = DateTime.Now,
+                Gender = 0
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);

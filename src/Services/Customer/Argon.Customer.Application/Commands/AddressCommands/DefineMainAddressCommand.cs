@@ -6,14 +6,8 @@ namespace Argon.Customers.Application.Commands.AddressCommands
 {
     public class DefineMainAddressCommand : Command
     {
-        public Guid CustomerId { get; private set; }
-        public Guid AddressId { get; private set; }
-
-        public DefineMainAddressCommand(Guid customerId, Guid addressId)
-        {
-            CustomerId = customerId;
-            AddressId = addressId;
-        }
+        public Guid CustomerId { get; init; }
+        public Guid AddressId { get; init; }
 
         public override bool IsValid()
         {

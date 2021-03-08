@@ -33,8 +33,17 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         {
             //Arrange
             var props = _customerFixture.GetCustomerTestDTO();
-            var command = new CreateCustomerCommand(Guid.NewGuid(), props.FirstName, 
-                props.Surname, props.Email, props.Phone, props.Cpf, props.BirthDate, props.Gender);
+            var command = new CreateCustomerCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                FirstName = props.FirstName,
+                Surname = props.Surname,
+                Email = props.Email,
+                Phone = props.Phone,
+                Cpf = props.Cpf,
+                BirthDate = props.BirthDate,
+                Gender = props.Gender
+            };
 
             _mocker.GetMock<ICustomerRepository>()
                 .Setup(r => r.UnitOfWork.CommitAsync())
@@ -51,7 +60,12 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         public async Task CreateCustomerNullPropertiesShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new CreateCustomerCommand(Guid.Empty, null, null, null, null, null, DateTime.Now.AddYears(-19), Gender.Other);
+            var command = new CreateCustomerCommand
+            {
+                CustomerId = Guid.Empty,
+                BirthDate = DateTime.Now.AddYears(-19),
+                Gender = Gender.Other
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -69,8 +83,17 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         public async Task CreateCustomerShouldReturnInvalidWithErrorList()
         {
             //Arrange
-            var command = new CreateCustomerCommand(Guid.Empty, _faker.Random.String2(Name.MaxLengthFirstName + 1), 
-                _faker.Random.String2(Name.MaxLengthSurname + 1), "a@b", "999", "12345678900", DateTime.Now, 0);
+            var command = new CreateCustomerCommand
+            {
+                CustomerId = Guid.Empty,
+                FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
+                Surname = _faker.Random.String2(Name.MaxLengthSurname + 1),
+                Email = "a@b",
+                Phone = "999",
+                Cpf = "12345678900",
+                BirthDate = DateTime.Now,
+                Gender = 0
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -92,8 +115,16 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
         {
             //Arrange
             var props = _customerFixture.GetCustomerTestDTO();
-            var command = new CreateCustomerCommand(Guid.NewGuid(), props.FirstName, 
-                props.Surname, _faker.Person.FullName, props.Phone, props.Cpf, props.BirthDate, props.Gender);
+            var command = new CreateCustomerCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                FirstName = props.FirstName,
+                Surname = props.Surname,
+                Email = _faker.Person.FullName,
+                Cpf = props.Cpf,
+                BirthDate = props.BirthDate,
+                Gender = props.Gender
+            };
 
             //Act
             var result = await _handler.Handle(command, CancellationToken.None);

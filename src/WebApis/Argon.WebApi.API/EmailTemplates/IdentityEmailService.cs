@@ -10,7 +10,7 @@ namespace Argon.WebApi.API.TemplateEmails
     {
         private readonly IFluentEmail _emailSender;
         private readonly Localizer _localizer;
-        private bool _sendEmail = false;
+        private bool _sendEmail;
 
         private const string _folderBase = "EmailTemplates";
 
@@ -18,6 +18,7 @@ namespace Argon.WebApi.API.TemplateEmails
         {
             _emailSender = emailSender;
             _localizer = Localizer.GetLocalizer();
+            _sendEmail = false;
         }
 
         public async Task SendEmailConfirmationAccountAsync(string to, string emailConfirmationToken)
