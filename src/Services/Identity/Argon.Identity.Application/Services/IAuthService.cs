@@ -1,8 +1,8 @@
-﻿using Argon.Identity.Application.Models;
-using Argon.Identity.Application.Responses;
+﻿using Argon.Identity.Requests;
+using Argon.Identity.Responses;
 using System.Threading.Tasks;
 
-namespace Argon.Identity.Application.Services
+namespace Argon.Identity.Services
 {
     public interface IAuthService
     {

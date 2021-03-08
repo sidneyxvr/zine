@@ -1,12 +1,12 @@
-﻿using Argon.Core.Messages.IntegrationCommands.Validations;
+﻿using Argon.Core.Messages.IntegrationCommands.Validators;
 using Argon.Customers.Application.Commands.AddressCommands;
 using FluentValidation;
 
-namespace Argon.Customers.Application.Commands.Validations.AddressValidations
+namespace Argon.Customers.Application.Commands.Validators.AddressValidators
 {
-    public class CreateAddressValidation : BaseValidation<CreateAddressCommand>
+    public class UpdateAddressValidator : BaseValidator<UpdateAddressCommand>
     {
-        public CreateAddressValidation()
+        public UpdateAddressValidator()
         {
             RuleFor(a => a.City)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyCity"))
@@ -37,6 +37,9 @@ namespace Argon.Customers.Application.Commands.Validations.AddressValidations
 
             RuleFor(a => a.Complement)
                 .MaximumLength(50).WithMessage(Localizer.GetTranslation("ComplementMaxLength"));
+
+            RuleFor(a => a.AddressId)
+               .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyAddressId"));
 
             RuleFor(a => a.CustomerId)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCustomerId"));

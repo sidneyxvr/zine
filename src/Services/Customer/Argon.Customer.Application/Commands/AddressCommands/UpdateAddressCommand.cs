@@ -1,5 +1,5 @@
 ﻿using Argon.Core.Messages;
-using Argon.Customers.Application.Commands.Validations.AddressValidations;
+using Argon.Customers.Application.Commands.Validators.AddressValidators;
 using System;
 
 namespace Argon.Customers.Application.Commands.AddressCommands
@@ -39,7 +39,7 @@ namespace Argon.Customers.Application.Commands.AddressCommands
 
         public override bool IsValid()
         {
-            ValidationResult = new UpdateAddressValidation().Validate(this);
+            ValidationResult = new UpdateAddressValidator().Validate(this);
             return ValidationResult.IsValid;
         }
     }

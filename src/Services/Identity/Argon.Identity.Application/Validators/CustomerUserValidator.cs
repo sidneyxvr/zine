@@ -1,14 +1,14 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages.IntegrationCommands.Validations;
-using Argon.Identity.Application.Models;
+using Argon.Core.Messages.IntegrationCommands.Validators;
+using Argon.Identity.Requests;
 using FluentValidation;
 using System;
 
-namespace Argon.Identity.Application.Validations
+namespace Argon.Identity.Validators
 {
-    public class CustomerUserValidation : BaseValidation<CustomerUserRequest>
+    public class CustomerUserValidator : BaseValidator<CustomerUserRequest>
     {
-        public CustomerUserValidation()
+        public CustomerUserValidator()
         {
             RuleFor(c => c.FirstName)
                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))

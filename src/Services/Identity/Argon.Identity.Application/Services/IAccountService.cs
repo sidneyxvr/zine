@@ -1,11 +1,16 @@
-﻿using Argon.Identity.Application.Models;
-using Argon.Identity.Application.Responses;
+﻿using Argon.Identity.Requests;
+using FluentValidation.Results;
 using System.Threading.Tasks;
 
-namespace Argon.Identity.Application.Services
+namespace Argon.Identity.Services
 {
     public interface IAccountService
     {
-        Task<IdentityResponse> CreateCustomerUserAsync(CustomerUserRequest request);
+        Task<ValidationResult> SendResetPasswordAsync(EmailRequest request);
+        Task<ValidationResult> ResetPasswordAsync(ResetPasswordRequest request);
+        Task<ValidationResult> ResendConfirmAccountEmailAsync(EmailRequest request);
+        Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request);
+        Task<ValidationResult> ConfirmAccountEmailAsync(AccountEmailConfirmationRequest request);
+        Task<ValidationResult> UpdateTwoFactorAuthenticationAsync(UpdateTwoFactorAuthenticationRequest request);
     }
 }

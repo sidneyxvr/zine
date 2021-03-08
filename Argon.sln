@@ -51,13 +51,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Customers.Domain", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Customers.Infra.Data", "src\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj", "{C4EC0D34-E3F9-4A76-B65C-DC74FD85C5DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Identity.Application", "src\Services\Identity\Argon.Identity.Application\Argon.Identity.Application.csproj", "{9B626632-903C-416C-98F9-0134C54F2A57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Identity", "src\Services\Identity\Argon.Identity.Application\Argon.Identity.csproj", "{9B626632-903C-416C-98F9-0134C54F2A57}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Customers.Test", "tests\Argon.Customer.Test\Argon.Customers.Test.csproj", "{22E8AD9D-AC58-4561-B0AC-C623B4F04D62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Core.Test", "tests\Argon.Core.Test\Argon.Core.Test.csproj", "{ECE1DC89-C3B7-496C-9D8F-351CFDB941FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Identity.Test", "tests\Argon.Identity.Test\Argon.Identity.Test.csproj", "{B80A8756-4405-4F1E-B72E-A3F528090E43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Identity.Test", "tests\Argon.Identity.Test\Argon.Identity.Test.csproj", "{B80A8756-4405-4F1E-B72E-A3F528090E43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

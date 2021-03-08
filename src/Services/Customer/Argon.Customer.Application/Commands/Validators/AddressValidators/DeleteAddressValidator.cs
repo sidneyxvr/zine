@@ -1,12 +1,12 @@
-﻿using Argon.Core.Messages.IntegrationCommands.Validations;
+﻿using Argon.Core.Messages.IntegrationCommands.Validators;
 using Argon.Customers.Application.Commands.AddressCommands;
 using FluentValidation;
 
-namespace Argon.Customers.Application.Commands.Validations.AddressValidations
+namespace Argon.Customers.Application.Commands.Validators.AddressValidators
 {
-    public class DefineMainAddressValidation : BaseValidation<DefineMainAddressCommand>
+    public class DeleteAddressValidator : BaseValidator<DeleteAddressCommand>
     {
-        public DefineMainAddressValidation()
+        public DeleteAddressValidator()
         {
             RuleFor(a => a.CustomerId)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCustomerId"));

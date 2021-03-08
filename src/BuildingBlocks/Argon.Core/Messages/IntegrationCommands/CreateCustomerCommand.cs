@@ -1,5 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages.IntegrationCommands.Validations;
+using Argon.Core.Messages.IntegrationCommands.Validators;
 using System;
 
 namespace Argon.Core.Messages.IntegrationCommands
@@ -14,6 +14,7 @@ namespace Argon.Core.Messages.IntegrationCommands
         public string Cpf { get; private set; }
         public DateTime BirthDate { get; private set; }
         public Gender Gender { get; private set; }
+        public string ConfirmationToken { get; private set; }
 
         public CreateCustomerCommand(Guid customerId, string firstName, string surname,
             string email, string phone, string cpf, DateTime birthDate, Gender gender)
@@ -30,7 +31,7 @@ namespace Argon.Core.Messages.IntegrationCommands
 
         public override bool IsValid()
         {
-            ValidationResult = new CreateCustomerValidation().Validate(this);
+            ValidationResult = new CreateCustomerValidator().Validate(this);
             return ValidationResult.IsValid;
         }
     }

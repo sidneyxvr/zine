@@ -2,11 +2,11 @@
 using FluentValidation;
 using System;
 
-namespace Argon.Core.Messages.IntegrationCommands.Validations
+namespace Argon.Core.Messages.IntegrationCommands.Validators
 {
-    public class CreateCustomerValidation : BaseValidation<CreateCustomerCommand>
+    public class CreateCustomerValidator : BaseValidator<CreateCustomerCommand>
     {
-        public CreateCustomerValidation()
+        public CreateCustomerValidator()
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))

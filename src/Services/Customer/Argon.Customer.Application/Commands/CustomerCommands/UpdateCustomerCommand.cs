@@ -1,6 +1,6 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages;
-using Argon.Customers.Application.Commands.Validations.CustomerValidations;
+using Argon.Customers.Application.Commands.Validators.CustomerValidators;
 using System;
 
 namespace Argon.Customers.Application.Commands.CustomerCommands
@@ -27,7 +27,7 @@ namespace Argon.Customers.Application.Commands.CustomerCommands
 
         public override bool IsValid()
         {
-            ValidationResult = new UpdateCustomerValidation().Validate(this);
+            ValidationResult = new UpdateCustomerValidator().Validate(this);
             return ValidationResult.IsValid;
         }
     }

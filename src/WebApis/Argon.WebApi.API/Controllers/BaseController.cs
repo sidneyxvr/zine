@@ -1,4 +1,4 @@
-﻿using Argon.Identity.Application.Responses;
+﻿using Argon.Identity.Responses;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -14,24 +14,28 @@ namespace Argon.WebApi.API.Controllers
             {
                 var errors = result.Errors
                     .GroupBy(e => e.PropertyName)
-                    .ToDictionary(e => char.ToLower(e.Key[0]) + e.Key[1..], e => e.Select(m => m.ErrorMessage).ToArray());
+                    .ToDictionary(e => string.IsNullOrWhiteSpace(e.Key) ? 
+                        "generic": 
+                        char.ToLower(e.Key[0]) + e.Key[1..], e => e.Select(m => m.ErrorMessage).ToArray());
                 return BadRequest(new ValidationProblemDetails(errors));
             }
 
             return Ok();
         }
 
-        protected IActionResult CustomResponse(IdentityResponse result)
+        protected IActionResult CustomResponse<T>(IdentityResponse<T> response)
         {
-            if (!result.ValidationResult.IsValid)
+            if (!response.ValidationResult.IsValid)
             {
-                var errors = result.ValidationResult.Errors
+                var errors = response.ValidationResult.Errors
                     .GroupBy(e => e.PropertyName)
-                    .ToDictionary(e => char.ToLower(e.Key[0]) + e.Key[1..], e => e.Select(m => m.ErrorMessage).ToArray());
+                    .ToDictionary(e => string.IsNullOrWhiteSpace(e.Key) ?
+                        "generic" :
+                        char.ToLower(e.Key[0]) + e.Key[1..], e => e.Select(m => m.ErrorMessage).ToArray());
                 return BadRequest(new ValidationProblemDetails(errors));
             }
 
-            return Ok();
+            return Ok(response.Result);
         }
     }
 }

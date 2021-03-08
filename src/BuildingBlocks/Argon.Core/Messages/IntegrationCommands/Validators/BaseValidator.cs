@@ -1,13 +1,13 @@
 ﻿using Argon.Core.Internationalization;
 using FluentValidation;
 
-namespace Argon.Core.Messages.IntegrationCommands.Validations
+namespace Argon.Core.Messages.IntegrationCommands.Validators
 {
-    public abstract class BaseValidation<T> : AbstractValidator<T>
+    public abstract class BaseValidator<T> : AbstractValidator<T>
     {
         protected Localizer Localizer;
 
-        public BaseValidation()
+        public BaseValidator()
         {
             Localizer = Localizer.GetLocalizer();
         }

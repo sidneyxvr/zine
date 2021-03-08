@@ -261,3 +261,4 @@ paket-files/
 __pycache__/
 *.pyc
 /src/Healin.API/wwwroot/imagens
+/src/UI/Argon.UI.Web

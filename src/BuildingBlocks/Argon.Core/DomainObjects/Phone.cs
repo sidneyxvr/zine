@@ -18,7 +18,7 @@ namespace Argon.Core.DomainObjects
         }
 
         public static implicit operator Phone(string number)
-            => new Phone(number);
+            => new(number);
 
         public static bool IsValid(string phone)
         {

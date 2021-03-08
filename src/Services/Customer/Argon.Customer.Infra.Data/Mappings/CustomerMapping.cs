@@ -10,6 +10,8 @@ namespace Argon.Customers.Infra.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
+            builder.ToTable(nameof(Customer));
+
             builder.Ignore(c => c.DomainEvents);
 
             builder.HasQueryFilter(c => !c.IsDelete);

@@ -1,4 +1,4 @@
-﻿namespace Argon.Identity.Application.Responses
+﻿namespace Argon.Identity.Responses
 {
     public class UserClaimResponse
     {

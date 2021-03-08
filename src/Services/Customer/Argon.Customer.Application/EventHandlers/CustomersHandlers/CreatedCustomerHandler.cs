@@ -10,7 +10,6 @@ namespace Argon.Customers.Application.EventHandlers.CustomersHandlers
         public async Task Handle(CreatedCustomerEvent notification, CancellationToken cancellationToken)
         {
             await Task.Delay(500, cancellationToken);
-            System.Console.WriteLine("Email enviado com sucesso");
         }
     }
 }

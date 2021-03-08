@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Argon.Identity.Application.Responses
+namespace Argon.Identity.Responses
 {
     public class UserTokenResponse
     {

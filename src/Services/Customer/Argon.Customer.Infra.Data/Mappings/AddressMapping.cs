@@ -9,6 +9,8 @@ namespace Argon.Customers.Infra.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
+            builder.ToTable(nameof(Address));
+
             builder.Property(a => a.City)
                 .HasColumnType("varchar(40)")
                 .IsRequired();
@@ -45,7 +47,7 @@ namespace Argon.Customers.Infra.Data.Mappings
             {
                 e.Property("_coordinate")
                     .HasColumnName("Location")
-                    .HasColumnType("geography (point)");
+                    .HasColumnType("geography");
             });
         }
     }

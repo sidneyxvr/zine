@@ -37,5 +37,16 @@
   "EmptyAddressId": "Informe o identificador do endereço",
   "EmptyAddress": "Informe o endereço",
   "CustomerNotFound": "Cliente não encontrado",
-  "InvalidLoginCredentials": "Email ou senha inválido(s)"
+  "EmptyPassword": "Informe a senha",
+  "InvalidLoginCredentials": "Email ou senha inválido(s)",
+  "CannotConfirmEmailAccount": "Não foi possível confirmar seu email",
+  "CannotResendConfirmEmailAccount": "Não foi possível reenviar email de confirmação",
+  "CannotSendResetPassword": "Não foi possível enviar email de recuperação de senha",
+  "CannotResetPassword": "Não foi possível recuperar sua senha",
+  "ConfirmationAccountSubject": "Confirmação de registro de conta",
+  "ResetPasswordSubject": "Redefina sua senha",
+  "TwoFactorAuthenticationSubject": "Autenticação de dois fatores",
+  "CannotEnableTwoFactorAuthentication": "Não foi possível habilitar a altenticação por dois fatores",
+  "CannotDisableTwoFactorAuthentication": "Não foi possível desabilitar a altenticação por dois fatores",
+  "CannotAuthenticate": "Não foi possível realizar o login"
 }
