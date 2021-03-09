@@ -1,10 +1,10 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.Internationalization;
 using Argon.Core.Messages.IntegrationCommands;
+using Argon.Identity.Models;
 using Argon.Identity.Requests;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,12 +14,12 @@ namespace Argon.Identity.Services
     {
         private readonly IBus _bus;
         private readonly IEmailService _emailService;
-        private readonly UserManager<IdentityUser<Guid>> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountService(
             IBus bus, 
             IEmailService emailService, 
-            UserManager<IdentityUser<Guid>> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             _bus = bus;
             _userManager = userManager;
@@ -33,12 +33,13 @@ namespace Argon.Identity.Services
                 return ValidationResult;
             }
 
-            var user = new IdentityUser<Guid>
+            var user = new ApplicationUser
             {
                 Email = request.Email,
                 UserName = request.Email,
                 PhoneNumber = request.Phone,
                 LockoutEnabled = true,
+                IsActive = true
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

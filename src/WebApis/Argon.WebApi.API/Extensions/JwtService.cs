@@ -12,11 +12,11 @@ using System.Text;
 
 namespace Argon.WebApi.API.Extensions
 {
-    public class TokenService : ITokenService
+    public class JwtService : ITokenService
     {
         private readonly JwtSettings _jwtSettings;
 
-        public TokenService(IOptions<JwtSettings> jwtSettings)
+        public JwtService(IOptions<JwtSettings> jwtSettings)
         {
             _jwtSettings = jwtSettings.Value;
         }

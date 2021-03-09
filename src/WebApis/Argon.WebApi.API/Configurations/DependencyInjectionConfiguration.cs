@@ -14,10 +14,15 @@ using Argon.WebApi.API.Extensions;
 using Argon.WebApi.API.TemplateEmails;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace Argon.WebApi.API.Configurations
 {
@@ -26,7 +31,7 @@ namespace Argon.WebApi.API.Configurations
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR(typeof(Startup).Assembly);
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IBus, InMemoryBus>();
 
             //Customers
@@ -43,10 +48,36 @@ namespace Argon.WebApi.API.Configurations
             services.AddScoped<CustomerContext>();
 
             //Identity
+            var jwtSettingsSection = configuration.GetSection(nameof(JwtSettings));
+            services.Configure<JwtSettings>(jwtSettingsSection);
+
+            var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = jwtSettings.ValidOn,
+                    ValidIssuer = jwtSettings.Emitter
+                };
+            });
+
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ITokenService, JwtService>();
             services.AddScoped<IEmailService, IdentityEmailService>();
+            //services.AddScoped<Identity.Managers.SignInManager>();
 
             var emailSenderSettingsSection = configuration.GetSection(nameof(EmailSenderSettings));
             var emailSenderSettings = emailSenderSettingsSection.Get<EmailSenderSettings>();

@@ -1,9 +1,9 @@
-﻿using Argon.Identity.Requests;
+﻿using Argon.Identity.Managers;
+using Argon.Identity.Models;
+using Argon.Identity.Requests;
 using Argon.Identity.Responses;
 using Argon.Identity.Validators;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,13 +13,13 @@ namespace Argon.Identity.Services
     public class AuthService : BaseService, IAuthService
     {
         private readonly ITokenService _tokenService;
-        private readonly UserManager<IdentityUser<Guid>> _userManager;
-        private readonly SignInManager<IdentityUser<Guid>> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthService(
             ITokenService tokenService,
-            UserManager<IdentityUser<Guid>> userManager,
-            SignInManager<IdentityUser<Guid>> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -34,23 +34,30 @@ namespace Argon.Identity.Services
                 return validationResult;
             }
 
-            var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
+            var user = await _userManager.FindByEmailAsync(request.Email);
+
+            if (user is null)
+            {
+                return NotifyError(Localizer.GetTranslation("InvalidLoginCredentials"));
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+
+            if (result.IsNotAllowed)
+            {
+                //TODO: return email not confirmed
+            }
 
             if (!result.Succeeded)
             {
-                validationResult.Errors.Add(
-                    new ValidationFailure(string.Empty, Localizer.GetTranslation("InvalidLoginCredentials")));
-
-                return validationResult;
+                return NotifyError(Localizer.GetTranslation("InvalidLoginCredentials"));
             }
 
-            return new IdentityResponse<UserLoginResponse>(await GenerateJwtAsync(request.Email));
+            return new IdentityResponse<UserLoginResponse>(await GenerateJwtAsync(user));
         }
 
-        private async Task<UserLoginResponse> GenerateJwtAsync(string email)
+        private async Task<UserLoginResponse> GenerateJwtAsync(ApplicationUser user)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-
             var claims = (await _userManager.GetRolesAsync(user))
                 .Select(role => new Claim("role", role))
                 .ToList();

@@ -1,6 +1,6 @@
 ﻿using Argon.Core.Communication;
 using Argon.Customers.Application.Commands.AddressCommands;
-using Argon.WebApi.API.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ namespace Argon.WebApi.API.Controllers.V1
 {
     [Route("api/customers")]
     [ApiController]
+    [Authorize(Roles = "Customer")]
     public class CustomersController : BaseController
     {
         private readonly IBus _bus;
