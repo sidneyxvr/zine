@@ -10,7 +10,7 @@ namespace Argon.WebApi.API.TemplateEmails
     {
         private readonly IFluentEmail _emailSender;
         private readonly Localizer _localizer;
-        private bool _sendEmail;
+        private readonly bool _sendEmail;
 
         private const string _folderBase = "EmailTemplates";
 
@@ -24,6 +24,13 @@ namespace Argon.WebApi.API.TemplateEmails
         public async Task SendEmailConfirmationAccountAsync(string to, string emailConfirmationToken)
         {
             if (!_sendEmail) return;
+
+            if(string.IsNullOrWhiteSpace(to) ||
+                !Core.DomainObjects.Email.IsValid(to) ||
+                string.IsNullOrWhiteSpace(emailConfirmationToken) )
+            {
+                return;
+            }
 
             var model = new { Token = emailConfirmationToken };
 
@@ -39,6 +46,13 @@ namespace Argon.WebApi.API.TemplateEmails
         public async Task SendEmailResetPasswordAsync(string to, string resetPasswordToken)
         {
             if (!_sendEmail) return;
+
+            if (string.IsNullOrWhiteSpace(to) ||
+                !Core.DomainObjects.Email.IsValid(to) ||
+                string.IsNullOrWhiteSpace(resetPasswordToken))
+            {
+                return;
+            }
 
             var model = new { Token = resetPasswordToken };
 

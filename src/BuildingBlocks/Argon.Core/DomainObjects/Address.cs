@@ -1,6 +1,4 @@
-﻿using Argon.Core.DomainObjects;
-
-namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
+﻿namespace Argon.Core.DomainObjects
 {
     public class Address : Entity
     {
@@ -70,6 +68,11 @@ namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
 
             AssertionConcern.AssertArgumentNotEmpty(Country, Localizer.GetTranslation("EmptyCountry"));
             AssertionConcern.AssertArgumentRange(Country, 2, 50, Localizer.GetTranslation("CountryOutOfRange"));
+        }
+
+        public override string ToString()
+        {
+            return $"{Street}, {Number} - {District}, {City} - {State}";
         }
     }
 }

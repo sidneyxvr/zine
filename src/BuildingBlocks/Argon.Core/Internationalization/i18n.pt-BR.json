@@ -6,8 +6,8 @@
   "EmptyCPF": "Informe o CPF",
   "EmptyFirstName": "Informe o nome",
   "EmptySurname": "Informe o sobrenome",
-  "MaxLengthFirstName": "O nome de deve ter no máximo {0} caracteres",
-  "MaxLengthSurname": "O sobrenome de deve ter no máximo {0} caracteres",
+  "MaxLengthFirstName": "O nome deve ter no máximo {0} caracteres",
+  "MaxLengthSurname": "O sobrenome deve ter no máximo {0} caracteres",
   "MinBirthDate": "A idade mínima permitida é {0} anos",
   "MaxBirthDate": "A idade máxima permitida é {0} anos",
   "EmptyBirthDate": "A data de Nascimento é obrigatório",
@@ -38,6 +38,7 @@
   "EmptyAddress": "Informe o endereço",
   "CustomerNotFound": "Cliente não encontrado",
   "EmptyPassword": "Informe a senha",
+  "PasswordOutOfRange": "A senha deve ter entre 8 e 15 caracteres",
   "InvalidLoginCredentials": "Email ou senha inválido(s)",
   "CannotConfirmEmailAccount": "Não foi possível confirmar seu email",
   "CannotResendConfirmEmailAccount": "Não foi possível reenviar email de confirmação",
@@ -48,5 +49,7 @@
   "TwoFactorAuthenticationSubject": "Autenticação de dois fatores",
   "CannotEnableTwoFactorAuthentication": "Não foi possível habilitar a altenticação por dois fatores",
   "CannotDisableTwoFactorAuthentication": "Não foi possível desabilitar a altenticação por dois fatores",
-  "CannotAuthenticate": "Não foi possível realizar o login"
+  "CannotAuthenticate": "Não foi possível realizar o login",
+  "CannotRefreshToken": "Não foi possível atualizar o token de acesso",
+  "EmptyToken": "Forneça o token"
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.Identity.Models
 {
-    public class ApplicationRole : IdentityRole<Guid>
+    public class Role : IdentityRole<Guid>
     {
     }
 }

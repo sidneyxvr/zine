@@ -1,7 +1,7 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages;
 using Argon.Customers.Application.Commands.AddressCommands;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using Argon.Customers.Domain;
 using FluentValidation.Results;
 using MediatR;
 using System.Threading;

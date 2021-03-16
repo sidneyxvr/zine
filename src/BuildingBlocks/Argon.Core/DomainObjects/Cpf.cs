@@ -1,4 +1,5 @@
 ﻿using Argon.Core.Utils;
+using System;
 using System.Collections.Generic;
 
 namespace Argon.Core.DomainObjects
@@ -26,7 +27,7 @@ namespace Argon.Core.DomainObjects
         {
             if (cpf is null)
             {
-                return true;
+                throw new ArgumentNullException(nameof(cpf));
             }
 
             cpf = cpf.OnlyNumbers();

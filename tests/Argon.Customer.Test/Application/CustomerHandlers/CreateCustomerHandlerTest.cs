@@ -1,7 +1,7 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands;
 using Argon.Customers.Application.CommandHandlers.CustomerHandlers;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using Argon.Customers.Domain;
 using Argon.Customers.Test.Fixtures;
 using Bogus;
 using Moq;
@@ -101,8 +101,8 @@ namespace Argon.Customers.Test.Application.CustomerHandlers
             //Assert
             Assert.False(result.IsValid);
             Assert.Equal(7, result.Errors.Count);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O nome de deve ter no máximo 50 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O sobrenome de deve ter no máximo 50 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O nome deve ter no máximo 50 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O sobrenome deve ter no máximo 50 caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CPF inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O email deve ter entre 5 e 254 caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));

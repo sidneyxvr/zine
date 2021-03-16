@@ -14,12 +14,12 @@ namespace Argon.Identity.Services
     {
         private readonly IBus _bus;
         private readonly IEmailService _emailService;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
         public AccountService(
             IBus bus, 
             IEmailService emailService, 
-            UserManager<ApplicationUser> userManager)
+            UserManager<User> userManager)
         {
             _bus = bus;
             _userManager = userManager;
@@ -33,7 +33,7 @@ namespace Argon.Identity.Services
                 return ValidationResult;
             }
 
-            var user = new ApplicationUser
+            var user = new User
             {
                 Email = request.Email,
                 UserName = request.Email,
@@ -77,7 +77,7 @@ namespace Argon.Identity.Services
             return ValidationResult;
         }
 
-        public async Task<ValidationResult> ConfirmAccountEmailAsync(AccountEmailConfirmationRequest request)
+        public async Task<ValidationResult> ConfirmEmailAccountAsync(EmailAccountConfirmationRequest request)
         {
             if (IsInvalid(request))
             {
@@ -98,7 +98,7 @@ namespace Argon.Identity.Services
                 NotifyError(Localizer.GetTranslation("CannotConfirmEmailAccount"));
         }
 
-        public async Task<ValidationResult> ResendConfirmAccountEmailAsync(EmailRequest request)
+        public async Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request)
         {
             if (IsInvalid(request))
             {
@@ -159,31 +159,6 @@ namespace Argon.Identity.Services
             return result.Succeeded ? 
                 ValidationResult : 
                 NotifyError(Localizer.GetTranslation("CannotResetPassword"));
-        }
-
-        public async Task<ValidationResult> UpdateTwoFactorAuthenticationAsync(UpdateTwoFactorAuthenticationRequest request)
-        {
-            if (IsInvalid(request))
-            {
-                return ValidationResult;
-            }
-
-            var user = await _userManager.FindByEmailAsync(request.Email);
-
-            if (user is null || !user.EmailConfirmed)
-            {
-                return NotifyError(request.EnableTwoFactorAuthentication ?
-                    Localizer.GetTranslation("CannotEnableTwoFactorAuthentication") :
-                    Localizer.GetTranslation("CannotDisableTwoFactorAuthentication"));
-            }
-
-            var result = await _userManager.SetTwoFactorEnabledAsync(user, request.EnableTwoFactorAuthentication);
-
-            return result.Succeeded ? 
-                ValidationResult : 
-                NotifyError(request.EnableTwoFactorAuthentication ?
-                    Localizer.GetTranslation("CannotEnableTwoFactorAuthentication") :
-                    Localizer.GetTranslation("CannotDisableTwoFactorAuthentication"));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Argon.Core.Data;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using Argon.Core.DomainObjects;
+using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;

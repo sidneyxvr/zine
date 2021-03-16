@@ -1,9 +1,8 @@
 using Argon.Customers.Infra.Data;
+using Argon.Identity.Configurations;
 using Argon.Identity.Data;
-using Argon.Identity.Managers;
 using Argon.Identity.Models;
 using Argon.WebApi.API.Configurations;
-using Argon.WebApi.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -49,7 +48,7 @@ namespace Argon.WebApi.API
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;

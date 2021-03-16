@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Argon.Core.DomainObjects
@@ -24,7 +25,7 @@ namespace Argon.Core.DomainObjects
         {
             if (phone is null)
             {
-                return true;
+                throw new ArgumentNullException(nameof(phone));
             }
 
             var regexEmail = new Regex(@"^[1-9]{2}9[1-9][0-9]{7}$");

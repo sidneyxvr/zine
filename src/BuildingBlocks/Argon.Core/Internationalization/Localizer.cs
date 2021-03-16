@@ -28,7 +28,7 @@ namespace Argon.Core.Internationalization
                     Resources =
                     JsonSerializer.Deserialize<Dictionary<string, string>>(
                         File.ReadAllText(
-                            Path.Combine(pathBase, folder, "i18n.en-US.json"), 
+                            Path.Combine(pathBase, folder, "i18n.en-US.json"),
                             Encoding.UTF8))
                 },
 
@@ -38,7 +38,7 @@ namespace Argon.Core.Internationalization
                     Resources =
                     JsonSerializer.Deserialize<Dictionary<string, string>>(
                         File.ReadAllText(
-                            Path.Combine(pathBase, folder, "i18n.pt-BR.json"), 
+                            Path.Combine(pathBase, folder, "i18n.pt-BR.json"),
                             Encoding.GetEncoding("iso-8859-1")))
                 }
             };
@@ -50,11 +50,15 @@ namespace Argon.Core.Internationalization
         }
 
         public string GetTranslation(string name)
-        {
-            return _languages
+            => _languages
                 .FirstOrDefault(l => l.Name.Equals(CultureInfo.CurrentCulture.Name, StringComparison.OrdinalIgnoreCase))?
                 .Resources[name]!;
-        }
+
+        public string GetTranslation(string name, object arg0)
+            => string.Format(GetTranslation(name), arg0);
+
+        public string GetTranslation(string name, object arg0, object arg1)
+            => string.Format(GetTranslation(name), arg0, arg1);
     }
 
     public class JsonLocalization

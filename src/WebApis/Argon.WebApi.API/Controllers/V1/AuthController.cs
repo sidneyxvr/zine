@@ -17,9 +17,17 @@ namespace Argon.WebApi.API.Controllers.V1
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginInAsync(LoginRequest request)
+        public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
             var response = await _authService.LoginAsync(request);
+
+            return CustomResponse(response);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequest request)
+        {
+            var response = await _authService.RefreshTokenAsync(request);
 
             return CustomResponse(response);
         }

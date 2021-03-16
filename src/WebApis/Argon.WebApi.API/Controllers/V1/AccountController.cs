@@ -25,9 +25,9 @@ namespace Argon.WebApi.API.Controllers.V1
         }
 
         [HttpPost("email-confirmation")]
-        public async Task<IActionResult> EmailConfirmationAsync(AccountEmailConfirmationRequest request)
+        public async Task<IActionResult> EmailConfirmationAsync(EmailAccountConfirmationRequest request)
         {
-            var result = await _accountService.ConfirmAccountEmailAsync(request);
+            var result = await _accountService.ConfirmEmailAccountAsync(request);
 
             return CustomResponse(result);
         }
@@ -35,7 +35,7 @@ namespace Argon.WebApi.API.Controllers.V1
         [HttpPost("resend-email-confirmation")]
         public async Task<IActionResult> ResendEmailConfirmationAsync(EmailRequest request)
         {
-            var result = await _accountService.ResendConfirmAccountEmailAsync(request);
+            var result = await _accountService.ResendConfirmEmailAccountAsync(request);
 
             return CustomResponse(result);
         }
@@ -52,14 +52,6 @@ namespace Argon.WebApi.API.Controllers.V1
         public async Task<IActionResult> ResetPasswordAsync(ResetPasswordRequest request)
         {
             var result = await _accountService.ResetPasswordAsync(request);
-
-            return CustomResponse(result);
-        }
-
-        [HttpPut("two-factory-authentication")]
-        public async Task<IActionResult> UpdateTwoFactoryAuthenticationAsync(UpdateTwoFactorAuthenticationRequest request)
-        {
-            var result = await _accountService.UpdateTwoFactorAuthenticationAsync(request);
 
             return CustomResponse(result);
         }

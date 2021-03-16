@@ -1,7 +1,8 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.Data;
+using Argon.Core.DomainObjects;
 using Argon.Core.Messages;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 

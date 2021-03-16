@@ -8,9 +8,8 @@ namespace Argon.Identity.Services
     {
         Task<ValidationResult> SendResetPasswordAsync(EmailRequest request);
         Task<ValidationResult> ResetPasswordAsync(ResetPasswordRequest request);
-        Task<ValidationResult> ResendConfirmAccountEmailAsync(EmailRequest request);
+        Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request);
         Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request);
-        Task<ValidationResult> ConfirmAccountEmailAsync(AccountEmailConfirmationRequest request);
-        Task<ValidationResult> UpdateTwoFactorAuthenticationAsync(UpdateTwoFactorAuthenticationRequest request);
+        Task<ValidationResult> ConfirmEmailAccountAsync(EmailAccountConfirmationRequest request);
     }
 }

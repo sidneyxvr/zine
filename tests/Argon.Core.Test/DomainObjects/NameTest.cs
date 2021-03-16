@@ -40,7 +40,7 @@ namespace Argon.Core.Test.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
 
             //Assert
-            Assert.Equal("O nome de deve ter no máximo 50 caracteres", result.Message);
+            Assert.Equal("O nome deve ter no máximo 50 caracteres", result.Message);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Argon.Core.Test.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
 
             //Assert
-            Assert.Equal("O sobrenome de deve ter no máximo 50 caracteres", result.Message);
+            Assert.Equal("O sobrenome deve ter no máximo 50 caracteres", result.Message);
         }
 
         [Theory]

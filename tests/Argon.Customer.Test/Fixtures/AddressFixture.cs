@@ -1,4 +1,4 @@
-﻿using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+﻿using Argon.Core.DomainObjects;
 using Bogus;
 using System;
 

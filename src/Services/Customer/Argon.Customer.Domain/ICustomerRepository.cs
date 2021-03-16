@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Argon.Customers.Domain.AggregatesModel.CustomerAggregate
+namespace Argon.Customers.Domain
 {
     public interface ICustomerRepository : IRepository<Customer>
     {

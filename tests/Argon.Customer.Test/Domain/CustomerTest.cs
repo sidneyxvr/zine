@@ -1,5 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using Argon.Customers.Domain;
 using Argon.Customers.Test.Fixtures;
 using System;
 using Xunit;

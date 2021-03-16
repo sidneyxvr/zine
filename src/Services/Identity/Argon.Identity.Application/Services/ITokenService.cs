@@ -1,4 +1,5 @@
-﻿using Argon.Identity.Responses;
+﻿using Argon.Identity.Models;
+using Argon.Identity.Responses;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -7,7 +8,10 @@ namespace Argon.Identity.Services
 {
     public interface ITokenService
     {
+        RefreshToken GenerateRefreshToken(string token);
+        (Guid UserId, Guid Jti)? GetUserClaimsSimplifiedOrDefault(string token);
         string CodifyToken(ICollection<Claim> claims, Guid userId, string userEmail);
-        UserLoginResponse GetTokenResponse(string encodedToken, Guid userId, string userEmail, IEnumerable<Claim> claims);
+        UserLoginResponse GetUserLoginResponse(string encodedToken, 
+            string refreshToken, Guid userId, string userEmail, IEnumerable<Claim> claims);
     }
 }

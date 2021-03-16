@@ -1,7 +1,7 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Customers.Application.CommandHandlers.AddressHandlers;
 using Argon.Customers.Application.Commands.AddressCommands;
-using Argon.Customers.Domain.AggregatesModel.CustomerAggregate;
+using Argon.Customers.Domain;
 using Argon.Customers.Test.Fixtures;
 using Bogus;
 using Moq;

@@ -59,6 +59,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Core.Test", "tests\Ar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Identity.Test", "tests\Argon.Identity.Test\Argon.Identity.Test.csproj", "{B80A8756-4405-4F1E-B72E-A3F528090E43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Suppliers.Application", "src\Services\Supplier\Argon.Supplier.Application\Argon.Suppliers.Application.csproj", "{8E4044F7-1548-4B55-B868-A5876B2D2AEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Suppliers.Domain", "src\Services\Supplier\Argon.Supplier.Domain\Argon.Suppliers.Domain.csproj", "{4E9B2439-CBD2-4D7B-93E1-437B5FBCDA28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +117,14 @@ Global
 		{B80A8756-4405-4F1E-B72E-A3F528090E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B80A8756-4405-4F1E-B72E-A3F528090E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B80A8756-4405-4F1E-B72E-A3F528090E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E4044F7-1548-4B55-B868-A5876B2D2AEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E4044F7-1548-4B55-B868-A5876B2D2AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E4044F7-1548-4B55-B868-A5876B2D2AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E4044F7-1548-4B55-B868-A5876B2D2AEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E9B2439-CBD2-4D7B-93E1-437B5FBCDA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E9B2439-CBD2-4D7B-93E1-437B5FBCDA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E9B2439-CBD2-4D7B-93E1-437B5FBCDA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E9B2439-CBD2-4D7B-93E1-437B5FBCDA28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +155,8 @@ Global
 		{22E8AD9D-AC58-4561-B0AC-C623B4F04D62} = {7C25EE06-E070-4D60-BE7F-EAA1B140EC36}
 		{ECE1DC89-C3B7-496C-9D8F-351CFDB941FC} = {792BE171-AC7B-4A8C-A3F7-C222AD78ED6D}
 		{B80A8756-4405-4F1E-B72E-A3F528090E43} = {55E27E9F-3E32-43BA-B289-7A8F14C9305B}
+		{8E4044F7-1548-4B55-B868-A5876B2D2AEE} = {488D104A-900D-43CC-8228-F9E1B98A3A96}
+		{4E9B2439-CBD2-4D7B-93E1-437B5FBCDA28} = {488D104A-900D-43CC-8228-F9E1B98A3A96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91A45E2F-9D6D-4902-B556-7D06DC132948}

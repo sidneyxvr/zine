@@ -12,17 +12,21 @@ namespace Argon.Customers.Application.Commands.Validators.CustomerValidators
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-                .MaximumLength(Name.MaxLengthFirstName).WithMessage(string.Format(Localizer.GetTranslation("MaxLengthFirstName"), Name.MaxLengthFirstName));
+                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName", Name.MaxLengthFirstName));
 
             RuleFor(c => c.Surname)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
-                .MaximumLength(Name.MaxLengthSurname).WithMessage((string.Format(Localizer.GetTranslation("MaxLengthSurname"), Name.MaxLengthSurname)));
+                .MaximumLength(Name.MaxLengthSurname).WithMessage((Localizer.GetTranslation("MaxLengthSurname", Name.MaxLengthSurname)));
 
             RuleFor(c => c.BirthDate)
-                .InclusiveBetween(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow.AddYears(-18)).WithMessage(Localizer.GetTranslation("InvalidBirthDate"));
+                .InclusiveBetween(DateTime.UtcNow.AddYears(-BirthDate.MaxAge), DateTime.UtcNow.AddYears(-BirthDate.MinAge))
+                    .WithMessage(Localizer.GetTranslation("InvalidBirthDate"));
 
-            RuleFor(c => c.Phone)
-                .Must(p => Phone.IsValid(p)).WithMessage(Localizer.GetTranslation("InvalidPhone"));
+            When(c => c.Phone is not null, () =>
+            {
+                RuleFor(c => c.Phone)
+                    .Must(p => Phone.IsValid(p)).WithMessage(Localizer.GetTranslation("InvalidPhone"));
+            });
 
             RuleFor(c => c.Gender)
                 .IsInEnum().WithMessage(Localizer.GetTranslation("InvalidGender"));

@@ -6,20 +6,21 @@ using System;
 
 namespace Argon.Identity.Data
 {
-    public class IdentityContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+    public class IdentityContext : IdentityDbContext<User, Role, Guid>
     {
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationRole>().HasData(
-                new ApplicationRole { Id = Guid.NewGuid(), Name = "Customer", NormalizedName = "CUSTOMER", ConcurrencyStamp = Guid.NewGuid().ToString() },
-                new ApplicationRole { Id = Guid.NewGuid(), Name = "Supplier", NormalizedName = "SUPPLIER", ConcurrencyStamp = Guid.NewGuid().ToString() },
-                new ApplicationRole { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = Guid.NewGuid().ToString() });
+            builder.Entity<Role>().HasData(
+                new Role { Id = new Guid("3215CA3D-EC71-4DF4-BF41-555FFCC04F22"), Name = "Customer", NormalizedName = "CUSTOMER", ConcurrencyStamp = "a76ddbb4-c77f-410f-83cd-9d66e3dc893e" },
+                new Role { Id = new Guid("07E778B6-7C1D-4852-B1F4-63661E4BB08A"), Name = "Supplier", NormalizedName = "SUPPLIER", ConcurrencyStamp = "11a13445-7bba-4fad-86b1-ac3cef32e569" },
+                new Role { Id = new Guid("78DF47E2-8160-4678-99B0-2E80492268DD"), Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "bc6e8e27-8e7f-413d-bd2d-982b4d80a801" });
 
-            builder.Entity<ApplicationUser>(options =>
+            builder.Entity<User>(options =>
             {
                 options.ToTable("User");
 
@@ -38,7 +39,7 @@ namespace Argon.Identity.Data
                 options.Property(user => user.PasswordHash).HasColumnType("varchar(256)");
             });
 
-            builder.Entity<ApplicationRole>(options =>
+            builder.Entity<Role>(options =>
             {
                 options.ToTable("Role");
 
@@ -56,10 +57,37 @@ namespace Argon.Identity.Data
                 options.HasKey(userRole => new { userRole.UserId, userRole.RoleId });
             });
 
-            builder.Ignore<IdentityRoleClaim<Guid>>();
+            builder.Entity<RefreshToken>(options =>
+            {
+                options.ToTable(nameof(RefreshToken));
+
+                options.HasKey(userRole => userRole.Token);
+
+                options.Property(refreshToken => refreshToken.Token)
+                    .IsUnicode(false)
+                    .HasMaxLength(128);
+
+                options.Property(refreshToken => refreshToken.ConcurrencyStamp)
+                    .IsUnicode(false)
+                    .HasMaxLength(36);
+
+                options.Property(refreshToken => refreshToken.UserId)
+                    .IsRequired();
+
+                options.Property(refreshToken => refreshToken.CreatedAt)
+                    .IsRequired();
+
+                options.Property(refreshToken => refreshToken.Token)
+                    .IsRequired();
+
+                options.Property(refreshToken => refreshToken.ValidityInHours)
+                    .IsRequired();
+            });
+
+            //builder.Ignore<IdentityRoleClaim<Guid>>();
             builder.Ignore<IdentityUserLogin<Guid>>();
             builder.Ignore<IdentityUserToken<Guid>>();
-            builder.Ignore<IdentityUserClaim<Guid>>();
+            //builder.Ignore<IdentityUserClaim<Guid>>();
 
             //builder.Entity<IdentityRoleClaim<Guid>>(options =>
             //{
@@ -93,22 +121,22 @@ namespace Argon.Identity.Data
             //    options.Property(userToken => userToken.Value).HasColumnType("varchar(256)");
             //});
 
-            //builder.Entity<IdentityRoleClaim<Guid>>(options =>
-            //{
-            //    options.ToTable("ApplicationRoleClaim");
+            builder.Entity<IdentityRoleClaim<Guid>>(options =>
+            {
+                options.ToTable("RoleClaim");
 
-            //    options.HasKey(roleClaim => roleClaim.Id);
-            //});            
+                options.HasKey(roleClaim => roleClaim.Id);
+            });
 
-            //builder.Entity<IdentityUserClaim<Guid>>(options =>
-            //{
-            //    options.ToTable("ApplicationUserClaim");
+            builder.Entity<IdentityUserClaim<Guid>>(options =>
+            {
+                options.ToTable("UserClaim");
 
-            //    options.HasKey(userClaim => userClaim.Id);
+                options.HasKey(userClaim => userClaim.Id);
 
-            //    options.Property(userClaim => userClaim.ClaimValue).HasColumnType("varchar(50)");
-            //    options.Property(userClaim => userClaim.ClaimType).HasColumnType("varchar(50)");
-            //});
+                options.Property(userClaim => userClaim.ClaimValue).HasColumnType("varchar(50)");
+                options.Property(userClaim => userClaim.ClaimType).HasColumnType("varchar(50)");
+            });
         }
     }
 }

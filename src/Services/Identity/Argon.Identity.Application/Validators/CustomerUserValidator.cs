@@ -11,30 +11,47 @@ namespace Argon.Identity.Validators
         public CustomerUserValidator()
         {
             RuleFor(c => c.FirstName)
-               .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-               .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
+                .MaximumLength(Name.MaxLengthFirstName)
+                    .WithMessage(Localizer.GetTranslation("MaxLengthFirstName", Name.MaxLengthFirstName));
 
             RuleFor(c => c.Surname)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
-                .MaximumLength(Name.MaxLengthSurname).WithMessage(Localizer.GetTranslation("MaxLengthSurname"));
+                .MaximumLength(Name.MaxLengthSurname)
+                    .WithMessage(Localizer.GetTranslation("MaxLengthSurname", Name.MaxLengthSurname));
 
             RuleFor(c => c.Cpf)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCPF"))
-                .Must(c => Cpf.IsValid(c)).WithMessage(Localizer.GetTranslation("InvalidCPF"));
+                .DependentRules(() =>
+                {
+                    RuleFor(c => c.Cpf).Must(c => Cpf.IsValid(c)).WithMessage(Localizer.GetTranslation("InvalidCPF"));
+                });
 
             RuleFor(c => c.Email)
-                .NotEmpty().WithMessage("EmptyEmail")
-                .Length(Email.AddressMinLength, Email.AddressMaxLength).WithMessage(Localizer.GetTranslation("EmailOutOfRange"))
-                .Must(e => Email.IsValid(e)).WithMessage(Localizer.GetTranslation("InvalidEmail"));
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyEmail"))
+                .Length(Email.AddressMinLength, Email.AddressMaxLength)
+                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.AddressMinLength, Email.AddressMaxLength))
+                .DependentRules(() =>
+                {
+                    RuleFor(c => c.Email).EmailAddress().WithMessage(Localizer.GetTranslation("InvalidEmail"));
+                });
 
             RuleFor(c => c.BirthDate)
-                .InclusiveBetween(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow.AddYears(-18)).WithMessage(Localizer.GetTranslation("InvalidBirthDate"));
+                .InclusiveBetween(DateTime.UtcNow.AddYears(-BirthDate.MaxAge), DateTime.UtcNow.AddYears(-BirthDate.MinAge))
+                    .WithMessage(Localizer.GetTranslation("InvalidBirthDate"));
 
-            RuleFor(c => c.Phone)
+            When(c => c.Phone is not null, () =>
+            {
+                RuleFor(c => c.Phone)
                 .Must(p => Phone.IsValid(p)).WithMessage(Localizer.GetTranslation("InvalidPhone"));
+            });
 
             RuleFor(c => c.Gender)
                 .IsInEnum().WithMessage(Localizer.GetTranslation("InvalidGender"));
+
+            RuleFor(c => c.Password)
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyPassword"))
+                .Length(8, 100).WithMessage(Localizer.GetTranslation("PasswordOutOfRange"));
         }
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.Identity.Models
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>
     {
         public bool IsActive { get; set; }
     }
