@@ -25,7 +25,7 @@ namespace Argon.Core.DomainObjects
         {
             if (phone is null)
             {
-                throw new ArgumentNullException(nameof(phone));
+                return true;
             }
 
             var regexEmail = new Regex(@"^[1-9]{2}9[1-9][0-9]{7}$");

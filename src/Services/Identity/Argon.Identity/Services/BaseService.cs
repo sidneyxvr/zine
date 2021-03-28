@@ -14,12 +14,6 @@ namespace Argon.Identity.Services
             Localizer = Localizer.GetLocalizer();
         }
 
-        protected bool IsValid(BaseRequest request)
-        {
-            ValidationResult = request.Validate();
-            return ValidationResult.IsValid;
-        }
-
         protected bool IsInvalid(BaseRequest request)
         {
             ValidationResult = request.Validate();
@@ -31,27 +25,6 @@ namespace Argon.Identity.Services
             ValidationResult ??= new ValidationResult();
 
             ValidationResult.Errors.Add(new ValidationFailure(string.Empty, error));
-
-            return ValidationResult;
-        }
-
-        public ValidationResult NotifyError(string propertyName, string error)
-        {
-            ValidationResult ??= new ValidationResult();
-
-            ValidationResult.Errors.Add(new ValidationFailure(propertyName, error));
-
-            return ValidationResult;
-        }
-
-        public ValidationResult NotifyError(ValidationResult validationResult)
-        {
-            ValidationResult ??= new ValidationResult();
-
-            foreach(var failure in validationResult.Errors)
-            {
-                ValidationResult.Errors.Add(failure);
-            }
 
             return ValidationResult;
         }
