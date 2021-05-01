@@ -12,9 +12,14 @@ namespace Argon.Customers.Infra.Data.Mappings
         {
             builder.ToTable(nameof(Customer));
 
+            builder.HasKey(a => a.Id);
+
+            builder.Property(a => a.Id)
+                .ValueGeneratedNever();
+
             builder.Ignore(c => c.DomainEvents);
 
-            builder.HasQueryFilter(c => !c.IsDelete);
+            builder.HasQueryFilter(c => !c.IsDeleted);
 
             builder.OwnsOne(c => c.Name, c =>
             {
@@ -61,16 +66,15 @@ namespace Argon.Customers.Infra.Data.Mappings
             builder.HasOne(c => c.MainAddress)
                 .WithOne()
                 .HasForeignKey<Customer>("MainAddressId")
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Metadata
-                .FindNavigation(nameof(Customer.Addresses))
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+            //builder.Metadata
+            //    .FindNavigation(nameof(Customer.Addresses))
+            //    .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             builder.HasMany(c => c.Addresses)
                 .WithOne()
-                .HasForeignKey("CustomerId")
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

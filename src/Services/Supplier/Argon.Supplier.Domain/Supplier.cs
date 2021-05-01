@@ -18,5 +18,11 @@ namespace Argon.Supplier.Domain
 
         private List<User> _users;
         public IReadOnlyCollection<User> Users => _users.AsReadOnly();
+
+        public void AddUser(User user)
+        {
+            _users ??= new();
+            _users.Add(user);
+        }
     }
 }

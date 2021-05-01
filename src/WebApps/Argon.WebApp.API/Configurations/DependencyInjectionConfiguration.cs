@@ -5,7 +5,9 @@ using Argon.Customers.Application.CommandHandlers.CustomerHandlers;
 using Argon.Customers.Application.Commands.AddressCommands;
 using Argon.Customers.Domain;
 using Argon.Customers.Infra.Data;
+using Argon.Customers.Infra.Data.Queries;
 using Argon.Customers.Infra.Data.Repositories;
+using Argon.Customers.QueryStack.Queries;
 using Argon.Identity.Data;
 using Argon.Identity.Services;
 using Argon.WebApp.API.Extensions;
@@ -13,10 +15,8 @@ using Argon.WebApp.API.TemplateEmails;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -43,6 +43,9 @@ namespace Argon.WebApp.API.Configurations
             services.AddScoped<IRequestHandler<DeleteAddressCommand, ValidationResult>, DeleteAddressHandler>();
             services.AddScoped<IRequestHandler<DefineMainAddressCommand, ValidationResult>, DefineMainAddressHandler>();
 
+            services.AddScoped<ICustomerQuery, CustomerQuery>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             //Identity

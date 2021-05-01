@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Argon.Core.Data
+namespace Argon.Customers.Domain
 {
     public interface IUnitOfWork
     {

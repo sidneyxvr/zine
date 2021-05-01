@@ -12,10 +12,12 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 {
     public class UpdateAddressHandler : BaseHandler, IRequestHandler<UpdateAddressCommand, ValidationResult>
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerRepository _customerRepository;
 
-        public UpdateAddressHandler(ICustomerRepository customerRepository)
+        public UpdateAddressHandler(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
         {
+            _unitOfWork = unitOfWork;
             _customerRepository = customerRepository;
         }
 
@@ -36,7 +38,7 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
             customer.UpdateAddress(request.AddressId, request.Street, request.Number, request.District, request.City, request.State, 
                 request.Country, request.PostalCode, request.Complement, request.Latitude, request.Longitude);
 
-            await _customerRepository.UnitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
             return request.ValidationResult;
         }

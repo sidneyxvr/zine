@@ -1,5 +1,4 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
+﻿using Argon.Core.DomainObjects;
 using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,13 +15,16 @@ namespace Argon.Customers.Infra.Data.Repositories
             _context = context;
         }
 
-        public IUnitOfWork UnitOfWork => _context;
-
         public async Task AddAsync(Customer customer)
         {
             await _context.AddAsync(customer);
 
             _context.Entry(customer).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
+        }
+
+        public async Task AddAddressAsync(Address customer)
+        {
+            await _context.Addresses.AddAsync(customer);
         }
 
         public void Dispose()

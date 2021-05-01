@@ -1,4 +1,5 @@
-﻿using Argon.Core.DomainObjects;
+﻿using Argon.Core.Data;
+using Argon.Core.DomainObjects;
 using Argon.Customers.Application.CommandHandlers.CustomerHandlers;
 using Argon.Customers.Application.Commands.CustomerCommands;
 using Argon.Customers.Domain;
@@ -43,8 +44,8 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
                 Gender = props.Gender
             };
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(r => r.UnitOfWork.CommitAsync())
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(u => u.CommitAsync())
                 .ReturnsAsync(true);
 
             _mocker.GetMock<ICustomerRepository>()

@@ -77,9 +77,8 @@ namespace Argon.Identity.Services
 
             var refreshToken = await _refreshTokenStore.GetByTokenAsync(request.RefreshToken);
 
-            if(refreshToken.JwtId != claimsSimplified.Value.Jti || 
-               refreshToken.UserId != claimsSimplified.Value.UserId ||
-               !refreshToken.IsValid)
+            if(refreshToken is null || refreshToken.JwtId != claimsSimplified.Value.Jti || 
+               refreshToken.UserId != claimsSimplified.Value.UserId || !refreshToken.IsValid)
             {
                 return NotifyError(Localizer.GetTranslation("CannotRefreshToken"));
             }

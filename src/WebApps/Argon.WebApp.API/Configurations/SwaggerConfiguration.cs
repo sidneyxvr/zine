@@ -12,19 +12,23 @@ namespace Argon.WebApp.API.Configurations
         {
             if (env.IsDevelopment())
             {
-                services.AddSwaggerGen(c =>
+                services.AddSwaggerGen(options =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Argon.WebApp.API", Version = "v1" });
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Argon.WebApp.API", Version = "v1" });
+                    options.SwaggerDoc("v2", new OpenApiInfo { Title = "Argon.WebApp.API", Version = "v2" });
                 });
             }
 
             return services;
         }
 
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerR(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Argon.WebApp.API v1"));
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Argon.WebApp.API v1");
+                options.SwaggerEndpoint("/swagger/v2/swagger.json", "Argon.WebApp.API v2");
+            });
 
             return app;
         }

@@ -27,7 +27,7 @@ namespace Argon.WebApp.Tests.Fixtures
                 FirstName = _faker.Person.FirstName,
                 Surname = _faker.Person.LastName,
                 Gender = _faker.PickRandom<Gender>(),
-                Password = _faker.Internet.Password()
+                Password = Password
             };
 
         public CustomerUserRequest CreateInvalidCustomerUserRequest()
@@ -39,7 +39,9 @@ namespace Argon.WebApp.Tests.Fixtures
                 FirstName = _faker.Person.FirstName,
                 Surname = _faker.Person.LastName,
                 Gender = _faker.PickRandom<Gender>(),
-                Password = _faker.Internet.Password()
+                Password = Password
             };
+
+        protected string Password => $"{_faker.Internet.Password()}@#$9";
     }
 }

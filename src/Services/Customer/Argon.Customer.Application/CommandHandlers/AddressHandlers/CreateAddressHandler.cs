@@ -11,10 +11,12 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 {
     public class CreateAddressHandler : BaseHandler, IRequestHandler<CreateAddressCommand, ValidationResult>
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerRepository _customerRepository;
 
-        public CreateAddressHandler(ICustomerRepository customerRepository)
+        public CreateAddressHandler(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
         {
+            _unitOfWork = unitOfWork;
             _customerRepository = customerRepository;
         }
 
@@ -27,7 +29,7 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 
             var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
 
-            if(customer is null)
+            if (customer is null)
             {
                 throw new NotFoundException(Localizer.GetTranslation("CustomerNotFound"));
             }
@@ -38,7 +40,7 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 
             customer.AddAddress(address);
 
-            await _customerRepository.UnitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
             return request.ValidationResult;
         }

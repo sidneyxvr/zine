@@ -9,10 +9,12 @@ namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
 {
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, ValidationResult>
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerRepository _customerRepository;
 
-        public CreateCustomerHandler(ICustomerRepository customerRepository)
+        public CreateCustomerHandler(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
         {
+            _unitOfWork = unitOfWork;
             _customerRepository = customerRepository;
         }
 
@@ -27,7 +29,7 @@ namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
                 request.Email, request.Cpf, request.BirthDate, request.Gender, request.Phone);
 
             await _customerRepository.AddAsync(customer);
-            await _customerRepository.UnitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
             return request.ValidationResult;
         }

@@ -22,14 +22,14 @@ namespace Argon.Core.DomainObjects
             AssertionConcern.AssertArgumentRange(latitude.Value, -90, 90, Localizer.GetTranslation("InvalidLatitude"));
             AssertionConcern.AssertArgumentRange(longitude.Value, -180, 180, Localizer.GetTranslation("InvalidLongitude"));
 
-            _coordinate = new Point(latitude.Value, longitude.Value);
+            _coordinate = new Point(latitude.Value, longitude.Value) { SRID = 4326 };
         }
 
         public double GetDistance(Location location) => 
-            _coordinate.Distance(new Point(location.Latitude, location.Longitude));
+            _coordinate.Distance(new Point(location.Latitude, location.Longitude) { SRID = 4326 });
 
         public double GetDistance(double latitude, double longitude) =>
-            _coordinate.Distance(new Point(latitude, longitude));
+            _coordinate.Distance(new Point(latitude, longitude) { SRID = 4326 });
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

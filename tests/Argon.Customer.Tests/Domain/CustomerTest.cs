@@ -44,7 +44,7 @@ namespace Argon.Customers.Tests.Domain
 
             //Assert
             Assert.True(result.IsActive);
-            Assert.False(result.IsDelete);
+            Assert.False(result.IsDeleted);
             Assert.True(result.IsSuspended);
         }
 
@@ -110,7 +110,7 @@ namespace Argon.Customers.Tests.Domain
             customer.Delete();
 
             //Assert
-            Assert.True(customer.IsDelete);
+            Assert.True(customer.IsDeleted);
         }
 
         [Fact]

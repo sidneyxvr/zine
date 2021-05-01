@@ -8,9 +8,9 @@ namespace Argon.Identity.Validators
     {
         public RefreshTokenValidator()
         {
-            RuleFor(r => r.AccessToken).NotEmpty();
+            RuleFor(r => r.AccessToken).NotNull().NotEmpty();
 
-            RuleFor(r => r.RefreshToken).NotEmpty();
+            RuleFor(r => r.RefreshToken).NotNull().NotEmpty();
         }
     }
 }

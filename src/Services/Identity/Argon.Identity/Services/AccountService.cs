@@ -5,6 +5,7 @@ using Argon.Identity.Models;
 using Argon.Identity.Requests;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,8 +18,8 @@ namespace Argon.Identity.Services
         private readonly UserManager<User> _userManager;
 
         public AccountService(
-            IBus bus, 
-            IEmailService emailService, 
+            IBus bus,
+            IEmailService emailService,
             UserManager<User> userManager)
         {
             _bus = bus;
@@ -61,7 +62,7 @@ namespace Argon.Identity.Services
                 BirthDate = request.BirthDate,
                 Gender = request.Gender
             });
-            
+
             if (!requestResult.IsValid)
             {
                 await _userManager.DeleteAsync(user);
@@ -86,15 +87,15 @@ namespace Argon.Identity.Services
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if(user is null)
+            if (user is null)
             {
                 return NotifyError(Localizer.GetTranslation("CannotConfirmEmailAccount"));
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
 
-            return result.Succeeded ? 
-                ValidationResult : 
+            return result.Succeeded ?
+                ValidationResult :
                 NotifyError(Localizer.GetTranslation("CannotConfirmEmailAccount"));
         }
 
@@ -156,8 +157,8 @@ namespace Argon.Identity.Services
 
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
-            return result.Succeeded ? 
-                ValidationResult : 
+            return result.Succeeded ?
+                ValidationResult :
                 NotifyError(Localizer.GetTranslation("CannotResetPassword"));
         }
     }

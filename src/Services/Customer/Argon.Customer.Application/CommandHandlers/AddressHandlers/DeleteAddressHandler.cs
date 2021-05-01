@@ -11,10 +11,12 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 {
     public class DeleteAddressHandler : BaseHandler, IRequestHandler<DeleteAddressCommand, ValidationResult>
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerRepository _customerRepository;
 
-        public DeleteAddressHandler(ICustomerRepository customerRepository)
+        public DeleteAddressHandler(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
         {
+            _unitOfWork = unitOfWork;
             _customerRepository = customerRepository;
         }
 
@@ -34,7 +36,7 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
 
             customer.DeleteAddress(request.AddressId);
 
-            await _customerRepository.UnitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
             return request.ValidationResult;
         }

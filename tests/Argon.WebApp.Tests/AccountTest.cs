@@ -31,6 +31,7 @@ namespace Argon.WebApp.Tests
 
             //Assert
             response.EnsureSuccessStatusCode();
+            Assert.Equal(200, (int)response.StatusCode);
         }
 
         [Fact]

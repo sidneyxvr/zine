@@ -14,16 +14,20 @@ namespace Argon.Customers.Domain
         public Phone Phone { get; private set; }
         public Gender Gender { get; private set; }
         public bool IsActive { get; private set; }
-        public bool IsDelete { get; private set; }
+        public bool IsDeleted { get; private set; }
         public bool IsSuspended { get; private set; }
 
+        public Guid? MainAddressId { get; set; }
         public Address MainAddress { get; private set; }
 
-        private List<Address> _addresses;
+        private readonly List<Address> _addresses;
         public IReadOnlyCollection<Address> Addresses => _addresses?.AsReadOnly();
 
 
-        protected Customer() { }
+        protected Customer() 
+        {
+            _addresses = new ();
+        }
 
         public Customer(Guid id, string firstName, string surname, string email,
             string cpf, DateTime? birthDate, Gender gender, string phone)
@@ -36,8 +40,9 @@ namespace Argon.Customers.Domain
             BirthDate = birthDate;
             Phone = phone;
             IsActive = true;
-            IsDelete = false;
+            IsDeleted = false;
             IsSuspended = true;
+            _addresses = new();
 
             Validate();
         }
@@ -55,7 +60,7 @@ namespace Argon.Customers.Domain
 
         public void Disable() => IsActive = false;
 
-        public void Delete() => IsDelete = true;
+        public void Delete() => IsDeleted = true;
 
         public void Suspend() => IsSuspended = true;
 
@@ -63,8 +68,6 @@ namespace Argon.Customers.Domain
 
         public void AddAddress(Address address)
         {
-            _addresses ??= new List<Address>();
-
             _addresses.Add(address ?? throw new ArgumentNullException(nameof(address)));
         }
 

@@ -1,4 +1,7 @@
-﻿namespace Argon.Core.DomainObjects
+﻿using NetTopologySuite.Geometries;
+using System;
+
+namespace Argon.Core.DomainObjects
 {
     public class Address : Entity
     {

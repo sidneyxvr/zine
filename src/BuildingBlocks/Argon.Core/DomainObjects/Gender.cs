@@ -1,6 +1,6 @@
 ﻿namespace Argon.Core.DomainObjects
 {
-    public enum Gender 
+    public enum Gender : byte
     {
         Male = 1,
         Female,

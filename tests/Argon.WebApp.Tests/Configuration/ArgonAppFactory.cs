@@ -34,8 +34,5 @@ namespace Argon.WebApp.Tests.Configuration
                 context.Seed();
             });
         }
-
-        protected override IWebHostBuilder CreateWebHostBuilder() 
-            => base.CreateWebHostBuilder().UseEnvironment("Testing");
     }
 }

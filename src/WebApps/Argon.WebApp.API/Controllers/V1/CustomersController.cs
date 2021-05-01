@@ -1,5 +1,6 @@
 ﻿using Argon.Core.Communication;
 using Argon.Customers.Application.Commands.AddressCommands;
+using Argon.Customers.QueryStack.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +14,12 @@ namespace Argon.WebApp.API.Controllers.V1
     public class CustomersController : BaseController
     {
         private readonly IBus _bus;
+        private readonly ICustomerQuery _customerQuery;
 
-        public CustomersController(IBus bus)
+        public CustomersController(IBus bus, ICustomerQuery customerQuery)
         {
             _bus = bus;
+            _customerQuery = customerQuery;
         }
 
         [HttpPost("address")]
@@ -52,5 +55,23 @@ namespace Argon.WebApp.API.Controllers.V1
             return CustomResponse(result);
         }
 
+        [HttpGet("addresses")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAddressesAsync()
+        {
+            var result = await _customerQuery.GetAddressesByCustomerId(new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A"));
+
+            return Ok(result);
+        }
+
+        [HttpGet("address/{addressId:Guid}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAddressAsync(Guid addressId)
+        {
+            var customerId = new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A");
+            var result = await _customerQuery.GetAddressByCustomerId(customerId, addressId);
+
+            return Ok(result);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Argon.Core.DomainObjects;
+﻿using Argon.Core.Data;
+using Argon.Core.DomainObjects;
 using Argon.Customers.Application.CommandHandlers.AddressHandlers;
 using Argon.Customers.Application.Commands.AddressCommands;
 using Argon.Customers.Domain;
@@ -57,8 +58,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(_customerFixture.CreateValidCustomerWithAddresses());
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(r => r.UnitOfWork.CommitAsync())
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(u => u.CommitAsync())
                 .ReturnsAsync(true);
 
             //Act
@@ -66,7 +67,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             //Assert
             Assert.True(result.IsValid);
-            _mocker.GetMock<ICustomerRepository>().Verify(c => c.UnitOfWork.CommitAsync(), Times.Once);
+            _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
         }
 
         [Fact]
