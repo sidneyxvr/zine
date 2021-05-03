@@ -1,5 +1,4 @@
-﻿using Argon.Core.Internationalization;
-using Argon.Core.Messages;
+﻿using Argon.Core.Messages;
 using System;
 using System.Collections.Generic;
 
@@ -8,12 +7,10 @@ namespace Argon.Core.DomainObjects
     public abstract class Entity
     {
         public Guid Id { get; set; }
-        protected Localizer Localizer;
 
         protected Entity()
         {
             Id = Guid.NewGuid();
-            Localizer = Localizer.GetLocalizer();
         }
 
         private List<Event> _domainEvents;

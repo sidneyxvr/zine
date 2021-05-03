@@ -1,5 +1,4 @@
 ﻿using Argon.Core.DomainObjects;
-using Bogus;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -23,7 +22,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new BirthDate(birthDate));
 
             //Assert
-            Assert.Equal("A idade mínima permitida é 18 anos", result.Message);
+            Assert.Equal(nameof(BirthDate), result.Message);
         }
 
         public static IEnumerable<object[]> BirthDateOlderThan100Data =>
@@ -42,7 +41,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new BirthDate(birthDate));
 
             //Assert
-            Assert.Equal("A idade máxima permitida é 100 anos", result.Message);
+            Assert.Equal(nameof(BirthDate), result.Message);
         }
 
         [Fact]

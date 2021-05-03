@@ -1,5 +1,6 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands.Validators;
+using Argon.Core.Utils;
 using Argon.Identity.Requests;
 using FluentValidation;
 using System;
@@ -24,13 +25,13 @@ namespace Argon.Identity.Validators
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCPF"))
                 .DependentRules(() =>
                 {
-                    RuleFor(c => c.Cpf).Must(c => Cpf.IsValid(c)).WithMessage(Localizer.GetTranslation("InvalidCPF"));
+                    RuleFor(c => c.Cpf).Must(c => CpfValidator.IsValid(c)).WithMessage(Localizer.GetTranslation("InvalidCPF"));
                 });
 
             RuleFor(c => c.Email)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyEmail"))
-                .Length(Email.AddressMinLength, Email.AddressMaxLength)
-                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.AddressMinLength, Email.AddressMaxLength))
+                .Length(Email.MinLength, Email.MaxLength)
+                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.MinLength, Email.MaxLength))
                 .DependentRules(() =>
                 {
                     RuleFor(c => c.Email).EmailAddress().WithMessage(Localizer.GetTranslation("InvalidEmail"));

@@ -1,4 +1,4 @@
-﻿using Argon.Core.DomainObjects;
+﻿using Argon.Customers.Domain;
 using Bogus;
 using System;
 

@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using Argon.Core.Utils;
 using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -46,14 +47,14 @@ namespace Argon.Customers.Infra.Data.Mappings
             {
                 e.Property(p => p.Address)
                     .HasColumnName("Email")
-                    .HasColumnType($"varchar({Email.AddressMaxLength})");
+                    .HasColumnType($"varchar({Email.MaxLength})");
             });
 
             builder.OwnsOne(c => c.Cpf, c =>
             {
                 c.Property(p => p.Number)
                     .HasColumnName("CPF")
-                    .HasColumnType($"char({Cpf.NumberLength})");
+                    .HasColumnType($"char({CpfValidator.NumberLength})");
             });
 
             builder.OwnsOne(c => c.Phone, c =>

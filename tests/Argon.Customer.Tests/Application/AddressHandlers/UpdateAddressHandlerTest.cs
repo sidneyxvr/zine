@@ -75,7 +75,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task UpdateAddressShouldThrowNotFoundException()
+        public async Task UpdateAddressShouldThrowDomainException()
         {
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
@@ -103,11 +103,11 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 .ReturnsAsync(customer);
 
             //Act
-            var result = await Assert.ThrowsAsync<NotFoundException>(() =>
+            var result = await Assert.ThrowsAsync<DomainException>(() =>
                 _handler.Handle(command, CancellationToken.None));
 
             //Assert
-            Assert.Equal("Endereço não encontrado", result.Message);
+            Assert.Equal("address", result.Message);
         }
 
         [Fact]

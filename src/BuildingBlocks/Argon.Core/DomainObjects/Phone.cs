@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Argon.Core.DomainObjects
@@ -14,7 +13,7 @@ namespace Argon.Core.DomainObjects
 
         public Phone(string number)
         {
-            if (!IsValid(number)) throw new DomainException(Localizer.GetTranslation("InvalidPhone"));
+            if (!IsValid(number)) throw new DomainException(nameof(Phone));
             Number = number;
         }
 

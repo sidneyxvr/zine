@@ -14,12 +14,10 @@ namespace Argon.Core.DomainObjects
 
         public Name(string firstName, string surname)
         {
-            AssertionConcern.AssertArgumentNotEmpty(firstName, Localizer.GetTranslation("EmptyFirstName"));
-            AssertionConcern.AssertArgumentNotEmpty(surname, Localizer.GetTranslation("EmptySurname"));
-            AssertionConcern.AssertArgumentLength(firstName, MaxLengthFirstName, 
-                string.Format(Localizer.GetTranslation("MaxLengthFirstName"), MaxLengthFirstName));
-            AssertionConcern.AssertArgumentLength(surname, MaxLengthSurname, 
-                string.Format(Localizer.GetTranslation("MaxLengthSurname"), MaxLengthSurname));
+            Check.NotEmpty(firstName, nameof(firstName));
+            Check.NotEmpty(surname, nameof(surname));
+            Check.MaxLength(firstName, MaxLengthFirstName, nameof(firstName));
+            Check.MaxLength(surname, MaxLengthSurname, nameof(surname));
 
             FirstName = firstName;
             Surname = surname;

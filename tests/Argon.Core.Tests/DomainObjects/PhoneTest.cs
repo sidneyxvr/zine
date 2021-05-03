@@ -18,7 +18,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Phone(phone));
 
             //Assert
-            Assert.Equal("Número de celular inválido", result.Message);
+            Assert.Equal(nameof(Phone), result.Message);
         }
 
         [Theory]

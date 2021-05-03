@@ -75,7 +75,7 @@ namespace Argon.Customers.Domain
         {
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
-            AssertionConcern.AssertArgumentFound(address, Localizer.GetTranslation("AddressNotFound"));
+            Check.NotNull(address, nameof(address));
 
             if(MainAddress.Id == address.Id)
             {
@@ -90,7 +90,7 @@ namespace Argon.Customers.Domain
         {
             var address = _addresses.FirstOrDefault(a => a.Id == addressId);
 
-            AssertionConcern.AssertArgumentFound(address, Localizer.GetTranslation("AddressNotFound"));
+            Check.NotNull(address, nameof(address));
 
             address.Update(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
         }
@@ -99,14 +99,14 @@ namespace Argon.Customers.Domain
         {
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
-            AssertionConcern.AssertArgumentFound(address, Localizer.GetTranslation("AddressNotFound"));
+            Check.NotNull(address, nameof(address));
 
             MainAddress = address;
         }
 
         private void Validate()
         {
-            AssertionConcern.AssertIsEnum(Gender, typeof(Gender), Localizer.GetTranslation("InvalidGender"));
+            Check.IsEnum(Gender, typeof(Gender), nameof(Gender));
         }
     }
 }

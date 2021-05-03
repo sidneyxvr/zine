@@ -36,7 +36,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Email(email));
 
             //Assert
-            Assert.Equal("Email inválido", result.Message);
+            Assert.Equal(nameof(Email), result.Message);
         }
 
 
@@ -50,7 +50,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Email(email));
 
             //Assert
-            Assert.Equal("Informe o email", result.Message);
+            Assert.Equal(nameof(Email), result.Message);
         }
 
         [Fact]

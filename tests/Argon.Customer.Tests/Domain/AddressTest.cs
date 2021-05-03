@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
 using Xunit;
@@ -31,7 +32,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Informe a rua", result.Message);
+            Assert.Equal(nameof(Address.Street), result.Message);
         }
 
         [Fact]
@@ -47,7 +48,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("A rua deve ter entre 2 e 50 caracteres", result.Message);
+            Assert.Equal(nameof(Address.Street), result.Message);
         }
 
         [Fact]
@@ -63,7 +64,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O número deve ter no máximo 10 caracteres", result.Message);
+            Assert.Equal(nameof(Address.Number), result.Message);
         }
 
         [Theory]
@@ -81,7 +82,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Informe o bairro", result.Message);
+            Assert.Equal(nameof(Address.District), result.Message);
         }
 
         [Fact]
@@ -97,7 +98,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O bairro deve ter entre 2 e 50 caracteres", result.Message);
+            Assert.Equal(nameof(Address.District), result.Message);
         }
 
         [Theory]
@@ -115,7 +116,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Informe a cidade", result.Message);
+            Assert.Equal(nameof(Address.City), result.Message);
         }
 
         [Fact]
@@ -131,7 +132,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("A cidade deve ter entre 2 e 40 caracteres", result.Message);
+            Assert.Equal(nameof(Address.City), result.Message);
         }
 
         [Theory]
@@ -149,7 +150,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Informe o estado", result.Message);
+            Assert.Equal(nameof(Address.State), result.Message);
         }
 
         [Fact]
@@ -165,7 +166,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Estado inválido", result.Message);
+            Assert.Equal(nameof(Address.State), result.Message);
         }
 
         [Theory]
@@ -183,7 +184,7 @@ namespace Argon.Customers.Tests.Domain
                 country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Informe o país", result.Message);
+            Assert.Equal(nameof(Address.Country), result.Message);
         }
 
         [Fact]
@@ -199,7 +200,7 @@ namespace Argon.Customers.Tests.Domain
                 country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O país deve ter entre 2 e 50 caracteres", result.Message);
+            Assert.Equal(nameof(Address.Country), result.Message);
         }
 
         [Theory]
@@ -217,11 +218,11 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, postalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Informe o CEP", result.Message);
+            Assert.Equal(nameof(Address.PostalCode), result.Message);
         }
 
         [Fact]
-        public void CreateAddressInvalidPostalCodeShouldThrowDomainException()
+        public void CreateAddressCountryMaxLengthShouldThrowDomainException()
         {
             //Arrange
             var address = _addressFixture.GetAddressTestDTO();
@@ -233,7 +234,7 @@ namespace Argon.Customers.Tests.Domain
                 country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O país deve ter entre 2 e 50 caracteres", result.Message);
+            Assert.Equal(nameof(Address.Country), result.Message);
         }
 
         [Fact]
@@ -249,7 +250,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("O complemento deve ter no máximo 50 caracteres", result.Message);
+            Assert.Equal(nameof(Address.Complement), result.Message);
         }
 
         [Fact]
@@ -266,7 +267,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, latitude, address.Longitude));
 
             //Assert
-            Assert.Equal("Latitude inválida", result.Message);
+            Assert.Equal(nameof(Address.Location.Latitude).ToLower(), result.Message);
         }
 
         [Fact]
@@ -283,7 +284,7 @@ namespace Argon.Customers.Tests.Domain
                 address.Country, address.PostalCode, address.Complement, address.Latitude, longitude));
 
             //Assert
-            Assert.Equal("Longitude inválida", result.Message);
+            Assert.Equal(nameof(Address.Location.Longitude).ToLower(), result.Message);
         }
 
         [Fact]

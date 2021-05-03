@@ -29,7 +29,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Cpf(cpf));
 
             //Assert
-            Assert.Equal("CPF inválido", result.Message);
+            Assert.Equal(nameof(Cpf), result.Message);
         }
 
         [Theory]
@@ -42,7 +42,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Cpf(cpf));
 
             //Assert
-            Assert.Equal("Informe o CPF", result.Message);
+            Assert.Equal(nameof(Cpf), result.Message);
         }
 
         [Theory]

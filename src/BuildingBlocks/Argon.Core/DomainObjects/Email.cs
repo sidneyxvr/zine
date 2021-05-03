@@ -5,18 +5,17 @@ namespace Argon.Core.DomainObjects
 {
     public class Email : ValueObject
     {
-        public const int AddressMaxLength = 254;
-        public const int AddressMinLength = 5;
+        public const int MaxLength = 254;
+        public const int MinLength = 5;
         public string Address { get; private set; }
 
         protected Email() { }
 
         public Email(string address)
         {
-            AssertionConcern.AssertArgumentNotEmpty(address, Localizer.GetTranslation("EmptyEmail"));
-            AssertionConcern.AssertArgumentLength(address, AddressMinLength, AddressMaxLength,
-                string.Format(Localizer.GetTranslation("EmailOutOfRange"), AddressMinLength, AddressMaxLength));
-            if (!IsValid(address)) throw new DomainException(Localizer.GetTranslation("InvalidEmail"));
+            Check.NotEmpty(address, nameof(Email));
+            Check.Length(address, MinLength, MaxLength, nameof(Email));
+            if (!IsValid(address)) throw new DomainException(nameof(Email));
             Address = address;
         }
 

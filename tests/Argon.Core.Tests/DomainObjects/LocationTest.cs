@@ -17,13 +17,14 @@ namespace Argon.Core.Tests.DomainObjects
         public void CreateLocationNullLatitudeShouldThrowDomainException()
         {
             //Arrange
+            var latitude = (double?)null;
             var longitude = _faker.Address.Longitude();
 
             //Act
-            var result = Assert.Throws<DomainException>(() => new Location(null, longitude));
+            var result = Assert.Throws<DomainException>(() => new Location(latitude, longitude));
 
             //Assert
-            Assert.Equal("Latitude ou Longitude inválida(s)", result.Message);
+            Assert.Equal(nameof(latitude), result.Message);
         }
 
         [Fact]
@@ -31,12 +32,12 @@ namespace Argon.Core.Tests.DomainObjects
         {
             //Arrange
             var latitude = _faker.Address.Latitude();
-
+            var longitude = (double?)null;
             //Act
-            var result = Assert.Throws<DomainException>(() => new Location(latitude, null));
+            var result = Assert.Throws<DomainException>(() => new Location(latitude, longitude));
 
             //Assert
-            Assert.Equal("Latitude ou Longitude inválida(s)", result.Message);
+            Assert.Equal(nameof(longitude), result.Message);
         }
 
         [Theory]
@@ -55,7 +56,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Location(latitude, longitude));
 
             //Assert
-            Assert.Equal("Latitude inválida", result.Message);
+            Assert.Equal(nameof(latitude), result.Message);
         }
 
         [Theory]
@@ -74,7 +75,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Location(latitude, longitude));
 
             //Assert
-            Assert.Equal("Latitude inválida", result.Message);
+            Assert.Equal(nameof(latitude), result.Message);
         }
 
         [Fact]

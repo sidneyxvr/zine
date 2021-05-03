@@ -1,7 +1,6 @@
-﻿using NetTopologySuite.Geometries;
-using System;
+﻿using Argon.Core.DomainObjects;
 
-namespace Argon.Core.DomainObjects
+namespace Argon.Customers.Domain
 {
     public class Address : Entity
     {
@@ -50,27 +49,27 @@ namespace Argon.Core.DomainObjects
 
         private void Validate()
         {
-            AssertionConcern.AssertArgumentNotEmpty(Street, Localizer.GetTranslation("EmptyStreet"));
-            AssertionConcern.AssertArgumentRange(Street, 2, 50, Localizer.GetTranslation("StreetOutOfRange"));
+            Check.NotEmpty(Street, nameof(Street));
+            Check.Range(Street, 2, 50, nameof(Street));
 
-            AssertionConcern.AssertArgumentRange(Number, 1, 5, Localizer.GetTranslation("NumberMaxLength"));
+            Check.Range(Number, 1, 5, nameof(Number));
 
-            AssertionConcern.AssertArgumentRange(Complement, 2, 50, Localizer.GetTranslation("ComplementMaxLength"));
+            Check.Range(Complement, 2, 50, nameof(Complement));
 
-            AssertionConcern.AssertArgumentNotEmpty(District, Localizer.GetTranslation("EmptyDistrict"));
-            AssertionConcern.AssertArgumentRange(District, 2, 50, Localizer.GetTranslation("DistrictOutOfRange"));
+            Check.NotEmpty(District, nameof(District));
+            Check.Range(District, 2, 50, nameof(District));
 
-            AssertionConcern.AssertArgumentNotEmpty(City, Localizer.GetTranslation("EmptyCity"));
-            AssertionConcern.AssertArgumentRange(City, 2, 40, Localizer.GetTranslation("CityOutOfRange"));
+            Check.NotEmpty(City, nameof(City));
+            Check.Range(City, 2, 40, nameof(City));
 
-            AssertionConcern.AssertArgumentNotEmpty(State, Localizer.GetTranslation("EmptyState"));
-            AssertionConcern.AssertArgumentExactLength(State, 2, Localizer.GetTranslation("InvalidState"));
+            Check.NotEmpty(State, nameof(State));
+            Check.Length(State, 2, nameof(State));
 
-            AssertionConcern.AssertArgumentNotEmpty(PostalCode, Localizer.GetTranslation("EmptyPostalCode"));
-            AssertionConcern.AssertArgumentExactLength(PostalCode, 8, Localizer.GetTranslation("InvalidPostalCode"));
+            Check.NotEmpty(PostalCode, nameof(PostalCode));
+            Check.Length(PostalCode, 8, nameof(PostalCode));
 
-            AssertionConcern.AssertArgumentNotEmpty(Country, Localizer.GetTranslation("EmptyCountry"));
-            AssertionConcern.AssertArgumentRange(Country, 2, 50, Localizer.GetTranslation("CountryOutOfRange"));
+            Check.NotEmpty(Country, nameof(Country));
+            Check.Range(Country, 2, 50, nameof(Country));
         }
 
         public override string ToString()

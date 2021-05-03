@@ -87,7 +87,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task DeleteAddressShouldThrowNotFoundExceptionAddress()
+        public async Task DeleteAddressShouldThrowDomainExceptionAddress()
         {
             //Arrange
             var customer = _customerFixture.CreateValidCustomerWithAddresses();
@@ -101,11 +101,11 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 .ReturnsAsync(customer);
 
             //Act
-            var result = await Assert.ThrowsAsync<NotFoundException>(() =>
+            var result = await Assert.ThrowsAsync<DomainException>(() =>
                 _handler.Handle(command, CancellationToken.None));
 
             //Assert
-            Assert.Equal("Endereço não encontrado", result.Message);
+            Assert.Equal(nameof(address), result.Message);
         }
     }
 }

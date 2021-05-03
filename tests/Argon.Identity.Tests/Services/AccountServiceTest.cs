@@ -1,6 +1,7 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands;
+using Argon.Core.Utils;
 using Argon.Identity.Models;
 using Argon.Identity.Requests;
 using Argon.Identity.Services;
@@ -113,8 +114,8 @@ namespace Argon.Identity.Tests.Services
             {
                 FirstName = _faker.Lorem.Letter(Name.MaxLengthFirstName + 1),
                 Surname = _faker.Lorem.Letter(Name.MaxLengthSurname + 1),
-                Email = _faker.Lorem.Letter(Email.AddressMaxLength + 1),
-                Cpf = _faker.Random.String(Cpf.NumberLength + 1, '0', '9'),
+                Email = _faker.Lorem.Letter(Email.MaxLength + 1),
+                Cpf = _faker.Random.String(CpfValidator.NumberLength + 1, '0', '9'),
                 BirthDate = DateTime.MaxValue,
                 Phone = _faker.Random.String(Phone.NumberMaxLength + 1, '0', '9'),
                 Gender = Gender.Other,

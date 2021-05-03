@@ -26,7 +26,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
 
             //Assert
-            Assert.Equal("Informe o nome", result.Message);
+            Assert.Equal(nameof(firstName), result.Message);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
 
             //Assert
-            Assert.Equal("O nome deve ter no máximo 50 caracteres", result.Message);
+            Assert.Equal(nameof(firstName), result.Message);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
 
             //Assert
-            Assert.Equal("O sobrenome deve ter no máximo 50 caracteres", result.Message);
+            Assert.Equal(nameof(surname), result.Message);
         }
 
         [Theory]
@@ -70,7 +70,7 @@ namespace Argon.Core.Tests.DomainObjects
             var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
 
             //Assert
-            Assert.Equal("Informe o sobrenome", result.Message);
+            Assert.Equal(nameof(surname), result.Message);
         }
 
         [Fact]

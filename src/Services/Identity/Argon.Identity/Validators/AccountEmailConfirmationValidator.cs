@@ -11,8 +11,8 @@ namespace Argon.Identity.Validators
         {
             RuleFor(a => a.Email)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyEmail"))
-                .Length(Email.AddressMinLength, Email.AddressMaxLength)
-                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.AddressMinLength, Email.AddressMaxLength))
+                .Length(Email.MinLength, Email.MaxLength)
+                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.MinLength, Email.MaxLength))
                 .DependentRules(() =>
                 {
                     RuleFor(c => c.Email).EmailAddress().WithMessage(Localizer.GetTranslation("InvalidEmail"));

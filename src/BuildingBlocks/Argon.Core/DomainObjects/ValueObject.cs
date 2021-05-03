@@ -1,18 +1,10 @@
-﻿using Argon.Core.Internationalization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Argon.Core.DomainObjects
 {
     public abstract class ValueObject
     {
-        protected Localizer Localizer;
-
-        public ValueObject()
-        {
-            Localizer = Localizer.GetLocalizer();
-        }
-
         protected abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object obj)

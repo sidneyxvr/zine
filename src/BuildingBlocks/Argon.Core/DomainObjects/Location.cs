@@ -16,11 +16,12 @@ namespace Argon.Core.DomainObjects
         {
             if (latitude is null || longitude is null)
             {
-                throw new DomainException(Localizer.GetTranslation("InvalidCoordinates"));
+                Check.NotNull(latitude, nameof(latitude));
+                Check.NotNull(longitude, nameof(longitude));
             }
 
-            AssertionConcern.AssertArgumentRange(latitude.Value, -90, 90, Localizer.GetTranslation("InvalidLatitude"));
-            AssertionConcern.AssertArgumentRange(longitude.Value, -180, 180, Localizer.GetTranslation("InvalidLongitude"));
+            Check.Range(latitude.Value, -90, 90, nameof(latitude));
+            Check.Range(longitude.Value, -180, 180, nameof(longitude));
 
             _coordinate = new Point(latitude.Value, longitude.Value) { SRID = 4326 };
         }

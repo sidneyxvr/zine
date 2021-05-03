@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace Argon.Core.DomainObjects
 {
-    public static class AssertionConcern
+    public static class Check
     {
-        public static void AssertArgumentEquals(object object1, object object2, string message)
+        public static void Equals(object object1, object object2, string message)
         {
             if (!object1.Equals(object2))
             {
@@ -13,7 +13,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentFalse(bool boolValue, string message)
+        public static void False(bool boolValue, string message)
         {
             if (boolValue)
             {
@@ -21,7 +21,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentLength(string stringValue, int maximum, string message)
+        public static void MaxLength(string stringValue, int maximum, string message)
         {
             int length = stringValue.Length;
             if (length > maximum)
@@ -30,7 +30,16 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentLength(string stringValue, int minimum, int maximum, string message)
+        //public static void MinLength(string stringValue, int minimum, string message)
+        //{
+        //    int length = stringValue.Length;
+        //    if (length > minimum)
+        //    {
+        //        throw new DomainException(message);
+        //    }
+        //}
+
+        public static void Length(string stringValue, int minimum, int maximum, string message)
         {
             int length = stringValue.Trim().Length;
             if (length < minimum || length > maximum)
@@ -39,7 +48,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentExactLength(string stringValue, int exactLength, string message)
+        public static void Length(string stringValue, int exactLength, string message)
         {
             int length = stringValue.Trim().Length;
             if (length != exactLength)
@@ -48,7 +57,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentMatches(string pattern, string stringValue, string message)
+        public static void Matches(string pattern, string stringValue, string message)
         {
             if (stringValue is not null && !Regex.IsMatch(stringValue, pattern))
             {
@@ -56,7 +65,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentNotEmpty(string stringValue, string message)
+        public static void NotEmpty(string stringValue, string message)
         {
             if (string.IsNullOrWhiteSpace(stringValue))
             {
@@ -64,7 +73,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentNotEmpty(Guid value, string message)
+        public static void NotEmpty(Guid value, string message)
         {
             if (value == Guid.Empty)
             {
@@ -72,7 +81,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentNotEquals(object object1, object object2, string message)
+        public static void NotEquals(object object1, object object2, string message)
         {
             if (object1.Equals(object2))
             {
@@ -80,15 +89,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentFound(object object1, string message)
-        {
-            if (object1 is null)
-            {
-                throw new NotFoundException(message);
-            }
-        }
-
-        public static void AssertArgumentNotNull(object object1, string message)
+        public static void NotNull(object object1, string message)
         {
             if (object1 is null)
             {
@@ -96,7 +97,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentMin(DateTime value, DateTime minimum, string message)
+        public static void Min(DateTime value, DateTime minimum, string message)
         {
             if (value > minimum)
             {
@@ -104,7 +105,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentMax(DateTime value, DateTime maximum, string message)
+        public static void Max(DateTime value, DateTime maximum, string message)
         {
             if (value < maximum)
             {
@@ -112,7 +113,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentRange(double value, double minimum, double maximum, string message)
+        public static void Range(double value, double minimum, double maximum, string message)
         {
             if (value < minimum || value > maximum)
             {
@@ -120,7 +121,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentRange(float value, float minimum, float maximum, string message)
+        public static void Range(float value, float minimum, float maximum, string message)
         {
             if (value < minimum || value > maximum)
             {
@@ -128,7 +129,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentRange(string value, int minimum, int maximum, string message)
+        public static void Range(string value, int minimum, int maximum, string message)
         {
             if (value is not null && (value.Length < minimum || value.Length > maximum))
             {
@@ -136,7 +137,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentRange(int value, int minimum, int maximum, string message)
+        public static void Range(int value, int minimum, int maximum, string message)
         {
             if (value < minimum || value > maximum)
             {
@@ -144,7 +145,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentRange(long value, long minimum, long maximum, string message)
+        public static void Range(long value, long minimum, long maximum, string message)
         {
             if (value < minimum || value > maximum)
             {
@@ -152,7 +153,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentRange(DateTime value, DateTime minimum, DateTime maximum, string message)
+        public static void Range(DateTime value, DateTime minimum, DateTime maximum, string message)
         {
             if (value < minimum || value > maximum)
             {
@@ -160,7 +161,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertArgumentTrue(bool boolValue, string message)
+        public static void True(bool boolValue, string message)
         {
             if (!boolValue)
             {
@@ -168,23 +169,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void AssertStateFalse(bool boolValue, string message)
-        {
-            if (boolValue)
-            {
-                throw new DomainException(message);
-            }
-        }
-
-        public static void AssertStateTrue(bool boolValue, string message)
-        {
-            if (!boolValue)
-            {
-                throw new DomainException(message);
-            }
-        }
-
-        public static void AssertIsEnum(object value, Type enumType, string message)
+        public static void IsEnum(object value, Type enumType, string message)
         {
             if (!Enum.IsDefined(enumType, value))
             {

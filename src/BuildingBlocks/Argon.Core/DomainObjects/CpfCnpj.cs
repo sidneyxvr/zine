@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Argon.Core.DomainObjects
+﻿namespace Argon.Core.DomainObjects
 {
-    public class CpfCnpj : ValueObject
+    public class CpfCnpj : Entity
     {
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

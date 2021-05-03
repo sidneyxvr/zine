@@ -45,12 +45,10 @@ namespace Argon.Core.DomainObjects
             return _date.ToString("dd/MM/yyyy");
         }
 
-        public void ValidateBirthDate(DateTime birthDate)
+        private static void ValidateBirthDate(DateTime birthDate)
         {
-            AssertionConcern.AssertArgumentMin(birthDate, DateTime.UtcNow.AddYears(-MinAge), 
-                string.Format(Localizer.GetTranslation("MinBirthDate"), MinAge));
-            AssertionConcern.AssertArgumentMax(birthDate, DateTime.UtcNow.AddYears(-MaxAge), 
-                string.Format(Localizer.GetTranslation("MaxBirthDate"), MaxAge));
+            Check.Min(birthDate, DateTime.UtcNow.AddYears(-MinAge), nameof(BirthDate));
+            Check.Max(birthDate, DateTime.UtcNow.AddYears(-MaxAge), nameof(BirthDate));
         }
     }
 }
