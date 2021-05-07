@@ -2,8 +2,8 @@
 
 namespace Argon.Suppliers.Domain
 {
-    public interface ISupplierRepository
+    public interface IUnitOfWork
     {
-        Task AddAsync(Supplier supplier);
+        Task<bool> CommitAsync();
     }
 }

@@ -53,12 +53,6 @@ namespace Argon.Core.Internationalization
             => _languages
                 .FirstOrDefault(l => l.Name.Equals(CultureInfo.CurrentCulture.Name, StringComparison.OrdinalIgnoreCase))?
                 .Resources[name]!;
-
-        public string GetTranslation(string name, object arg0)
-            => string.Format(GetTranslation(name), arg0);
-
-        public string GetTranslation(string name, object arg0, object arg1)
-            => string.Format(GetTranslation(name), arg0, arg1);
     }
 
     public class JsonLocalization

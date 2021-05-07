@@ -1,6 +1,7 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.Internationalization;
 using Argon.Core.Messages.IntegrationCommands;
+using Argon.Identity.Constants;
 using Argon.Identity.Models;
 using Argon.Identity.Requests;
 using FluentValidation.Results;
@@ -25,6 +26,46 @@ namespace Argon.Identity.Services
             _bus = bus;
             _userManager = userManager;
             _emailService = emailService;
+        }
+
+        public async Task<ValidationResult> CreateSupplierUserAsync(SupplierUserRequest request)
+        {
+            if (IsInvalid(request))
+            {
+                return ValidationResult;
+            }
+
+            var user = new User
+            {
+                Email = request.Email,
+                UserName = request.Email,
+                LockoutEnabled = true,
+                IsActive = true
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (!result.Succeeded)
+            {
+                result.Errors.ToList().ForEach(e => NotifyError(e.Description));
+                return ValidationResult;
+            }
+
+            var requestResult = await _bus.SendAsync(FromRequestToCommand(request, user.Id));
+
+            if (!requestResult.IsValid)
+            {
+                await _userManager.DeleteAsync(user);
+                return requestResult;
+            }
+
+            await _userManager.AddToRoleAsync(user, RoleContant.Supplier);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            await _emailService.SendEmailConfirmationAccountAsync(request.Email, token);
+
+            return ValidationResult;
         }
 
         public async Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request)
@@ -53,9 +94,9 @@ namespace Argon.Identity.Services
 
             var requestResult = await _bus.SendAsync(new CreateCustomerCommand
             {
-                CustomerId = user.Id,
+                UserId = user.Id,
                 FirstName = request.FirstName,
-                Surname = request.Surname,
+                LastName = request.LastName,
                 Email = request.Email,
                 Phone = request.Phone,
                 Cpf = request.Cpf,
@@ -69,7 +110,7 @@ namespace Argon.Identity.Services
                 return requestResult;
             }
 
-            await _userManager.AddToRoleAsync(user, "Customer");
+            await _userManager.AddToRoleAsync(user, RoleContant.Customer);
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -160,6 +201,30 @@ namespace Argon.Identity.Services
             return result.Succeeded ?
                 ValidationResult :
                 NotifyError(Localizer.GetTranslation("CannotResetPassword"));
+        }
+
+        private static CreateSupplierCommand FromRequestToCommand(SupplierUserRequest request, Guid userId)
+        {
+            return new CreateSupplierCommand
+            {
+                UserId = userId,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Gender = request.Gender,
+                City = request.City,
+                Complement = request.Complement,
+                CorparateName = request.CorparateName,
+                CpfCnpj = request.CpfCnpj,
+                District = request.District,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                Number = request.Number,
+                PostalCode = request.PostalCode,
+                State = request.State,
+                Street = request.Street,
+                TradeName = request.TradeName,
+            };
         }
     }
 }

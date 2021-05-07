@@ -47,7 +47,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Complement = properties.Complement,
                 Latitude = properties.Latitude,
@@ -86,7 +85,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Complement = properties.Complement,
                 Latitude = properties.Latitude,
@@ -112,7 +110,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = "",
                 City = "",
                 State = "",
-                Country = "",
                 PostalCode = "",
                 Complement = "",
             };
@@ -160,7 +157,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = "",
                 City = "",
                 State = "",
-                Country = "",
                 PostalCode = "",
                 Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100)),
             };
@@ -170,15 +166,14 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(8, result.Errors.Count);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("A cidade deve ter entre 2 e 40 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O país deve ter entre 2 e 50 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O bairro deve ter entre 2 e 50 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("A rua deve ter entre 2 e 50 caracteres"));
+            Assert.Equal(7, result.Errors.Count);
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"A cidade deve ter entre {Address.CityMinLength} e {Address.CityMaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O bairro deve ter entre {Address.DistrictMinLength} e {Address.DistrictMaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"A rua deve ter entre {Address.StreetMinLength} e {Address.StreetMinLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Estado inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CEP inválido"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O número deve ter no máximo 10 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O complemento deve ter no máximo 50 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O número deve ter no máximo {Address.NumberMaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O complemento deve ter no máximo {Address.ComplementMaxLength} caracteres"));
         }
 
         [Fact]
@@ -195,7 +190,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Latitude = 91,
                 Longitude = 181,
@@ -226,7 +220,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Longitude = properties.Longitude,
             };

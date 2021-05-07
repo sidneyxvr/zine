@@ -28,9 +28,9 @@ namespace Argon.Customers.Infra.Data.Mappings
                     .HasColumnName("FirstName")
                     .HasColumnType($"varchar({Name.MaxLengthFirstName})");
 
-                c.Property(p => p.Surname)
-                    .HasColumnName("Surname")
-                    .HasColumnType($"varchar({Name.MaxLengthSurname})");
+                c.Property(p => p.LastName)
+                    .HasColumnName("LastName")
+                    .HasColumnType($"varchar({Name.MaxLengthLastName})");
             });
 
             builder.OwnsOne(c => c.BirthDate, e =>

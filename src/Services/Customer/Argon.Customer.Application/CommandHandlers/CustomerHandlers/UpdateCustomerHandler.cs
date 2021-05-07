@@ -33,7 +33,7 @@ namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
                 throw new NotFoundException();
             }
 
-            customer.Update(request.FirstName, request.Surname, request.BirthDate, request.Gender);
+            customer.Update(request.FirstName, request.LastName, request.BirthDate, request.Gender);
 
             await _unitOfWork.CommitAsync();
 

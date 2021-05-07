@@ -25,7 +25,7 @@ namespace Argon.WebApp.Tests.Fixtures
                 Cpf = _faker.Person.Cpf(),
                 Email = _faker.Person.Email,
                 FirstName = _faker.Person.FirstName,
-                Surname = _faker.Person.LastName,
+                LastName = _faker.Person.LastName,
                 Gender = _faker.PickRandom<Gender>(),
                 Password = Password
             };
@@ -37,7 +37,7 @@ namespace Argon.WebApp.Tests.Fixtures
                 Cpf = _faker.Person.Email,
                 Email = _faker.Person.Email,
                 FirstName = _faker.Person.FirstName,
-                Surname = _faker.Person.LastName,
+                LastName = _faker.Person.LastName,
                 Gender = _faker.PickRandom<Gender>(),
                 Password = Password
             };

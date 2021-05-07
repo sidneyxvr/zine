@@ -8,7 +8,7 @@ namespace Argon.Identity.Requests
     public class CustomerUserRequest : BaseRequest
     {
         public string FirstName { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Cpf { get; set; }

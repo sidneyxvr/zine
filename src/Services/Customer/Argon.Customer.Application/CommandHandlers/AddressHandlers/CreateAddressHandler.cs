@@ -34,8 +34,8 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
                 throw new NotFoundException(Localizer.GetTranslation("CustomerNotFound"));
             }
 
-            var address = new Address(request.Street, request.Number, request.District,
-                request.City, request.State, request.Country, request.PostalCode,
+            var address = new Address(request.Street, request.Number, 
+                request.District, request.City, request.State, request.PostalCode,
                 request.Complement, request.Latitude, request.Longitude);
 
             customer.AddAddress(address);

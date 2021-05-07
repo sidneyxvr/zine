@@ -11,11 +11,11 @@ namespace Argon.Core.Messages.IntegrationCommands.Validators
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName", Name.MaxLengthFirstName));
+                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
 
-            RuleFor(c => c.Surname)
-                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
-                .MaximumLength(Name.MaxLengthSurname).WithMessage(Localizer.GetTranslation("MaxLengthSurname", Name.MaxLengthSurname));
+            RuleFor(c => c.LastName)
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyLastName"))
+                .MaximumLength(Name.MaxLengthLastName).WithMessage(Localizer.GetTranslation("MaxLengthLastName"));
 
             RuleFor(c => c.Cpf)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCPF"))
@@ -27,7 +27,7 @@ namespace Argon.Core.Messages.IntegrationCommands.Validators
             RuleFor(c => c.Email)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyEmail"))
                 .Length(Email.MinLength, Email.MaxLength)
-                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.MinLength, Email.MaxLength))
+                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange"))
                 .DependentRules(() =>
                 {
                     RuleFor(c => c.Email).EmailAddress().WithMessage(Localizer.GetTranslation("InvalidEmail"));

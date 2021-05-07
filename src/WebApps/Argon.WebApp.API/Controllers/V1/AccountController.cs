@@ -16,10 +16,18 @@ namespace Argon.WebApp.API.Controllers.V1
             _accountService = accountService;
         }
 
-        [HttpPost]
+        [HttpPost("register-customer")]
         public async Task<IActionResult> CreateCustomerUserAsync(CustomerUserRequest request)
         {
             var result = await _accountService.CreateCustomerUserAsync(request);
+
+            return CustomResponse(result);
+        }
+
+        [HttpPost("register-supplier")]
+        public async Task<IActionResult> CreateSupplierUserAsync(SupplierUserRequest request)
+        {
+            var result = await _accountService.CreateSupplierUserAsync(request);
 
             return CustomResponse(result);
         }

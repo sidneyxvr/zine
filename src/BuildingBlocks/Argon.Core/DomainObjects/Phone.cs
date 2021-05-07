@@ -5,6 +5,8 @@ namespace Argon.Core.DomainObjects
 {
     public class Phone : ValueObject
     {
+        public const string RegularExpression = @"^[1-9]{2}9[1-9][0-9]{7}$";
+
         public const int NumberMaxLength = 11;
         public const int NumberMinLength = 10;
         public string Number { get; private set; }
@@ -13,7 +15,7 @@ namespace Argon.Core.DomainObjects
 
         public Phone(string number)
         {
-            if (!IsValid(number)) throw new DomainException(nameof(Phone));
+            Check.Matches(RegularExpression, number, nameof(Phone));
             Number = number;
         }
 
@@ -27,7 +29,7 @@ namespace Argon.Core.DomainObjects
                 return true;
             }
 
-            var regexEmail = new Regex(@"^[1-9]{2}9[1-9][0-9]{7}$");
+            var regexEmail = new Regex(RegularExpression);
             return regexEmail.IsMatch(phone);
         }
 

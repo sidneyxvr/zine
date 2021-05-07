@@ -29,11 +29,11 @@ namespace Argon.Customers.Domain
             _addresses = new ();
         }
 
-        public Customer(Guid id, string firstName, string surname, string email,
+        public Customer(Guid id, string firstName, string LastName, string email,
             string cpf, DateTime? birthDate, Gender gender, string phone)
         {
             Id = id;
-            Name = new Name(firstName, surname);
+            Name = new Name(firstName, LastName);
             Email = email;
             Cpf = cpf;
             Gender = gender;
@@ -47,9 +47,9 @@ namespace Argon.Customers.Domain
             Validate();
         }
 
-        public void Update(string firstName, string surname, DateTime birthDate, Gender gender)
+        public void Update(string firstName, string LastName, DateTime birthDate, Gender gender)
         {
-            Name = new Name(firstName, surname);
+            Name = new Name(firstName, LastName);
             Gender = gender;
             BirthDate = birthDate;
 
@@ -86,13 +86,13 @@ namespace Argon.Customers.Domain
         }
 
         public void UpdateAddress(Guid addressId, string street, string number, string district, string city, 
-            string state, string country, string postalCode, string complement, double? latitude, double? longitude)
+            string state, string postalCode, string complement, double? latitude, double? longitude)
         {
             var address = _addresses.FirstOrDefault(a => a.Id == addressId);
 
             Check.NotNull(address, nameof(address));
 
-            address.Update(street, number, district, city, state, country, postalCode, complement, latitude, longitude);
+            address.Update(street, number, district, city, state, postalCode, complement, latitude, longitude);
         }
 
         public void DefineMainAddress(Guid addressId)

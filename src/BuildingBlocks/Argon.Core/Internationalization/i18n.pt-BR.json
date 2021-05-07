@@ -1,13 +1,13 @@
 {
   "InvalidEmail": "Email inválido",
   "EmptyEmail": "Informe o email",
-  "EmailOutOfRange": "O email deve ter entre {0} e {1} caracteres",
+  "EmailOutOfRange": "O email deve ter entre 5 e 254 caracteres",
   "InvalidCPF": "CPF inválido",
   "EmptyCPF": "Informe o CPF",
   "EmptyFirstName": "Informe o nome",
-  "EmptySurname": "Informe o sobrenome",
-  "MaxLengthFirstName": "O nome deve ter no máximo {0} caracteres",
-  "MaxLengthSurname": "O sobrenome deve ter no máximo {0} caracteres",
+  "EmptyLastName": "Informe o sobrenome",
+  "MaxLengthFirstName": "O nome deve ter no máximo 50 caracteres",
+  "MaxLengthLastName": "O sobrenome deve ter no máximo 50 caracteres",
   "MinBirthDate": "A idade mínima permitida é {0} anos",
   "MaxBirthDate": "A idade máxima permitida é {0} anos",
   "EmptyBirthDate": "A data de Nascimento é obrigatório",
@@ -51,5 +51,7 @@
   "CannotDisableTwoFactorAuthentication": "Não foi possível desabilitar a altenticação por dois fatores",
   "CannotAuthenticate": "Não foi possível realizar o login",
   "CannotRefreshToken": "Não foi possível atualizar o token de acesso",
-  "EmptyToken": "Forneça o token"
+  "EmptyToken": "Forneça o token",
+  "EmptyCNPJ": "Fornece o CNPJ",
+  "InvalidCNPJ": "CNPJ inválido"
 }

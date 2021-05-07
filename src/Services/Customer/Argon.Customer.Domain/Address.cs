@@ -13,17 +13,29 @@ namespace Argon.Customers.Domain
         public string PostalCode { get; private set; }
         public string Complement { get; private set; }
         public Location Location { get; private set; }
+
+        public const int StreetMaxLength = 50;
+        public const int StreetMinLength = 2;
+        public const int NumberMaxLength = 10;
+        public const int DistrictMaxLength = 50;
+        public const int DistrictMinLength = 5;
+        public const int CityMaxLength = 40;
+        public const int CityMinLength = 2;
+        public const int StateLength = 2;
+        public const int PostalCodeLength = 8;
+        public const int ComplementMaxLength = 50;
+
         protected Address() { }
 
         public Address(string street, string number, string district, string city, string state,
-            string country, string postalCode, string complement, double? latitude, double? longitude)
+            string postalCode, string complement, double? latitude, double? longitude)
         {
             Street = street;
             Number = number;
             District = district;
             City = city;
             State = state;
-            Country = country;
+            Country = "Brasil";
             PostalCode = postalCode;
             Complement = complement;
             Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
@@ -31,15 +43,14 @@ namespace Argon.Customers.Domain
             Validate();
         }
 
-        public void Update(string street, string number, string district, string city, string state,
-            string country, string postalCode, string complement, double? latitude, double? longitude)
+        public void Update(string street, string number, string district, string city, string state, 
+            string postalCode, string complement, double? latitude, double? longitude)
         {
             Street = street;
             Number = number;
             District = district;
             City = city;
             State = state;
-            Country = country;
             PostalCode = postalCode;
             Complement = complement;
             Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
@@ -50,26 +61,23 @@ namespace Argon.Customers.Domain
         private void Validate()
         {
             Check.NotEmpty(Street, nameof(Street));
-            Check.Range(Street, 2, 50, nameof(Street));
+            Check.Range(Street, StreetMinLength, StreetMaxLength, nameof(Street));
 
-            Check.Range(Number, 1, 5, nameof(Number));
+            Check.MaxLength(Number, NumberMaxLength, nameof(Number));
 
-            Check.Range(Complement, 2, 50, nameof(Complement));
+            Check.MaxLength(Complement, ComplementMaxLength, nameof(Complement));
 
             Check.NotEmpty(District, nameof(District));
-            Check.Range(District, 2, 50, nameof(District));
+            Check.Range(District, DistrictMinLength, DistrictMaxLength, nameof(District));
 
             Check.NotEmpty(City, nameof(City));
-            Check.Range(City, 2, 40, nameof(City));
+            Check.Range(City, CityMinLength, CityMaxLength, nameof(City));
 
             Check.NotEmpty(State, nameof(State));
-            Check.Length(State, 2, nameof(State));
+            Check.Length(State, StateLength, nameof(State));
 
             Check.NotEmpty(PostalCode, nameof(PostalCode));
-            Check.Length(PostalCode, 8, nameof(PostalCode));
-
-            Check.NotEmpty(Country, nameof(Country));
-            Check.Range(Country, 2, 50, nameof(Country));
+            Check.Length(PostalCode, PostalCodeLength, nameof(PostalCode));
         }
 
         public override string ToString()

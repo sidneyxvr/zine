@@ -36,9 +36,9 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             var props = _customerFixture.GetCustomerTestDTO();
             var command = new CreateCustomerCommand
             {
-                CustomerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
                 FirstName = props.FirstName,
-                Surname = props.Surname,
+                LastName = props.LastName,
                 Email = props.Email,
                 Phone = props.Phone,
                 Cpf = props.Cpf,
@@ -63,7 +63,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             //Arrange
             var command = new CreateCustomerCommand
             {
-                CustomerId = Guid.Empty,
+                UserId = Guid.Empty,
                 BirthDate = DateTime.Now.AddYears(-19),
                 Gender = Gender.Other
             };
@@ -86,9 +86,9 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             //Arrange
             var command = new CreateCustomerCommand
             {
-                CustomerId = Guid.Empty,
+                UserId = Guid.Empty,
                 FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
-                Surname = _faker.Random.String2(Name.MaxLengthSurname + 1),
+                LastName = _faker.Random.String2(Name.MaxLengthLastName + 1),
                 Email = "a@b",
                 Phone = "999",
                 Cpf = "12345678900",
@@ -102,10 +102,10 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             //Assert
             Assert.False(result.IsValid);
             Assert.Equal(7, result.Errors.Count);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O nome deve ter no máximo 50 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O sobrenome deve ter no máximo 50 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CPF inválido"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O email deve ter entre 5 e 254 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de Nascimento inválida"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Sexo inválido"));
@@ -118,9 +118,9 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             var props = _customerFixture.GetCustomerTestDTO();
             var command = new CreateCustomerCommand
             {
-                CustomerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
                 FirstName = props.FirstName,
-                Surname = props.Surname,
+                LastName = props.LastName,
                 Email = _faker.Person.FullName,
                 Cpf = props.Cpf,
                 BirthDate = props.BirthDate,

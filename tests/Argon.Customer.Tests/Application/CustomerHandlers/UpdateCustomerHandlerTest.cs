@@ -38,7 +38,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             {
                 CustomerId = Guid.NewGuid(),
                 FirstName = props.FirstName,
-                Surname = props.Surname,
+                LastName = props.LastName,
                 Phone = props.Phone,
                 BirthDate = props.BirthDate,
                 Gender = props.Gender
@@ -88,7 +88,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             {
                 CustomerId = Guid.Empty,
                 FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
-                Surname = _faker.Random.String2(Name.MaxLengthSurname + 1),
+                LastName = _faker.Random.String2(Name.MaxLengthLastName + 1),
                 Phone = _faker.Person.Email,
                 BirthDate = DateTime.Now,
                 Gender = 0
@@ -101,7 +101,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             Assert.False(result.IsValid);
             Assert.Equal(5, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthSurname} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de Nascimento inválida"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Sexo inválido"));

@@ -32,7 +32,6 @@ namespace Argon.Customers.Tests.Fixtures
 
         public Address CreateValidAddress()
         {
-            var country = _faker.Address.Country();
             var state = _faker.Address.StateAbbr();
             var street = _faker.Address.StreetName();
             var number = _faker.Address.BuildingNumber();
@@ -45,7 +44,7 @@ namespace Argon.Customers.Tests.Fixtures
             var longitude = _faker.Address.Longitude();
 
             return new Address(street, number, district, city, state, 
-                country, postalCode, complement, latitude, longitude);
+                postalCode, complement, latitude, longitude);
         }
     }
 

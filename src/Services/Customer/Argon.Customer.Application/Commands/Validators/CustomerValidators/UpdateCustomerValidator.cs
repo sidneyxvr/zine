@@ -12,11 +12,11 @@ namespace Argon.Customers.Application.Commands.Validators.CustomerValidators
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName", Name.MaxLengthFirstName));
+                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
 
-            RuleFor(c => c.Surname)
-                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptySurname"))
-                .MaximumLength(Name.MaxLengthSurname).WithMessage((Localizer.GetTranslation("MaxLengthSurname", Name.MaxLengthSurname)));
+            RuleFor(c => c.LastName)
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyLastName"))
+                .MaximumLength(Name.MaxLengthLastName).WithMessage((Localizer.GetTranslation("MaxLengthLastName")));
 
             RuleFor(c => c.BirthDate)
                 .InclusiveBetween(DateTime.UtcNow.AddYears(-BirthDate.MaxAge), DateTime.UtcNow.AddYears(-BirthDate.MinAge))

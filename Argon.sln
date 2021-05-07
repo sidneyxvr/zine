@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Building Blocks", "01 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - WebApps", "03 - WebApps", "{38F7C4BE-56BE-4304-8B48-B5F6799D80E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supplier", "Supplier", "{488D104A-900D-43CC-8228-F9E1B98A3A96}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Suppliers", "Suppliers", "{488D104A-900D-43CC-8228-F9E1B98A3A96}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customers", "Customers", "{7C25EE06-E070-4D60-BE7F-EAA1B140EC36}"
 EndProject
@@ -67,7 +67,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.WebApp.Tests", "tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Customers.QueryStack", "src\Services\Customer\Argon.Customers.QueryStack\Argon.Customers.QueryStack.csproj", "{E8FB87C9-9F56-4CDB-9E6D-6F7D431F6B33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Suppliers.Infra.Data", "src\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Suppliers.Infra.Data.csproj", "{36BDF0B6-8E89-49CD-9234-2EDDBFA3A6CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Suppliers.Infra.Data", "src\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Suppliers.Infra.Data.csproj", "{36BDF0B6-8E89-49CD-9234-2EDDBFA3A6CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Suppliers.Tests", "tests\Argon.Suppliers.Tests\Argon.Suppliers.Tests.csproj", "{F61123E6-13D8-46FF-84A6-C749D243575C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +145,10 @@ Global
 		{36BDF0B6-8E89-49CD-9234-2EDDBFA3A6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36BDF0B6-8E89-49CD-9234-2EDDBFA3A6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36BDF0B6-8E89-49CD-9234-2EDDBFA3A6CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F61123E6-13D8-46FF-84A6-C749D243575C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F61123E6-13D8-46FF-84A6-C749D243575C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F61123E6-13D8-46FF-84A6-C749D243575C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F61123E6-13D8-46FF-84A6-C749D243575C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +184,7 @@ Global
 		{0F8D560E-B910-4BFD-BE1C-6B9D686C505D} = {38F7C4BE-56BE-4304-8B48-B5F6799D80E8}
 		{E8FB87C9-9F56-4CDB-9E6D-6F7D431F6B33} = {7C25EE06-E070-4D60-BE7F-EAA1B140EC36}
 		{36BDF0B6-8E89-49CD-9234-2EDDBFA3A6CE} = {488D104A-900D-43CC-8228-F9E1B98A3A96}
+		{F61123E6-13D8-46FF-84A6-C749D243575C} = {488D104A-900D-43CC-8228-F9E1B98A3A96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91A45E2F-9D6D-4902-B556-7D06DC132948}

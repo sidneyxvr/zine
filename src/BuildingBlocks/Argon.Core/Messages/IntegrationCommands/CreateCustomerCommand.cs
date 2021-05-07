@@ -6,9 +6,9 @@ namespace Argon.Core.Messages.IntegrationCommands
 {
     public class CreateCustomerCommand : Command
     {
-        public Guid CustomerId { get; init; }
+        public Guid UserId { get; init; }
         public string FirstName { get; init; }
-        public string Surname { get; init; }
+        public string LastName { get; init; }
         public string Email { get; init; }
         public string Phone { get; init; }
         public string Cpf { get; init; }

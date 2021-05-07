@@ -12,10 +12,6 @@ namespace Argon.Customers.Application.Commands.Validators.AddressValidators
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyCity"))
                 .Length(2, 40).WithMessage(Localizer.GetTranslation("CityOutOfRange"));
 
-            RuleFor(a => a.Country)
-                .NotNull().WithMessage(Localizer.GetTranslation("EmptyCountry"))
-                .Length(2, 50).WithMessage(Localizer.GetTranslation("CountryOutOfRange"));
-
             RuleFor(a => a.District)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyDistrict"))
                 .Length(2, 50).WithMessage(Localizer.GetTranslation("DistrictOutOfRange"));

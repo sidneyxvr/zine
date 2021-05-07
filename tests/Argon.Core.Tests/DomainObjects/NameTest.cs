@@ -20,10 +20,10 @@ namespace Argon.Core.Tests.DomainObjects
         public void CreateNameEmptyFirstNameShouldThrowDomainException(string firstName)
         {
             //Arrange
-            var surname = _faker.Person.LastName;
+            var LastName = _faker.Person.LastName;
 
             //Act
-            var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
+            var result = Assert.Throws<DomainException>(() => new Name(firstName, LastName));
 
             //Assert
             Assert.Equal(nameof(firstName), result.Message);
@@ -34,43 +34,43 @@ namespace Argon.Core.Tests.DomainObjects
         {
             //Arrange
             var firstName = _faker.Lorem.Letter(_faker.Random.Int(51, 1000));
-            var surname = _faker.Person.LastName;
+            var LastName = _faker.Person.LastName;
 
             //Act
-            var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
+            var result = Assert.Throws<DomainException>(() => new Name(firstName, LastName));
 
             //Assert
             Assert.Equal(nameof(firstName), result.Message);
         }
 
         [Fact]
-        public void CreateNameMaxLengthSurnameShouldThrowDomainException()
+        public void CreateNameMaxLengthLastNameShouldThrowDomainException()
         {
             //Arrange
             var firstName = _faker.Person.FirstName;
-            var surname = _faker.Lorem.Letter(_faker.Random.Int(51, 1000));
+            var lastName = _faker.Lorem.Letter(_faker.Random.Int(51, 1000));
 
             //Act
-            var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
+            var result = Assert.Throws<DomainException>(() => new Name(firstName, lastName));
 
             //Assert
-            Assert.Equal(nameof(surname), result.Message);
+            Assert.Equal(nameof(lastName), result.Message);
         }
 
         [Theory]
         [InlineData("  ")]
         [InlineData("")]
         [InlineData(null)]
-        public void CreateNameEmptySurnameShouldThrowDomainException(string surname)
+        public void CreateNameEmptyLastNameShouldThrowDomainException(string lastName)
         {
             //Arrange
             var firstName = _faker.Person.FirstName;
 
             //Act
-            var result = Assert.Throws<DomainException>(() => new Name(firstName, surname));
+            var result = Assert.Throws<DomainException>(() => new Name(firstName, lastName));
 
             //Assert
-            Assert.Equal(nameof(surname), result.Message);
+            Assert.Equal(nameof(lastName), result.Message);
         }
 
         [Fact]
@@ -78,14 +78,14 @@ namespace Argon.Core.Tests.DomainObjects
         {
             //Arrange
             var firstName = _faker.Person.FirstName;
-            var surname = _faker.Person.LastName;
+            var LastName = _faker.Person.LastName;
 
             //Act
-            var result = new Name(firstName, surname);
+            var result = new Name(firstName, LastName);
 
             //Assert
             Assert.Equal(result.FirstName, firstName);
-            Assert.Equal(result.Surname, surname);
+            Assert.Equal(result.LastName, LastName);
         }
 
         [Fact]
@@ -100,13 +100,13 @@ namespace Argon.Core.Tests.DomainObjects
 
 
         [Fact]
-        public void GetSurnameFromNameShouldWorkSuccessfully()
+        public void GetLastNameFromNameShouldWorkSuccessfully()
         {
             //Act
             var name = new Name("Nome", "da Pessoa Silva");
 
             //Assert
-            Assert.Equal("da Pessoa Silva", name.Surname);
+            Assert.Equal("da Pessoa Silva", name.LastName);
         }
 
         [Fact]

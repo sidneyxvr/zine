@@ -29,7 +29,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Street), result.Message);
@@ -45,7 +45,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Street), result.Message);
@@ -61,7 +61,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Number), result.Message);
@@ -79,7 +79,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, district, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.District), result.Message);
@@ -95,7 +95,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, district, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.District), result.Message);
@@ -113,7 +113,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, city, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.City), result.Message);
@@ -129,7 +129,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, city, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.City), result.Message);
@@ -147,7 +147,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, state,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.State), result.Message);
@@ -163,28 +163,10 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, state,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.State), result.Message);
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void CreateAddressEmptyCountryShouldThrowDomainException(string country)
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(address.Street, address.Number, address.District, address.City, address.State,
-                country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
-
-            //Assert
-            Assert.Equal(nameof(Address.Country), result.Message);
         }
 
         [Fact]
@@ -197,7 +179,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, address.State,
-                country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Country), result.Message);
@@ -215,26 +197,10 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, postalCode, address.Complement, address.Latitude, address.Longitude));
+                postalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.PostalCode), result.Message);
-        }
-
-        [Fact]
-        public void CreateAddressCountryMaxLengthShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var country = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
-
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(address.Street, address.Number, address.District, address.City, address.State,
-                country, address.PostalCode, address.Complement, address.Latitude, address.Longitude));
-
-            //Assert
-            Assert.Equal(nameof(Address.Country), result.Message);
         }
 
         [Fact]
@@ -247,7 +213,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, complement, address.Latitude, address.Longitude));
+                    address.PostalCode, complement, address.Latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Complement), result.Message);
@@ -264,7 +230,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, latitude, address.Longitude));
+                    address.PostalCode, address.Complement, latitude, address.Longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Location.Latitude).ToLower(), result.Message);
@@ -281,7 +247,7 @@ namespace Argon.Customers.Tests.Domain
             //Act
             var result = Assert.Throws<DomainException>(() =>
                 new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, longitude));
+                    address.PostalCode, address.Complement, address.Latitude, longitude));
 
             //Assert
             Assert.Equal(nameof(Address.Location.Longitude).ToLower(), result.Message);
@@ -295,7 +261,7 @@ namespace Argon.Customers.Tests.Domain
 
             //Act
             var result = new Address(address.Street, address.Number, address.District, address.City, address.State,
-                address.Country, address.PostalCode, address.Complement, address.Latitude, address.Longitude);
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude);
 
             //Assert
             Assert.Equal(address.Street, result.Street);
@@ -319,7 +285,7 @@ namespace Argon.Customers.Tests.Domain
 
             //Act
             var result = new Address(address.Street, address.Number, address.District, address.City, 
-                address.State, address.Country, address.PostalCode, address.Complement, null, null);
+                address.State, address.PostalCode, address.Complement, null, null);
 
             //Assert
             Assert.Null(result.Location);
@@ -338,7 +304,7 @@ namespace Argon.Customers.Tests.Domain
             var postalCode = "50000999";
 
             //Act
-            var result = new Address(street, number, district, city, state, country, postalCode, null, null, null);
+            var result = new Address(street, number, district, city, state, postalCode, null, null, null);
 
             //Assert
             Assert.Equal(street, result.Street);

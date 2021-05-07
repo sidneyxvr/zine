@@ -35,8 +35,9 @@ namespace Argon.Customers.Application.CommandHandlers.AddressHandlers
                 throw new NotFoundException(Localizer.GetTranslation("CustomerNotFound"));
             }
 
-            customer.UpdateAddress(request.AddressId, request.Street, request.Number, request.District, request.City, request.State, 
-                request.Country, request.PostalCode, request.Complement, request.Latitude, request.Longitude);
+            customer.UpdateAddress(request.AddressId, request.Street, request.Number, 
+                request.District, request.City, request.State, request.PostalCode, 
+                request.Complement, request.Latitude, request.Longitude);
 
             await _unitOfWork.CommitAsync();
 

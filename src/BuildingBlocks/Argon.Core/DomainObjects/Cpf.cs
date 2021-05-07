@@ -12,16 +12,15 @@ namespace Argon.Core.DomainObjects
         public Cpf(string number)
         {
             number = number?.OnlyNumbers();
-
+            
             Check.NotEmpty(number, nameof(Cpf));
-            if (!CpfValidator.IsValid(number)) throw new DomainException(nameof(Cpf));
+            Check.True(CpfValidator.IsValid(number), nameof(Cpf));
+            
             Number = number;
         }
 
-        public static implicit operator Cpf(string number)
-        {
-            return new Cpf(number);
-        }
+        public static implicit operator Cpf(string number) 
+            => new (number);
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

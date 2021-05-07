@@ -24,7 +24,7 @@ namespace Argon.Customers.Tests.Domain
 
             //Act
             var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf,
+                Guid.NewGuid(), customer.FirstName, customer.LastName, customer.Email, customer.Cpf,
                 customer.BirthDate, (Gender)gender, customer.Phone));
 
             //Assert
@@ -39,7 +39,7 @@ namespace Argon.Customers.Tests.Domain
 
             //Act
             var result = new Customer(
-                Guid.NewGuid(), customer.FirstName, customer.Surname, customer.Email, customer.Cpf,
+                Guid.NewGuid(), customer.FirstName, customer.LastName, customer.Email, customer.Cpf,
                 customer.BirthDate, customer.Gender, customer.Phone);
 
             //Assert
@@ -121,11 +121,11 @@ namespace Argon.Customers.Tests.Domain
             var validCustomer = _customerFixture.CreateValidCustomer();
 
             //Act
-            validCustomer.Update(customer.FirstName, customer.Surname, customer.BirthDate, customer.Gender);
+            validCustomer.Update(customer.FirstName, customer.LastName, customer.BirthDate, customer.Gender);
 
             //Assert
             Assert.Equal(customer.FirstName, validCustomer.Name.FirstName);
-            Assert.Equal(customer.Surname, validCustomer.Name.Surname);
+            Assert.Equal(customer.LastName, validCustomer.Name.LastName);
             Assert.Equal(customer.BirthDate.Date, validCustomer.BirthDate.Date);
             Assert.Equal(customer.BirthDate.Day, validCustomer.BirthDate.Birthday);
             Assert.Equal(customer.Gender, validCustomer.Gender);
@@ -137,7 +137,7 @@ namespace Argon.Customers.Tests.Domain
             //Arrange
             var customer1 = _customerFixture.CreateValidCustomer();
             var customer2 = new Customer(customer1.Id, customer1.Name.FirstName, 
-                customer1.Name.Surname, customer1.Email.Address, customer1.Cpf.Number, 
+                customer1.Name.LastName, customer1.Email.Address, customer1.Cpf.Number, 
                 customer1.BirthDate.Date, customer1.Gender, customer1.Phone.Number);
 
             //Act
@@ -155,7 +155,7 @@ namespace Argon.Customers.Tests.Domain
             //Arrange
             var customer1 = _customerFixture.CreateValidCustomer();
             var customer2 = new Customer(Guid.NewGuid(), customer1.Name.FirstName,
-                customer1.Name.Surname, customer1.Email.Address, customer1.Cpf.Number,
+                customer1.Name.LastName, customer1.Email.Address, customer1.Cpf.Number,
                 customer1.BirthDate.Date, customer1.Gender, customer1.Phone.Number);
 
             //Act

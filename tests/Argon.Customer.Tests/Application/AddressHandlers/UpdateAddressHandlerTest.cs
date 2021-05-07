@@ -51,7 +51,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Complement = properties.Complement,
                 Latitude = properties.Latitude,
@@ -91,7 +90,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Complement = properties.Complement,
                 Latitude = properties.Latitude,
@@ -123,7 +121,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = "",
                 City = "",
                 State = "",
-                Country = "",
                 PostalCode = "",
                 Complement = ""
             };
@@ -174,7 +171,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = "",
                 City = "",
                 State = "",
-                Country = "",
                 PostalCode = "",
                 Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100))
             };
@@ -210,7 +206,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Complement = null,
                 Latitude = 91,
@@ -243,7 +238,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 District = properties.District,
                 City = properties.City,
                 State = properties.State,
-                Country = properties.Country,
                 PostalCode = properties.PostalCode,
                 Longitude = properties.Longitude,
             };

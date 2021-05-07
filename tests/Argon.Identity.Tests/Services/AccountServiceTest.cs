@@ -42,7 +42,7 @@ namespace Argon.Identity.Tests.Services
             var request = new CustomerUserRequest
             {
                 FirstName = customerUser.FirstName,
-                Surname = customerUser.Surname,
+                LastName = customerUser.LastName,
                 Email = customerUser.Email,
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
@@ -83,7 +83,7 @@ namespace Argon.Identity.Tests.Services
             var request = new CustomerUserRequest
             {
                 FirstName = null,
-                Surname = null,
+                LastName = null,
                 Email = null,
                 Cpf = null,
                 BirthDate = DateTime.MinValue,
@@ -113,7 +113,7 @@ namespace Argon.Identity.Tests.Services
             var request = new CustomerUserRequest
             {
                 FirstName = _faker.Lorem.Letter(Name.MaxLengthFirstName + 1),
-                Surname = _faker.Lorem.Letter(Name.MaxLengthSurname + 1),
+                LastName = _faker.Lorem.Letter(Name.MaxLengthLastName + 1),
                 Email = _faker.Lorem.Letter(Email.MaxLength + 1),
                 Cpf = _faker.Random.String(CpfValidator.NumberLength + 1, '0', '9'),
                 BirthDate = DateTime.MaxValue,
@@ -127,10 +127,10 @@ namespace Argon.Identity.Tests.Services
 
             //Assert
             Assert.Equal(7, result.Errors.Count);
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("O nome deve ter no máximo 50 caracteres"));
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("O sobrenome deve ter no máximo 50 caracteres"));
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("CPF inválido"));
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("O email deve ter entre 5 e 254 caracteres"));
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de Nascimento inválida"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Número de celular inválido"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("A senha deve ter entre 8 e 15 caracteres"));
@@ -146,7 +146,7 @@ namespace Argon.Identity.Tests.Services
             var request = new CustomerUserRequest
             {
                 FirstName = customerUser.FirstName,
-                Surname = customerUser.Surname,
+                LastName = customerUser.LastName,
                 Email = "a@b",
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
@@ -175,7 +175,7 @@ namespace Argon.Identity.Tests.Services
             var request = new CustomerUserRequest
             {
                 FirstName = customerUser.FirstName,
-                Surname = customerUser.Surname,
+                LastName = customerUser.LastName,
                 Email = customerUser.Email,
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
@@ -203,7 +203,7 @@ namespace Argon.Identity.Tests.Services
             var request = new CustomerUserRequest
             {
                 FirstName = customerUser.FirstName,
-                Surname = customerUser.Surname,
+                LastName = customerUser.LastName,
                 Email = customerUser.Email,
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,

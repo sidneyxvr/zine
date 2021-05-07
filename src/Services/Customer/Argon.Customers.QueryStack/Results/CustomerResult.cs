@@ -5,7 +5,7 @@ namespace Argon.Customers.QueryStack.Results
     public class CustomerResult
     {
         public string FirstName { get; init; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public string Email { get; init; }
         public string Cpf { get; init; }
         public DateTime BirthDate { get; init; }
