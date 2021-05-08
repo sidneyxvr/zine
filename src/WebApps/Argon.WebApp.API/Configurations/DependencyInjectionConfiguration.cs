@@ -1,4 +1,5 @@
-﻿using Argon.Core.Communication;
+﻿using Argon.Catalog.Infra.Data;
+using Argon.Core.Communication;
 using Argon.Core.Messages.IntegrationCommands;
 using Argon.Customers.Application.CommandHandlers;
 using Argon.Customers.Application.Commands;
@@ -11,6 +12,7 @@ using Argon.Identity.Data;
 using Argon.Identity.Services;
 using Argon.Suppliers.Application.CommandHandlers;
 using Argon.Suppliers.Domain;
+using Argon.Suppliers.Infra.Data;
 using Argon.Suppliers.Infra.Data.Repositories;
 using Argon.WebApp.API.Extensions;
 using Argon.WebApp.API.TemplateEmails;
@@ -28,16 +30,12 @@ namespace Argon.WebApp.API.Configurations
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //Contexts
-            services.AddScoped<IdentityContext>();
-
             //General
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IBus, InMemoryBus>();
 
             //Customers
-            services.AddScoped<CustomerContext>();
 
             services.AddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CreateCustomerHandler>();
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressHandler>();

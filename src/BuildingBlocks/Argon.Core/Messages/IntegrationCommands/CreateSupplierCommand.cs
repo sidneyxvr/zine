@@ -6,7 +6,7 @@ namespace Argon.Core.Messages.IntegrationCommands
 {
     public class CreateSupplierCommand : Command
     {
-        public Guid UserId { get; set; }
+        public Guid UserId { get; init; }
         public string CorparateName { get; init; }
         public string TradeName { get; init; }
         public string CpfCnpj { get; init; }

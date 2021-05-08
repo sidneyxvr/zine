@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
+    <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Application\Argon.Catalog.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data\Argon.Catalog.Infra.Data.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />

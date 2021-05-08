@@ -1,5 +1,6 @@
 ﻿using Argon.Core.Messages;
 using Argon.Core.Messages.IntegrationCommands;
+using Argon.Core.Messages.IntegrationEvents;
 using Argon.Suppliers.Domain;
 using FluentValidation.Results;
 using MediatR;
@@ -30,6 +31,16 @@ namespace Argon.Suppliers.Application.CommandHandlers
                 request.State, request.PostalCode, request.Complement, request.Latitude, request.Longitude);
 
             var supplier = new Supplier(request.CorparateName, request.TradeName, request.CpfCnpj, user, address);
+
+            var supplierCreatedEvent = new SupplierCreatedEvent
+            {
+                Name = supplier.TradeName,
+                Latitude = address.Location.Latitude,
+                Longitude = address.Location.Longitude,
+                Address = address.ToString()
+            };
+
+            supplier.AddDomainEvent(supplierCreatedEvent);
 
             await _unitOfWork.SupplierRepository.AddAsync(supplier);
             await _unitOfWork.CommitAsync();

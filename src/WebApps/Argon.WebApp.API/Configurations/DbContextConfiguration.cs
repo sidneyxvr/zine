@@ -1,4 +1,5 @@
-﻿using Argon.Customers.Infra.Data;
+﻿using Argon.Catalog.Infra.Data;
+using Argon.Customers.Infra.Data;
 using Argon.Identity.Data;
 using Argon.Suppliers.Infra.Data;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,11 @@ namespace Argon.WebApp.API.Configurations
             {
                 return RegisterProductionContexts(services, configuration);
             }
+
+            services.AddScoped<IdentityContext>();
+            services.AddScoped<CustomerContext>();
+            services.AddScoped<SupplierContext>();
+            services.AddScoped<CatalogContext>();
 
             return services;
         }
@@ -50,6 +56,14 @@ namespace Argon.WebApp.API.Configurations
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
+            services.AddDbContext<CatalogContext>(options =>
+               options
+                   .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                       x => x.UseNetTopologySuite())
+                       .LogTo(Console.WriteLine)
+                       .EnableDetailedErrors()
+                       .EnableSensitiveDataLogging());
+
             return services;
         }
 
@@ -62,6 +76,9 @@ namespace Argon.WebApp.API.Configurations
                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
 
             services.AddDbContext<SupplierContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+
+            services.AddDbContext<CatalogContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
 
             return services;
