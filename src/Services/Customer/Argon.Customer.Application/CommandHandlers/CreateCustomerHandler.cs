@@ -5,17 +5,15 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
+namespace Argon.Customers.Application.CommandHandlers
 {
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, ValidationResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICustomerRepository _customerRepository;
 
-        public CreateCustomerHandler(IUnitOfWork unitOfWork, ICustomerRepository customerRepository)
+        public CreateCustomerHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _customerRepository = customerRepository;
         }
 
         public async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -28,7 +26,7 @@ namespace Argon.Customers.Application.CommandHandlers.CustomerHandlers
             var customer = new Customer(request.UserId, request.FirstName, request.LastName,
                 request.Email, request.Cpf, request.BirthDate, request.Gender, request.Phone);
 
-            await _customerRepository.AddAsync(customer);
+            await _unitOfWork.CustomerRepository.AddAsync(customer);
             await _unitOfWork.CommitAsync();
 
             return request.ValidationResult;

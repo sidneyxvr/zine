@@ -14,7 +14,7 @@ namespace Argon.Identity.Requests
         private string _cpfCnpj;
         public string CpfCnpj
         {
-            get => _cpfCnpj?.OnlyNumbers(); 
+            get => _cpfCnpj?.OnlyNumbers();
             init
             {
                 _cpfCnpj = value;
@@ -34,7 +34,15 @@ namespace Argon.Identity.Requests
         public string District { get; init; }
         public string City { get; init; }
         public string State { get; init; }
-        public string PostalCode { get; init; }
+        private string _postalCode;
+        public string PostalCode
+        {
+            get => _postalCode?.OnlyNumbers();
+            init 
+            {
+                _postalCode = value;
+            }
+        }
         public string Complement { get; init; }
         public double? Latitude { get; init; }
         public double? Longitude { get; init; }

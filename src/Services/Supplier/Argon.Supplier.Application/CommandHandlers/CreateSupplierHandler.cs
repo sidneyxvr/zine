@@ -6,18 +6,15 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Argon.Suppliers.Application.CommandHandlers.SupplierHandlers
+namespace Argon.Suppliers.Application.CommandHandlers
 {
     public class CreateSupplierHandler : BaseHandler, IRequestHandler<CreateSupplierCommand, ValidationResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISupplierRepository _supplierRepository;
 
-        public CreateSupplierHandler(IUnitOfWork unitOfWork, 
-            ISupplierRepository supplierRepository)
+        public CreateSupplierHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _supplierRepository = supplierRepository;
         }
 
         public async Task<ValidationResult> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
@@ -34,8 +31,7 @@ namespace Argon.Suppliers.Application.CommandHandlers.SupplierHandlers
 
             var supplier = new Supplier(request.CorparateName, request.TradeName, request.CpfCnpj, user, address);
 
-            await _supplierRepository.AddAsync(supplier);
-
+            await _unitOfWork.SupplierRepository.AddAsync(supplier);
             await _unitOfWork.CommitAsync();
 
             return request.ValidationResult;

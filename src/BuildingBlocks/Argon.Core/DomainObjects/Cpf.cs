@@ -12,7 +12,7 @@ namespace Argon.Core.DomainObjects
         public Cpf(string number)
         {
             number = number?.OnlyNumbers();
-            
+
             Check.NotEmpty(number, nameof(Cpf));
             Check.True(CpfValidator.IsValid(number), nameof(Cpf));
             

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
     <ProjectReference Include="..\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,11 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
     <ProjectReference Include="..\Argon.Supplier.Domain\Argon.Suppliers.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\SupplieCommands\" />
-    <Folder Include="Commands\Validators\SupplierValidators\" />
   </ItemGroup>
 
 </Project>

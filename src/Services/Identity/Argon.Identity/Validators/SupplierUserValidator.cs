@@ -17,9 +17,9 @@ namespace Argon.Identity.Validators
 
             //Supplier
             RuleFor(c => c.TradeName)
-                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCorparateName"))
+                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyTradeName"))
                 .Length(MinLengthTradeName, MaxLengthTradeName)
-                    .WithMessage(Localizer.GetTranslation("OutOfRangeCorparateName"));
+                    .WithMessage(Localizer.GetTranslation("TradeNameOutOfRange"));
 
             When(c => !c.IsCompany, () =>
             {
@@ -32,7 +32,7 @@ namespace Argon.Identity.Validators
             {
                 RuleFor(c => c.CorparateName)
                     .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCorparateName"))
-                    .Length(MinLengthCorporateName, MaxLengthCorporateName).WithMessage(Localizer.GetTranslation("OutOfRangeCorparateName"));
+                    .Length(MinLengthCorporateName, MaxLengthCorporateName).WithMessage(Localizer.GetTranslation("CorparateNameOutOfRange"));
 
                 RuleFor(c => c.CpfCnpj)
                     .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCNPJ"))

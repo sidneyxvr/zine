@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 
 namespace Argon.WebApp.API.Configurations
 {
@@ -14,6 +15,13 @@ namespace Argon.WebApp.API.Configurations
             {
                 services.AddSwaggerGen(options =>
                 {
+                    options.CustomSchemaIds(type => {
+                        var t = type.ToString().Split('.');
+
+                        var service = t.ElementAt(1);
+
+                        return service.Equals(nameof(Core)) ? $"Common-{t.Last()}" : $"{t.ElementAt(1)}-{t.Last()}"; 
+                    });
                     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Argon.WebApp.API", Version = "v1" });
                     options.SwaggerDoc("v2", new OpenApiInfo { Title = "Argon.WebApp.API", Version = "v2" });
                 });

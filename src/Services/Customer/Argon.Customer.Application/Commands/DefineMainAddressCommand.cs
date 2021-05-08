@@ -1,8 +1,8 @@
 ﻿using Argon.Core.Messages;
-using Argon.Customers.Application.Commands.Validators.AddressValidators;
+using Argon.Customers.Application.Commands.Validators;
 using System;
 
-namespace Argon.Customers.Application.Commands.AddressCommands
+namespace Argon.Customers.Application.Commands
 {
     public class DefineMainAddressCommand : Command
     {

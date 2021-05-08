@@ -11,6 +11,9 @@ namespace Argon.Suppliers.Domain
         public bool IsActive { get; private set; }
         public bool IsDelete { get; private set; }
 
+        public Guid SupplierId { get; private set; }
+        public Supplier Supplier { get; private set; }
+
         protected User() { }
 
         public User(Guid id, string firstName, string lastName, string email, Gender gender)

@@ -10,6 +10,11 @@ namespace Argon.Core.DomainObjects
         public double Latitude => _coordinate.X;
         public double Longitude => _coordinate.Y;
 
+        public const double MinLatitude = -90;
+        public const double MaxLatitude = 90;
+        public const double MinLongitude = -180;
+        public const double MaxLongitude = 180;
+
         protected Location() { }
 
         public Location(double? latitude, double? longitude)
@@ -20,8 +25,8 @@ namespace Argon.Core.DomainObjects
                 Check.NotNull(longitude, nameof(longitude));
             }
 
-            Check.Range(latitude.Value, -90, 90, nameof(latitude));
-            Check.Range(longitude.Value, -180, 180, nameof(longitude));
+            Check.Range(latitude.Value, MinLatitude, MaxLatitude, nameof(latitude));
+            Check.Range(longitude.Value, MinLongitude, MaxLongitude, nameof(longitude));
 
             _coordinate = new Point(latitude.Value, longitude.Value) { SRID = 4326 };
         }

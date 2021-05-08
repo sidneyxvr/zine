@@ -1,7 +1,7 @@
 ﻿using Argon.Core.Data;
 using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands;
-using Argon.Customers.Application.CommandHandlers.CustomerHandlers;
+using Argon.Customers.Application.CommandHandlers;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -45,6 +45,9 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
                 BirthDate = props.BirthDate,
                 Gender = props.Gender
             };
+
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(u => u.CustomerRepository.AddAsync(It.IsAny<Customer>()));
 
             _mocker.GetMock<IUnitOfWork>()
                 .Setup(u => u.CommitAsync())

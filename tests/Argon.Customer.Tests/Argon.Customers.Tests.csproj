@@ -23,8 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
-    <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

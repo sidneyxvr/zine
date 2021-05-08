@@ -1,8 +1,7 @@
 ﻿using Argon.Core.Messages.IntegrationCommands.Validators;
-using Argon.Customers.Application.Commands.AddressCommands;
 using FluentValidation;
 
-namespace Argon.Customers.Application.Commands.Validators.AddressValidators
+namespace Argon.Customers.Application.Commands.Validators
 {
     public class CreateAddressValidator : BaseValidator<CreateAddressCommand>
     {

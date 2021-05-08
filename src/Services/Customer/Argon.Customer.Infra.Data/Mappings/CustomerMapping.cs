@@ -65,17 +65,14 @@ namespace Argon.Customers.Infra.Data.Mappings
             });
 
             builder.HasOne(c => c.MainAddress)
-                .WithOne()
-                .HasForeignKey<Customer>("MainAddressId")
+                .WithOne(m => m.Customer)
+                .HasForeignKey<Customer>(c => c.MainAddressId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            //builder.Metadata
-            //    .FindNavigation(nameof(Customer.Addresses))
-            //    .SetPropertyAccessMode(PropertyAccessMode.Field);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(c => c.Addresses)
-                .WithOne()
+                .WithOne(a => a.Customer)
+                .HasForeignKey(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

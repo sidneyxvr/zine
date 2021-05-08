@@ -1,7 +1,6 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers.AddressHandlers;
-using Argon.Customers.Application.Commands.AddressCommands;
+﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Application.CommandHandlers;
+using Argon.Customers.Application.Commands;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -40,8 +39,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             var command = new DeleteAddressCommand { CustomerId = Guid.NewGuid(), AddressId = address.Id };
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(c => c.CustomerRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include[]>()))
                 .ReturnsAsync(customer);
 
             _mocker.GetMock<IUnitOfWork>()
@@ -78,6 +77,10 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new DeleteAddressCommand { CustomerId = Guid.NewGuid(), AddressId = Guid.NewGuid() };
 
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(c => c.CustomerRepository.GetByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync((Customer)null);
+
             //Act
             var result = await Assert.ThrowsAsync<NotFoundException>(() =>
                 _handler.Handle(command, CancellationToken.None));
@@ -96,8 +99,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             var command = new DeleteAddressCommand { CustomerId = Guid.NewGuid(), AddressId = Guid.NewGuid() };
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(c => c.CustomerRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include[]>()))
                 .ReturnsAsync(customer);
 
             //Act

@@ -85,16 +85,6 @@ namespace Argon.Customers.Domain
             _addresses.Remove(address);
         }
 
-        public void UpdateAddress(Guid addressId, string street, string number, string district, string city, 
-            string state, string postalCode, string complement, double? latitude, double? longitude)
-        {
-            var address = _addresses.FirstOrDefault(a => a.Id == addressId);
-
-            Check.NotNull(address, nameof(address));
-
-            address.Update(street, number, district, city, state, postalCode, complement, latitude, longitude);
-        }
-
         public void DefineMainAddress(Guid addressId)
         {
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);

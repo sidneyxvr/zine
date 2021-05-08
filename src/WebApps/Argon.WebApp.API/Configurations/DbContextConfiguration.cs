@@ -1,5 +1,6 @@
 ﻿using Argon.Customers.Infra.Data;
 using Argon.Identity.Data;
+using Argon.Suppliers.Infra.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +42,14 @@ namespace Argon.WebApp.API.Configurations
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
+            services.AddDbContext<SupplierContext>(options =>
+               options
+                   .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                       x => x.UseNetTopologySuite())
+                       .LogTo(Console.WriteLine)
+                       .EnableDetailedErrors()
+                       .EnableSensitiveDataLogging());
+
             return services;
         }
 
@@ -51,6 +60,9 @@ namespace Argon.WebApp.API.Configurations
 
             services.AddDbContext<CustomerContext>(options =>
                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+
+            services.AddDbContext<SupplierContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
 
             return services;
         }

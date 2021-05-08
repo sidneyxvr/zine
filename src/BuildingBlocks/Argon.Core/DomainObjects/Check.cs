@@ -23,8 +23,7 @@ namespace Argon.Core.DomainObjects
 
         public static void MaxLength(string stringValue, int maximum, string message)
         {
-            int length = stringValue.Length;
-            if (length > maximum)
+            if (stringValue?.Length > maximum)
             {
                 throw new DomainException(message);
             }

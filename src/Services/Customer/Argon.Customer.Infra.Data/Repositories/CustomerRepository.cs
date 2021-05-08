@@ -1,7 +1,7 @@
-﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Domain;
+﻿using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Argon.Customers.Infra.Data.Repositories
@@ -22,7 +22,7 @@ namespace Argon.Customers.Infra.Data.Repositories
             _context.Entry(customer).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
         }
 
-        public async Task AddAddressAsync(Address customer)
+        public async Task AddAsync(Address customer)
         {
             await _context.Addresses.AddAsync(customer);
         }
@@ -36,21 +36,40 @@ namespace Argon.Customers.Infra.Data.Repositories
         public async Task<Address> GetAddressAsync(Guid customerId, Guid addressId)
         {
             return await _context.Addresses
-                .FirstOrDefaultAsync(a => EF.Property<Guid>(a, "CustomerId") == customerId && a.Id == addressId);
+                .FirstOrDefaultAsync(a => a.CustomerId == customerId && a.Id == addressId);
         }
 
-        public async Task<Customer> GetByIdAsync(Guid id)
+        public async Task<Customer> GetByIdAsync(Guid id, params Include[] includes)
         {
-            return await _context.Customers
-                .Include(c => c.Addresses)
-                .Include(c => c.MainAddress)
-                .AsSplitQuery()
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var query = _context.Customers.AsQueryable();
+
+            if (includes.Contains(Include.Addresses))
+            {
+                query = query.Include(c => c.Addresses);
+            }
+
+            if (includes.Contains(Include.MainAddress))
+            {
+                query = query.Include(c => c.MainAddress);
+            }
+
+            return await query.AsSplitQuery()
+               .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public Task UpdateAsync(Customer customer)
         {
-            _context.Update(customer);
+            //EF Core already tracks the enetity
+            //_context.Update(customer);
+
+            return Task.CompletedTask;
+        }
+
+        public Task UpdateAsync(Address address)
+        {
+            //EF Core already tracks the enetity
+            //_context.Update(customer);
+
             return Task.CompletedTask;
         }
     }

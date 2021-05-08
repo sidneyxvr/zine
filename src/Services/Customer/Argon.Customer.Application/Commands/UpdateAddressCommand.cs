@@ -1,12 +1,13 @@
 ﻿using Argon.Core.Messages;
-using Argon.Customers.Application.Commands.Validators.AddressValidators;
+using Argon.Customers.Application.Commands.Validators;
 using System;
 
-namespace Argon.Customers.Application.Commands.AddressCommands
+namespace Argon.Customers.Application.Commands
 {
-    public class CreateAddressCommand : Command
+    public class UpdateAddressCommand : Command
     {
         public Guid CustomerId { get; init; }
+        public Guid AddressId { get; init; }
         public string Street { get; init; }
         public string Number { get; init; }
         public string District { get; init; }
@@ -19,7 +20,7 @@ namespace Argon.Customers.Application.Commands.AddressCommands
 
         public override bool IsValid()
         {
-            ValidationResult = new CreateAddressValidator().Validate(this);
+            ValidationResult = new UpdateAddressValidator().Validate(this);
             return ValidationResult.IsValid;
         }
     }

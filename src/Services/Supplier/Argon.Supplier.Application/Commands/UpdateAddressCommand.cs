@@ -1,12 +1,11 @@
 ﻿using Argon.Core.Messages;
-using Argon.Customers.Application.Commands.Validators.AddressValidators;
+using Argon.Suppliers.Application.Commands.Validators;
 using System;
 
-namespace Argon.Customers.Application.Commands.AddressCommands
+namespace Argon.Suppliers.Application.Commands
 {
     public class UpdateAddressCommand : Command
     {
-        public Guid CustomerId { get; init; }
         public Guid AddressId { get; init; }
         public string Street { get; init; }
         public string Number { get; init; }

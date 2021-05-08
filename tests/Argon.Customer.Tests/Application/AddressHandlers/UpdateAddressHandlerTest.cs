@@ -1,7 +1,6 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers.AddressHandlers;
-using Argon.Customers.Application.Commands.AddressCommands;
+﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Application.CommandHandlers;
+using Argon.Customers.Application.Commands;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -57,9 +56,9 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 Longitude = properties.Longitude
             };
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(customer);
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(c => c.CustomerRepository.GetAddressAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                .ReturnsAsync(address);
 
             _mocker.GetMock<IUnitOfWork>()
                 .Setup(u => u.CommitAsync())
@@ -71,41 +70,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Assert
             Assert.True(result.IsValid);
             _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async Task UpdateAddressShouldThrowDomainException()
-        {
-            //Arrange
-            var properties = _addressFixture.GetAddressTestDTO();
-
-            var customer = _customerFixture.CreateValidCustomerWithAddresses();
-
-            var command = new UpdateAddressCommand
-            {
-                CustomerId = customer.Id,
-                AddressId = properties.Id,
-                Street = properties.Street,
-                Number = properties.Number,
-                District = properties.District,
-                City = properties.City,
-                State = properties.State,
-                PostalCode = properties.PostalCode,
-                Complement = properties.Complement,
-                Latitude = properties.Latitude,
-                Longitude = properties.Longitude
-            };
-
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(customer);
-
-            //Act
-            var result = await Assert.ThrowsAsync<DomainException>(() =>
-                _handler.Handle(command, CancellationToken.None));
-
-            //Assert
-            Assert.Equal("address", result.Message);
         }
 
         [Fact]
@@ -147,9 +111,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(8, result.Errors.Count);
+            Assert.Equal(7, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a cidade"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o país"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o bairro"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a rua"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o estado"));
@@ -180,9 +143,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(8, result.Errors.Count);
+            Assert.Equal(7, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("A cidade deve ter entre 2 e 40 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O país deve ter entre 2 e 50 caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O bairro deve ter entre 2 e 50 caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("A rua deve ter entre 2 e 50 caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Estado inválido"));

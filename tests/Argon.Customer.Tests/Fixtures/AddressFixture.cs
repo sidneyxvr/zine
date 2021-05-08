@@ -43,7 +43,7 @@ namespace Argon.Customers.Tests.Fixtures
             var latitude = _faker.Address.Latitude();
             var longitude = _faker.Address.Longitude();
 
-            return new Address(street, number, district, city, state, 
+            return new Address(Guid.NewGuid(), street, number, district, city, state, 
                 postalCode, complement, latitude, longitude);
         }
     }

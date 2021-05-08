@@ -1,9 +1,8 @@
-﻿using Argon.Customers.Domain;
+﻿using Argon.Suppliers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
-namespace Argon.Customers.Infra.Data.Mappings
+namespace Argon.Suppliers.Infra.Data.Mappings
 {
     public class AddressMapping : IEntityTypeConfiguration<Address>
     {
@@ -19,33 +18,39 @@ namespace Argon.Customers.Infra.Data.Mappings
             builder.Ignore(c => c.DomainEvents);
 
             builder.Property(a => a.City)
-                .HasColumnType("varchar(40)")
+                .IsUnicode(false)
+                .HasMaxLength(Address.CityMaxLength)
                 .IsRequired();
 
             builder.Property(a => a.Complement)
-                .HasColumnType("varchar(50)");
+                .IsUnicode(false)
+                .HasMaxLength(Address.ComplementMaxLength);
 
             builder.Property(a => a.Country)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(a => a.District)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(Address.DistrictMaxLength)
                 .IsRequired();
 
             builder.Property(a => a.Number)
-                .HasColumnType("varchar(10)");
+                .IsUnicode(false)
+                .HasMaxLength(Address.NumberMaxLength);
 
             builder.Property(a => a.PostalCode)
-                .HasColumnType("char(8)")
+                .HasColumnType($"char({Address.PostalCodeLength})")
                 .IsRequired();
 
             builder.Property(a => a.State)
-                .HasColumnType("char(2)")
+                .HasColumnType($"char({Address.StateLength})")
                 .IsRequired();
 
             builder.Property(a => a.Street)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(Address.StreetMaxLength)
                 .IsRequired();
 
             builder.OwnsOne(a => a.Location, e =>

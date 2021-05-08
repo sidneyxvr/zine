@@ -29,9 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Customer\Argon.Customers.QueryStack\Argon.Customers.QueryStack.csproj" />
     <ProjectReference Include="..\..\Services\Identity\Argon.Identity\Argon.Identity.csproj" />
+    <ProjectReference Include="..\..\Services\Supplier\Argon.Supplier.Application\Argon.Suppliers.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Suppliers.Infra.Data.csproj" />
   </ItemGroup>
-  
+
 </Project>

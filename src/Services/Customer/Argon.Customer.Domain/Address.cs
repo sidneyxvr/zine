@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using System;
 
 namespace Argon.Customers.Domain
 {
@@ -14,11 +15,14 @@ namespace Argon.Customers.Domain
         public string Complement { get; private set; }
         public Location Location { get; private set; }
 
+        public Guid CustomerId { get; private set; }
+        public Customer Customer { get; private set; }
+
         public const int StreetMaxLength = 50;
         public const int StreetMinLength = 2;
         public const int NumberMaxLength = 10;
         public const int DistrictMaxLength = 50;
-        public const int DistrictMinLength = 5;
+        public const int DistrictMinLength = 2;
         public const int CityMaxLength = 40;
         public const int CityMinLength = 2;
         public const int StateLength = 2;
@@ -27,9 +31,10 @@ namespace Argon.Customers.Domain
 
         protected Address() { }
 
-        public Address(string street, string number, string district, string city, string state,
-            string postalCode, string complement, double? latitude, double? longitude)
+        public Address(Guid customerId, string street, string number, string district, string city, 
+            string state, string postalCode, string complement, double? latitude, double? longitude)
         {
+            CustomerId = customerId;
             Street = street;
             Number = number;
             District = district;
@@ -60,6 +65,8 @@ namespace Argon.Customers.Domain
 
         private void Validate()
         {
+            Check.NotEmpty(CustomerId, nameof(CustomerId));
+
             Check.NotEmpty(Street, nameof(Street));
             Check.Range(Street, StreetMinLength, StreetMaxLength, nameof(Street));
 

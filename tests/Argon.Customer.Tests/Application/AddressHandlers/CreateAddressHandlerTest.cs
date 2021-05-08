@@ -1,13 +1,14 @@
 ﻿using Argon.Core.Data;
 using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers.AddressHandlers;
-using Argon.Customers.Application.Commands.AddressCommands;
+using Argon.Customers.Application.CommandHandlers;
+using Argon.Customers.Application.Commands;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
 using Moq;
 using Moq.AutoMock;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -53,9 +54,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 Longitude = properties.Longitude,
             };
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(c => c.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(_customerFixture.CreateValidCustomerWithAddresses());
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(u => u.CustomerRepository.AddAsync(It.IsAny<Address>()));
 
             _mocker.GetMock<IUnitOfWork>()
                 .Setup(u => u.CommitAsync())
@@ -67,35 +67,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Assert
             Assert.True(result.IsValid);
             _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async Task CreateAddressShouldThrowNotFoundException()
-        {
-            //Arrange
-            var properties = _addressFixture.GetAddressTestDTO();
-
-            var customer = _customerFixture.CreateValidCustomer();
-
-            var command = new CreateAddressCommand
-            {
-                CustomerId = customer.Id,
-                Street = properties.Street,
-                Number = properties.Number,
-                District = properties.District,
-                City = properties.City,
-                State = properties.State,
-                PostalCode = properties.PostalCode,
-                Complement = properties.Complement,
-                Latitude = properties.Latitude,
-                Longitude = properties.Longitude,
-            };
-
-            //Act
-            var result = await Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
-
-            //Assert
-            Assert.Equal("Cliente não encontrado", result.Message);
         }
 
         [Fact]
@@ -135,9 +106,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(7, result.Errors.Count);
+            Assert.Equal(6, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a cidade"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o país"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o bairro"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a rua"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o estado")); 
@@ -169,7 +139,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             Assert.Equal(7, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"A cidade deve ter entre {Address.CityMinLength} e {Address.CityMaxLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O bairro deve ter entre {Address.DistrictMinLength} e {Address.DistrictMaxLength} caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"A rua deve ter entre {Address.StreetMinLength} e {Address.StreetMinLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"A rua deve ter entre {Address.StreetMinLength} e {Address.StreetMaxLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Estado inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CEP inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O número deve ter no máximo {Address.NumberMaxLength} caracteres"));

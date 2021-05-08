@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using System;
 
 namespace Argon.Suppliers.Domain
 {
@@ -13,6 +14,9 @@ namespace Argon.Suppliers.Domain
         public string PostalCode { get; private set; }
         public string Complement { get; private set; }
         public Location Location { get; private set; }
+
+        public Guid SupplierId { get; set; }
+        public Supplier Supplier { get; set; }
 
         public const int StreetMaxLength = 50;
         public const int StreetMinLength = 2;

@@ -1,10 +1,10 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands.Validators;
-using Argon.Customers.Application.Commands.CustomerCommands;
+using Argon.Customers.Application.Commands;
 using FluentValidation;
 using System;
 
-namespace Argon.Customers.Application.Commands.Validators.CustomerValidators
+namespace Argon.Customers.Application.Commands.Validators
 {
     public class UpdateCustomerValidator : BaseValidator<UpdateCustomerCommand>
     {

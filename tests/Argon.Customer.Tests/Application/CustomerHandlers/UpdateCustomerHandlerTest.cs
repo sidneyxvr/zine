@@ -1,7 +1,6 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers.CustomerHandlers;
-using Argon.Customers.Application.Commands.CustomerCommands;
+﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Application.CommandHandlers;
+using Argon.Customers.Application.Commands;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -48,8 +47,8 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
                 .Setup(u => u.CommitAsync())
                 .ReturnsAsync(true);
 
-            _mocker.GetMock<ICustomerRepository>()
-                .Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(r => r.CustomerRepository.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(_customerFixture.CreateValidCustomerWithAddresses());
 
             //Act

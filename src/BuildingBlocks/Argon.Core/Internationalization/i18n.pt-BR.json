@@ -53,5 +53,9 @@
   "CannotRefreshToken": "Não foi possível atualizar o token de acesso",
   "EmptyToken": "Forneça o token",
   "EmptyCNPJ": "Fornece o CNPJ",
-  "InvalidCNPJ": "CNPJ inválido"
+  "InvalidCNPJ": "CNPJ inválido",
+  "EmptyTradeName": "Inforne o nome da empresa",
+  "TradeNameOutOfRange": "O nome da empresa deve ter entre 5 e 50 caracteres",
+  "EmptyCorparateName": "Informe a razão social",
+  "CorparateNameOutOfRange": "A razão social deve ter entre 5 e 50 caracteres"
 }

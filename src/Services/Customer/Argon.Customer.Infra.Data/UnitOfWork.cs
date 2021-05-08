@@ -1,6 +1,5 @@
 ﻿using Argon.Core.Communication;
 using Argon.Customers.Domain;
-using System;
 using System.Threading.Tasks;
 
 namespace Argon.Customers.Infra.Data
@@ -9,12 +8,16 @@ namespace Argon.Customers.Infra.Data
     {
         private readonly IBus _bus;
         private readonly CustomerContext _context;
-        
-        public UnitOfWork(IBus bus, CustomerContext context)
+        private readonly ICustomerRepository _customerRepository;
+
+        public UnitOfWork(IBus bus, CustomerContext context, ICustomerRepository customerRepository)
         {
             _bus = bus;
             _context = context;
+            _customerRepository = customerRepository;
         }
+
+        public ICustomerRepository CustomerRepository => _customerRepository;
 
         public async Task<bool> CommitAsync()
         {

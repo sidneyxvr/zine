@@ -1,8 +1,9 @@
-﻿using Argon.Core.Messages.IntegrationCommands.Validators;
-using Argon.Customers.Application.Commands.AddressCommands;
+﻿using Argon.Core.DomainObjects;
+using Argon.Core.Messages.IntegrationCommands.Validators;
+using Argon.Customers.Domain;
 using FluentValidation;
 
-namespace Argon.Customers.Application.Commands.Validators.AddressValidators
+namespace Argon.Customers.Application.Commands.Validators
 {
     public class UpdateAddressValidator : BaseValidator<UpdateAddressCommand>
     {
@@ -10,29 +11,29 @@ namespace Argon.Customers.Application.Commands.Validators.AddressValidators
         {
             RuleFor(a => a.City)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyCity"))
-                .Length(2, 40).WithMessage(Localizer.GetTranslation("CityOutOfRange"));
+                .Length(Address.CityMinLength, Address.CityMaxLength).WithMessage(Localizer.GetTranslation("CityOutOfRange"));
 
             RuleFor(a => a.District)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyDistrict"))
-                .Length(2, 50).WithMessage(Localizer.GetTranslation("DistrictOutOfRange"));
+                .Length(Address.DistrictMinLength, Address.DistrictMaxLength).WithMessage(Localizer.GetTranslation("DistrictOutOfRange"));
 
             RuleFor(a => a.Street)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyStreet"))
-                .Length(2, 50).WithMessage(Localizer.GetTranslation("StreetOutOfRange"));
+                .Length(Address.StreetMinLength, Address.StreetMaxLength).WithMessage(Localizer.GetTranslation("StreetOutOfRange"));
 
             RuleFor(a => a.State)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyState"))
-                .Length(2).WithMessage(Localizer.GetTranslation("InvalidState"));
+                .Length(Address.StateLength).WithMessage(Localizer.GetTranslation("InvalidState"));
 
             RuleFor(a => a.PostalCode)
                 .NotNull().WithMessage(Localizer.GetTranslation("EmptyPostalCode"))
-                .Length(8).WithMessage(Localizer.GetTranslation("InvalidPostalCode"));
+                .Length(Address.PostalCodeLength).WithMessage(Localizer.GetTranslation("InvalidPostalCode"));
 
             RuleFor(a => a.Number)
                 .MaximumLength(10).WithMessage(Localizer.GetTranslation("NumberMaxLength"));
 
             RuleFor(a => a.Complement)
-                .MaximumLength(50).WithMessage(Localizer.GetTranslation("ComplementMaxLength"));
+                .MaximumLength(Address.ComplementMaxLength).WithMessage(Localizer.GetTranslation("ComplementMaxLength"));
 
             RuleFor(a => a.AddressId)
                .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyAddressId"));
@@ -41,12 +42,12 @@ namespace Argon.Customers.Application.Commands.Validators.AddressValidators
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCustomerId"));
 
             RuleFor(a => a.Latitude)
-                .GreaterThanOrEqualTo(-90).WithMessage(Localizer.GetTranslation("InvalidLatitude"))
-                .LessThanOrEqualTo(90).WithMessage(Localizer.GetTranslation("InvalidLatitude"));
+                .GreaterThanOrEqualTo(Location.MinLatitude).WithMessage(Localizer.GetTranslation("InvalidLatitude"))
+                .LessThanOrEqualTo(Location.MaxLatitude).WithMessage(Localizer.GetTranslation("InvalidLatitude"));
 
             RuleFor(a => a.Longitude)
-                .GreaterThanOrEqualTo(-180).WithMessage(Localizer.GetTranslation("InvalidLongitude"))
-                .LessThanOrEqualTo(180).WithMessage(Localizer.GetTranslation("InvalidLongitude"));
+                .GreaterThanOrEqualTo(Location.MinLongitude).WithMessage(Localizer.GetTranslation("InvalidLongitude"))
+                .LessThanOrEqualTo(Location.MaxLongitude).WithMessage(Localizer.GetTranslation("InvalidLongitude"));
 
             When(a => a.Latitude is null && a.Longitude is not null, () =>
             {

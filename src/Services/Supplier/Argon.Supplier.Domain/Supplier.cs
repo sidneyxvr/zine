@@ -1,16 +1,24 @@
 ﻿using Argon.Core.DomainObjects;
+using System;
 using System.Collections.Generic;
 
 namespace Argon.Suppliers.Domain
 {
     public class Supplier : Entity
     {
+        public const int CorporateNameMaxLength = 50;
+        public const int CorporateNameMinLength = 2;
+        public const int TradeNameMaxLength = 50;
+        public const int TradeNameMinLength = 2;
+
         public string CorporateName { get; private set; }
         public string TradeName { get; private set; }
         public bool IsActive { get; private set; }
-        public bool IsDelete { get; private set; }
+        public bool IsDeleted { get; private set; }
         public bool IsSuspended { get; private set; }
         public CpfCnpj CpfCnpj { get; private set; }
+
+        public Guid AddressId { get; set; }
         public Address Address { get; private set; }
 
         private List<User> _users;
@@ -27,7 +35,7 @@ namespace Argon.Suppliers.Domain
             Address = address;
 
             IsActive = true;
-            IsDelete = false;
+            IsDeleted = false;
             IsSuspended = false;
 
             AddUser(user);
