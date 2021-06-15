@@ -13,12 +13,11 @@ namespace Argon.Identity.Validators
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyFirstName"))
-                .MaximumLength(Name.MaxLengthFirstName)
-                    .WithMessage(Localizer.GetTranslation("MaxLengthFirstName"));
+                .MaximumLength(Name.MaxLengthFirstName).WithMessage(Localizer.GetTranslation("MaxLengthFirstName", Name.MaxLengthFirstName));
 
             RuleFor(c => c.LastName)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyLastName"))
-                .MaximumLength(Name.MaxLengthLastName).WithMessage(Localizer.GetTranslation("MaxLengthLastName"));
+                .MaximumLength(Name.MaxLengthLastName).WithMessage(Localizer.GetTranslation("MaxLengthLastName", Name.MaxLengthLastName));
 
             RuleFor(c => c.Cpf)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyCPF"))
@@ -29,8 +28,7 @@ namespace Argon.Identity.Validators
 
             RuleFor(c => c.Email)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyEmail"))
-                .Length(Email.MinLength, Email.MaxLength)
-                    .WithMessage(Localizer.GetTranslation("EmailOutOfRange"))
+                .Length(Email.MinLength, Email.MaxLength).WithMessage(Localizer.GetTranslation("EmailOutOfRange", Email.MinLength, Email.MaxLength))
                 .DependentRules(() =>
                 {
                     RuleFor(c => c.Email).EmailAddress().WithMessage(Localizer.GetTranslation("InvalidEmail"));
@@ -51,7 +49,7 @@ namespace Argon.Identity.Validators
 
             RuleFor(c => c.Password)
                 .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyPassword"))
-                .Length(8, 100).WithMessage(Localizer.GetTranslation("PasswordOutOfRange"));
+                .Length(8, 100).WithMessage(Localizer.GetTranslation("PasswordOutOfRange", 8, 100));
         }
     }
 }

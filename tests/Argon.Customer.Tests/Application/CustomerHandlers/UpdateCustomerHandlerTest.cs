@@ -1,6 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers;
-using Argon.Customers.Application.Commands;
+using Argon.Customers.Application;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -59,7 +58,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         }
 
         [Fact]
-        public async Task UpdateCustomerNullPropertiesShouldReturnInvalidWithErrorList()
+        public void UpdateCustomerNullPropertiesShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new UpdateCustomerCommand
@@ -70,7 +69,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new UpdateCustomerValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -80,7 +79,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         }
 
         [Fact]
-        public async Task UpdateCustomerInvalidPropertiesShouldReturnInvalidWithErrorList()
+        public void UpdateCustomerInvalidPropertiesShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new UpdateCustomerCommand
@@ -94,7 +93,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new UpdateCustomerValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

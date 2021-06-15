@@ -18,7 +18,7 @@ namespace Argon.Customers.Infra.Data.Queries
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
 
-        public Task<AddressResult> GetAddressByCustomerId(Guid customerId, Guid addressId)
+        public Task<AddressResult?> GetAddressByCustomerId(Guid customerId, Guid addressId)
         {
             return _context.Addresses
                 .Where(a => EF.Property<Guid>(a, "CustomerId") == customerId)

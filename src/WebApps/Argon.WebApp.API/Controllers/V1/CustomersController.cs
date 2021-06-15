@@ -1,5 +1,5 @@
 ﻿using Argon.Core.Communication;
-using Argon.Customers.Application.Commands;
+using Argon.Customers.Application;
 using Argon.Customers.QueryStack.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

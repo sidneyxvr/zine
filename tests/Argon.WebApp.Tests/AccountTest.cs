@@ -21,13 +21,13 @@ namespace Argon.WebApp.Tests
         }
 
         [Fact]
-        public async Task Account_CreateUser_ShouldReturnOk()
+        public async Task Account_RegisterCustomer_ShouldReturnOk()
         {
             //Arrange
             var request = _accountFixture.CreateValidCustomerUserRequest();
 
             //Act
-            var response = await _apiFixture.HttpClient.PostAsJsonAsync("api/account", request);
+            var response = await _apiFixture.HttpClient.PostAsJsonAsync("api/account/register-customer", request);
 
             //Assert
             response.EnsureSuccessStatusCode();
@@ -41,7 +41,7 @@ namespace Argon.WebApp.Tests
             var request = _accountFixture.CreateInvalidCustomerUserRequest();
 
             //Act
-            var response = await _apiFixture.HttpClient.PostAsJsonAsync("api/account", request);
+            var response = await _apiFixture.HttpClient.PostAsJsonAsync("api/account/register-customer", request);
             var result = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
 
             //Assert

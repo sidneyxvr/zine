@@ -33,13 +33,13 @@ namespace Argon.Customers.Infra.Data.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public async Task<Address> GetAddressAsync(Guid customerId, Guid addressId)
+        public async Task<Address?> GetAddressAsync(Guid customerId, Guid addressId)
         {
             return await _context.Addresses
                 .FirstOrDefaultAsync(a => a.CustomerId == customerId && a.Id == addressId);
         }
 
-        public async Task<Customer> GetByIdAsync(Guid id, params Include[] includes)
+        public async Task<Customer?> GetByIdAsync(Guid id, params Include[] includes)
         {
             var query = _context.Customers.AsQueryable();
 
@@ -50,7 +50,7 @@ namespace Argon.Customers.Infra.Data.Repositories
 
             if (includes.Contains(Include.MainAddress))
             {
-                query = query.Include(c => c.MainAddress);
+                //query = query.Include(c => c.MainAddress);
             }
 
             return await query.AsSplitQuery()

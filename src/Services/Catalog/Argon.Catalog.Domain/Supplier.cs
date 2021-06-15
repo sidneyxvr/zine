@@ -13,11 +13,16 @@ namespace Argon.Catalog.Domain
         public bool IsOpen { get; private set; }
         public Location Location { get; private set; }
         public string Address { get; private set; }
+        public bool HasHomeAssistance { get; private set; }
 
-#pragma warning disable IDE0044 // Add readonly modifier
-        private List<Product> _products;
-#pragma warning restore IDE0044 // Add readonly modifier
-        public IReadOnlyCollection<Product> Products => _products.AsReadOnly();
+        private List<Service> _services;
+        public IReadOnlyCollection<Service> Services => _services.AsReadOnly();
+
+        private List<FeeHomeAssistance> _feeHomeAssistances;
+        public IReadOnlyCollection<FeeHomeAssistance> FeeHomeAssistances => _feeHomeAssistances.AsReadOnly();
+
+        private List<Tag> _tags;
+        public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
 
         protected Supplier() { }
 

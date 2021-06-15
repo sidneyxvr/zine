@@ -9,8 +9,8 @@ namespace Argon.Customers.Domain
         Task AddAsync(Customer customer);
         Task UpdateAsync(Customer customer);
         Task UpdateAsync(Address address);
-        Task<Customer> GetByIdAsync(Guid id, params Include[] includes);
-        Task<Address> GetAddressAsync(Guid customerId, Guid addressId);
+        Task<Customer?> GetByIdAsync(Guid id, params Include[] includes);
+        Task<Address?> GetAddressAsync(Guid customerId, Guid addressId);
         Task AddAsync(Address customer); 
     }
 

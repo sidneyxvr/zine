@@ -2,7 +2,6 @@
 using Argon.Identity.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Argon.WebApp.Tests.Configuration
@@ -14,24 +13,19 @@ namespace Argon.WebApp.Tests.Configuration
             builder.UseEnvironment("Testing");
 
             builder.ConfigureServices(services =>
-            {
-                services.AddDbContext<IdentityContext>(options =>
-                {
-                    options.UseInMemoryDatabase(nameof(IdentityContext));
-                });
-
-                services.AddDbContext<CustomerContext>(options =>
-                {
-                    options.UseInMemoryDatabase(nameof(CustomerContext));
-                });
-
+            { 
                 var sp = services.BuildServiceProvider();
 
                 using var scope = sp.CreateScope();
                 var scopedServices = scope.ServiceProvider;
-                var context = scopedServices.GetRequiredService<IdentityContext>();
+                var identityContext = scopedServices.GetRequiredService<IdentityContext>();
+                identityContext.Database.EnsureDeleted();
+                identityContext.Database.EnsureCreated();
+                identityContext.Seed();
 
-                context.Seed();
+                var customerContext = scopedServices.GetRequiredService<CustomerContext>();
+                customerContext.Database.EnsureDeleted();
+                customerContext.Database.EnsureCreated();
             });
         }
     }

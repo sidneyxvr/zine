@@ -259,18 +259,33 @@ namespace Argon.Customers.Tests.Domain
         }
 
         [Fact]
-        public void CreateAddressNullCoordinatesShouldWorkSuccessfully()
+        public void CreateAddressNullCoordinatesShouldReturnThrowsDomainException()
         {
             //Arrange
             var address = _addressFixture.GetAddressTestDTO();
 
             //Act
-            var result = new Address(Guid.NewGuid(), address.Street, address.Number, address.District, 
-                address.City, address.State, address.PostalCode, address.Complement, null, null);
+            var result = Assert.Throws<DomainException>(() => new Address(Guid.NewGuid(), address.Street, 
+                address.Number, address.District, address.City, address.State, address.PostalCode, address.Complement, null, null));
 
             //Assert
-            Assert.Null(result.Location);
+            Assert.Equal("latitude", result.Message);
         }
+
+        [Fact]
+        public void CreateAddressNullLongitudeShouldReturnThrowsDomainException()
+        {
+            //Arrange
+            var address = _addressFixture.GetAddressTestDTO();
+
+            //Act
+            var result = Assert.Throws<DomainException>(() => new Address(Guid.NewGuid(), address.Street,
+                address.Number, address.District, address.City, address.State, address.PostalCode, address.Complement, 0, null));
+
+            //Assert
+            Assert.Equal("longitude", result.Message);
+        }
+
 
         [Fact]
         public void UpdateAddressShouldUpdate()
@@ -285,7 +300,7 @@ namespace Argon.Customers.Tests.Domain
             var postalCode = "50000999";
 
             //Act
-            var result = new Address(Guid.NewGuid(), street, number, district, city, state, postalCode, null, null, null);
+            var result = new Address(Guid.NewGuid(), street, number, district, city, state, postalCode, null, 0, 0);
 
             //Assert
             Assert.Equal(street, result.Street);

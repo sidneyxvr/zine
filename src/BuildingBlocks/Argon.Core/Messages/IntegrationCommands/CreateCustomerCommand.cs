@@ -1,5 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages.IntegrationCommands.Validators;
+using Argon.Core.Utils;
 using System;
 
 namespace Argon.Core.Messages.IntegrationCommands
@@ -11,15 +11,10 @@ namespace Argon.Core.Messages.IntegrationCommands
         public string LastName { get; init; }
         public string Email { get; init; }
         public string Phone { get; init; }
-        public string Cpf { get; init; }
+        private string _cpf;
+        public string Cpf { get => _cpf?.OnlyNumbers(); init => _cpf = value; }
         public DateTime BirthDate { get; init; }
         public Gender Gender { get; init; }
         public string ConfirmationToken { get; init; }
-
-        public override bool IsValid()
-        {
-            ValidationResult = new CreateCustomerValidator().Validate(this);
-            return ValidationResult.IsValid;
-        }
     }
 }

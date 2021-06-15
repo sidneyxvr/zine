@@ -17,25 +17,21 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0-preview.2.21154.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.2.21154.2">
+    <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.4.21253.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.10" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Loki" Version="3.0.1-beta1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Application\Argon.Catalog.Application.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data\Argon.Catalog.Infra.Data.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
-    <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
-    <ProjectReference Include="..\..\Services\Customer\Argon.Customers.QueryStack\Argon.Customers.QueryStack.csproj" />
     <ProjectReference Include="..\..\Services\Identity\Argon.Identity\Argon.Identity.csproj" />
     <ProjectReference Include="..\..\Services\Supplier\Argon.Supplier.Application\Argon.Suppliers.Application.csproj" />
     <ProjectReference Include="..\..\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Suppliers.Infra.Data.csproj" />

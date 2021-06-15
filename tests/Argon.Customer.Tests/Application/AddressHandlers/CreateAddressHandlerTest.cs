@@ -1,14 +1,11 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers;
-using Argon.Customers.Application.Commands;
+﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Application;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
 using Moq;
 using Moq.AutoMock;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -30,6 +27,10 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             _handler = _mocker.CreateInstance<CreateAddressHandler>();
             _addressFixture = new AddressFixture();
             _customerFixture = new CustomerFixture();
+
+            _mocker.GetMock<IAppUser>()
+                .Setup(a => a.Id)
+                .Returns(Guid.NewGuid());
         }
 
         [Fact]
@@ -70,7 +71,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task CreateAddressShouldReturnInvalid()
+        public void CreateAddressShouldReturnInvalid()
         {
             //Arrange
             var command = new CreateAddressCommand
@@ -86,14 +87,14 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
         }
 
         [Fact]
-        public async Task CreateAddressNullFieldsShouldReturnInvalidWithErrorList()
+        public void CreateAddressNullFieldsShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new CreateAddressCommand
@@ -102,7 +103,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -116,7 +117,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task CreateAddressEmptyFielsShouldReturnInvalidWithErrorList()
+        public void CreateAddressEmptyFielsShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new CreateAddressCommand
@@ -132,7 +133,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -147,7 +148,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task CreateAddressInvalidCoordinateShouldReturnInvalidWithErrorList()
+        public void CreateAddressInvalidCoordinateShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
@@ -166,7 +167,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -177,7 +178,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
 
         [Fact]
-        public async Task CreateAddressLatitudeNullShouldReturnInvalid()
+        public void CreateAddressLatitudeNullShouldReturnInvalid()
         {
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
@@ -195,7 +196,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

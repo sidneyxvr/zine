@@ -8,9 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="33.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.0-preview.2.21154.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0-preview-20210219-03" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Services\Identity\Argon.Identity\Argon.Identity.csproj" />
     <ProjectReference Include="..\..\src\WebApps\Argon.WebApp.API\Argon.WebApp.API.csproj" />
   </ItemGroup>
 

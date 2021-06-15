@@ -1,6 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers;
-using Argon.Customers.Application.Commands;
+using Argon.Customers.Application;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -73,31 +72,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task UpdateAddressShouldReturnInvalid()
-        {
-            //Arrange
-            var command = new UpdateAddressCommand
-            {
-                CustomerId = Guid.Empty,
-                AddressId = Guid.Empty,
-                Street = "",
-                Number = "",
-                District = "",
-                City = "",
-                State = "",
-                PostalCode = "",
-                Complement = ""
-            };
-
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            //Assert
-            Assert.False(result.IsValid);
-        }
-
-        [Fact]
-        public async Task UpdateAddressNullFieldsShouldReturnInvalidWithErrorList()
+        public void UpdateAddressNullFieldsShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new UpdateAddressCommand
@@ -107,7 +82,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new UpdateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -121,8 +96,9 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o identificador do cliente"));
         }
 
+
         [Fact]
-        public async Task UpdateAddressEmptyFielsShouldReturnInvalidWithErrorList()
+        public async Task UpdateAddressEmptyFielsShouldReturnNotFound()
         {
             //Arrange
             var command = new UpdateAddressCommand
@@ -138,8 +114,35 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100))
             };
 
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(c => c.CustomerRepository.GetAddressAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                .ReturnsAsync((Address)null);
+
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+
+            //Assert
+            Assert.Equal("Endereço não encontrado", result.Message);
+        }
+
+        [Fact]
+        public void UpdateAddressEmptyFielsShouldReturnInvalidWithErrorList()
+        {
+            //Arrange
+            var command = new UpdateAddressCommand
+            {
+                CustomerId = Guid.NewGuid(),
+                AddressId = Guid.NewGuid(),
+                Street = "",
+                Number = _faker.Random.ULong(10_000_000_000).ToString(),
+                District = "",
+                City = "",
+                State = "",
+                PostalCode = "",
+                Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100))
+            };
+            //Act
+            var result = new UpdateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -154,7 +157,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task UpdateAddressInvalidCoordinateShouldReturnInvalidWithErrorList()
+        public void UpdateAddressInvalidCoordinateShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
@@ -175,7 +178,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new UpdateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -186,7 +189,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
 
         [Fact]
-        public async Task UpdateAddressLatitudeNullShouldReturnInvalid()
+        public void UpdateAddressLatitudeNullShouldReturnInvalid()
         {
             //Arrange
             var properties = _addressFixture.GetAddressTestDTO();
@@ -205,7 +208,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new UpdateAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

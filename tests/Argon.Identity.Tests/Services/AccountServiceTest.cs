@@ -126,6 +126,7 @@ namespace Argon.Identity.Tests.Services
             var result = await _accountService.CreateCustomerUserAsync(request);
 
             //Assert
+            Assert.False(result.IsValid);
             Assert.Equal(7, result.Errors.Count);
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
@@ -133,8 +134,7 @@ namespace Argon.Identity.Tests.Services
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de Nascimento inválida"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Número de celular inválido"));
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("A senha deve ter entre 8 e 15 caracteres"));
-            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("A senha deve ter entre 8 e 100 caracteres"));
         }
 
         [Fact]
@@ -162,7 +162,7 @@ namespace Argon.Identity.Tests.Services
             Assert.Equal(3, result.Errors.Count);
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("O email deve ter entre 5 e 254 caracteres"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Número de celular inválido"));
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("A senha deve ter entre 8 e 15 caracteres"));
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("A senha deve ter entre 8 e 100 caracteres"));
             Assert.False(result.IsValid);
         }
 

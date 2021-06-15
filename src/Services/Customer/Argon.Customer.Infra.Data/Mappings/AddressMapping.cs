@@ -23,7 +23,8 @@ namespace Argon.Customers.Infra.Data.Mappings
                 .IsRequired();
 
             builder.Property(a => a.Complement)
-                .HasColumnType("varchar(50)");
+                .HasColumnType("varchar(50)")
+                .IsRequired(false);
 
             builder.Property(a => a.Country)
                 .HasColumnType("varchar(50)")
@@ -51,6 +52,7 @@ namespace Argon.Customers.Infra.Data.Mappings
             builder.OwnsOne(a => a.Location, e =>
             {
                 e.Property("_coordinate")
+                    .IsRequired()
                     .HasColumnName("Location")
                     .HasColumnType("geography");
             });

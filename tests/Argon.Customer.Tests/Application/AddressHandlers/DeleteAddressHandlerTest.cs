@@ -1,6 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers;
-using Argon.Customers.Application.Commands;
+using Argon.Customers.Application;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -53,22 +52,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Assert
             Assert.True(result.IsValid);
             _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async Task DeleteAddressShouldReturnInvalid()
-        {
-            //Arrange
-            var command = new DeleteAddressCommand { CustomerId = Guid.Empty, AddressId = Guid.Empty };
-
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
-
-            //Assert
-            Assert.False(result.IsValid);
-            Assert.Equal(2, result.Errors.Count);
-            Assert.Contains(result.Errors, e => e.ErrorMessage.Equals("Informe o identificador do cliente"));
-            Assert.Contains(result.Errors, e => e.ErrorMessage.Equals("Informe o identificador do endereço"));
         }
 
         [Fact]

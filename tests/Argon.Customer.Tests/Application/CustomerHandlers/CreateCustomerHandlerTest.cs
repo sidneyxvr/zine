@@ -1,7 +1,7 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
+﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands;
-using Argon.Customers.Application.CommandHandlers;
+using Argon.Core.Messages.IntegrationCommands.Validators;
+using Argon.Customers.Application;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -61,7 +61,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         }
 
         [Fact]
-        public async Task CreateCustomerNullPropertiesShouldReturnInvalidWithErrorList()
+        public void CreateCustomerNullPropertiesShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new CreateCustomerCommand
@@ -72,7 +72,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateCustomerValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -84,7 +84,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         }
 
         [Fact]
-        public async Task CreateCustomerShouldReturnInvalidWithErrorList()
+        public void CreateCustomerShouldReturnInvalidWithErrorList()
         {
             //Arrange
             var command = new CreateCustomerCommand
@@ -100,7 +100,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateCustomerValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -115,7 +115,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         }
 
         [Fact]
-        public async Task CreateCustomerShouldReturnInvalidEmail()
+        public void CreateCustomerShouldReturnInvalidEmail()
         {
             //Arrange
             var props = _customerFixture.GetCustomerTestDTO();
@@ -131,7 +131,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new CreateCustomerValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

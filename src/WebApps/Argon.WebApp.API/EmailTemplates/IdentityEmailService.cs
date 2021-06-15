@@ -25,9 +25,9 @@ namespace Argon.WebApp.API.TemplateEmails
         {
             if (!_sendEmail) return;
 
-            if(string.IsNullOrWhiteSpace(to) ||
+            if (string.IsNullOrWhiteSpace(to) ||
                 !Core.DomainObjects.Email.IsValid(to) ||
-                string.IsNullOrWhiteSpace(emailConfirmationToken) )
+                string.IsNullOrWhiteSpace(emailConfirmationToken))
             {
                 return;
             }
@@ -60,7 +60,7 @@ namespace Argon.WebApp.API.TemplateEmails
 
             await _emailSender
                 .To(to)
-                .Subject(_localizer.GetTranslation("ResetPasswordSubject")) 
+                .Subject(_localizer.GetTranslation("ResetPasswordSubject"))
                 .UsingTemplateFromFile(path, model)
                 .SendAsync();
         }

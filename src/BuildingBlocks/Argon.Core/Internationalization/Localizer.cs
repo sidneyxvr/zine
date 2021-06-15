@@ -11,7 +11,7 @@ namespace Argon.Core.Internationalization
 {
     public sealed class Localizer
     {
-        private static readonly Localizer Instance = new();
+        private static readonly Localizer _instance = new();
 
         private readonly List<JsonLocalization> _languages;
 
@@ -46,7 +46,7 @@ namespace Argon.Core.Internationalization
 
         public static Localizer GetLocalizer()
         {
-            return Instance;
+            return _instance;
         }
 
         public string GetTranslation(string name)

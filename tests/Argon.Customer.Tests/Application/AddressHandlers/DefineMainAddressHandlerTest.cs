@@ -1,7 +1,5 @@
-﻿using Argon.Core.Data;
-using Argon.Core.DomainObjects;
-using Argon.Customers.Application.CommandHandlers;
-using Argon.Customers.Application.Commands;
+﻿using Argon.Core.DomainObjects;
+using Argon.Customers.Application;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
@@ -58,13 +56,30 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         }
 
         [Fact]
-        public async Task DeleteAddressShouldReturnInvalid()
+        public void ValidateCommand_Valid_ShouldReturnSuccess()
+        {
+            //Arrange
+            var customer = _customerFixture.CreateValidCustomerWithAddresses();
+            var address = customer.Addresses
+                .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
+
+            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = address.Id };
+
+            //Act
+            var result = new DefineMainAddressValidator().Validate(command);
+
+            //Assert
+            Assert.True(result.IsValid);
+        }
+
+        [Fact]
+        public void DeleteAddressShouldReturnInvalid()
         {
             //Arrange
             var command = new DefineMainAddressCommand { CustomerId = Guid.Empty, AddressId = Guid.Empty };
 
             //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = new DefineMainAddressValidator().Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

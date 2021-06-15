@@ -1,13 +1,14 @@
 ﻿using Argon.Catalog.Application.Commands;
 using Argon.Catalog.Domain;
+using Argon.Core.Messages;
 using FluentValidation.Results;
-using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Catalog.Application.CommandHandlers
 {
-    public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, ValidationResult>
+    public class CreateCategoryHandler : RequestHandler<CreateCategoryCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,19 +17,20 @@ namespace Argon.Catalog.Application.CommandHandlers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ValidationResult> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public override Task<ValidationResult> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            if (!request.IsValid())
-            {
-                return request.ValidationResult;
-            }
+            //if (!await _unitOfWork.DepartmentRepository.DepartmentExistsByIdAsync(request.DepartmentId))
+            //{
+            //    return WithError(Localizer.GetTranslation("DepartmentDoesNotExist"));
+            //}
 
-            var category = new Category(request.Name, request.Description);
+            //var category = new Category(request.Name, request.Description, request.DepartmentId);
 
-            await _unitOfWork.CategoryRepository.AddAsync(category);
-            await _unitOfWork.CommitAsync();
+            //await _unitOfWork.DepartmentRepository.AddAsync(category);
+            //await _unitOfWork.CommitAsync();
 
-            return request.ValidationResult;
+            //return request.ValidationResult;
+            throw new NotImplementedException();
         }
     }
 }

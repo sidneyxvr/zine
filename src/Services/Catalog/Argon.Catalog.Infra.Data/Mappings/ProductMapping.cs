@@ -5,11 +5,11 @@ using System;
 
 namespace Argon.Catalog.Infra.Data.Mappings
 {
-    public class ProductMapping : IEntityTypeConfiguration<Product>
+    public class ProductMapping : IEntityTypeConfiguration<Service>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<Service> builder)
         {
-            builder.ToTable(nameof(Product));
+            builder.ToTable(nameof(Service));
 
             builder.HasKey(p => p.Id);
 
@@ -20,7 +20,7 @@ namespace Argon.Catalog.Infra.Data.Mappings
 
             builder.Property(p => p.Name)
                 .IsUnicode(false)
-                .HasMaxLength(Product.NameMaxLength)
+                .HasMaxLength(Service.NameMaxLength)
                 .IsRequired();
 
             builder.Property(p => p.Price)
@@ -28,20 +28,20 @@ namespace Argon.Catalog.Infra.Data.Mappings
                 .IsRequired();
 
             builder.HasOne(p => p.Supplier)
-                .WithMany(s => s.Products)
+                .WithMany(s => s.Services)
                 .HasForeignKey(p => p.SupplierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(p => p.Category)
+            //    .WithMany(c => c.Products)
+            //    .HasForeignKey(p => p.CategoryId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             builder.OwnsMany(p => p.Images, i => 
             {
                 i.ToTable(nameof(Image));
 
-                i.Property<Guid>("Id");
+                i.Property<int>("Id");
                 i.HasKey("Id");
 
                 i.WithOwner()

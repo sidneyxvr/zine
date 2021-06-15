@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace Argon.WebApp.API.Configurations
@@ -15,19 +17,19 @@ namespace Argon.WebApp.API.Configurations
     {
         public static IServiceCollection RegisterDbContexts(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsProduction())
             {
-                return RegisterDevelopmentContexts(services, configuration);
+                RegisterProductionContexts(services, configuration);
             }
-            else if (env.IsProduction())
+            else
             {
-                return RegisterProductionContexts(services, configuration);
+                RegisterDevelopmentContexts(services, configuration);
             }
 
-            services.AddScoped<IdentityContext>();
-            services.AddScoped<CustomerContext>();
-            services.AddScoped<SupplierContext>();
-            services.AddScoped<CatalogContext>();
+            services.TryAddScoped<IdentityContext>();
+            services.TryAddScoped<CustomerContext>();
+            services.TryAddScoped<SupplierContext>();
+            services.TryAddScoped<CatalogContext>();
 
             return services;
         }
@@ -36,31 +38,31 @@ namespace Argon.WebApp.API.Configurations
         {
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"))
-                    .LogTo(Console.WriteLine)
+                    .LogTo(Console.WriteLine, LogLevel.Information)
                     .EnableDetailedErrors()
                     .EnableSensitiveDataLogging());
 
             services.AddDbContext<CustomerContext>(options =>
                options
-                   .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                   .UseSqlServer(configuration.GetConnectionString("CustomerConnection"),
                        x => x.UseNetTopologySuite())
-                       .LogTo(Console.WriteLine)
+                       .LogTo(Console.WriteLine, LogLevel.Information)
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
             services.AddDbContext<SupplierContext>(options =>
                options
-                   .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                   .UseSqlServer(configuration.GetConnectionString("SupplierConnection"),
                        x => x.UseNetTopologySuite())
-                       .LogTo(Console.WriteLine)
+                       .LogTo(Console.WriteLine, LogLevel.Information)
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
             services.AddDbContext<CatalogContext>(options =>
                options
-                   .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                   .UseSqlServer(configuration.GetConnectionString("CatalogConnection"),
                        x => x.UseNetTopologySuite())
-                       .LogTo(Console.WriteLine)
+                       .LogTo(Console.WriteLine, LogLevel.Information)
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
@@ -73,7 +75,7 @@ namespace Argon.WebApp.API.Configurations
                 options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
 
             services.AddDbContext<CustomerContext>(options =>
-               options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+               options.UseSqlServer(configuration.GetConnectionString("CustomerConnection"), x => x.UseNetTopologySuite()));
 
             services.AddDbContext<SupplierContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));

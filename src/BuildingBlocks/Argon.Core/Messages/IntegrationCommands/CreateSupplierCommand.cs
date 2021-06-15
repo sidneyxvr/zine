@@ -27,11 +27,5 @@ namespace Argon.Core.Messages.IntegrationCommands
         public string Complement { get; init; }
         public double? Latitude { get; init; }
         public double? Longitude { get; init; }
-
-        public override bool IsValid()
-        {
-            var validationResult = new CreateSupplierValidator().Validate(this);
-            return validationResult.IsValid;
-        }
     }
 }

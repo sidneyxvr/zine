@@ -1,6 +1,7 @@
 using Argon.WebApp.API.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,8 @@ namespace Argon.WebApp.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterCustomer();
+            services.RegisterSupplier();
             services.RegisterIdentity(Environment);
             services.RegisterJwt(Configuration);
             services.RegisterDbContexts(Configuration, Environment);
@@ -54,6 +57,16 @@ namespace Argon.WebApp.API
             {
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
+            });
+
+            services.AddHttpLogging(logging =>
+            {
+                logging.LoggingFields = HttpLoggingFields.All;
+                logging.RequestHeaders.Add("My-Request-Header");
+                logging.ResponseHeaders.Add("My-Response-Header");
+                logging.MediaTypeOptions.AddText("application/javascript");
+                logging.RequestBodyLogLimit = 4096;
+                logging.ResponseBodyLogLimit = 4096;
             });
         }
 

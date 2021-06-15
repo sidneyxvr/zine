@@ -1,7 +1,6 @@
 ﻿using Argon.Identity.Responses;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Argon.WebApp.API.Controllers

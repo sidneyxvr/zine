@@ -1,5 +1,4 @@
-﻿using Argon.Core.DomainObjects;
-using Argon.Core.Messages;
+﻿using Argon.Core.Messages;
 using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +18,7 @@ namespace Argon.Customers.Infra.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerContext).Assembly);
         }
 
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<Address> Addresses { get; set; } = null!;
     }
 }

@@ -11,20 +11,22 @@ namespace Argon.Customers.Domain
         public Email Email { get; private set; }
         public Cpf Cpf { get; private set; }
         public BirthDate BirthDate { get; private set; }
-        public Phone Phone { get; private set; }
+        public Phone? Phone { get; private set; }
         public Gender Gender { get; private set; }
         public bool IsActive { get; private set; }
         public bool IsDeleted { get; private set; }
         public bool IsSuspended { get; private set; }
 
         public Guid? MainAddressId { get; set; }
-        public Address MainAddress { get; private set; }
+        public Address? MainAddress { get; private set; }
 
-        private readonly List<Address> _addresses;
-        public IReadOnlyCollection<Address> Addresses => _addresses?.AsReadOnly();
+        public List<Address> _addresses;
+        public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
 
-        protected Customer() 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        protected Customer()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _addresses = new ();
         }
@@ -37,7 +39,7 @@ namespace Argon.Customers.Domain
             Email = email;
             Cpf = cpf;
             Gender = gender;
-            BirthDate = birthDate;
+            BirthDate = birthDate!;
             Phone = phone;
             IsActive = true;
             IsDeleted = false;
@@ -68,7 +70,9 @@ namespace Argon.Customers.Domain
 
         public void AddAddress(Address address)
         {
-            _addresses.Add(address ?? throw new ArgumentNullException(nameof(address)));
+            Check.NotNull(address, nameof(address));
+
+            _addresses.Add(address);
         }
 
         public void DeleteAddress(Guid addressId)
@@ -77,12 +81,12 @@ namespace Argon.Customers.Domain
 
             Check.NotNull(address, nameof(address));
 
-            if(MainAddress.Id == address.Id)
+            if (MainAddress?.Id == address!.Id)
             {
                 MainAddress = null;
             }
 
-            _addresses.Remove(address);
+            _addresses!.Remove(address);
         }
 
         public void DefineMainAddress(Guid addressId)

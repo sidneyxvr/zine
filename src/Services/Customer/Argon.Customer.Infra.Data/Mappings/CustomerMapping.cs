@@ -26,27 +26,32 @@ namespace Argon.Customers.Infra.Data.Mappings
             {
                 c.Property(p => p.FirstName)
                     .HasColumnName("FirstName")
+                    .IsRequired()
                     .HasColumnType($"varchar({Name.MaxLengthFirstName})");
 
                 c.Property(p => p.LastName)
                     .HasColumnName("LastName")
+                    .IsRequired()
                     .HasColumnType($"varchar({Name.MaxLengthLastName})");
             });
 
             builder.OwnsOne(c => c.BirthDate, e =>
             {
                 e.Property("_date")
+                    .IsRequired()
                     .HasColumnName("BirthDate")
                     .HasColumnType("date");
             });
 
             builder.Property<DateTime>("CreatedAt")
+                .IsRequired()
                 .HasColumnType("smalldatetime");
 
             builder.OwnsOne(c => c.Email, e =>
             {
                 e.Property(p => p.Address)
                     .HasColumnName("Email")
+                    .IsRequired()
                     .HasColumnType($"varchar({Email.MaxLength})");
             });
 
@@ -54,6 +59,7 @@ namespace Argon.Customers.Infra.Data.Mappings
             {
                 c.Property(p => p.Number)
                     .HasColumnName("CPF")
+                    .IsRequired()
                     .HasColumnType($"char({CpfValidator.NumberLength})");
             });
 
@@ -61,17 +67,20 @@ namespace Argon.Customers.Infra.Data.Mappings
             {
                 c.Property(p => p.Number)
                     .HasColumnName("Phone")
+                    .IsRequired()
                     .HasColumnType($"varchar({Phone.NumberMaxLength})");
             });
 
             builder.HasOne(c => c.MainAddress)
                 .WithOne(m => m.Customer)
-                .HasForeignKey<Customer>(c => c.MainAddressId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey<Customer>(c => c.MainAddressId);
+
+            builder.Metadata
+                .FindNavigation(nameof(Customer.Addresses))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             builder.HasMany(c => c.Addresses)
-                .WithOne(a => a.Customer)
+                .WithOne()
                 .HasForeignKey(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

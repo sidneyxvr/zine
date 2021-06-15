@@ -16,7 +16,7 @@ namespace Argon.Customers.Domain
         public Location Location { get; private set; }
 
         public Guid CustomerId { get; private set; }
-        public Customer Customer { get; private set; }
+        public Customer? Customer { get; private set; }
 
         public const int StreetMaxLength = 50;
         public const int StreetMinLength = 2;
@@ -29,7 +29,9 @@ namespace Argon.Customers.Domain
         public const int PostalCodeLength = 8;
         public const int ComplementMaxLength = 50;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Address() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public Address(Guid customerId, string street, string number, string district, string city, 
             string state, string postalCode, string complement, double? latitude, double? longitude)
@@ -43,7 +45,7 @@ namespace Argon.Customers.Domain
             Country = "Brasil";
             PostalCode = postalCode;
             Complement = complement;
-            Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
+            Location = new Location(latitude, longitude); 
 
             Validate();
         }
@@ -58,7 +60,7 @@ namespace Argon.Customers.Domain
             State = state;
             PostalCode = postalCode;
             Complement = complement;
-            Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
+            Location = new Location(latitude, longitude);
 
             Validate();
         }
