@@ -3,7 +3,6 @@ using Argon.Identity.Models;
 using Argon.Identity.Responses;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -29,11 +28,13 @@ namespace Argon.Identity.Services
 
         public string CodifyToken(ICollection<Claim> claims, Guid userId, string userEmail)
         {
+            var tokenCreatedAt = ToUnixEpochDate(DateTime.UtcNow).ToString(CultureInfo.CurrentCulture);
+            var notValidBefore = ToUnixEpochDate(DateTime.UtcNow).ToString(CultureInfo.CurrentCulture);
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, userEmail));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString(CultureInfo.CurrentCulture)));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(CultureInfo.CurrentCulture), ClaimValueTypes.Integer64));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, NewGuid().ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, notValidBefore));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, tokenCreatedAt, ClaimValueTypes.Integer64));
 
             var identityClaims = new ClaimsIdentity();
             identityClaims.AddClaims(claims);
@@ -52,7 +53,12 @@ namespace Argon.Identity.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public UserLoginResponse GetUserLoginResponse(string encodedToken, string refreshToken, Guid userId, string userEmail, IEnumerable<Claim> claims)
+        public UserLoginResponse GetUserLoginResponse(
+            string encodedToken, 
+            string refreshToken, 
+            Guid userId, 
+            string userEmail, 
+            IEnumerable<Claim> claims)
         {
             return new UserLoginResponse
             {
@@ -68,7 +74,7 @@ namespace Argon.Identity.Services
             };
         }
 
-        public RefreshToken GenerateRefreshToken(string token)
+        public RefreshToken? GenerateRefreshToken(string token)
         {
             var claimsSimplified = GetUserClaimsSimplifiedOrDefault(token);
 
@@ -78,7 +84,7 @@ namespace Argon.Identity.Services
             }
 
             var randomNumber = new byte[32];
-            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
+            using var rngCryptoServiceProvider = RandomNumberGenerator.Create();
             rngCryptoServiceProvider.GetBytes(randomNumber);
 
             var refreshToken = Convert.ToBase64String(randomNumber);
@@ -105,8 +111,8 @@ namespace Argon.Identity.Services
                     return null;
                 }
 
-                var jwtId = principalClaims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)?.Value;
-                var userId = principalClaims.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                var jwtId = principalClaims.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)!.Value;
+                var userId = principalClaims.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
 
                 return (new Guid(userId), new Guid(jwtId));
             }

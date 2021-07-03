@@ -1,7 +1,6 @@
 ﻿using Argon.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Argon.Customers.Infra.Data.Mappings
 {

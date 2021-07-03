@@ -1,5 +1,5 @@
 ﻿using Argon.Core.Communication;
-using Argon.Customers.Application;
+using Argon.Customers.Application.Commands;
 using Argon.Customers.QueryStack.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +20,15 @@ namespace Argon.WebApp.API.Controllers.V1
         {
             _bus = bus;
             _customerQuery = customerQuery;
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAddressAsync(UpdateCustomerCommand command)
+        {
+            var result = await _bus.SendAsync(command);
+
+            return CustomResponse(result);
         }
 
         [HttpPost("address")]

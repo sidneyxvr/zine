@@ -1,15 +1,8 @@
-﻿using Argon.Identity.Validators;
-using FluentValidation.Results;
-
-namespace Argon.Identity.Requests
+﻿namespace Argon.Identity.Requests
 {
-    public class EmailAccountConfirmationRequest : BaseRequest
+    public record EmailAccountConfirmationRequest : BaseRequest
     {
-        public string Email { get; set; }
-        public string Token { get; set; }
-
-
-        public override ValidationResult Validate()
-            => new EmailAccountConfirmationValidator().Validate(this);
+        public string? Email { get; init; }
+        public string? Token { get; init; }
     }
 }

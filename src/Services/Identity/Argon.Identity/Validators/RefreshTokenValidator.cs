@@ -1,10 +1,9 @@
-﻿using Argon.Core.Messages.IntegrationCommands.Validators;
-using Argon.Identity.Requests;
+﻿using Argon.Identity.Requests;
 using FluentValidation;
 
 namespace Argon.Identity.Validators
 {
-    public class RefreshTokenValidator : BaseValidator<RefreshTokenRequest>
+    public class RefreshTokenValidator : AbstractValidator<RefreshTokenRequest>
     {
         public RefreshTokenValidator()
         {

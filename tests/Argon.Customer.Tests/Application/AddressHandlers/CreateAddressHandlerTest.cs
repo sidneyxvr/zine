@@ -1,8 +1,11 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application;
+using Argon.Customers.Application.Commands;
+using Argon.Customers.Application.Handlers;
+using Argon.Customers.Application.Validators;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
+using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -19,6 +22,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         private readonly CreateAddressHandler _handler;
         private readonly AddressFixture _addressFixture;
         private readonly CustomerFixture _customerFixture;
+        private readonly IStringLocalizer<CreateAddressValidator> _localizer;
 
         public CreateAddressHandlerTest()
         {
@@ -27,6 +31,8 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             _handler = _mocker.CreateInstance<CreateAddressHandler>();
             _addressFixture = new AddressFixture();
             _customerFixture = new CustomerFixture();
+
+            _localizer = LocalizerHelper.CreateInstanceStringLocalizer<CreateAddressValidator>();
 
             _mocker.GetMock<IAppUser>()
                 .Setup(a => a.Id)
@@ -56,7 +62,12 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(u => u.CustomerRepository.AddAsync(It.IsAny<Address>()));
+                .Setup(c => c.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(_customerFixture.CreateValidCustomerWithAddresses());
+
+            _mocker.GetMock<IUnitOfWork>()
+                .Setup(u => u.CustomerRepository.UpdateAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()));
 
             _mocker.GetMock<IUnitOfWork>()
                 .Setup(u => u.CommitAsync())
@@ -87,7 +98,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new CreateAddressValidator().Validate(command);
+            var result = new CreateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -103,17 +114,16 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new CreateAddressValidator().Validate(command);
+            var result = new CreateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(6, result.Errors.Count);
+            Assert.Equal(5, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a cidade"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o bairro"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a rua"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o estado")); 
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o estado"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o CEP"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o identificador do cliente"));
         }
 
         [Fact]
@@ -133,7 +143,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new CreateAddressValidator().Validate(command);
+            var result = new CreateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -167,7 +177,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new CreateAddressValidator().Validate(command);
+            var result = new CreateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -196,12 +206,12 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new CreateAddressValidator().Validate(command);
+            var result = new CreateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
             Assert.Single(result.Errors);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Latitude ou Longitude inválida(s)"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Coordenadas inválidas"));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Argon.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,7 +37,7 @@ namespace Argon.Identity.Data
             }
 
             _context.Attach(refreshToken);
-            refreshToken.ConcurrencyStamp = Guid.NewGuid().ToString();
+            refreshToken.ConcurrencyStamp = NewGuid().ToString();
             _context.Update(refreshToken);
             try
             {
@@ -55,7 +54,7 @@ namespace Argon.Identity.Data
             return IdentityResult.Success;
         }
 
-        public async Task<RefreshToken> GetByTokenAsync(string token)
+        public async Task<RefreshToken?> GetByTokenAsync(string token)
         {
             return await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Token == token);
         }

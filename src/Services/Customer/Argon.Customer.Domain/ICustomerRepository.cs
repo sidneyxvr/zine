@@ -1,23 +1,24 @@
 ﻿using Argon.Core.Data;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Customers.Domain
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        Task AddAsync(Customer customer);
-        Task UpdateAsync(Customer customer);
-        Task UpdateAsync(Address address);
-        Task<Customer?> GetByIdAsync(Guid id, params Include[] includes);
-        Task<Address?> GetAddressAsync(Guid customerId, Guid addressId);
-        Task AddAsync(Address customer); 
+        Task AddAsync(Customer customer, CancellationToken calcelationToken = default);
+        Task UpdateAsync(Customer customer, CancellationToken calcelationToken = default);
+        Task<Customer?> GetByIdAsync(Guid id, Include include = Include.None,
+            CancellationToken calcelationToken = default);
     }
 
+    [Flags]
     public enum Include
     {
-        Customer = 1,
-        Addresses,
-        MainAddress
+        None = 0,
+        MainAddress = 1,
+        Addresses = 2,
+        All = MainAddress | Addresses
     }
 }

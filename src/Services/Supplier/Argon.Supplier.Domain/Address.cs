@@ -12,11 +12,11 @@ namespace Argon.Suppliers.Domain
         public string State { get; private set; }
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
-        public string Complement { get; private set; }
+        public string? Complement { get; private set; }
         public Location Location { get; private set; }
 
         public Guid SupplierId { get; set; }
-        public Supplier Supplier { get; set; }
+        public Supplier? Supplier { get; set; }
 
         public const int StreetMaxLength = 50;
         public const int StreetMinLength = 2;
@@ -30,59 +30,62 @@ namespace Argon.Suppliers.Domain
         public const int PostalCodeLength = 8;
         public const int ComplementMaxLength = 50;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Address() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Address(string street, string number, string district, string city, string state,
-            string postalCode, string complement, double? latitude, double? longitude)
+        public Address(string? street, string? number, string? district, string? city, string? state,
+            string? postalCode, string? complement, double? latitude, double? longitude)
         {
-            Street = street;
-            Number = number;
-            District = district;
-            City = city;
-            State = state;
+            Validate(street, number, district, city, state, postalCode, complement);
+
+            Street = street!;
+            Number = number!;
+            District = district!;
+            City = city!;
+            State = state!;
             Country = "Brasil";
-            PostalCode = postalCode;
+            PostalCode = postalCode!;
             Complement = complement;
-            Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
-
-            Validate();
+            Location = new Location(latitude, longitude);
         }
 
-        public void Update(string street, string number, string district, string city, 
-            string state, string postalCode, string complement, double? latitude, double? longitude)
+        public void Update(string? street, string? number, string? district, string? city, 
+            string? state, string? postalCode, string? complement, double? latitude, double? longitude)
         {
-            Street = street;
-            Number = number;
-            District = district;
-            City = city;
-            State = state;
-            PostalCode = postalCode;
-            Complement = complement;
-            Location = latitude.HasValue && longitude.HasValue ? new Location(latitude.Value, longitude.Value) : null;
+            Validate(street, number, district, city, state, postalCode, complement);
 
-            Validate();
+            Street = street!;
+            Number = number!;
+            District = district!;
+            City = city!;
+            State = state!;
+            PostalCode = postalCode!;
+            Complement = complement;
+            Location = new Location(latitude, longitude);
         }
 
-        private void Validate()
+        private static void Validate(string? street, string? number, string? district, 
+            string? city, string? state, string? postalCode, string? complement)
         {
-            Check.NotEmpty(Street, nameof(Street));
-            Check.Range(Street, StreetMinLength, StreetMaxLength, nameof(Street));
+            Check.NotEmpty(street, nameof(street));
+            Check.Range(street!, StreetMinLength, StreetMaxLength, nameof(street));
 
-            Check.Range(Number, NumberMinLength, NumberMaxLength, nameof(Number));
+            Check.MaxLength(number, NumberMaxLength, nameof(number));
 
-            Check.MaxLength(Complement, ComplementMaxLength, nameof(Complement));
+            Check.MaxLength(complement, ComplementMaxLength, nameof(complement));
 
-            Check.NotEmpty(District, nameof(District));
-            Check.Range(District, DistrictMinLength, DistrictMaxLength, nameof(District));
+            Check.NotEmpty(district, nameof(district));
+            Check.Range(district!, DistrictMinLength, DistrictMaxLength, nameof(district));
 
-            Check.NotEmpty(City, nameof(City));
-            Check.Range(City, CityMinLength, CityMaxLength, nameof(City));
+            Check.NotEmpty(city, nameof(city));
+            Check.Range(city!, CityMinLength, CityMaxLength, nameof(city));
 
-            Check.NotEmpty(State, nameof(State));
-            Check.Length(State, StateLength, nameof(State));
+            Check.NotEmpty(state, nameof(state));
+            Check.Length(state!, StateLength, nameof(state));
 
-            Check.NotEmpty(PostalCode, nameof(PostalCode));
-            Check.Length(PostalCode, PostalCodeLength, nameof(PostalCode));
+            Check.NotEmpty(postalCode, nameof(postalCode));
+            Check.Length(postalCode!, PostalCodeLength, nameof(postalCode));
         }
 
         public override string ToString()

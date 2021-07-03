@@ -5,6 +5,7 @@ using Argon.Core.Utils;
 using Argon.Identity.Models;
 using Argon.Identity.Requests;
 using Argon.Identity.Services;
+using Argon.Identity.Tests.Fixture;
 using Argon.Identity.Tests.Fixtures;
 using Bogus;
 using FluentValidation.Results;
@@ -18,6 +19,7 @@ using Xunit;
 
 namespace Argon.Identity.Tests.Services
 {
+    [Collection(nameof(IdentityTestsFixtureCollection))]
     public class AccountServiceTest
     {
         private readonly Faker _faker;
@@ -25,11 +27,11 @@ namespace Argon.Identity.Tests.Services
         private readonly AccountService _accountService;
         private readonly CustomerUserFixture _customerUserFixture;
 
-        public AccountServiceTest()
+        public AccountServiceTest(IdentityTestsFixture identityFixture)
         {
-            _faker = new("pt_BR");
-            _mocker = new();
             _customerUserFixture = new();
+            _faker = identityFixture.Faker;
+            _mocker = identityFixture.Mocker;
             _accountService = _mocker.CreateInstance<AccountService>();
         }
 
@@ -97,7 +99,7 @@ namespace Argon.Identity.Tests.Services
             //Assert
             Assert.Equal(7, result.Errors.Count);
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Sexo inválido"));
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de Nascimento inválida"));
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de nascimento inválida"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Informe o CPF"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Informe o email"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Informe o nome"));
@@ -132,7 +134,7 @@ namespace Argon.Identity.Tests.Services
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("CPF inválido"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals($"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de Nascimento inválida"));
+            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de nascimento inválida"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Número de celular inválido"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("A senha deve ter entre 8 e 100 caracteres"));
         }
@@ -253,6 +255,26 @@ namespace Argon.Identity.Tests.Services
         }
 
         [Fact]
+        public async Task ConfirmEmailAccountEmptyEmailShouldReturnInvalid()
+        {
+            //Arrange
+            var customerUser = _customerUserFixture.CreateCustomerUser();
+
+            var request = new EmailAccountConfirmationRequest
+            {
+                Token = _faker.Lorem.Letter(50)
+            };
+
+            //Act
+            var result = await _accountService.ConfirmEmailAccountAsync(request);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.Single(result.Errors);
+            Assert.Contains(result.Errors, error => error.ErrorMessage.Equals("Informe o email"));
+        }
+
+        [Fact]
         public async Task ConfirmEmailAccountUserNotFoundShouldReturnInvalid()
         {
             //Arrange
@@ -286,6 +308,8 @@ namespace Argon.Identity.Tests.Services
                 Token = _faker.Lorem.Letter(50)
             };
 
+            _mocker.GetMock<UserManager<User>>().Invocations.Clear();
+
             _mocker.GetMock<UserManager<User>>()
                 .Setup(u => u.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed(new IdentityError { Code = "any", Description = "Some error" }));
@@ -317,6 +341,8 @@ namespace Argon.Identity.Tests.Services
                 Token = _faker.Lorem.Letter(50)
             };
 
+            _mocker.GetMock<UserManager<User>>().Invocations.Clear();
+
             _mocker.GetMock<UserManager<User>>()
                 .Setup(u => u.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
@@ -333,5 +359,13 @@ namespace Argon.Identity.Tests.Services
             _mocker.GetMock<UserManager<User>>().Verify(u => u.FindByEmailAsync(It.IsAny<string>()), Times.Once);
             _mocker.GetMock<UserManager<User>>().Verify(u => u.ConfirmEmailAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
         }
+
+        //private void MockStringLocalizer(AutoMocker mocker)
+        //{
+        //    mocker.Use<IStringLocalizerFactory>(new StringLocalizerFactory());
+            
+        //    mocker.Use<IStringLocalizer<AccountService>>(
+        //        LocalizerHelper.CreateInstanceStringLocalizer<AccountService>());
+        //}
     }
 }

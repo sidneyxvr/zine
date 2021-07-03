@@ -1,6 +1,6 @@
 ﻿namespace Argon.Core.Messages
 {
-    public class Message
+    public record Message
     {
         public string MessageType { get; protected set; }
 

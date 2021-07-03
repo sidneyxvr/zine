@@ -1,8 +1,8 @@
 ﻿namespace Argon.Identity.Responses
 {
-    public class UserClaimResponse
+    public record UserClaimResponse
     {
-        public string Value { get; set; }
-        public string Type { get; set; }
+        public string Value { get; init; } = null!;
+        public string Type { get; set; } = null!;
     }
 }

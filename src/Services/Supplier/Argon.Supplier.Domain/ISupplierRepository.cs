@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Suppliers.Domain
 {
     public interface ISupplierRepository
     {
-        Task AddAsync(Supplier supplier);
-        Task UpdateAsync(Address address);
-        Task<Address> GetAddressAsync(Guid supplierId, Guid addressId);
-        Task<Supplier> GetByIdAsync(Guid id, params Include[] includes);
+        Task AddAsync(Supplier supplier, CancellationToken cancellationToken = default);
+        Task UpdateAsync(Supplier supplier, CancellationToken cancellationToken = default);
+        Task<Supplier?> GetByIdAsync(
+            Guid id, Include include = Include.None, CancellationToken cancellationToken = default);
     }
 
+    [Flags]
     public enum Include
     {
-        Supplier = 1,
-        Address,
-        Users
+        None = 0,
+        Address = 1,
+        User = 2,
+        All = Address | User
     }
 }

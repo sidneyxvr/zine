@@ -28,7 +28,7 @@ namespace Argon.Customers.Tests.Domain
                 customer.BirthDate, (Gender)gender, customer.Phone));
 
             //Assert
-            Assert.Equal(nameof(Customer.Gender), result.Message);
+            Assert.Equal(nameof(Customer.Gender).ToLower(), result.Message);
         }
 
         [Fact]

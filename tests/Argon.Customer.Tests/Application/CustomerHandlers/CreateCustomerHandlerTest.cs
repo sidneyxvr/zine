@@ -1,10 +1,11 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages.IntegrationCommands;
-using Argon.Core.Messages.IntegrationCommands.Validators;
-using Argon.Customers.Application;
+using Argon.Customers.Application.Handlers;
+using Argon.Customers.Application.Validators;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
+using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -20,13 +21,15 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         private readonly AutoMocker _mocker;
         private readonly CreateCustomerHandler _handler;
         private readonly CustomerFixture _customerFixture;
+        private readonly IStringLocalizer<CreateCustomerValidator> _localizer;
 
         public CreateCustomerHandlerTest()
         {
             _faker = new Faker("pt_BR");
             _mocker = new AutoMocker();
-            _handler = _mocker.CreateInstance<CreateCustomerHandler>();
             _customerFixture = new CustomerFixture();
+            _handler = _mocker.CreateInstance<CreateCustomerHandler>();
+            _localizer = LocalizerHelper.CreateInstanceStringLocalizer<CreateCustomerValidator>();
         }
 
         [Fact]
@@ -47,7 +50,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(u => u.CustomerRepository.AddAsync(It.IsAny<Customer>()));
+                .Setup(u => u.CustomerRepository.AddAsync(It.IsAny<Customer>(), CancellationToken.None));
 
             _mocker.GetMock<IUnitOfWork>()
                 .Setup(u => u.CommitAsync())
@@ -72,7 +75,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = new CreateCustomerValidator().Validate(command);
+            var result = new CreateCustomerValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -100,17 +103,20 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = new CreateCustomerValidator().Validate(command);
+            var result = new CreateCustomerValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
             Assert.Equal(7, result.Errors.Count);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CPF inválido"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de Nascimento inválida"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de nascimento inválida"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Sexo inválido"));
         }
 
@@ -131,7 +137,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = new CreateCustomerValidator().Validate(command);
+            var result = new CreateCustomerValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

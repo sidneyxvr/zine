@@ -14,15 +14,21 @@ namespace Argon.Catalog.Domain
 
         public bool IsActive { get; set; }
 
-        private List<Category> _categories;
-        public IReadOnlyCollection<Category> Categories => _categories.AsReadOnly();
+        private readonly List<Category> _categories = new();
+        public IReadOnlyCollection<Category> Categories 
+            => _categories.AsReadOnly();
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Department() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Department(string name, string description)
+        public Department(string? name, string? description)
         {
-            Name = name;
-            Description = description;
+            Check.NotEmpty(name, nameof(name));
+            Check.NotEmpty(description, nameof(description));   
+
+            Name = name!;
+            Description = description!;
             IsActive = true;
         }
     }

@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace Argon.Catalog.Application.Commands
 {
-    public class CreateServiceCommand : Command 
+    public record CreateServiceCommand : Command 
     {
-        public string Name { get; init; }
+        public string? Name { get; init; }
         public decimal Price { get; init; }
         public Guid CategoryId { get; init; }
-        public List<ImageDTO> Images { get; init; }
+        public List<ImageDTO>? Images { get; init; }
     }
 
     public class ImageDTO 
     {
-        public IFormFile Image { get; init; }
+        public IFormFile? Image { get; init; }
         public int Order { get; init; }
     }
 

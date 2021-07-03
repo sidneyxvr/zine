@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Suppliers.Infra.Data.Repositories
@@ -15,46 +16,42 @@ namespace Argon.Suppliers.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Supplier supplier)
+        public async Task AddAsync(Supplier supplier, CancellationToken cancellationToken = default)
         {
-            await _context.AddAsync(supplier);
+            await _context.AddAsync(supplier, cancellationToken);
 
             _context.Entry(supplier).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
         }
 
-        public async Task<Address> GetAddressAsync(Guid supplierId, Guid addressId)
+        public async Task<Supplier?> GetByIdAsync(
+            Guid id, Include include = Include.None, CancellationToken cancellationToken = default)
         {
-            return await _context.Addresses
-                .FirstOrDefaultAsync(a => a.Id == addressId && a.SupplierId == supplierId);
+            return await _context.Suppliers
+                .Includes(include)
+                .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         }
 
-        public async Task<Supplier> GetByIdAsync(Guid id, params Include[] includes)
+        public Task UpdateAsync(Supplier supplier, CancellationToken cancellationToken = default)
         {
-            if (includes.Length == 0)
-            {
-                return await _context.Suppliers.FindAsync(id);
-            }
-
-            var query = _context.Suppliers.AsQueryable();
-
-            if (includes.Contains(Include.Address))
-            {
-                query = query.Include(s => s.Address);
-            }
-
-            if (includes.Contains(Include.Users))
-            {
-                query = query.Include(s => s.Users)
-                    .AsSplitQuery();
-            }
-
-            return await query
-                .FirstOrDefaultAsync(s => s.Id == id);
+            return Task.CompletedTask;
         }
+    }
 
-        public Task UpdateAsync(Address address)
+    internal static class SupplierQueryExtentios
+    {
+        internal static IQueryable<Supplier> Includes(this IQueryable<Supplier> source, Include include)
         {
-            throw new NotImplementedException();
+            if (include.HasFlag(Include.User))
+            {
+                source = source.Include(s => s.Users);
+            }
+
+            if (include.HasFlag(Include.Address))
+            {
+                source = source.Include(s => s.Users);
+            }
+
+            return source;
         }
     }
 }

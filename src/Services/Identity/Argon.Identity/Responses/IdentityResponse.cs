@@ -1,13 +1,10 @@
 ﻿using FluentValidation.Results;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Argon.Identity.Responses
 {
     public class IdentityResponse<T>
     {
-        public T Result { get; private set; }
+        public T? Result { get; private set; }
         public ValidationResult ValidationResult { get; private set; }
 
         public static implicit operator IdentityResponse<T>(ValidationResult validationResult) 

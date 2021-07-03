@@ -13,12 +13,12 @@ namespace Argon.Core.DomainObjects
             Id = Guid.NewGuid();
         }
 
-        private List<Event> _domainEvents;
-        public IReadOnlyCollection<Event> DomainEvents => _domainEvents?.AsReadOnly();
+        private readonly List<Event> _domainEvents = new();
+        public IReadOnlyCollection<Event> DomainEvents 
+            => _domainEvents.AsReadOnly();
 
         public void AddDomainEvent(Event @event)
         {
-            _domainEvents ??= new List<Event>();
             _domainEvents.Add(@event);
         }
 
@@ -32,7 +32,7 @@ namespace Argon.Core.DomainObjects
             _domainEvents?.Clear();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var compareTo = obj as Entity;
 

@@ -33,7 +33,7 @@ namespace Argon.Customers.Tests.Domain
                 address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.Street), result.Message);
+            Assert.Equal(nameof(Address.Street).ToLower(), result.Message);
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.Street), result.Message);
+            Assert.Equal(nameof(Address.Street).ToLower(), result.Message);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.Number), result.Message);
+            Assert.Equal(nameof(Address.Number).ToLower(), result.Message);
         }
 
         [Theory]
@@ -83,7 +83,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.District), result.Message);
+            Assert.Equal(nameof(Address.District).ToLower(), result.Message);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.District), result.Message);
+            Assert.Equal(nameof(Address.District).ToLower(), result.Message);
         }
 
         [Theory]
@@ -117,7 +117,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.City), result.Message);
+            Assert.Equal(nameof(Address.City).ToLower(), result.Message);
         }
 
         [Fact]
@@ -133,7 +133,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.City), result.Message);
+            Assert.Equal(nameof(Address.City).ToLower(), result.Message);
         }
 
         [Theory]
@@ -151,7 +151,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.State), result.Message);
+            Assert.Equal(nameof(Address.State).ToLower(), result.Message);
         }
 
         [Fact]
@@ -167,7 +167,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.State), result.Message);
+            Assert.Equal(nameof(Address.State).ToLower(), result.Message);
         }
 
         [Theory]
@@ -185,7 +185,7 @@ namespace Argon.Customers.Tests.Domain
                 postalCode, address.Complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.PostalCode), result.Message);
+            Assert.Equal("postalCode", result.Message);
         }
 
         [Fact]
@@ -201,7 +201,7 @@ namespace Argon.Customers.Tests.Domain
                     address.PostalCode, complement, address.Latitude, address.Longitude));
 
             //Assert
-            Assert.Equal(nameof(Address.Complement), result.Message);
+            Assert.Equal(nameof(Address.Complement).ToLower(), result.Message);
         }
 
         [Fact]

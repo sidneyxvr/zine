@@ -1,5 +1,5 @@
 ﻿using Argon.Core.Communication;
-using Argon.Suppliers.Application;
+using Argon.Customers.Application.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

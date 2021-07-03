@@ -21,7 +21,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void MaxLength(string stringValue, int maximum, string message)
+        public static void MaxLength(string? stringValue, int maximum, string message)
         {
             if (stringValue?.Length > maximum)
             {
@@ -64,7 +64,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void NotEmpty(string stringValue, string message)
+        public static void NotEmpty(string? stringValue, string message)
         {
             if (string.IsNullOrWhiteSpace(stringValue))
             {
@@ -88,7 +88,7 @@ namespace Argon.Core.DomainObjects
             }
         }
 
-        public static void NotNull(object object1, string message)
+        public static void NotNull(object? object1, string message)
         {
             if (object1 is null)
             {
@@ -107,6 +107,14 @@ namespace Argon.Core.DomainObjects
         public static void Max(DateTime value, DateTime maximum, string message)
         {
             if (value < maximum)
+            {
+                throw new DomainException(message);
+            }
+        }
+
+        public static void Range(decimal value, decimal minimum, decimal maximum, string message)
+        {
+            if (value < minimum || value > maximum)
             {
                 throw new DomainException(message);
             }

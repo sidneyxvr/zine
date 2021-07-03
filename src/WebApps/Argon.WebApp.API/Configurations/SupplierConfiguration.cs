@@ -1,6 +1,6 @@
 ﻿using Argon.Core.Messages.IntegrationCommands;
-using Argon.Core.Messages.IntegrationCommands.Validators;
-using Argon.Suppliers.Application;
+using Argon.Suppliers.Application.Commands;
+using Argon.Suppliers.Application.Validators;
 using Argon.Suppliers.Domain;
 using Argon.Suppliers.Infra.Data;
 using Argon.Suppliers.Infra.Data.Repositories;

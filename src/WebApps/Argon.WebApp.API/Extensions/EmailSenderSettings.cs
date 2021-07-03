@@ -1,10 +1,10 @@
 ﻿namespace Argon.WebApp.API.Extensions
 {
-    public class EmailSenderSettings
+    public record EmailSenderSettings
     {
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Host { get; init; } = null!;
+        public int Port { get; init; }
+        public string Email { get; init; } = null!;
+        public string Password { get; init; } = null!;
     }
 }

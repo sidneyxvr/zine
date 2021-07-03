@@ -1,4 +1,4 @@
-﻿using Argon.Core.Internationalization;
+﻿
 using Argon.Identity.Services;
 using FluentEmail.Core;
 using System.IO;
@@ -9,7 +9,6 @@ namespace Argon.WebApp.API.TemplateEmails
     public class IdentityEmailService : IEmailService
     {
         private readonly IFluentEmail _emailSender;
-        private readonly Localizer _localizer;
         private readonly bool _sendEmail;
 
         private const string _folderBase = "EmailTemplates";
@@ -17,11 +16,10 @@ namespace Argon.WebApp.API.TemplateEmails
         public IdentityEmailService(IFluentEmail emailSender)
         {
             _emailSender = emailSender;
-            _localizer = Localizer.GetLocalizer();
             _sendEmail = false;
         }
 
-        public async Task SendEmailConfirmationAccountAsync(string to, string emailConfirmationToken)
+        public async Task SendEmailConfirmationAccountAsync(string? to, string? emailConfirmationToken)
         {
             if (!_sendEmail) return;
 
@@ -38,7 +36,7 @@ namespace Argon.WebApp.API.TemplateEmails
 
             await _emailSender
                 .To(to)
-                .Subject(_localizer.GetTranslation("ConfirmationAccountSubject"))
+                .Subject("")//_localizer.GetTranslation("ConfirmationAccountSubject"))
                 .UsingTemplateFromFile(path, model)
                 .SendAsync();
         }
@@ -60,7 +58,7 @@ namespace Argon.WebApp.API.TemplateEmails
 
             await _emailSender
                 .To(to)
-                .Subject(_localizer.GetTranslation("ResetPasswordSubject"))
+                .Subject("")// _localizer.GetTranslation("ResetPasswordSubject"))
                 .UsingTemplateFromFile(path, model)
                 .SendAsync();
         }
@@ -75,7 +73,7 @@ namespace Argon.WebApp.API.TemplateEmails
 
             await _emailSender
                 .To(to)
-                .Subject(_localizer.GetTranslation("TwoFactorAuthenticationSubject"))
+                .Subject("")//_localizer.GetTranslation("TwoFactorAuthenticationSubject"))
                 .UsingTemplateFromFile(path, model)
                 .SendAsync();
         }

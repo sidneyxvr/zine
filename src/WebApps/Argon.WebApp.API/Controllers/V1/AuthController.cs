@@ -1,6 +1,5 @@
 ﻿using Argon.Identity.Requests;
 using Argon.Identity.Services;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Argon.Core.Messages
 {
-    public class Command : Message, IRequest<ValidationResult>
+    public record Command : Message, IRequest<ValidationResult>
     {
         [JsonIgnore]
         public DateTime Timestamp { get; private set; }

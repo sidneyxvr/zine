@@ -9,6 +9,6 @@ namespace Argon.Identity.Data
     {
         Task<IdentityResult> CreateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default);
         Task<IdentityResult> UpdateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default);
-        Task<RefreshToken> GetByTokenAsync(string token);
+        Task<RefreshToken?> GetByTokenAsync(string token);
     }
 }

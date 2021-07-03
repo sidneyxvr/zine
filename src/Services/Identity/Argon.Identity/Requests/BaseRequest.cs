@@ -1,9 +1,6 @@
-﻿using FluentValidation.Results;
-
-namespace Argon.Identity.Requests
+﻿namespace Argon.Identity.Requests
 {
-    public abstract class BaseRequest
+    public abstract record BaseRequest
     {
-        public abstract ValidationResult Validate();
     }
 }

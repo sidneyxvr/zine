@@ -1,5 +1,4 @@
-﻿using Argon.Core.Internationalization;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +9,10 @@ namespace Argon.Core.Messages
         where TRequest : Command
     {
         protected ValidationResult ValidationResult;
-        protected Localizer Localizer;
 
         public RequestHandler()
         {
             ValidationResult = new();
-            Localizer = Localizer.GetLocalizer();
         }
 
         public abstract Task<ValidationResult> Handle(TRequest request, CancellationToken cancellationToken);

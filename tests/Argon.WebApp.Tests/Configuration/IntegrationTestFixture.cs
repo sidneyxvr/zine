@@ -1,4 +1,7 @@
-﻿using Argon.WebApp.API;
+﻿using Argon.Customers.Infra.Data;
+using Argon.Identity.Data;
+using Argon.WebApp.API;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using Xunit;
@@ -21,6 +24,13 @@ namespace Argon.WebApp.Tests.Configuration
 
         public void Dispose()
         {
+            var services = Factory.Server.Services;
+            var cusomerContext = services.GetRequiredService<CustomerContext>();
+            var identityContext = services.GetRequiredService<IdentityContext>();
+
+            cusomerContext.Database.EnsureDeleted();
+            identityContext.Database.EnsureDeleted();
+
             HttpClient?.Dispose();
             Factory?.Dispose();
             GC.SuppressFinalize(this);

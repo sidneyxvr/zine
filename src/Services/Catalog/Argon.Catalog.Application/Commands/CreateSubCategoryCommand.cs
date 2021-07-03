@@ -3,10 +3,10 @@ using System;
 
 namespace Argon.Catalog.Application.Commands
 {
-    public class CreateSubCategoryCommand : Command
+    public record CreateSubCategoryCommand : Command
     {
-        public string Name { get; init; }
-        public string Description { get; init; }
+        public string? Name { get; init; }
+        public string? Description { get; init; }
         public Guid CategoryId { get; init; }
     }
 }

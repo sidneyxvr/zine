@@ -1,8 +1,11 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application;
+using Argon.Customers.Application.Commands;
+using Argon.Customers.Application.Handlers;
+using Argon.Customers.Application.Validators;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
+using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -19,6 +22,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         private readonly AutoMocker _mocker;
         private readonly DefineMainAddressHandler _handler;
         private readonly CustomerFixture _customerFixture;
+        private readonly IStringLocalizer<DefineMainAddressValidator> _localizer;
 
         public DefineMainAddressHandlerTest()
         {
@@ -26,6 +30,12 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             _mocker = new AutoMocker();
             _handler = _mocker.CreateInstance<DefineMainAddressHandler>();
             _customerFixture = new CustomerFixture();
+
+            _mocker.GetMock<IAppUser>()
+                .Setup(a => a.Id)
+                .Returns(Guid.NewGuid());
+
+            _localizer = LocalizerHelper.CreateInstanceStringLocalizer<DefineMainAddressValidator>();
         }
 
         [Fact]
@@ -36,10 +46,11 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             var address = customer.Addresses
                 .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
 
-            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = address.Id };
+            var command = new DefineMainAddressCommand { AddressId = address.Id };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(c => c.CustomerRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include[]>()))
+                .Setup(c => c.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(customer);
 
             _mocker.GetMock<IUnitOfWork>()
@@ -63,10 +74,10 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             var address = customer.Addresses
                 .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
 
-            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = address.Id };
+            var command = new DefineMainAddressCommand { AddressId = address.Id };
 
             //Act
-            var result = new DefineMainAddressValidator().Validate(command);
+            var result = new DefineMainAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.True(result.IsValid);
@@ -76,15 +87,14 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         public void DeleteAddressShouldReturnInvalid()
         {
             //Arrange
-            var command = new DefineMainAddressCommand { CustomerId = Guid.Empty, AddressId = Guid.Empty };
+            var command = new DefineMainAddressCommand { AddressId = Guid.Empty };
 
             //Act
-            var result = new DefineMainAddressValidator().Validate(command);
+            var result = new DefineMainAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(2, result.Errors.Count);
-            Assert.Contains(result.Errors, e => e.ErrorMessage.Equals("Informe o identificador do cliente"));
+            Assert.Single(result.Errors);
             Assert.Contains(result.Errors, e => e.ErrorMessage.Equals("Informe o identificador do endereço"));
         }
 
@@ -92,18 +102,19 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         public async Task DefineMainAddressShouldThrowNotFoundCustomer()
         {
             //Arrange
-            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = Guid.NewGuid() };
+            var command = new DefineMainAddressCommand { AddressId = Guid.NewGuid() };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(c => c.CustomerRepository.GetByIdAsync(It.IsAny<Guid>()))
+                .Setup(c => c.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Customer)null);
 
             //Act
-            var result = await Assert.ThrowsAsync<NotFoundException>(() =>
+            var result = await Assert.ThrowsAsync<ArgumentNullException>(() =>
                 _handler.Handle(command, CancellationToken.None));
 
             //Assert
-            Assert.Equal("Cliente não encontrado", result.Message);
+            Assert.StartsWith("Customer cannot be null", result.Message);
         }
 
         [Fact]
@@ -114,10 +125,11 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             var address = customer.Addresses
                 .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
 
-            var command = new DefineMainAddressCommand { CustomerId = Guid.NewGuid(), AddressId = Guid.NewGuid() };
+            var command = new DefineMainAddressCommand { AddressId = Guid.NewGuid() };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(c => c.CustomerRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include[]>()))
+                .Setup(c => c.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(customer);
 
             //Act

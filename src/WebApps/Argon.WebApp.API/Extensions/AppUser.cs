@@ -14,9 +14,9 @@ namespace Argon.WebApp.API.Extensions
         {
             _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
 
-            if (_accessor.HttpContext.User.Identity.IsAuthenticated)
+            if (_accessor.HttpContext!.User.Identity!.IsAuthenticated)
             {
-                Id = new Guid(_accessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+                Id = new Guid(_accessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
             }
         }
 

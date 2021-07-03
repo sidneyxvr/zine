@@ -9,20 +9,25 @@ namespace Argon.Core.DomainObjects
 
         public const int NumberMaxLength = 11;
         public const int NumberMinLength = 10;
-        public string Number { get; private set; }
+        public string? Number { get; private set; }
 
         protected Phone() { }
 
-        public Phone(string number)
+        public Phone(string? number)
         {
+            if(number == null)
+            {
+                return;
+            }
+
             Check.Matches(RegularExpression, number, nameof(Phone));
             Number = number;
         }
 
-        public static implicit operator Phone(string number)
+        public static implicit operator Phone(string? number)
             => new(number);
 
-        public static bool IsValid(string phone)
+        public static bool IsValid(string? phone)
         {
             if (phone is null)
             {
@@ -33,7 +38,7 @@ namespace Argon.Core.DomainObjects
             return regexEmail.IsMatch(phone);
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        protected override IEnumerable<object?> GetEqualityComponents()
         {
             yield return Number;
         }

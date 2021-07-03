@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="33.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.0-preview.5.21301.17" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-preview.5.21301.5" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0-preview.5.21301.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="Moq.AutoMock" Version="3.0.0-ci0170" />
     <PackageReference Include="xunit" Version="2.4.1" />

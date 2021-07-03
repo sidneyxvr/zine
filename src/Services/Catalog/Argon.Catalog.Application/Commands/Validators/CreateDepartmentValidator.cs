@@ -1,8 +1,8 @@
-﻿using Argon.Core.Messages.IntegrationCommands.Validators;
+﻿using FluentValidation;
 
 namespace Argon.Catalog.Application.Commands.Validators
 {
-    public class CreateDepartmentValidator : BaseValidator<CreateDepartmentCommand>
+    public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentCommand>
     {
         public CreateDepartmentValidator()
         {

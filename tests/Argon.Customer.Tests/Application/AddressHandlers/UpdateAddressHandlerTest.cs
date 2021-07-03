@@ -1,8 +1,11 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application;
+using Argon.Customers.Application.Commands;
+using Argon.Customers.Application.Handlers;
+using Argon.Customers.Application.Validators;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
+using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -20,14 +23,19 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
         private readonly UpdateAddressHandler _handler;
         private readonly AddressFixture _addressFixture;
         private readonly CustomerFixture _customerFixture;
+        private readonly IStringLocalizer<UpdateAddressValidator> _localizer;
 
         public UpdateAddressHandlerTest()
         {
             _faker = new Faker("pt_BR");
             _mocker = new AutoMocker();
+            _mocker.Use(LocalizerHelper.CreateInstanceStringLocalizer<UpdateAddressHandler>());
+
             _handler = _mocker.CreateInstance<UpdateAddressHandler>();
             _addressFixture = new AddressFixture();
             _customerFixture = new CustomerFixture();
+
+            _localizer = LocalizerHelper.CreateInstanceStringLocalizer<UpdateAddressValidator>();
         }
 
         [Fact]
@@ -42,8 +50,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             var command = new UpdateAddressCommand
             {
-                CustomerId = customer.Id,
-                AddressId = address.Id,
+                AddressId = customer.Addresses.First().Id,
                 Street = properties.Street,
                 Number = properties.Number,
                 District = properties.District,
@@ -56,8 +63,9 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(c => c.CustomerRepository.GetAddressAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                .ReturnsAsync(address);
+                .Setup(c => c.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), CancellationToken.None))
+                .ReturnsAsync(customer);
 
             _mocker.GetMock<IUnitOfWork>()
                 .Setup(u => u.CommitAsync())
@@ -77,23 +85,23 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new UpdateAddressCommand
             {
-                CustomerId = Guid.Empty,
                 AddressId = Guid.Empty
             };
 
+            var localizer = LocalizerHelper.CreateInstanceStringLocalizer<UpdateAddressValidator>();
+
             //Act
-            var result = new UpdateAddressValidator().Validate(command);
+            var result = new UpdateAddressValidator(localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(7, result.Errors.Count);
+            Assert.Equal(6, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a cidade"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o bairro"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe a rua"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o estado"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o CEP"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o identificador do endereço"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Informe o identificador do cliente"));
         }
 
 
@@ -103,7 +111,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new UpdateAddressCommand
             {
-                CustomerId = Guid.NewGuid(),
                 AddressId = Guid.NewGuid(),
                 Street = "",
                 Number = _faker.Random.ULong(10_000_000_000).ToString(),
@@ -115,14 +122,17 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(c => c.CustomerRepository.GetAddressAsync(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                .ReturnsAsync((Address)null);
+                .Setup(c => c.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), CancellationToken.None))
+                .ReturnsAsync(_customerFixture.CreateValidCustomer());
 
             //Act
-            var result = await Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+            var result = await Assert.ThrowsAsync<DomainException>(
+                () => _handler.Handle(command, CancellationToken.None));
 
             //Assert
-            Assert.Equal("Endereço não encontrado", result.Message);
+            Assert.Equal("Endereço não encontrado", result.MessageError);
+            Assert.Equal("address", result.PropertyError);
         }
 
         [Fact]
@@ -131,7 +141,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new UpdateAddressCommand
             {
-                CustomerId = Guid.NewGuid(),
                 AddressId = Guid.NewGuid(),
                 Street = "",
                 Number = _faker.Random.ULong(10_000_000_000).ToString(),
@@ -141,19 +150,25 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 PostalCode = "",
                 Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100))
             };
+
             //Act
-            var result = new UpdateAddressValidator().Validate(command);
+            var result = new UpdateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
             Assert.Equal(7, result.Errors.Count);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("A cidade deve ter entre 2 e 40 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O bairro deve ter entre 2 e 50 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("A rua deve ter entre 2 e 50 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"A cidade deve ter entre {Address.CityMinLength} e {Address.CityMaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"O bairro deve ter entre {Address.DistrictMinLength} e {Address.DistrictMaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"A rua deve ter entre {Address.StreetMinLength} e {Address.StreetMaxLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Estado inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CEP inválido"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O número deve ter no máximo 10 caracteres"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("O complemento deve ter no máximo 50 caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"O número deve ter no máximo {Address.NumberMaxLength} caracteres"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
+                $"O complemento deve ter no máximo {Address.ComplementMaxLength} caracteres"));
         }
 
         [Fact]
@@ -165,7 +180,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             var command = new UpdateAddressCommand
             {
                 AddressId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
                 Street = properties.Street,
                 Number = properties.Number,
                 District = properties.District,
@@ -178,7 +192,7 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new UpdateAddressValidator().Validate(command);
+            var result = new UpdateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -197,7 +211,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             var command = new UpdateAddressCommand
             {
                 AddressId = properties.Id,
-                CustomerId = Guid.NewGuid(),
                 Street = properties.Street,
                 Number = properties.Number,
                 District = properties.District,
@@ -208,12 +221,12 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             };
 
             //Act
-            var result = new UpdateAddressValidator().Validate(command);
+            var result = new UpdateAddressValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
             Assert.Single(result.Errors);
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Latitude ou Longitude inválida(s)"));
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Coordenadas inválidas"));
         }
     }
 }

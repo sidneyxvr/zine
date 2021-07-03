@@ -1,12 +1,12 @@
 ﻿using Argon.Core.Communication;
-using Argon.Core.Internationalization;
 using Argon.Core.Messages.IntegrationCommands;
 using Argon.Identity.Constants;
 using Argon.Identity.Models;
 using Argon.Identity.Requests;
+using Argon.Identity.Validators;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
-using System;
+using Microsoft.Extensions.Localization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,26 +15,34 @@ namespace Argon.Identity.Services
     public class AccountService : BaseService, IAccountService
     {
         private readonly IBus _bus;
+        private readonly IStringLocalizer _localizer;
         private readonly IEmailService _emailService;
         private readonly UserManager<User> _userManager;
+        private readonly IStringLocalizerFactory _localizerFactory;
 
         public AccountService(
             IBus bus,
             IEmailService emailService,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IStringLocalizerFactory localizerFactory)
         {
             _bus = bus;
             _userManager = userManager;
             _emailService = emailService;
+            _localizerFactory = localizerFactory;
+            _localizer = localizerFactory.Create(typeof(AccountService));
         }
 
         public async Task<ValidationResult> CreateSupplierUserAsync(SupplierUserRequest request)
         {
-            if (IsInvalid(request))
-            {
-                return ValidationResult;
-            }
+            var localizer = _localizerFactory.Create(typeof(SupplierUserValidator));
+            var validationResult = new SupplierUserValidator(localizer).Validate(request);
 
+            if (!validationResult.IsValid)
+            {
+                return validationResult;
+            }
+            
             var user = new User
             {
                 Email = request.Email,
@@ -70,9 +78,12 @@ namespace Argon.Identity.Services
 
         public async Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request)
         {
-            if (IsInvalid(request))
+            var localizer = _localizerFactory.Create(typeof(CustomerUserValidator));
+            var validationResult = new CustomerUserValidator(localizer).Validate(request);
+
+            if (!validationResult.IsValid)
             {
-                return ValidationResult;
+                return validationResult;
             }
 
             var user = new User
@@ -121,37 +132,43 @@ namespace Argon.Identity.Services
 
         public async Task<ValidationResult> ConfirmEmailAccountAsync(EmailAccountConfirmationRequest request)
         {
-            if (IsInvalid(request))
+            var localizer = _localizerFactory.Create(typeof(EmailAccountConfirmationValidator));
+            var validationResult = new EmailAccountConfirmationValidator(localizer).Validate(request);
+
+            if (!validationResult.IsValid)
             {
-                return ValidationResult;
+                return validationResult;
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is null)
             {
-                return NotifyError(Localizer.GetTranslation("CannotConfirmEmailAccount"));
+                return NotifyError(_localizer["Cannot Confirm Email Account"]);
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
 
             return result.Succeeded ?
                 ValidationResult :
-                NotifyError(Localizer.GetTranslation("CannotConfirmEmailAccount"));
+                NotifyError(_localizer["Cannot Confirm Email Account"]);
         }
 
         public async Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request)
         {
-            if (IsInvalid(request))
+            var localizer = _localizerFactory.Create(typeof(EmailValidator));
+            var validationResult = new EmailValidator(localizer).Validate(request);
+
+            if (!validationResult.IsValid)
             {
-                return ValidationResult;
+                return validationResult;
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is null)
             {
-                return NotifyError(Localizer.GetTranslation("CannotResendConfirmEmailAccount"));
+                return NotifyError(_localizer["Cannot Resend Confirm Email Account"]);
             }
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -163,16 +180,19 @@ namespace Argon.Identity.Services
 
         public async Task<ValidationResult> SendResetPasswordAsync(EmailRequest request)
         {
-            if (IsInvalid(request))
+            var localizer = _localizerFactory.Create(typeof(EmailValidator));
+            var validationResult = new EmailValidator(localizer).Validate(request);
+
+            if (!validationResult.IsValid)
             {
-                return ValidationResult;
+                return validationResult;
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is null || !user.EmailConfirmed)
             {
-                return NotifyError(Localizer.GetTranslation("CannotSendResetPassword"));
+                return NotifyError(_localizer["Cannot Send Reset Password"]);
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -184,23 +204,26 @@ namespace Argon.Identity.Services
 
         public async Task<ValidationResult> ResetPasswordAsync(ResetPasswordRequest request)
         {
-            if (IsInvalid(request))
+            var localizer = _localizerFactory.Create(typeof(ResetPasswordValidator));
+            var validationResult = new ResetPasswordValidator(localizer).Validate(request);
+
+            if (!validationResult.IsValid)
             {
-                return ValidationResult;
+                return validationResult;
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is null || !user.EmailConfirmed)
             {
-                return NotifyError(Localizer.GetTranslation("CannotResetPassword"));
+                return NotifyError(_localizer["Cannot Reset Password"]);
             }
 
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
             return result.Succeeded ?
                 ValidationResult :
-                NotifyError(Localizer.GetTranslation("CannotResetPassword"));
+                NotifyError(_localizer["Cannot Reset Password"]);
         }
 
         private static CreateSupplierCommand FromRequestToCommand(SupplierUserRequest request, Guid userId)

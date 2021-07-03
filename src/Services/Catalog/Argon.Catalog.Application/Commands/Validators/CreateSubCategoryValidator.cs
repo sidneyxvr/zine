@@ -1,8 +1,8 @@
-﻿using Argon.Core.Messages.IntegrationCommands.Validators;
+﻿using FluentValidation;
 
 namespace Argon.Catalog.Application.Commands.Validators
 {
-    public class CreateSubCategoryValidator : BaseValidator<CreateSubCategoryCommand>
+    public class CreateSubCategoryValidator : AbstractValidator<CreateSubCategoryCommand>
     {
         public CreateSubCategoryValidator()
         {

@@ -15,29 +15,34 @@ namespace Argon.Catalog.Domain
         public string Address { get; private set; }
         public bool HasHomeAssistance { get; private set; }
 
-        private List<Service> _services;
-        public IReadOnlyCollection<Service> Services => _services.AsReadOnly();
+        private readonly List<Service> _services = new();
+        public IReadOnlyCollection<Service> Services 
+            => _services.AsReadOnly();
 
-        private List<FeeHomeAssistance> _feeHomeAssistances;
-        public IReadOnlyCollection<FeeHomeAssistance> FeeHomeAssistances => _feeHomeAssistances.AsReadOnly();
+        private readonly List<FeeHomeAssistance> _feeHomeAssistances = new();
+        public IReadOnlyCollection<FeeHomeAssistance> FeeHomeAssistances 
+            => _feeHomeAssistances.AsReadOnly();
 
-        private List<Tag> _tags;
-        public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
+        private readonly List<Tag> _tags = new();
+        public IReadOnlyCollection<Tag> Tags 
+            => _tags.AsReadOnly();
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Supplier() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Supplier(string name, double? latitude, double? longitude, string address)
+        public Supplier(string? name, double? latitude, double? longitude, string? address)
         {
             Check.NotEmpty(name, nameof(name));
             Check.NotEmpty(address, nameof(address));
             Check.NotNull(latitude, nameof(latitude));
             Check.NotNull(longitude, nameof(longitude));
 
-            Name = name;
+            Name = name!;
             IsAvailable = false;
             IsOpen = false;
             Location = new Location(latitude, longitude);
-            Address = address;
+            Address = address!;
         }
     }
 }

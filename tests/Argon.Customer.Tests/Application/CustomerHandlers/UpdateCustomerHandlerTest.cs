@@ -1,8 +1,11 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Customers.Application;
+using Argon.Customers.Application.Commands;
+using Argon.Customers.Application.Handlers;
+using Argon.Customers.Application.Validators;
 using Argon.Customers.Domain;
 using Argon.Customers.Tests.Fixtures;
 using Bogus;
+using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using System;
@@ -18,6 +21,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
         private readonly AutoMocker _mocker;
         private readonly UpdateCustomerHandler _handler;
         private readonly CustomerFixture _customerFixture;
+        private readonly IStringLocalizer<UpdateCustomerValidator> _localizer;
 
         public UpdateCustomerHandlerTest()
         {
@@ -25,6 +29,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             _mocker = new AutoMocker();
             _handler = _mocker.CreateInstance<UpdateCustomerHandler>();
             _customerFixture = new CustomerFixture();
+            _localizer = LocalizerHelper.CreateInstanceStringLocalizer<UpdateCustomerValidator>();
         }
 
         [Fact]
@@ -34,7 +39,6 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             var props = _customerFixture.GetCustomerTestDTO();
             var command = new UpdateCustomerCommand
             {
-                CustomerId = Guid.NewGuid(),
                 FirstName = props.FirstName,
                 LastName = props.LastName,
                 Phone = props.Phone,
@@ -47,7 +51,8 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
                 .ReturnsAsync(true);
 
             _mocker.GetMock<IUnitOfWork>()
-                .Setup(r => r.CustomerRepository.GetByIdAsync(It.IsAny<Guid>()))
+                .Setup(r => r.CustomerRepository
+                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_customerFixture.CreateValidCustomerWithAddresses());
 
             //Act
@@ -55,6 +60,10 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
 
             //Assert
             Assert.True(result.IsValid);
+            _mocker.GetMock<IUnitOfWork>()
+                .Verify(r => r.CustomerRepository
+                    .UpdateAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
         }
 
         [Fact]
@@ -63,13 +72,12 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             //Arrange
             var command = new UpdateCustomerCommand
             {
-                CustomerId = Guid.Empty,
                 BirthDate = DateTime.Now.AddYears(-19),
                 Gender = Gender.Other
             };
 
             //Act
-            var result = new UpdateCustomerValidator().Validate(command);
+            var result = new UpdateCustomerValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);
@@ -84,7 +92,6 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             //Arrange
             var command = new UpdateCustomerCommand
             {
-                CustomerId = Guid.Empty,
                 FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
                 LastName = _faker.Random.String2(Name.MaxLengthLastName + 1),
                 Phone = _faker.Person.Email,
@@ -93,7 +100,7 @@ namespace Argon.Customers.Tests.Application.CustomerHandlers
             };
 
             //Act
-            var result = new UpdateCustomerValidator().Validate(command);
+            var result = new UpdateCustomerValidator(_localizer).Validate(command);
 
             //Assert
             Assert.False(result.IsValid);

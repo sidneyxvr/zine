@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Argon.Identity.Responses
 {
-    public class UserTokenResponse
+    public record UserTokenResponse
     {
-        public Guid Id { get; set; }
-        public string Email { get; set; }
-        public IEnumerable<UserClaimResponse> Claims { get; set; }
+        public Guid Id { get; init; }
+        public string Email { get; init; } = null!;
+        public IEnumerable<UserClaimResponse> Claims { get; init; } = null!;
     }
 }

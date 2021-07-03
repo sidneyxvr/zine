@@ -20,7 +20,7 @@ namespace Argon.Customers.Domain
         public Guid? MainAddressId { get; set; }
         public Address? MainAddress { get; private set; }
 
-        public List<Address> _addresses;
+        private readonly List<Address> _addresses = new();
         public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
 
@@ -31,9 +31,12 @@ namespace Argon.Customers.Domain
             _addresses = new ();
         }
 
-        public Customer(Guid id, string firstName, string LastName, string email,
-            string cpf, DateTime? birthDate, Gender gender, string phone)
+        public Customer(Guid id, string? firstName, string? LastName, string? email,
+            string? cpf, DateTime? birthDate, Gender gender, string? phone)
         {
+            Check.NotEmpty(id, nameof(id));
+            Check.IsEnum(gender, typeof(Gender), nameof(gender));
+
             Id = id;
             Name = new Name(firstName, LastName);
             Email = email;
@@ -44,18 +47,15 @@ namespace Argon.Customers.Domain
             IsActive = true;
             IsDeleted = false;
             IsSuspended = true;
-            _addresses = new();
-
-            Validate();
         }
 
-        public void Update(string firstName, string LastName, DateTime birthDate, Gender gender)
+        public void Update(string? firstName, string? LastName, DateTime birthDate, Gender gender)
         {
+            Check.IsEnum(gender, typeof(Gender), nameof(gender));
+
             Name = new Name(firstName, LastName);
             Gender = gender;
             BirthDate = birthDate;
-
-            Validate();
         }
 
         public void Enable() => IsActive = true;
@@ -75,8 +75,17 @@ namespace Argon.Customers.Domain
             _addresses.Add(address);
         }
 
+        public void UpdateAddress(Address address)
+        {
+            Check.NotNull(address, nameof(address));
+
+            _addresses.Add(address);
+        }
+
         public void DeleteAddress(Guid addressId)
         {
+            Check.NotEmpty(addressId, nameof(addressId));
+
             var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
             Check.NotNull(address, nameof(address));
@@ -96,11 +105,6 @@ namespace Argon.Customers.Domain
             Check.NotNull(address, nameof(address));
 
             MainAddress = address;
-        }
-
-        private void Validate()
-        {
-            Check.IsEnum(Gender, typeof(Gender), nameof(Gender));
         }
     }
 }

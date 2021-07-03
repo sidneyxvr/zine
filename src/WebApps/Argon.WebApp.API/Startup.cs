@@ -1,12 +1,14 @@
 using Argon.WebApp.API.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Argon.WebApp.API
 {
@@ -35,6 +37,25 @@ namespace Argon.WebApp.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            const string ptBRCulture = "pt-BR";
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo(ptBRCulture),
+                };
+
+                options.DefaultRequestCulture = new RequestCulture(culture: ptBRCulture, uiCulture: ptBRCulture);
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+
+                options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(context 
+                    => Task.FromResult(new ProviderCultureResult("pt"))!));
+            });
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.RegisterCustomer();
             services.RegisterSupplier();
             services.RegisterIdentity(Environment);
@@ -58,16 +79,6 @@ namespace Argon.WebApp.API
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-
-            services.AddHttpLogging(logging =>
-            {
-                logging.LoggingFields = HttpLoggingFields.All;
-                logging.RequestHeaders.Add("My-Request-Header");
-                logging.ResponseHeaders.Add("My-Response-Header");
-                logging.MediaTypeOptions.AddText("application/javascript");
-                logging.RequestBodyLogLimit = 4096;
-                logging.ResponseBodyLogLimit = 4096;
-            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -83,6 +94,10 @@ namespace Argon.WebApp.API
 
                 app.UsePrometheus();
             }
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                ApplyCurrentCultureToResponseHeaders = true
+            });
 
             app.UseHttpsRedirection();
 

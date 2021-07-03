@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Customers.Infra.Data.Repositories
@@ -15,16 +17,12 @@ namespace Argon.Customers.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Customer customer)
+        public async Task AddAsync(Customer customer, 
+            CancellationToken calcelationToken = default)
         {
-            await _context.AddAsync(customer);
+            await _context.AddAsync(customer, calcelationToken);
 
             _context.Entry(customer).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
-        }
-
-        public async Task AddAsync(Address customer)
-        {
-            await _context.Addresses.AddAsync(customer);
         }
 
         public void Dispose()
@@ -33,44 +31,78 @@ namespace Argon.Customers.Infra.Data.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public async Task<Address?> GetAddressAsync(Guid customerId, Guid addressId)
+        public async Task<Customer?> GetByIdAsync(
+            Guid id,
+            Include include = Include.None,
+            CancellationToken calcelationToken = default)
         {
-            return await _context.Addresses
-                .FirstOrDefaultAsync(a => a.CustomerId == customerId && a.Id == addressId);
+            return await _context.Customers
+                .AsSplitQuery()
+                .Includes(include)
+                .FirstOrDefaultAsync(c => c.Id == id, calcelationToken);
         }
 
-        public async Task<Customer?> GetByIdAsync(Guid id, params Include[] includes)
+        public Task UpdateAsync(Customer customer, 
+            CancellationToken calcelationToken = default)
         {
-            var query = _context.Customers.AsQueryable();
-
-            if (includes.Contains(Include.Addresses))
-            {
-                query = query.Include(c => c.Addresses);
-            }
-
-            if (includes.Contains(Include.MainAddress))
-            {
-                //query = query.Include(c => c.MainAddress);
-            }
-
-            return await query.AsSplitQuery()
-               .FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        public Task UpdateAsync(Customer customer)
-        {
-            //EF Core already tracks the enetity
+            //EF Core already tracks the entity
             //_context.Update(customer);
 
             return Task.CompletedTask;
         }
+    }
 
-        public Task UpdateAsync(Address address)
+    internal static class SupplierQueryExtentios
+    {
+        internal static IQueryable<Customer> Includes(this IQueryable<Customer> source, Include include)
         {
-            //EF Core already tracks the enetity
-            //_context.Update(customer);
+            if (include.HasFlag(Include.MainAddress))
+            {
+                source = source.Include(s => s.MainAddress);
+            }
 
-            return Task.CompletedTask;
+            if (include.HasFlag(Include.Addresses))
+            {
+                source = source.Include(s => s.Addresses);
+            }
+
+            return source;
+        }
+    }
+
+    internal static class LinqEFExtentions
+    {
+        internal static IQueryable<T> WhereIf<T>(
+            this IQueryable<T> source, bool evaluation, Expression<Func<T, bool>> predicate)
+        {
+            if(source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return evaluation ? source.Where(predicate) : source;
+        }
+
+        public static IQueryable<T> OrderByIf<T>(
+            this IQueryable<T> source, bool evaluation, Expression<Func<T, bool>> predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return evaluation ? source.OrderBy(predicate) : source;
+        }
+
+        public static IQueryable<T> OrderByDescendingIf<T>(
+            this IQueryable<T> source, bool evaluation, Expression<Func<T, bool>> predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return evaluation ? source.OrderByDescending(predicate) : source;
         }
     }
 }

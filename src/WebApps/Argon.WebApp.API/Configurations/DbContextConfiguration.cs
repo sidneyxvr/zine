@@ -15,7 +15,10 @@ namespace Argon.WebApp.API.Configurations
 {
     public static class DbContextConfiguration
     {
-        public static IServiceCollection RegisterDbContexts(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
+        public static IServiceCollection RegisterDbContexts(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            IWebHostEnvironment env)
         {
             if (env.IsProduction())
             {
@@ -34,7 +37,9 @@ namespace Argon.WebApp.API.Configurations
             return services;
         }
 
-        private static IServiceCollection RegisterDevelopmentContexts(IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection RegisterDevelopmentContexts(
+            IServiceCollection services, 
+            IConfiguration configuration)
         {
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"))
@@ -69,19 +74,24 @@ namespace Argon.WebApp.API.Configurations
             return services;
         }
 
-        private static IServiceCollection RegisterProductionContexts(IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection RegisterProductionContexts(
+            IServiceCollection services, 
+            IConfiguration configuration)
         {
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
 
             services.AddDbContext<CustomerContext>(options =>
-               options.UseSqlServer(configuration.GetConnectionString("CustomerConnection"), x => x.UseNetTopologySuite()));
+               options.UseSqlServer(configuration.GetConnectionString("CustomerConnection"), 
+               x => x.UseNetTopologySuite()));
 
             services.AddDbContext<SupplierContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), 
+                x => x.UseNetTopologySuite()));
 
             services.AddDbContext<CatalogContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), 
+                x => x.UseNetTopologySuite()));
 
             return services;
         }
