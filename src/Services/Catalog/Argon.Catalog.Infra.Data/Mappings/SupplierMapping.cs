@@ -17,6 +17,8 @@ namespace Argon.Catalog.Infra.Data.Mappings
 
             builder.Ignore(s => s.DomainEvents);
 
+            builder.HasQueryFilter(s => !s.IsDeleted);
+
             builder.Property(s => s.Name)
                 .IsUnicode(false)
                 .HasMaxLength(Supplier.NameMaxLength)

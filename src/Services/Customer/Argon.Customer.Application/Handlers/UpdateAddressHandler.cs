@@ -41,7 +41,7 @@ namespace Argon.Customers.Application.Handlers
             
             if(address is null)
             {
-                throw new DomainException(nameof(address), _localizer["Address Not Found"]);
+                return WithError(nameof(address), _localizer["Address Not Found"]);
             }
 
             address.Update(request.Street, request.Number, request.District, 

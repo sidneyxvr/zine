@@ -12,6 +12,9 @@ namespace Argon.Catalog.Domain
 
         public FeeHomeAssistance(decimal price, double radius)
         {
+            Check.Range(price, decimal.Zero, decimal.MaxValue, nameof(price));
+            Check.Range(radius, 0.0, double.MaxValue, nameof(radius));
+
             Price = price;
             Radius = radius;
         }

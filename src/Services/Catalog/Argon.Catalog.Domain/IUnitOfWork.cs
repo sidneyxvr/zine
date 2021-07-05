@@ -6,7 +6,11 @@ namespace Argon.Catalog.Domain
     {
         Task<bool> CommitAsync();
 
-        public ISupplierRepository SupplierRepository { get; }
         public IServiceRepository ServiceRepository { get; }
+        public ISupplierRepository SupplierRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
+        public IDepartmentRepository DepartmentRepository { get; }
+        public ISubCategoryRepository SubCategoryRepository { get; }
+        public ITagRepository TagRepository { get; }
     }
 }

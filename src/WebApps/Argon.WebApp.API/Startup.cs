@@ -44,6 +44,7 @@ namespace Argon.WebApp.API
                 var supportedCultures = new[]
                 {
                     new CultureInfo(ptBRCulture),
+                    new CultureInfo("en-US"),
                 };
 
                 options.DefaultRequestCulture = new RequestCulture(culture: ptBRCulture, uiCulture: ptBRCulture);
@@ -51,7 +52,7 @@ namespace Argon.WebApp.API
                 options.SupportedUICultures = supportedCultures;
 
                 options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(context 
-                    => Task.FromResult(new ProviderCultureResult("pt"))!));
+                    => Task.FromResult(new ProviderCultureResult(ptBRCulture))!));
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -94,10 +95,12 @@ namespace Argon.WebApp.API
 
                 app.UsePrometheus();
             }
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                ApplyCurrentCultureToResponseHeaders = true
-            });
+            var supportedCultures = new[] { "en-US", "pt-BR" };
+            var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[1])
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
 

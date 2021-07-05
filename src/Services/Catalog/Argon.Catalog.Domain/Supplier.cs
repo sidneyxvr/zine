@@ -1,4 +1,5 @@
 ﻿using Argon.Core.DomainObjects;
+using System;
 using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
@@ -11,21 +12,14 @@ namespace Argon.Catalog.Domain
         public string Name { get; private set; }
         public bool IsAvailable { get; private set; }
         public bool IsOpen { get; private set; }
+        public bool IsDeleted { get; private set; }
         public Location Location { get; private set; }
         public string Address { get; private set; }
-        public bool HasHomeAssistance { get; private set; }
 
-        private readonly List<Service> _services = new();
-        public IReadOnlyCollection<Service> Services 
-            => _services.AsReadOnly();
-
-        private readonly List<FeeHomeAssistance> _feeHomeAssistances = new();
-        public IReadOnlyCollection<FeeHomeAssistance> FeeHomeAssistances 
-            => _feeHomeAssistances.AsReadOnly();
-
-        private readonly List<Tag> _tags = new();
-        public IReadOnlyCollection<Tag> Tags 
-            => _tags.AsReadOnly();
+        public List<Service> Services
+        {
+            get => throw new InvalidOperationException(nameof(Services));
+        }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Supplier() { }
@@ -41,6 +35,7 @@ namespace Argon.Catalog.Domain
             Name = name!;
             IsAvailable = false;
             IsOpen = false;
+            IsDeleted = false;
             Location = new Location(latitude, longitude);
             Address = address!;
         }

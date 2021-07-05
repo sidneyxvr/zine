@@ -11,8 +11,8 @@ namespace Argon.Catalog.Domain
 
         public string Name { get; private set; }
         public string Description { get; private set; }
-
-        public bool IsActive { get; set; }
+        public bool IsActive { get; private set; }
+        public bool IsDeleted { get; private set; }
 
         private readonly List<Category> _categories = new();
         public IReadOnlyCollection<Category> Categories 

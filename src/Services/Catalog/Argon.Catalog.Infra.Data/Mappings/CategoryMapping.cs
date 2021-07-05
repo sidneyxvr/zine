@@ -8,7 +8,7 @@ namespace Argon.Catalog.Infra.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable(nameof(CategoryMapping));
+            builder.ToTable(nameof(Category));
 
             builder.HasKey(c => c.Id);
 
@@ -17,14 +17,21 @@ namespace Argon.Catalog.Infra.Data.Mappings
 
             builder.Ignore(c => c.DomainEvents);
 
+            builder.HasQueryFilter(c => !c.IsDeleted);
+
             builder.Property(c => c.Name)
                 .IsUnicode(false)
                 .HasMaxLength(Category.NameMaxLength)
                 .IsRequired(true);
 
             builder.Property(c => c.Description)
-                .IsRequired(false)
+                .IsUnicode(false)
                 .HasMaxLength(Category.DescriptionMaxLength);
+
+            builder.HasOne(c => c.Department)
+                .WithMany(d => d.Categories)
+                .HasForeignKey(c => c.DepartmentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

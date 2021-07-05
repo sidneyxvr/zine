@@ -127,12 +127,11 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
                 .ReturnsAsync(_customerFixture.CreateValidCustomer());
 
             //Act
-            var result = await Assert.ThrowsAsync<DomainException>(
-                () => _handler.Handle(command, CancellationToken.None));
+            var result = await _handler.Handle(command, CancellationToken.None);
 
             //Assert
-            Assert.Equal("Endereço não encontrado", result.MessageError);
-            Assert.Equal("address", result.PropertyError);
+            Assert.Single(result.Errors);
+            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Endereço não encontrado"));
         }
 
         [Fact]
