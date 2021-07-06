@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Argon.Suppliers.Domain
 {
-    public class Supplier : Entity
+    public class Supplier : Entity, IAggregateRoot
     {
         public const int CorporateNameMaxLength = 50;
         public const int CorporateNameMinLength = 2;
@@ -18,7 +18,7 @@ namespace Argon.Suppliers.Domain
         public bool IsSuspended { get; private set; }
         public CpfCnpj CpfCnpj { get; private set; }
 
-        public Guid AddressId { get; set; }
+        public Guid AddressId { get; private set; }
         public Address Address { get; private set; }
 
         private List<User> _users = new();

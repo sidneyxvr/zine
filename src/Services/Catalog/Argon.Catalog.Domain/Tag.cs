@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
 {
-    public class Tag : Entity
+    public class Tag : Entity, IAggregateRoot
     {
         public const int MaxLength = 25;
 
@@ -23,6 +23,8 @@ namespace Argon.Catalog.Domain
             Check.MaxLength(name, MaxLength, nameof(name));
 
             Name = name;
+            IsActive = true;
+            IsDeleted = false;
         }
     }
 }

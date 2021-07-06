@@ -1,4 +1,6 @@
 ﻿using Argon.Catalog.Domain;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Catalog.Infra.Data.Repositories
@@ -12,9 +14,15 @@ namespace Argon.Catalog.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Supplier supplier)
+        public async Task AddAsync(Supplier supplier, CancellationToken cancellationToken = default)
         {
-            await _context.AddAsync(supplier);
+            await _context.AddAsync(supplier, cancellationToken);
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

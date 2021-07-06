@@ -7,7 +7,7 @@ namespace Argon.Catalog.Application.Validators
 {
     public class CreateServiceValidator : AbstractValidator<CreateServiceCommand>
     {
-        public CreateServiceValidator(IStringLocalizer localizer)
+        public CreateServiceValidator(IStringLocalizer<CreateServiceValidator> localizer)
         {
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage(localizer["Required Name"])

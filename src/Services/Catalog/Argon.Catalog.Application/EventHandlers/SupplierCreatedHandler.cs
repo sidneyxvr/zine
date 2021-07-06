@@ -17,7 +17,8 @@ namespace Argon.Catalog.Application.EventHandlers
 
         public async Task Handle(SupplierCreatedEvent notification, CancellationToken cancellationToken)
         {
-            var supplier = new Supplier(notification.Name, notification.Latitude, notification.Latitude, notification.Address);
+            var supplier = new Supplier(notification.Id, notification.Name, 
+                notification.Latitude, notification.Latitude, notification.Address);
 
             await _unitOfWork.SupplierRepository.AddAsync(supplier);
             await _unitOfWork.CommitAsync();

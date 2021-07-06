@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
 {
-    public class Supplier : Entity
+    public class Supplier : Entity, IAggregateRoot
     {
         public const int NameMaxLength = 100;
         public const int AddressMaxLength = 255;
@@ -25,13 +25,16 @@ namespace Argon.Catalog.Domain
         protected Supplier() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Supplier(string? name, double? latitude, double? longitude, string? address)
+        public Supplier(Guid id, string? name, 
+            double? latitude, double? longitude, string? address)
         {
+            Check.NotEmpty(id, nameof(id));
             Check.NotEmpty(name, nameof(name));
             Check.NotEmpty(address, nameof(address));
             Check.NotNull(latitude, nameof(latitude));
             Check.NotNull(longitude, nameof(longitude));
 
+            Id = id;
             Name = name!;
             IsAvailable = false;
             IsOpen = false;

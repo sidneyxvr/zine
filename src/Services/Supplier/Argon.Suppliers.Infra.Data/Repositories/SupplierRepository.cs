@@ -23,6 +23,12 @@ namespace Argon.Suppliers.Infra.Data.Repositories
             _context.Entry(supplier).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
         }
 
+        public void Dispose()
+        {
+            _context?.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
         public async Task<Supplier?> GetByIdAsync(
             Guid id, Include include = Include.None, CancellationToken cancellationToken = default)
         {

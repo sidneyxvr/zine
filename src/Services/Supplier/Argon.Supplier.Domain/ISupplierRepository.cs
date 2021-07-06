@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Argon.Core.Data;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Suppliers.Domain
 {
-    public interface ISupplierRepository
+    public interface ISupplierRepository : IRepository<Supplier>
     {
         Task AddAsync(Supplier supplier, CancellationToken cancellationToken = default);
         Task UpdateAsync(Supplier supplier, CancellationToken cancellationToken = default);

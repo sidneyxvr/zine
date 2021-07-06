@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
     <ProjectReference Include="..\Argon.Catalog.Domain\Argon.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\Argon.Catalog.QueryStack\Argon.Catalog.QueryStack.csproj" />
   </ItemGroup>
 
 </Project>

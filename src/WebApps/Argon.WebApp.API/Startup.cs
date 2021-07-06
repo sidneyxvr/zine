@@ -57,6 +57,7 @@ namespace Argon.WebApp.API
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+            services.RegisterCatalog();
             services.RegisterCustomer();
             services.RegisterSupplier();
             services.RegisterIdentity(Environment);

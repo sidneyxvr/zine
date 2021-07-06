@@ -1,7 +1,10 @@
-﻿namespace Argon.Core.Messages.IntegrationEvents
+﻿using System;
+
+namespace Argon.Core.Messages.IntegrationEvents
 {
     public record SupplierCreatedEvent : Event
     {
+        public Guid Id { get; set; }
         public string? Name { get; init; }
         public double Latitude { get; init; }
         public double Longitude { get; init; }

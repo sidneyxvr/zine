@@ -1,26 +1,50 @@
 ﻿using Argon.Catalog.Domain;
-using System;
 using System.Threading.Tasks;
 
 namespace Argon.Catalog.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ISupplierRepository SupplierRepository => throw new NotImplementedException();
+        private readonly CatalogContext _context;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly ICategoryRepository _categoryRepository; 
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public IServiceRepository ServiceRepository => throw new NotImplementedException();
-
-        public ICategoryRepository CategoryRepository => throw new NotImplementedException();
-
-        public IDepartmentRepository DepartmentRepository => throw new NotImplementedException();
-
-        public ISubCategoryRepository SubCategoryRepository => throw new NotImplementedException();
-
-        public ITagRepository TagRepository => throw new NotImplementedException();
-
-        public Task<bool> CommitAsync()
+        public UnitOfWork(
+            CatalogContext context, 
+            ISupplierRepository supplierRepository, 
+            IServiceRepository serviceRepository, 
+            ICategoryRepository categoryRepository, 
+            IDepartmentRepository departmentRepository, 
+            ISubCategoryRepository subCategoryRepository, 
+            ITagRepository tagRepository)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _supplierRepository = supplierRepository;
+            _serviceRepository = serviceRepository;
+            _categoryRepository = categoryRepository;
+            _departmentRepository = departmentRepository;
+            _subCategoryRepository = subCategoryRepository;
+            _tagRepository = tagRepository;
+        }
+
+        public ICategoryRepository CategoryRepository => _categoryRepository;
+        public IDepartmentRepository DepartmentRepository => _departmentRepository;
+        public IServiceRepository ServiceRepository => _serviceRepository;
+        public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository;
+        public ISupplierRepository SupplierRepository => _supplierRepository;
+        public ITagRepository TagRepository => _tagRepository;
+
+        public async Task<bool> CommitAsync()
+        {
+            var success = await _context.SaveChangesAsync() > 0;
+
+            //TODO: Publish events
+
+            return success;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Argon.Core.DomainObjects
             }
             else
             {
-                Check.True(CnpjValidator.IsValid(number), nameof(CpfCnpj));
+                Check.True(CnpjValidator.IsValid(number!), nameof(CpfCnpj));
             }
 
             Number = number;
