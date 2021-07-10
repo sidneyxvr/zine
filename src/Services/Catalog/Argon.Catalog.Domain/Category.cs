@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
 {
-    public class Category : Entity, IAggregateRoot
+    public class Category : Entity<Guid>, IAggregateRoot
     {
         public const int NameMinLength = 3;
         public const int NameMaxLength = 25;
@@ -26,6 +26,7 @@ namespace Argon.Catalog.Domain
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public Category(string? name, string? description, Guid departmentId)
+            : base(NewGuid())
         {
             Check.NotEmpty(name, nameof(name));
             Check.Length(name!, NameMinLength, NameMaxLength, nameof(description));

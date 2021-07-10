@@ -49,55 +49,16 @@ namespace Argon.Catalog.Infra.Data.Mappings
                 .FindNavigation(nameof(Service.Images))?
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
 
-            builder.OwnsMany(p => p.Images, i => 
-            {
-                i.ToTable(nameof(Image));
+            builder.HasMany(p => p.Images)
+                .WithOne(f => f.Service)
+                .HasForeignKey(p => p.ServiceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-                i.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+            builder.HasMany(p => p.FeeHomeAssistances)
+                .WithOne(f => f.Service)
+                .HasForeignKey(p => p.ServiceId)
+                .OnDelete(DeleteBehavior.Cascade);
                 
-                i.HasKey("Id");
-
-                i.WithOwner()
-                    .HasForeignKey("ServiceId");
-
-                i.Property(f => f.Url)
-                    .IsUnicode(false)
-                    .HasMaxLength(Image.UrlMaxLength)
-                    .IsRequired();
-            });
-
-            builder.OwnsMany(p => p.FeeHomeAssistances, i =>
-            {
-                i.ToTable(nameof(FeeHomeAssistance));
-
-                i.WithOwner().HasForeignKey("ServiceId");
-
-                i.Property<int>("Id");
-                i.HasKey("Id");
-
-
-                i.Property(f => f.Radius)
-                    .IsRequired();
-
-                i.Property(f => f.Price)
-                    .HasPrecision(6, 2)
-                    .IsRequired();
-            });
-
-            builder.HasMany(s => s.Tags)
-                .WithMany(t => t.Services)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ServiceTag",
-                    s => s.HasOne<Tag>()
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Restrict),
-                    s => s.HasOne<Service>()
-                        .WithMany()
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                );
         }
     }
 }

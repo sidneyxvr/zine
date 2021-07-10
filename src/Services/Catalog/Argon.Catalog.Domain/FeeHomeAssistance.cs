@@ -1,12 +1,15 @@
 ﻿using Argon.Core.DomainObjects;
-using System.Collections.Generic;
+using System;
 
 namespace Argon.Catalog.Domain
 {
-    public class FeeHomeAssistance : ValueObject
+    public class FeeHomeAssistance : Entity<int>
     {
         public decimal Price { get; private set; }
         public double Radius { get; private set; }
+
+        public Guid ServiceId { get; private set; }
+        public Service? Service { get; private set; }
 
         protected FeeHomeAssistance() { }
 
@@ -17,12 +20,6 @@ namespace Argon.Catalog.Domain
 
             Price = price;
             Radius = radius;
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Price;
-            yield return Radius;
         }
     }
 }

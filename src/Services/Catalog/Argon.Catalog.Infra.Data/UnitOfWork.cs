@@ -6,29 +6,26 @@ namespace Argon.Catalog.Infra.Data
     public class UnitOfWork : IUnitOfWork
     {
         private readonly CatalogContext _context;
-        private readonly ISupplierRepository _supplierRepository;
         private readonly IServiceRepository _serviceRepository;
+        private readonly ISupplierRepository _supplierRepository;
         private readonly ICategoryRepository _categoryRepository; 
         private readonly IDepartmentRepository _departmentRepository;
         private readonly ISubCategoryRepository _subCategoryRepository;
-        private readonly ITagRepository _tagRepository;
 
         public UnitOfWork(
             CatalogContext context, 
-            ISupplierRepository supplierRepository, 
             IServiceRepository serviceRepository, 
+            ISupplierRepository supplierRepository, 
             ICategoryRepository categoryRepository, 
             IDepartmentRepository departmentRepository, 
-            ISubCategoryRepository subCategoryRepository, 
-            ITagRepository tagRepository)
+            ISubCategoryRepository subCategoryRepository)
         {
             _context = context;
-            _supplierRepository = supplierRepository;
             _serviceRepository = serviceRepository;
+            _supplierRepository = supplierRepository;
             _categoryRepository = categoryRepository;
             _departmentRepository = departmentRepository;
             _subCategoryRepository = subCategoryRepository;
-            _tagRepository = tagRepository;
         }
 
         public ICategoryRepository CategoryRepository => _categoryRepository;
@@ -36,7 +33,6 @@ namespace Argon.Catalog.Infra.Data
         public IServiceRepository ServiceRepository => _serviceRepository;
         public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository;
         public ISupplierRepository SupplierRepository => _supplierRepository;
-        public ITagRepository TagRepository => _tagRepository;
 
         public async Task<bool> CommitAsync()
         {

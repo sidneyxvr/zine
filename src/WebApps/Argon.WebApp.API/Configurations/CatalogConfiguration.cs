@@ -23,16 +23,13 @@ namespace Argon.WebApp.API.Configurations
             services.TryAddTransient<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
             services.TryAddTransient<IValidator<CreateSubCategoryCommand>, CreateSubCategoryValidator>();
             services.TryAddTransient<IValidator<CreateServiceCommand>, CreateServiceValidator>();
-            services.TryAddTransient<IValidator<CreateTagCommand>, CreateTagValidator>();
 
             services.TryAddScoped<IRequestHandler<CreateDepartmentCommand, ValidationResult>, CreateDepartmentHandler>();
             services.TryAddScoped<IRequestHandler<CreateCategoryCommand, ValidationResult>, CreateCategoryHandler>();
             services.TryAddScoped<IRequestHandler<CreateSubCategoryCommand, ValidationResult>, CreateSubCategoryHandler>();
             services.TryAddScoped<IRequestHandler<CreateServiceCommand, ValidationResult>, CreateServiceHandler>();
-            services.TryAddScoped<IRequestHandler<CreateTagCommand, ValidationResult>, CreateTagHandler>();
 
             services.TryAddScoped<IDepartmentQueries, DepartmentQueries>();
-            services.TryAddScoped<ITagQueries, TagQueries>();
 
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
             services.TryAddScoped<IDepartmentRepository, DepartmentRepository>();
@@ -40,7 +37,6 @@ namespace Argon.WebApp.API.Configurations
             services.TryAddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.TryAddScoped<IServiceRepository, ServiceRepository>();
             services.TryAddScoped<ISupplierRepository, SupplierRepository>();
-            services.TryAddScoped<ITagRepository, TagRepository>();
 
             services.TryAddScoped<IFileStorage, FileStorage>();
 

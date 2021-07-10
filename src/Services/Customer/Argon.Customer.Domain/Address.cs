@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.Customers.Domain
 {
-    public class Address : Entity
+    public class Address : Entity<Guid>
     {
         public string Street { get; private set; }
         public string Number { get; private set; }
@@ -35,6 +35,7 @@ namespace Argon.Customers.Domain
 
         public Address(Guid customerId, string? street, string? number, string? district, string? city, 
             string? state, string? postalCode, string? complement, double? latitude, double? longitude)
+            : base(NewGuid())
         {
             Check.NotEmpty(customerId, nameof(customerId));
             Validate(street, number, district, city, state, postalCode, complement);

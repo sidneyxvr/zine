@@ -37,13 +37,9 @@ namespace Argon.Catalog.Application.Handlers
                 ? await _storageService.AddAsync(files, cancellationToken)
                 : null;
 
-            var tags = request.Tags is not null
-                ? await _unitOfWork.TagRepository.GetByIdsAsync(request.Tags, cancellationToken)
-                : null;
-
             var service = new Service(request.Name, request.Description, request.Price, 
                 request.SupplierId, request.SubCategoryId, request.HasHomeAssistance,
-                images?.ToList(), feeHomeAssistences?.ToList(), tags?.ToList());
+                images?.ToList(), feeHomeAssistences?.ToList());
 
             await _unitOfWork.ServiceRepository.AddAsync(service, cancellationToken);
             await _unitOfWork.CommitAsync();

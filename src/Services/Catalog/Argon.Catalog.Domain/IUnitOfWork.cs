@@ -11,6 +11,5 @@ namespace Argon.Catalog.Domain
         public ICategoryRepository CategoryRepository { get; }
         public IDepartmentRepository DepartmentRepository { get; }
         public ISubCategoryRepository SubCategoryRepository { get; }
-        public ITagRepository TagRepository { get; }
     }
 }

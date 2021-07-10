@@ -1,9 +1,10 @@
-﻿using Argon.Core.DomainObjects;
+﻿global using static System.Guid;
+using Argon.Core.DomainObjects;
 using System;
 
 namespace Argon.Suppliers.Domain
 {
-    public class Address : Entity
+    public class Address : Entity<Guid>
     {
         public string Street { get; private set; }
         public string Number { get; private set; }
@@ -36,6 +37,7 @@ namespace Argon.Suppliers.Domain
 
         public Address(string? street, string? number, string? district, string? city, string? state,
             string? postalCode, string? complement, double? latitude, double? longitude)
+            : base(NewGuid())
         {
             Validate(street, number, district, city, state, postalCode, complement);
 

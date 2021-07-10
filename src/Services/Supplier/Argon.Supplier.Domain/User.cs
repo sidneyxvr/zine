@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.Suppliers.Domain
 {
-    public class User : Entity
+    public class User : Entity<Guid>
     {
         public Name Name { get; private set; }
         public Email Email { get; private set; }
@@ -19,6 +19,7 @@ namespace Argon.Suppliers.Domain
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public User(Guid id, string? firstName, string? lastName, string? email, Gender gender)
+            : base(NewGuid())
         {
             Check.NotEmpty(id, nameof(id));
             Check.NotEmpty(firstName, nameof(firstName));   

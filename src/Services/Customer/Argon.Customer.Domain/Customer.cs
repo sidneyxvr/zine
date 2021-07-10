@@ -1,11 +1,12 @@
-﻿using Argon.Core.DomainObjects;
+﻿global using static System.Guid;
+using Argon.Core.DomainObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Argon.Customers.Domain
 {
-    public class Customer : Entity, IAggregateRoot
+    public class Customer : Entity<Guid>, IAggregateRoot
     {
         public Name Name { get; private set; }
         public Email Email { get; private set; }
@@ -17,7 +18,7 @@ namespace Argon.Customers.Domain
         public bool IsDeleted { get; private set; }
         public bool IsSuspended { get; private set; }
 
-        public Guid? MainAddressId { get; set; }
+        public Guid? MainAddressId { get; private set; }
         public Address? MainAddress { get; private set; }
 
         private readonly List<Address> _addresses = new();
@@ -33,6 +34,7 @@ namespace Argon.Customers.Domain
 
         public Customer(Guid id, string? firstName, string? LastName, string? email,
             string? cpf, DateTime? birthDate, Gender gender, string? phone)
+            : base(NewGuid())
         {
             Check.NotEmpty(id, nameof(id));
             Check.IsEnum(gender, typeof(Gender), nameof(gender));

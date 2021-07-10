@@ -1,10 +1,11 @@
-﻿using Argon.Core.DomainObjects;
+﻿global using static System.Guid;
+using Argon.Core.DomainObjects;
 using System;
 using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
 {
-    public class Service : Entity, IAggregateRoot
+    public class Service : Entity<Guid>, IAggregateRoot
     {
         public const int NameMaxLength = 100;
         public const int DescriptionMaxLength = 255;
@@ -28,17 +29,13 @@ namespace Argon.Catalog.Domain
         public IReadOnlyCollection<FeeHomeAssistance> FeeHomeAssistances
             => _feeHomeAssistances.AsReadOnly();
 
-        private List<Tag> _tags = new();
-        public IReadOnlyCollection<Tag> Tags
-            => _tags.AsReadOnly();
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Service() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Service(string? name, string? description, decimal price, Guid supplierId, 
-            Guid subCategoryId, bool hasHomeAssistance, List<Image>? images,
-            List<FeeHomeAssistance>? feeHomeAssistances, List<Tag>? tags )
+        public Service(string? name, string? description, decimal price, Guid supplierId, Guid subCategoryId, 
+            bool hasHomeAssistance, List<Image>? images, List<FeeHomeAssistance>? feeHomeAssistances)
+            : base(NewGuid())
         {
             Check.NotEmpty(name, nameof(name));
             Check.NotEmpty(description, nameof(description));
@@ -56,7 +53,6 @@ namespace Argon.Catalog.Domain
 
             _feeHomeAssistances = feeHomeAssistances ?? _feeHomeAssistances;
             _images = images ?? _images;
-            _tags = tags ?? _tags;
         }
 
         private static void ValidateHomeAssistence(

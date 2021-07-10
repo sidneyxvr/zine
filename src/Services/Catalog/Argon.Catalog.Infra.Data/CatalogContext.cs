@@ -27,6 +27,5 @@ namespace Argon.Catalog.Infra.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Tag> Tags { get; set; }
     }
 }

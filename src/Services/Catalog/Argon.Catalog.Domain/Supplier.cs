@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
 {
-    public class Supplier : Entity, IAggregateRoot
+    public class Supplier : Entity<Guid>, IAggregateRoot
     {
         public const int NameMaxLength = 100;
         public const int AddressMaxLength = 255;
@@ -24,6 +24,7 @@ namespace Argon.Catalog.Domain
 
         public Supplier(Guid id, string? name, 
             double? latitude, double? longitude, string? address)
+            : base(NewGuid())
         {
             Check.NotEmpty(id, nameof(id));
             Check.NotEmpty(name, nameof(name));

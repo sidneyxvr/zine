@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Argon.Suppliers.Domain
 {
-    public class Supplier : Entity, IAggregateRoot
+    public class Supplier : Entity<Guid>, IAggregateRoot
     {
         public const int CorporateNameMaxLength = 50;
         public const int CorporateNameMinLength = 2;
@@ -30,6 +30,7 @@ namespace Argon.Suppliers.Domain
 
         public Supplier(string? corparateName, string? tradeName, 
             string? cpfCnpj, User? user, Address? address)
+            : base(NewGuid())
         {
             Check.NotEmpty(corparateName, nameof(corparateName));
             Check.NotEmpty(tradeName, nameof(tradeName));

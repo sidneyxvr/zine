@@ -15,7 +15,6 @@ namespace Argon.Catalog.Application.Commands
         public bool HasHomeAssistance { get; init; }
         public IEnumerable<ImageDTO>? Images { get; init; }
         public IEnumerable<FeeHomeAssistenceDTO>? FeeHomeAssistences { get; init; }
-        public IEnumerable<Guid>? Tags { get; init; }
     }
 
     public class ImageDTO 
