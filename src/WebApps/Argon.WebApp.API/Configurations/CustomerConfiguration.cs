@@ -1,12 +1,12 @@
 ﻿using Argon.Core.Messages.IntegrationCommands;
 using Argon.Customers.Application.Commands;
 using Argon.Customers.Application.Handlers;
+using Argon.Customers.Application.Queries;
 using Argon.Customers.Application.Validators;
 using Argon.Customers.Domain;
 using Argon.Customers.Infra.Data;
 using Argon.Customers.Infra.Data.Queries;
 using Argon.Customers.Infra.Data.Repositories;
-using Argon.Customers.QueryStack.Queries;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -32,7 +32,7 @@ namespace Argon.WebApp.API.Configurations
             services.TryAddScoped<IRequestHandler<DeleteAddressCommand, ValidationResult>, DeleteAddressHandler>();
             services.TryAddScoped<IRequestHandler<DefineMainAddressCommand, ValidationResult>, DefineMainAddressHandler>();
 
-            services.TryAddScoped<ICustomerQuery, CustomerQuery>();
+            services.TryAddScoped<ICustomerQueries, CustomerQueries>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();

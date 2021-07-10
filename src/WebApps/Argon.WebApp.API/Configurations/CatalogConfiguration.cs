@@ -1,12 +1,12 @@
 ﻿using Argon.Catalog.Application.Commands;
 using Argon.Catalog.Application.Handlers;
+using Argon.Catalog.Application.Queries;
 using Argon.Catalog.Application.Validators;
 using Argon.Catalog.Domain;
 using Argon.Catalog.Infra.Data;
 using Argon.Catalog.Infra.Data.Queries;
 using Argon.Catalog.Infra.Data.Repositories;
 using Argon.Catalog.Infra.Data.Storages;
-using Argon.Catalog.QueryStack.Queries;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -23,13 +23,16 @@ namespace Argon.WebApp.API.Configurations
             services.TryAddTransient<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
             services.TryAddTransient<IValidator<CreateSubCategoryCommand>, CreateSubCategoryValidator>();
             services.TryAddTransient<IValidator<CreateServiceCommand>, CreateServiceValidator>();
+            services.TryAddTransient<IValidator<CreateTagCommand>, CreateTagValidator>();
 
             services.TryAddScoped<IRequestHandler<CreateDepartmentCommand, ValidationResult>, CreateDepartmentHandler>();
             services.TryAddScoped<IRequestHandler<CreateCategoryCommand, ValidationResult>, CreateCategoryHandler>();
             services.TryAddScoped<IRequestHandler<CreateSubCategoryCommand, ValidationResult>, CreateSubCategoryHandler>();
             services.TryAddScoped<IRequestHandler<CreateServiceCommand, ValidationResult>, CreateServiceHandler>();
+            services.TryAddScoped<IRequestHandler<CreateTagCommand, ValidationResult>, CreateTagHandler>();
 
-            services.TryAddScoped<IDepartmentQuery, DepartmentQuery>();
+            services.TryAddScoped<IDepartmentQueries, DepartmentQueries>();
+            services.TryAddScoped<ITagQueries, TagQueries>();
 
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
             services.TryAddScoped<IDepartmentRepository, DepartmentRepository>();

@@ -1,5 +1,5 @@
-﻿using Argon.Customers.QueryStack.Queries;
-using Argon.Customers.QueryStack.Results;
+﻿using Argon.Customers.Application.Queries;
+using Argon.Customers.Application.Reponses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,21 +8,27 @@ using System.Threading.Tasks;
 
 namespace Argon.Customers.Infra.Data.Queries
 {
-    public class CustomerQuery : ICustomerQuery
+    public class CustomerQueries : ICustomerQueries
     {
         private readonly CustomerContext _context;
 
-        public CustomerQuery(CustomerContext context)
+        public CustomerQueries(CustomerContext context)
         {
             _context = context;
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
 
-        public Task<AddressResult?> GetAddressByCustomerId(Guid customerId, Guid addressId)
+        public void Dispose()
+        {
+            _context?.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        public Task<AddressReponse?> GetAddressByCustomerId(Guid customerId, Guid addressId)
         {
             return _context.Addresses
-                .Where(a => EF.Property<Guid>(a, "CustomerId") == customerId)
-                .Select(a => new AddressResult
+                .Where(a => a.CustomerId == customerId)
+                .Select(a => new AddressReponse
                 {
                     City = a.City,
                     Complement = a.Complement,
@@ -38,11 +44,12 @@ namespace Argon.Customers.Infra.Data.Queries
                 .FirstOrDefaultAsync();
         }
 
-        public Task<IEnumerable<AddressResult>> GetAddressesByCustomerId(Guid customerId)
+        public async Task<IEnumerable<AddressReponse>> GetAddressesByCustomerId(Guid customerId)
         {
-            var result = _context.Addresses
-                .Where(a => EF.Property<Guid>(a, "CustomerId") == customerId)
-                .Select(a => new AddressResult
+            return await _context.Addresses
+                .AsNoTracking()
+                .Where(a => a.CustomerId == customerId)
+                .Select(a => new AddressReponse
                 {
                     City = a.City,
                     Complement = a.Complement,
@@ -55,9 +62,7 @@ namespace Argon.Customers.Infra.Data.Queries
                     State = a.State,
                     Street = a.Street
                 })
-                .AsEnumerable();
-
-            return Task.FromResult(result);
+                .ToListAsync();
         }
     }
 }

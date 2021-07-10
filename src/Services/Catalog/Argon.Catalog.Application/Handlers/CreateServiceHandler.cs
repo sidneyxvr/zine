@@ -38,7 +38,7 @@ namespace Argon.Catalog.Application.Handlers
                 : null;
 
             var tags = request.Tags is not null
-                ? await _unitOfWork.TagRepository.GetByIdsAsync(request.Tags)
+                ? await _unitOfWork.TagRepository.GetByIdsAsync(request.Tags, cancellationToken)
                 : null;
 
             var service = new Service(request.Name, request.Description, request.Price, 

@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Argon.WebApp.API.Controllers.V1
 {
-    [Route("api/departments")]
+    [Route("api/tags")]
     [ApiController]
-    public class DepartmentsController : BaseController
+    public class TagsController : BaseController
     {
         private readonly IBus _bus;
-        private readonly IDepartmentQueries _departmentQuery;
+        private readonly ITagQueries _tagQuery;
 
-        public DepartmentsController(
-            IBus bus,
-            IDepartmentQueries departmentQuery)
+        public TagsController(
+            IBus bus, 
+            ITagQueries tagQuery)
         {
             _bus = bus;
-            _departmentQuery = departmentQuery;
+            _tagQuery = tagQuery;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateDepartmentCommand command)
+        public async Task<IActionResult> CreateAsync(CreateTagCommand command)
         {
             var result = await _bus.SendAsync(command);
 
@@ -30,9 +30,9 @@ namespace Argon.WebApp.API.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
-            return Ok(await _departmentQuery.GetAllAsync());
+            return Ok(await _tagQuery.GetAllAsync());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Argon.Core.Communication;
 using Argon.Customers.Application.Commands;
-using Argon.Customers.QueryStack.Queries;
+using Argon.Customers.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,9 +14,9 @@ namespace Argon.WebApp.API.Controllers.V1
     public class CustomersController : BaseController
     {
         private readonly IBus _bus;
-        private readonly ICustomerQuery _customerQuery;
+        private readonly ICustomerQueries _customerQuery;
 
-        public CustomersController(IBus bus, ICustomerQuery customerQuery)
+        public CustomersController(IBus bus, ICustomerQueries customerQuery)
         {
             _bus = bus;
             _customerQuery = customerQuery;

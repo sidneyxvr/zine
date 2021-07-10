@@ -16,10 +16,7 @@ namespace Argon.Catalog.Domain
         public Location Location { get; private set; }
         public string Address { get; private set; }
 
-        public List<Service> Services
-        {
-            get => throw new InvalidOperationException(nameof(Services));
-        }
+        public List<Service>? Services { get; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Supplier() { }

@@ -1,6 +1,6 @@
-﻿namespace Argon.Customers.QueryStack.Results
+﻿namespace Argon.Customers.Application.Reponses
 {
-    public class AddressResult
+    public class AddressReponse
     {
         public string? Street { get; init; }
         public string? Number { get; init; }
