@@ -27,11 +27,6 @@ namespace Argon.Catalog.Infra.Data.Mappings
             builder.Property(c => c.Description)
                 .IsUnicode(false)
                 .HasMaxLength(Category.DescriptionMaxLength);
-
-            builder.HasOne(c => c.Department)
-                .WithMany(d => d.Categories)
-                .HasForeignKey(c => c.DepartmentId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

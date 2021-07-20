@@ -1,7 +1,7 @@
 ﻿using Argon.Core.Messages;
 using System;
 
-namespace Argon.Suppliers.Application.Commands
+namespace Argon.Restaurants.Application.Commands
 {
     public record UpdateAddressCommand : Command
     {

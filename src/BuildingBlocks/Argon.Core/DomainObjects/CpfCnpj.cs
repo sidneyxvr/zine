@@ -7,7 +7,7 @@ namespace Argon.Core.DomainObjects
     {
         public string Number { get; set; }
 
-        public CpfCnpj(string number)
+        public CpfCnpj(string? number)
         {
             Check.NotEmpty(number, nameof(CpfCnpj));
             if (number?.Length == CpfValidator.NumberLength)
@@ -19,7 +19,7 @@ namespace Argon.Core.DomainObjects
                 Check.True(CnpjValidator.IsValid(number!), nameof(CpfCnpj));
             }
 
-            Number = number;
+            Number = number!;
         }
 
         public static implicit operator CpfCnpj(string number)

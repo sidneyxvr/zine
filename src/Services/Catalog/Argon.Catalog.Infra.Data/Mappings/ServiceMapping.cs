@@ -1,15 +1,14 @@
 ﻿using Argon.Catalog.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Collections.Generic;
 
 namespace Argon.Catalog.Infra.Data.Mappings
 {
-    public class ServiceMapping : IEntityTypeConfiguration<Service>
+    public class ServiceMapping : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Service> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.ToTable(nameof(Service));
+            builder.ToTable(nameof(Product));
 
             builder.HasKey(p => p.Id);
 
@@ -20,45 +19,25 @@ namespace Argon.Catalog.Infra.Data.Mappings
 
             builder.Property(p => p.Name)
                 .IsUnicode(false)
-                .HasMaxLength(Service.NameMaxLength)
+                .HasMaxLength(Product.NameMaxLength)
                 .IsRequired();
 
             builder.Property(p => p.Description)
                 .IsUnicode(false)
-                .HasMaxLength(Service.DescriptionMaxLength);
+                .HasMaxLength(Product.DescriptionMaxLength);
 
             builder.Property(p => p.Price)
                 .HasPrecision(6, 2)
                 .IsRequired();
 
-            builder.HasOne(p => p.Supplier)
+            builder.Property(p => p.ImageUrl)
+                .IsUnicode(false)
+                .HasMaxLength(256);
+
+            builder.HasOne(p => p.Restaurant)
                 .WithMany(s => s.Services)
-                .HasForeignKey(p => p.SupplierId)
+                .HasForeignKey(p => p.RestaurantId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(p => p.SubCategory)
-                .WithMany(c => c.Services)
-                .HasForeignKey(p => p.SubCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Metadata
-                .FindNavigation(nameof(Service.FeeHomeAssistances))?
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            builder.Metadata
-                .FindNavigation(nameof(Service.Images))?
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            builder.HasMany(p => p.Images)
-                .WithOne(f => f.Service)
-                .HasForeignKey(p => p.ServiceId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(p => p.FeeHomeAssistances)
-                .WithOne(f => f.Service)
-                .HasForeignKey(p => p.ServiceId)
-                .OnDelete(DeleteBehavior.Cascade);
-                
         }
     }
 }

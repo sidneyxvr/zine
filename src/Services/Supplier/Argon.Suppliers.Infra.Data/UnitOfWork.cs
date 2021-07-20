@@ -1,25 +1,25 @@
 ﻿using Argon.Core.Communication;
-using Argon.Suppliers.Domain;
+using Argon.Restaurants.Domain;
 using System.Threading.Tasks;
 
-namespace Argon.Suppliers.Infra.Data
+namespace Argon.Restaurants.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IBus _bus;
-        private readonly SupplierContext _context;
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly RestaurantContext _context;
+        private readonly IRestaurantRepository _restaurantRepository;
 
-        public UnitOfWork(IBus bus, 
-            SupplierContext context, 
-            ISupplierRepository supplierRepository)
+        public UnitOfWork(IBus bus,
+            RestaurantContext context,
+            IRestaurantRepository restaurantRepository)
         {
             _bus = bus;
             _context = context;
-            _supplierRepository = supplierRepository;
+            _restaurantRepository = restaurantRepository;
         }
 
-        public ISupplierRepository SupplierRepository => _supplierRepository;
+        public IRestaurantRepository RestaurantRepository => _restaurantRepository;
 
         public async Task<bool> CommitAsync()
         {

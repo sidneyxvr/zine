@@ -1,10 +1,10 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Suppliers.Application.Commands;
-using Argon.Suppliers.Domain;
+using Argon.Restaurants.Application.Commands;
+using Argon.Restaurants.Domain;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace Argon.Suppliers.Application.Validators
+namespace Argon.Restaurants.Application.Validators
 {
     public class UpdateAddressValidator : AbstractValidator<UpdateAddressCommand>
     {

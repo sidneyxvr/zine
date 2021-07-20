@@ -1,10 +1,10 @@
 ﻿using Argon.Core.DomainObjects;
-using Argon.Suppliers.Domain;
+using Argon.Restaurants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Argon.Suppliers.Infra.Data.Mappings
+namespace Argon.Restaurants.Infra.Data.Mappings
 {
     public class UserMapping : IEntityTypeConfiguration<User>
     {

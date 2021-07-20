@@ -1,6 +1,5 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.DomainObjects;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +10,7 @@ namespace Argon.Customers.Infra.Data
         public static async Task PublicarEventos(this IBus bus, CustomerContext ctx)
         {
             var domainEntities = ctx.ChangeTracker
-                .Entries<Entity<Guid>>()
+                .Entries<Entity>()
                 .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any());
 
             var domainEvents = domainEntities

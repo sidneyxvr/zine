@@ -1,14 +1,14 @@
 ﻿using Argon.Core.DomainObjects;
 using Argon.Core.Messages;
-using Argon.Suppliers.Application.Commands;
-using Argon.Suppliers.Domain;
+using Argon.Restaurants.Application.Commands;
+using Argon.Restaurants.Domain;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Argon.Suppliers.Application.Handlers
+namespace Argon.Restaurants.Application.Handlers
 {
     public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
     {
@@ -29,15 +29,15 @@ namespace Argon.Suppliers.Application.Handlers
         public override async Task<ValidationResult> Handle(
             UpdateAddressCommand request, CancellationToken cancellationToken)
         {
-            var supplier = await _unitOfWork.SupplierRepository
+            var restaurant = await _unitOfWork.RestaurantRepository
                 .GetByIdAsync(_appUser.Id, Include.Address, cancellationToken);
 
-            if(supplier is null)
+            if(restaurant is null)
             {
-                throw new ArgumentNullException(nameof(supplier), "supplier cannot be null");
+                throw new ArgumentNullException(nameof(restaurant), "supplier cannot be null");
             }
 
-            var address = supplier.Address;
+            var address = restaurant.Address;
 
             if(address is null)
             {
@@ -48,7 +48,7 @@ namespace Argon.Suppliers.Application.Handlers
                 request.District, request.City, request.State, request.PostalCode, 
                 request.Complement, request.Latitude, request.Longitude);
 
-            await _unitOfWork.SupplierRepository.UpdateAsync(supplier, cancellationToken);
+            await _unitOfWork.RestaurantRepository.UpdateAsync(restaurant, cancellationToken);
             await _unitOfWork.CommitAsync();
 
             return ValidationResult;

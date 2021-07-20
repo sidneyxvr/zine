@@ -24,15 +24,15 @@ namespace Argon.Catalog.Application.Handlers
         public override async Task<ValidationResult> Handle(
             CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var departmentExists = await _unitOfWork.DepartmentRepository
-                .ExistsByIdAsync(request.DepartmentId, cancellationToken);
+            var departmentExists = await _unitOfWork.CategoryRepository
+                .ExistsByNameAsync(request.Name!, cancellationToken);
 
             if (!departmentExists)
             {
                 return WithError("department", _localizer["Department Not Found"]);
             }
 
-            var category = new Category(request.Name, request.Description, request.DepartmentId);
+            var category = new Category(request.Name, request.Description);
 
             await _unitOfWork.CategoryRepository.AddAsync(category, cancellationToken);
             await _unitOfWork.CommitAsync();

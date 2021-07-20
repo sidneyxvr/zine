@@ -13,13 +13,14 @@
     <PackageReference Include="FluentEmail.Razor" Version="3.0.0" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0-preview.5.21301.17" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.0-preview.5.21301.17" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0-preview.5.21301.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0-preview.6.21355.2" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.0-preview.6.21355.2" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0-preview.6.21355.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.5.21301.9">
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0-preview.6.21355.2" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="4.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.6.21352.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -29,13 +30,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Argon.EventSourcing\Argon.EventSourcing.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\Argon.Storage\Argon.Storage.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Application\Argon.Catalog.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data.Queries\Argon.Catalog.Infra.Data.Queries.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data\Argon.Catalog.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.QueryStack.Cache\Argon.Catalog.Caching.csproj" />
+    <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.QueryStack\Argon.Catalog.QueryStack.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
     <ProjectReference Include="..\..\Services\Identity\Argon.Identity\Argon.Identity.csproj" />
-    <ProjectReference Include="..\..\Services\Supplier\Argon.Supplier.Application\Argon.Suppliers.Application.csproj" />
-    <ProjectReference Include="..\..\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Suppliers.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Supplier\Argon.Supplier.Application\Argon.Restaurants.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Restaurants.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

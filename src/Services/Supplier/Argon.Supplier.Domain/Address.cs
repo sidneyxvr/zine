@@ -2,9 +2,9 @@
 using Argon.Core.DomainObjects;
 using System;
 
-namespace Argon.Suppliers.Domain
+namespace Argon.Restaurants.Domain
 {
-    public class Address : Entity<Guid>
+    public class Address : Entity
     {
         public string Street { get; private set; }
         public string Number { get; private set; }
@@ -16,8 +16,8 @@ namespace Argon.Suppliers.Domain
         public string? Complement { get; private set; }
         public Location Location { get; private set; }
 
-        public Guid SupplierId { get; set; }
-        public Supplier? Supplier { get; set; }
+        public Guid RestaurantId { get; set; }
+        public Restaurant? Restaurant { get; set; }
 
         public const int StreetMaxLength = 50;
         public const int StreetMinLength = 2;
@@ -37,7 +37,6 @@ namespace Argon.Suppliers.Domain
 
         public Address(string? street, string? number, string? district, string? city, string? state,
             string? postalCode, string? complement, double? latitude, double? longitude)
-            : base(NewGuid())
         {
             Validate(street, number, district, city, state, postalCode, complement);
 

@@ -2,6 +2,8 @@
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,18 +12,23 @@ namespace Argon.Core.Communication
     public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, ValidationResult> 
         where TRequest : Command 
     {
-        private readonly IValidator<TRequest> _validator;
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-        public ValidationPipeline(IValidator<TRequest> validator)
+        public ValidationPipeline(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validator = validator;
+            _validators = validators;
         }
 
-        public async Task<ValidationResult> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<ValidationResult> next)
+        public async Task<ValidationResult> Handle(
+            TRequest request,
+            CancellationToken cancellationToken, 
+            RequestHandlerDelegate<ValidationResult> next)
         {
-            var validationResult = _validator.Validate(request);
+            var validationResult = _validators
+                ?.Select(v => v.Validate(request))
+                ?.FirstOrDefault();
 
-            if (!validationResult.IsValid)
+            if (validationResult?.IsValid == false)
             {
                 return validationResult;
             }

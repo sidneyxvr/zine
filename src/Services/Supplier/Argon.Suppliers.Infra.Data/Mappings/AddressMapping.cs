@@ -1,8 +1,8 @@
-﻿using Argon.Suppliers.Domain;
+﻿using Argon.Restaurants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Argon.Suppliers.Infra.Data.Mappings
+namespace Argon.Restaurants.Infra.Data.Mappings
 {
     public class AddressMapping : IEntityTypeConfiguration<Address>
     {

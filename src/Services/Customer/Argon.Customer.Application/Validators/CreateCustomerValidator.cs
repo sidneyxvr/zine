@@ -23,7 +23,7 @@ namespace Argon.Customers.Application.Validators
                 .NotEmpty().WithMessage(localizer["Required CPF"])
                 .DependentRules(() =>
                 {
-                    RuleFor(c => c.Cpf).Must(c => CpfValidator.IsValid(c)).WithMessage(localizer["Invalid CPF"]);
+                    RuleFor(c => c.Cpf).Must(c => CpfValidator.IsValid(c!)).WithMessage(localizer["Invalid CPF"]);
                 });
 
             RuleFor(c => c.Email)

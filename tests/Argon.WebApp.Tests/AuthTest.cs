@@ -1,7 +1,7 @@
 ﻿using Argon.Identity.Requests;
 using Argon.Identity.Responses;
 using Argon.WebApp.API;
-using Argon.WebApp.Tests.Configuration;
+using Argon.WebApp.Tests.Fixtures;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net.Http.Json;

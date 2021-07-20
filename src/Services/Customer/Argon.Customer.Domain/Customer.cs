@@ -1,12 +1,11 @@
-﻿global using static System.Guid;
-using Argon.Core.DomainObjects;
+﻿using Argon.Core.DomainObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Argon.Customers.Domain
 {
-    public class Customer : Entity<Guid>, IAggregateRoot
+    public class Customer : Entity, IAggregateRoot
     {
         public Name Name { get; private set; }
         public Email Email { get; private set; }
@@ -34,7 +33,6 @@ namespace Argon.Customers.Domain
 
         public Customer(Guid id, string? firstName, string? LastName, string? email,
             string? cpf, DateTime? birthDate, Gender gender, string? phone)
-            : base(NewGuid())
         {
             Check.NotEmpty(id, nameof(id));
             Check.IsEnum(gender, typeof(Gender), nameof(gender));

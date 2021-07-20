@@ -18,7 +18,7 @@ namespace Argon.Identity.Data
         {
             builder.Entity<Role>().HasData(
                 new Role { Id = new Guid("3215CA3D-EC71-4DF4-BF41-555FFCC04F22"), Name = "Customer", NormalizedName = "CUSTOMER", ConcurrencyStamp = "a76ddbb4-c77f-410f-83cd-9d66e3dc893e" },
-                new Role { Id = new Guid("07E778B6-7C1D-4852-B1F4-63661E4BB08A"), Name = "Supplier", NormalizedName = "SUPPLIER", ConcurrencyStamp = "11a13445-7bba-4fad-86b1-ac3cef32e569" },
+                new Role { Id = new Guid("07E778B6-7C1D-4852-B1F4-63661E4BB08A"), Name = "Restaurant", NormalizedName = "RESTAURANT", ConcurrencyStamp = "11a13445-7bba-4fad-86b1-ac3cef32e569" },
                 new Role { Id = new Guid("78DF47E2-8160-4678-99B0-2E80492268DD"), Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "bc6e8e27-8e7f-413d-bd2d-982b4d80a801" });
 
             builder.Entity<User>(options =>

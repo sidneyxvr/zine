@@ -67,7 +67,7 @@ namespace Argon.Identity.Services
                 return requestResult;
             }
 
-            await _userManager.AddToRoleAsync(user, RoleContant.Supplier);
+            await _userManager.AddToRoleAsync(user, RoleContant.Restaurant);
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -226,15 +226,12 @@ namespace Argon.Identity.Services
                 NotifyError(_localizer["Cannot Reset Password"]);
         }
 
-        private static CreateSupplierCommand FromRequestToCommand(SupplierUserRequest request, Guid userId)
+        private static CreateRestaurantCommand FromRequestToCommand(SupplierUserRequest request, Guid userId)
         {
-            return new CreateSupplierCommand
+            return new CreateRestaurantCommand
             {
                 UserId = userId,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
                 Email = request.Email,
-                Gender = request.Gender,
                 City = request.City,
                 Complement = request.Complement,
                 CorparateName = request.CorparateName,

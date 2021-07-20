@@ -1,10 +1,8 @@
 ﻿using Argon.Core.DomainObjects;
-using System;
-using System.Collections.Generic;
 
 namespace Argon.Catalog.Domain
 {
-    public class Category : Entity<Guid>, IAggregateRoot
+    public class Category : Entity, IAggregateRoot
     {
         public const int NameMinLength = 3;
         public const int NameMaxLength = 25;
@@ -14,28 +12,19 @@ namespace Argon.Catalog.Domain
         public string? Description { get; private set; }
         public bool IsActive { get; private set; }
         public bool IsDeleted { get; private set; }
-        public Guid DepartmentId { get; private set; }
-        public Department? Department { get; private set; }
-
-        private readonly List<SubCategory>? _subCategories = new();
-        public IReadOnlyCollection<SubCategory> SubCategories 
-            => _subCategories!.AsReadOnly();
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Category() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Category(string? name, string? description, Guid departmentId)
-            : base(NewGuid())
+        public Category(string? name, string? description)
         {
             Check.NotEmpty(name, nameof(name));
             Check.Length(name!, NameMinLength, NameMaxLength, nameof(description));
             Check.MaxLength(description, DescriptionMaxLength, nameof(description));
-            Check.NotEmpty(departmentId, nameof(departmentId)); 
             
             Name = name!;
             Description = description;
-            DepartmentId = departmentId;
             IsActive = true;
         }
     }

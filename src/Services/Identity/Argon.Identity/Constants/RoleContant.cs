@@ -4,6 +4,6 @@
     {
         public static string Administrator = "Admin";
         public static string Customer = nameof(Customer);
-        public static string Supplier = nameof(Supplier);
+        public static string Restaurant = nameof(Restaurant);
     }
 }

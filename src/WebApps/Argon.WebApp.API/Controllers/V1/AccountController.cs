@@ -1,6 +1,7 @@
 ﻿using Argon.Identity.Requests;
 using Argon.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Argon.WebApp.API.Controllers.V1

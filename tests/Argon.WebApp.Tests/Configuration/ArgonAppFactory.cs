@@ -1,9 +1,12 @@
-﻿using Argon.Customers.Infra.Data;
+﻿using Argon.Catalog.Infra.Data;
+using Argon.Customers.Infra.Data;
 using Argon.Identity.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 
 namespace Argon.WebApp.Tests.Configuration
@@ -26,6 +29,10 @@ namespace Argon.WebApp.Tests.Configuration
                     d => d.ServiceType == typeof(DbContextOptions<CustomerContext>));
                 services.Remove(customerContextDescriptor);
 
+                var catalogContextDescriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<CatalogContext>));
+                services.Remove(customerContextDescriptor);
+
                 services.AddDbContext<IdentityContext>(options =>
                 {
                     options.UseSqlite(@"Filename=..\identity-context.db");
@@ -34,6 +41,11 @@ namespace Argon.WebApp.Tests.Configuration
                 services.AddDbContext<CustomerContext>(options =>
                 {
                     options.UseSqlite(@"Filename=..\customer-context.db");
+                });
+
+                services.AddDbContext<CatalogContext>(options =>
+                {
+                    options.UseSqlite(@"Filename=..\catalog-context.db");
                 });
 
                 var sp = services.BuildServiceProvider();
@@ -49,6 +61,10 @@ namespace Argon.WebApp.Tests.Configuration
                 identityContext.Database.EnsureDeleted();
                 identityContext.Database.EnsureCreated();
                 identityContext.Seed();
+
+                var catalogContext = scopedServices.GetRequiredService<CatalogContext>();
+                catalogContext.Database.EnsureDeleted();
+                catalogContext.Database.EnsureCreated();
             });
         }
     }

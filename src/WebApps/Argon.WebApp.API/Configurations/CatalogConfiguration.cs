@@ -1,12 +1,17 @@
 ﻿using Argon.Catalog.Application.Commands;
 using Argon.Catalog.Application.Handlers;
-using Argon.Catalog.Application.Queries;
 using Argon.Catalog.Application.Validators;
+using Argon.Catalog.Caching;
 using Argon.Catalog.Domain;
 using Argon.Catalog.Infra.Data;
-using Argon.Catalog.Infra.Data.Queries;
+using Argon.Catalog.Infra.Data.Queries.Services;
 using Argon.Catalog.Infra.Data.Repositories;
-using Argon.Catalog.Infra.Data.Storages;
+using Argon.Catalog.QueryStack.Cache;
+using Argon.Catalog.QueryStack.Queries;
+using Argon.Catalog.QueryStack.Services;
+using Argon.Core.Data;
+using Argon.Core.Messages.IntegrationEvents;
+using Argon.Storage;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -19,24 +24,28 @@ namespace Argon.WebApp.API.Configurations
     {
         public static IServiceCollection RegisterCatalog(this IServiceCollection services)
         {
-            services.TryAddTransient<IValidator<CreateDepartmentCommand>, CreateDepartmentValidator>();
             services.TryAddTransient<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
-            services.TryAddTransient<IValidator<CreateSubCategoryCommand>, CreateSubCategoryValidator>();
-            services.TryAddTransient<IValidator<CreateServiceCommand>, CreateServiceValidator>();
+            services.TryAddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
 
-            services.TryAddScoped<IRequestHandler<CreateDepartmentCommand, ValidationResult>, CreateDepartmentHandler>();
             services.TryAddScoped<IRequestHandler<CreateCategoryCommand, ValidationResult>, CreateCategoryHandler>();
-            services.TryAddScoped<IRequestHandler<CreateSubCategoryCommand, ValidationResult>, CreateSubCategoryHandler>();
-            services.TryAddScoped<IRequestHandler<CreateServiceCommand, ValidationResult>, CreateServiceHandler>();
+            services.TryAddScoped<IRequestHandler<CreateProductCommand, ValidationResult>, CreateProductHandler>();
+            
+            services.AddScoped<INotificationHandler<RestaurantCreatedEvent>, Catalog.Application.Handlers.RestaurantCreatedHandler>();
+            services.AddScoped<INotificationHandler<RestaurantCreatedEvent>, Catalog.QueryStack.Handlers.RestaurantCreatedHandler>();
 
-            services.TryAddScoped<IDepartmentQueries, DepartmentQueries>();
+            services.AddScoped<INotificationHandler<OpenRestaurantEvent>, Catalog.Application.Handlers.OpenRestaurantHandler>();
+            services.AddScoped<INotificationHandler<OpenRestaurantEvent>, Catalog.QueryStack.Handlers.OpenRestaurantHandler>();
+
+            services.TryAddSingleton<IRestaurantService, RestaurantService>();
+
+            services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
+            
+            services.TryAddScoped<IRestaurantCache, RestaurantCache>();
 
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
-            services.TryAddScoped<IDepartmentRepository, DepartmentRepository>();
             services.TryAddScoped<ICategoryRepository, CategoryRepository>();
-            services.TryAddScoped<ISubCategoryRepository, SubCategoryRepository>();
-            services.TryAddScoped<IServiceRepository, ServiceRepository>();
-            services.TryAddScoped<ISupplierRepository, SupplierRepository>();
+            services.TryAddScoped<IProductRepository, ProductRepository>();
+            services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
 
             services.TryAddScoped<IFileStorage, FileStorage>();
 

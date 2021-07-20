@@ -22,7 +22,8 @@ namespace Argon.Customers.Application.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public override async Task<ValidationResult> Handle(DefineMainAddressCommand request, CancellationToken cancellationToken)
+        public override async Task<ValidationResult> Handle(
+            DefineMainAddressCommand request, CancellationToken cancellationToken)
         {
             var customer = await _unitOfWork.CustomerRepository
                 .GetByIdAsync(_appUser.Id, Include.All, cancellationToken);

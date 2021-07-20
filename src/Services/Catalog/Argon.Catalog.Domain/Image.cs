@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.Catalog.Domain
 {
-    public class Image : Entity<int>
+    public class Image : Entity
     {
         public const int UrlMaxLength = 255;
 
@@ -11,7 +11,7 @@ namespace Argon.Catalog.Domain
         public int Order { get; private set; }
 
         public Guid ServiceId { get; private set; }
-        public Service? Service { get; private set; }
+        public Product? Service { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Image() { }

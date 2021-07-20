@@ -51,7 +51,7 @@ namespace Argon.WebApp.API
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
 
-                options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(context 
+                options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(context
                     => Task.FromResult(new ProviderCultureResult(ptBRCulture))!));
             });
 

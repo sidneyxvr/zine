@@ -9,24 +9,37 @@ namespace Argon.Catalog.Infra.Data.Repositories
 {
     public class CategoryRepository : ICategoryRepository, IRepository<Category>
     {
-        private readonly IDbContextFactory<CatalogContext> dbContextFactory;
-        public Task AddAsync(Category category, CancellationToken cancellationToken = default)
+        private readonly CatalogContext _context;
+
+        public CategoryRepository(CatalogContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task AddAsync(Category category, CancellationToken cancellationToken = default)
+        {
+            await _context.AddAsync(category, cancellationToken);
         }
 
         public void Dispose()
         {
+            _context?.Dispose();
+            GC.SuppressFinalize(this);
         }
 
-        public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.Categories.AsNoTracking().AnyAsync(c => c.Id == id, cancellationToken);
         }
 
-        public Task<Category> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.Categories.AsNoTracking().AnyAsync(c => c.Name == name, cancellationToken);
+        }
+
+        public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
     }
 }

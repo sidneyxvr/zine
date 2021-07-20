@@ -1,16 +1,16 @@
 ﻿using Argon.Core.Messages;
+using System;
 using System.Collections.Generic;
 
 namespace Argon.Core.DomainObjects
 {
-    public abstract class Entity<T>
-        where T : struct
+    public abstract class Entity
     {
-        public T Id { get; set; }
+        public Guid Id { get; set; }
 
-        protected Entity(T id = default)
+        protected Entity()
         {
-            Id = id;
+            Id = Guid.NewGuid();
         }
 
         private readonly List<Event> _domainEvents = new();
@@ -34,7 +34,7 @@ namespace Argon.Core.DomainObjects
 
         public override bool Equals(object? obj)
         {
-            var compareTo = obj as Entity<T>;
+            var compareTo = obj as Entity;
 
             if (ReferenceEquals(this, compareTo)) return true;
             if (compareTo is null) return false;
@@ -42,7 +42,7 @@ namespace Argon.Core.DomainObjects
             return Id.Equals(compareTo.Id);
         }
 
-        public static bool operator ==(Entity<T> left, Entity<T> right)
+        public static bool operator ==(Entity left, Entity right)
         {
             if (left is null && right is null)
                 return true;
@@ -53,7 +53,7 @@ namespace Argon.Core.DomainObjects
             return left.Equals(right);
         }
 
-        public static bool operator !=(Entity<T> a, Entity<T> b)
+        public static bool operator !=(Entity a, Entity b)
         {
             return !(a == b);
         }

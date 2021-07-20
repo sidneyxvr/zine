@@ -16,16 +16,13 @@ namespace Argon.Catalog.Infra.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Event>();
-            modelBuilder.Ignore<FeeHomeAssistance>();
             modelBuilder.Ignore<Image>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Service> Services { get; set; }
-        public DbSet<SubCategory> SubCategories { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
     }
 }
