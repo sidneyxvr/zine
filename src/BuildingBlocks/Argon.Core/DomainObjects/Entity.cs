@@ -7,30 +7,21 @@ namespace Argon.Core.DomainObjects
     public abstract class Entity
     {
         public Guid Id { get; set; }
-
         protected Entity()
-        {
-            Id = Guid.NewGuid();
-        }
+            => Id = Guid.NewGuid();
 
         private readonly List<Event> _domainEvents = new();
         public IReadOnlyCollection<Event> DomainEvents 
             => _domainEvents.AsReadOnly();
 
         public void AddDomainEvent(Event @event)
-        {
-            _domainEvents.Add(@event);
-        }
+            => _domainEvents.Add(@event);
 
         public void RemoveDomainEvent(Event @event)
-        {
-            _domainEvents?.Remove(@event);
-        }
+            => _domainEvents?.Remove(@event);
 
         public void ClearDomainEvents()
-        {
-            _domainEvents?.Clear();
-        }
+            => _domainEvents?.Clear();
 
         public override bool Equals(object? obj)
         {
@@ -54,18 +45,12 @@ namespace Argon.Core.DomainObjects
         }
 
         public static bool operator !=(Entity a, Entity b)
-        {
-            return !(a == b);
-        }
+            => !(a == b);
 
         public override int GetHashCode()
-        {
-            return Id.GetHashCode() ^ 31;
-        }
+            => Id.GetHashCode() ^ 31;
 
         public override string ToString()
-        {
-            return $"{GetType().Name} [Id={Id}]";
-        }
+            =>  $"{GetType().Name} [Id={Id}]";
     }
 }

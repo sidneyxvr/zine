@@ -17,8 +17,8 @@ namespace Argon.Catalog.Application.Validators
                 .NotEmpty().WithMessage(localizer["Required Name"])
                 .MaximumLength(Product.NameMaxLength).WithMessage(localizer["Name's Max Length"]);
 
-            RuleFor(p => p.Image)
-                .NotEmpty().WithMessage(localizer["Required Image"]);
+            //RuleFor(p => p.Image)
+            //    .NotEmpty().WithMessage(localizer["Required Image"]);
         }
     }
 }

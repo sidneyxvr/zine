@@ -11,7 +11,7 @@ namespace Argon.Restaurants.Infra.Data
         {
             var domainEntities = ctx.ChangeTracker
                 .Entries<Entity>()
-                .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any());
+                .Where(x => x.Entity.DomainEvents?.Count != 0);
 
             var domainEvents = domainEntities
                 .SelectMany(x => x.Entity.DomainEvents)

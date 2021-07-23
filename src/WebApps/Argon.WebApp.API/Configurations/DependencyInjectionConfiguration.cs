@@ -1,4 +1,5 @@
-﻿using Argon.Core.Communication;
+﻿using Argon.Basket.Services;
+using Argon.Core.Communication;
 using Argon.Core.Data.EventSourcing;
 using Argon.Core.DomainObjects;
 using Argon.EventSourcing;
@@ -8,6 +9,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization;
+using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -24,18 +27,26 @@ namespace Argon.WebApp.API.Configurations
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
 
             services.AddScoped<IAppUser, AppUser>();
+            services.AddScoped<IBasketService, BasketService>();
 
             services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
             services.AddSingleton<IEventStoreConnection>(provider => {
-                var connection = EventStoreConnection.Create(
-                    connectionString: configuration.GetConnectionString("EventSourcingConnection"),
-                    builder: ConnectionSettings.Create().KeepReconnecting());
+                var settings = ConnectionSettings.Create()
+                    .DisableTls()
+                    .UseDebugLogger()
+                    .SetMaxDiscoverAttempts(1)
+                    .EnableVerboseLogging();
 
-                connection.ConnectAsync().GetAwaiter().GetResult();
+                var connection = EventStoreConnection.Create("ConnectTo=tcp://admin:changeit@localhost:1113", settings);
 
                 return connection;
             });
 
+            BsonClassMap.RegisterClassMap<Basket.Models.Basket>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapField("_products").SetElementName("Products");
+            });
 
             var emailSenderSettingsSection = configuration.GetSection(nameof(EmailSenderSettings));
             var emailSenderSettings = emailSenderSettingsSection.Get<EmailSenderSettings>();

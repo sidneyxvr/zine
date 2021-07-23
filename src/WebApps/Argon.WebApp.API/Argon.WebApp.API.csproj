@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\Argon.EventSourcing\Argon.EventSourcing.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Argon.Storage\Argon.Storage.csproj" />
+    <ProjectReference Include="..\..\Services\Basket\Argon.Basket\Argon.Basket.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Application\Argon.Catalog.Application.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data.Queries\Argon.Catalog.Infra.Data.Queries.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data\Argon.Catalog.Infra.Data.csproj" />

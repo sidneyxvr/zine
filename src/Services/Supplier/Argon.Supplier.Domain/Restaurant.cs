@@ -16,7 +16,7 @@ namespace Argon.Restaurants.Domain
         public bool IsActive { get; private set; }
         public bool IsDeleted { get; private set; }
         public bool IsSuspended { get; private set; }
-        public bool IsOpen { get; set; }
+        public bool IsOpen { get; private set; }
         public CpfCnpj CpfCnpj { get; private set; }
 
         public Guid AddressId { get; private set; }
@@ -66,6 +66,15 @@ namespace Argon.Restaurants.Domain
             Check.Equals(IsDeleted, false, nameof(IsDeleted));
 
             IsOpen = true;
+        }
+
+        public void Close()
+        {
+            Check.Equals(IsActive, true, nameof(IsActive));
+            Check.Equals(IsSuspended, false, nameof(IsSuspended));
+            Check.Equals(IsDeleted, false, nameof(IsDeleted));
+
+            IsOpen = false;
         }
     }
 }

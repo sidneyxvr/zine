@@ -1,36 +1,40 @@
 ﻿using Argon.Catalog.Domain;
+using Argon.Core.Communication;
 using System.Threading.Tasks;
 
 namespace Argon.Catalog.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly IBus _bus;
         private readonly CatalogContext _context;
-        private readonly IProductRepository _serviceRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IRestaurantRepository _supplierRepository;
-        private readonly ICategoryRepository _categoryRepository; 
+        private readonly ICategoryRepository _categoryRepository;
 
         public UnitOfWork(
-            CatalogContext context, 
-            IProductRepository serviceRepository, 
-            IRestaurantRepository supplierRepository, 
+            IBus bus,
+            CatalogContext context,
+            IProductRepository productRepository,
+            IRestaurantRepository supplierRepository,
             ICategoryRepository categoryRepository)
         {
+            _bus = bus;
             _context = context;
-            _serviceRepository = serviceRepository;
+            _productRepository = productRepository;
             _supplierRepository = supplierRepository;
             _categoryRepository = categoryRepository;
         }
 
         public ICategoryRepository CategoryRepository => _categoryRepository;
-        public IProductRepository ServiceRepository => _serviceRepository;
+        public IProductRepository ProductRepository => _productRepository;
         public IRestaurantRepository RestaurantRepository => _supplierRepository;
 
         public async Task<bool> CommitAsync()
         {
             var success = await _context.SaveChangesAsync() > 0;
 
-            //TODO: Publish events
+            if (success) await _bus.PublishAllAsync(_context);
 
             return success;
         }

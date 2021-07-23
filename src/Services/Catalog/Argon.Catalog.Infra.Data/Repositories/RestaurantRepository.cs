@@ -13,8 +13,8 @@ namespace Argon.Catalog.Infra.Data.Repositories
         public RestaurantRepository(CatalogContext context)
             => _context = context;
 
-        public async Task AddAsync(Restaurant restaurant, CancellationToken cancellationToken = default)
-            => await _context.AddAsync(restaurant, cancellationToken);
+        public async Task AddAsync(Restaurant restaurant)
+            => await _context.AddAsync(restaurant);
 
         public void Dispose()
         {
@@ -22,10 +22,10 @@ namespace Argon.Catalog.Infra.Data.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public async Task<Restaurant?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-            => await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        public async Task<Restaurant?> GetByIdAsync(Guid id)
+            => await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
 
-        public Task UpdateAsync(Restaurant restaurant, CancellationToken cancellationToken = default)
+        public Task UpdateAsync(Restaurant restaurant)
             => Task.CompletedTask;
     }
 }

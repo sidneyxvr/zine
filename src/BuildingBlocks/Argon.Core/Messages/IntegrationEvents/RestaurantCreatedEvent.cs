@@ -19,7 +19,6 @@ namespace Argon.Core.Messages.IntegrationEvents
             Latitude = latitude;
             Longitude = longitude;
             Address = address;
-
             LogoUrl = logoUrl;
         }
     }

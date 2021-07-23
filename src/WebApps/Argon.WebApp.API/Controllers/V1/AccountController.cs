@@ -25,7 +25,7 @@ namespace Argon.WebApp.API.Controllers.V1
             return CustomResponse(result);
         }
 
-        [HttpPost("register-supplier")]
+        [HttpPost("register-restaurant")]
         public async Task<IActionResult> CreateSupplierUserAsync(SupplierUserRequest request)
         {
             var result = await _accountService.CreateSupplierUserAsync(request);

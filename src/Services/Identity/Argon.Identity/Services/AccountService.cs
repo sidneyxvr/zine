@@ -227,8 +227,7 @@ namespace Argon.Identity.Services
         }
 
         private static CreateRestaurantCommand FromRequestToCommand(SupplierUserRequest request, Guid userId)
-        {
-            return new CreateRestaurantCommand
+            => new()
             {
                 UserId = userId,
                 Email = request.Email,
@@ -245,6 +244,5 @@ namespace Argon.Identity.Services
                 Street = request.Street,
                 TradeName = request.TradeName,
             };
-        }
     }
 }

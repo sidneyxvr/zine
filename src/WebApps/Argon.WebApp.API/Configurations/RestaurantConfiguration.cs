@@ -22,6 +22,7 @@ namespace Argon.WebApp.API.Configurations
 
             services.TryAddScoped<IRequestHandler<CreateRestaurantCommand, ValidationResult>, CreateRestaurantHandler>();
             services.TryAddScoped<IRequestHandler<OpenRestaurantCommand, ValidationResult>, OpenRestaurantHandler>();
+            services.TryAddScoped<IRequestHandler<CloseRestaurantCommand, ValidationResult>, CloseRestaurantHandler>();
 
             services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();

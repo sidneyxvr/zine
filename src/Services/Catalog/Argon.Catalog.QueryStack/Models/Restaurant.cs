@@ -25,5 +25,8 @@ namespace Argon.Catalog.QueryStack.Models
 
         public void Open() 
             => IsOpen = true;
+
+        public void Close()
+            => IsOpen = false;
     }
 }

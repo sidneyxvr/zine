@@ -14,12 +14,12 @@ namespace Argon.WebApp.API.Controllers.V1
     public class CustomersController : BaseController
     {
         private readonly IBus _bus;
-        private readonly ICustomerQueries _customerQuery;
+        private readonly ICustomerQueries _customerQueries;
 
-        public CustomersController(IBus bus, ICustomerQueries customerQuery)
+        public CustomersController(IBus bus, ICustomerQueries customerQueries)
         {
             _bus = bus;
-            _customerQuery = customerQuery;
+            _customerQueries = customerQueries;
         }
 
         [HttpPut]
@@ -68,7 +68,7 @@ namespace Argon.WebApp.API.Controllers.V1
         [AllowAnonymous]
         public async Task<IActionResult> GetAddressesAsync()
         {
-            var result = await _customerQuery.GetAddressesByCustomerId(new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A"));
+            var result = await _customerQueries.GetAddressesByCustomerId(new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A"));
 
             return Ok(result);
         }
@@ -78,7 +78,7 @@ namespace Argon.WebApp.API.Controllers.V1
         public async Task<IActionResult> GetAddressAsync(Guid addressId)
         {
             var customerId = new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A");
-            var result = await _customerQuery.GetAddressByCustomerId(customerId, addressId);
+            var result = await _customerQueries.GetAddressByCustomerId(customerId, addressId);
 
             return Ok(result);
         }

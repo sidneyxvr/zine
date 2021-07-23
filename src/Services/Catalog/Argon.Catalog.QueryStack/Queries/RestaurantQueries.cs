@@ -1,5 +1,6 @@
 ﻿using Argon.Catalog.QueryStack.Cache;
 using Argon.Catalog.QueryStack.Models;
+using Argon.Catalog.QueryStack.Response;
 using Argon.Catalog.QueryStack.Services;
 using System;
 using System.Threading.Tasks;
@@ -33,6 +34,11 @@ namespace Argon.Catalog.QueryStack.Queries
             }
 
             return restaurant;
+        }
+
+        public Task<RestaurantDetails?> GetRestaurantDetailsByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

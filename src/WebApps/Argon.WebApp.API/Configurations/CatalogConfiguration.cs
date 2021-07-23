@@ -2,11 +2,13 @@
 using Argon.Catalog.Application.Handlers;
 using Argon.Catalog.Application.Validators;
 using Argon.Catalog.Caching;
+using Argon.Catalog.Communication.Events;
 using Argon.Catalog.Domain;
 using Argon.Catalog.Infra.Data;
 using Argon.Catalog.Infra.Data.Queries.Services;
 using Argon.Catalog.Infra.Data.Repositories;
 using Argon.Catalog.QueryStack.Cache;
+using Argon.Catalog.QueryStack.Handlers;
 using Argon.Catalog.QueryStack.Queries;
 using Argon.Catalog.QueryStack.Services;
 using Argon.Core.Data;
@@ -36,11 +38,19 @@ namespace Argon.WebApp.API.Configurations
             services.AddScoped<INotificationHandler<OpenRestaurantEvent>, Catalog.Application.Handlers.OpenRestaurantHandler>();
             services.AddScoped<INotificationHandler<OpenRestaurantEvent>, Catalog.QueryStack.Handlers.OpenRestaurantHandler>();
 
+            services.AddScoped<INotificationHandler<ClosedRestaurantEvent>, Catalog.Application.Handlers.ClosedRestaurantHandler>();
+            services.AddScoped<INotificationHandler<ClosedRestaurantEvent>, Catalog.QueryStack.Handlers.ClosedRestaurantHandler>();
+
+            services.AddScoped<INotificationHandler<ProductCreatedEvent>, ProductCreatedHandler>();
+
             services.TryAddSingleton<IRestaurantService, RestaurantService>();
+            services.TryAddSingleton<IProductService, ProductService>();
 
             services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
+            services.TryAddScoped<IProductQueries, ProductQueries>();
             
             services.TryAddScoped<IRestaurantCache, RestaurantCache>();
+            services.TryAddScoped<IProductCache, ProductCache>();
 
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
             services.TryAddScoped<ICategoryRepository, CategoryRepository>();

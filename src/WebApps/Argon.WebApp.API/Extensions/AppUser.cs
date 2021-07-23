@@ -20,6 +20,6 @@ namespace Argon.WebApp.API.Extensions
             }
         }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = new Guid("D5683FAE-C7C0-4380-81E2-285704723B48");
     }
 }

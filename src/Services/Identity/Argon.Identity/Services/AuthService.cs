@@ -66,7 +66,7 @@ namespace Argon.Identity.Services
 
             var loginResponse = await GenerateUserLoginResponseAsync(user);
 
-            if(loginResponse is null)
+            if (loginResponse is null)
             {
                 return NotifyError(_localizer["Invalid Login Credentials"]);
             }
@@ -85,14 +85,14 @@ namespace Argon.Identity.Services
 
             var claimsSimplified = _tokenService.GetUserClaimsSimplifiedOrDefault(request.AccessToken!);
 
-            if(claimsSimplified is null)
+            if (claimsSimplified is null)
             {
                 return NotifyError(_localizer["Cannot Refresh Token"]);
             }
 
             var refreshToken = await _refreshTokenStore.GetByTokenAsync(request.RefreshToken!);
 
-            if(refreshToken is null || refreshToken.JwtId != claimsSimplified.Value.Jti || 
+            if (refreshToken is null || refreshToken.JwtId != claimsSimplified.Value.Jti ||
                refreshToken.UserId != claimsSimplified.Value.UserId || !refreshToken.IsValid)
             {
                 return NotifyError(_localizer["Cannot Refresh Token"]);
@@ -133,7 +133,7 @@ namespace Argon.Identity.Services
 
             var refreshToken = _tokenService.GenerateRefreshToken(encodedToken);
 
-            if(refreshToken is null)
+            if (refreshToken is null)
             {
                 return null;
             }

@@ -15,6 +15,7 @@ namespace Argon.Catalog.Domain
         public bool IsDeleted { get; private set; }
         public Location Location { get; private set; }
         public string Address { get; private set; }
+        public string? LogoUrl { get; private set; }
 
         public List<Product>? Services { get; }
 
@@ -23,7 +24,8 @@ namespace Argon.Catalog.Domain
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public Restaurant(Guid id, string? name, 
-            double? latitude, double? longitude, string? address)
+            double? latitude, double? longitude, 
+            string? address, string? logoUrl)
         {
             Check.NotEmpty(id, nameof(id));
             Check.NotEmpty(name, nameof(name));
@@ -38,9 +40,13 @@ namespace Argon.Catalog.Domain
             IsDeleted = false;
             Location = new Location(latitude, longitude);
             Address = address!;
+            LogoUrl = logoUrl;
         }
 
         public void Open()
+            => IsOpen = true;
+
+        public void Close()
             => IsOpen = true;
     }
 }

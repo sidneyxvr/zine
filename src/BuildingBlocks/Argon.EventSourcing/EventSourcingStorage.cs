@@ -16,26 +16,32 @@ namespace Argon.EventSourcing
         private readonly IEventStoreConnection _connection;
 
         public EventSourcingStorage(IEventStoreConnection connection)
-            => _connection = connection;
+            => (_connection, ConnectionClosed) = (connection, true);
 
-        //private async Task ConnectAsync()
-        //{
-        //    await ;
-        //    ConnectionClosed = false;
-        //}
+        private async Task ConnectAsync()
+        {
+            await _connection.ConnectAsync();
+            ConnectionClosed = false;
+        }
 
         public async Task AddAsync<TEvent>(TEvent @event) where TEvent : Event
         {
-            //if (ConnectionClosed) await ConnectAsync();
+            if (ConnectionClosed) await ConnectAsync();
 
             try
             {
+                var formated = FormatEvent(@event);
+
                 await _connection.AppendToStreamAsync(
                 @event.AggregateId.ToString(),
                 ExpectedVersion.Any,
-                FormatEvent(@event));
+                formated);
             }
-            catch(Exception ex)
+            catch (EventStore.ClientAPI.Exceptions.ConnectionClosedException ex)
+            {
+
+            }
+            catch (Exception ex)
             {
 
             }

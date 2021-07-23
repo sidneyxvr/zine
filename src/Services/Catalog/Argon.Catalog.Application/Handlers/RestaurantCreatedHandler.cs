@@ -18,9 +18,9 @@ namespace Argon.Catalog.Application.Handlers
         public override async Task Handle(RestaurantCreatedEvent notification, CancellationToken cancellationToken)
         {
             var supplier = new Restaurant(notification.AggregateId, notification.Name, 
-                notification.Latitude, notification.Latitude, notification.Address);
+                notification.Latitude, notification.Latitude, notification.Address, notification.LogoUrl);
 
-            await _unitOfWork.RestaurantRepository.AddAsync(supplier, cancellationToken);
+            await _unitOfWork.RestaurantRepository.AddAsync(supplier);
             await _unitOfWork.CommitAsync();
         }
     }

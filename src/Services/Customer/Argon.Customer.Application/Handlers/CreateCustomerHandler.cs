@@ -12,9 +12,7 @@ namespace Argon.Customers.Application.Handlers
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateCustomerHandler(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+            => _unitOfWork = unitOfWork;
 
         public override async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {

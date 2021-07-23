@@ -22,7 +22,7 @@ namespace Argon.Catalog.Application.Handlers
 
         public override async Task Handle(OpenRestaurantEvent notification, CancellationToken cancellationToken)
         {
-            var restaurant = await _unitOfWork.RestaurantRepository.GetByIdAsync(notification.AggregateId, default);
+            var restaurant = await _unitOfWork.RestaurantRepository.GetByIdAsync(notification.AggregateId);
 
             if(restaurant is null)
             {
@@ -36,7 +36,7 @@ namespace Argon.Catalog.Application.Handlers
 
             restaurant.Open();
 
-            await _unitOfWork.RestaurantRepository.UpdateAsync(restaurant, default);
+            await _unitOfWork.RestaurantRepository.UpdateAsync(restaurant);
             await _unitOfWork.CommitAsync();
         }
     }

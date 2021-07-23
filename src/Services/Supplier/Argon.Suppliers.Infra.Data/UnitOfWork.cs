@@ -23,7 +23,8 @@ namespace Argon.Restaurants.Infra.Data
 
         public async Task<bool> CommitAsync()
         {
-            var success = await _context.SaveChangesAsync() > 0;
+            //var success = await _context.SaveChangesAsync() > 0;
+            var success = true;
 
             if (success) await _bus.PublicarEventos(_context);
 

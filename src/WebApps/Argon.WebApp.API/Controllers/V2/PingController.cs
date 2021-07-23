@@ -12,8 +12,6 @@ namespace Argon.WebApp.API.Controllers.V2
         [HttpGet]
         
         public IActionResult Ping()
-        {
-            return Ok("V2");
-        }
+            => Ok("V2");
     }
 }

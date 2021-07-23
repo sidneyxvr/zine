@@ -83,10 +83,7 @@ namespace Argon.Identity.Services
                 return null;
             }
 
-            var randomNumber = new byte[32];
-            using var rngCryptoServiceProvider = RandomNumberGenerator.Create();
-            rngCryptoServiceProvider.GetBytes(randomNumber);
-
+            var randomNumber = RandomNumberGenerator.GetBytes(32);
             var refreshToken = Convert.ToBase64String(randomNumber);
 
             return new RefreshToken
@@ -123,10 +120,8 @@ namespace Argon.Identity.Services
         }
 
         private static bool IsValidJwt(SecurityToken token)
-        {
-            return (token is JwtSecurityToken jwtSecurityToken) &&
+            => (token is JwtSecurityToken jwtSecurityToken) &&
                 jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
-        }
 
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);

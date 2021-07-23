@@ -7,8 +7,8 @@ namespace Argon.Catalog.Domain
 {
     public interface IRestaurantRepository: IRepository<Restaurant>
     {
-        Task AddAsync(Restaurant restaurant, CancellationToken cancellationToken = default);
-        Task UpdateAsync(Restaurant restaurant, CancellationToken cancellationToken = default);
-        Task<Restaurant?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task AddAsync(Restaurant restaurant);
+        Task UpdateAsync(Restaurant restaurant);
+        Task<Restaurant?> GetByIdAsync(Guid id);
     }
 }

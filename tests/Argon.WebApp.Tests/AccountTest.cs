@@ -1,5 +1,4 @@
 ﻿using Argon.WebApp.API;
-using Argon.WebApp.Tests.Configuration;
 using Argon.WebApp.Tests.Fixtures;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;

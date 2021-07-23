@@ -1,4 +1,5 @@
-﻿using Argon.Catalog.Infra.Data;
+﻿using Argon.Basket.Data;
+using Argon.Catalog.Infra.Data;
 using Argon.Catalog.Infra.Data.Queries;
 using Argon.Customers.Infra.Data;
 using Argon.Identity.Data;
@@ -10,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace Argon.WebApp.API.Configurations
@@ -36,10 +36,10 @@ namespace Argon.WebApp.API.Configurations
             services.TryAddScoped<RestaurantContext>();
             services.TryAddScoped<CatalogContext>();
 
-            services.Configure<CatalogDatabaseSettings>(configuration.GetSection(nameof(CatalogDatabaseSettings)));
-
-            services.TryAddSingleton(provider
-                => provider.GetRequiredService<IOptions<CatalogDatabaseSettings>>().Value);
+            services.Configure<CatalogDatabaseSettings>(
+                configuration.GetSection(nameof(CatalogDatabaseSettings)));
+            services.Configure<BasketDatabaseSettings>(
+                configuration.GetSection(nameof(BasketDatabaseSettings)));
 
             return services;
         }
