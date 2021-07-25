@@ -28,28 +28,17 @@ namespace Argon.EventSourcing
         {
             if (ConnectionClosed) await ConnectAsync();
 
-            try
-            {
-                var formated = FormatEvent(@event);
+            var formated = FormatEvent(@event);
 
-                await _connection.AppendToStreamAsync(
+            await _connection.AppendToStreamAsync(
                 @event.AggregateId.ToString(),
                 ExpectedVersion.Any,
                 formated);
-            }
-            catch (EventStore.ClientAPI.Exceptions.ConnectionClosedException ex)
-            {
-
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
         public async Task<IEnumerable<StoredEvent>> GetEventsByAggregateIdAsync(Guid aggregateId)
         {
-            //if (ConnectionClosed) await ConnectAsync();
+            if (ConnectionClosed) await ConnectAsync();
 
             var stream = await _connection.ReadStreamEventsBackwardAsync(aggregateId.ToString(), 0, 500, false);
 

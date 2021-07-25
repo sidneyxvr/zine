@@ -2,6 +2,7 @@
 using Argon.Basket.Services;
 using Argon.Catalog.QueryStack.Queries;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Argon.WebApp.API.Controllers.V1
@@ -27,11 +28,24 @@ namespace Argon.WebApp.API.Controllers.V1
             var product = await _productQueries.GetProductBasketByIdAsync(request.Id);
 
             var productToBasket = new ProductToBasketDTO(product!.Id, product.Name, 
-                product.Price, request.Amount, product.ImageUrl, product!.RestaurantId, product.RestaurantName);
+                product.Price, request.Amount, product.ImageUrl, product!.RestaurantId, 
+                product.RestaurantName, product.RestaurantLogoUrl);
 
-            var result = await _basketService.AddProductToBasket(productToBasket);
+            await _basketService.AddProductToBasket(productToBasket);
 
-            return CustomResponse(result);
+            return Ok();
         }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> RemoveProductFromBasketAsync(Guid productId)
+        {
+            await _basketService.RemoveProductFromBasket(productId);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBasketAsync()
+            => Ok(await _basketService.GetBasketAsync());
     }
 }

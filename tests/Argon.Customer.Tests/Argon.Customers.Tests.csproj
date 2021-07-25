@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
+    <ProjectReference Include="..\..\src\Services\Customers\Argon.Customers.Application\Argon.Customers.Application.csproj" />
   </ItemGroup>
 
 </Project>

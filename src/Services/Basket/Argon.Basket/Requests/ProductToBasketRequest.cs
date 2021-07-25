@@ -17,10 +17,11 @@ namespace Argon.Basket.Requests
         public string? ImageUrl { get; set; }
         public Guid RestaurantId { get; set; }
         public string RestaurantName { get; set; }
+        public string? RestaurantLogoUrl { get; set; }
 
-        public ProductToBasketDTO(Guid id, string name, 
-            decimal price, int amount, string? imageUrl, 
-            Guid restaurantId, string restaurantName)
+        public ProductToBasketDTO(Guid id, string name, decimal price, 
+            int amount, string? imageUrl, Guid restaurantId, 
+            string restaurantName, string? restaurantLogoUrl)
         {
             Id = id;
             Name = name;
@@ -29,6 +30,7 @@ namespace Argon.Basket.Requests
             ImageUrl = imageUrl;
             RestaurantId = restaurantId;
             RestaurantName = restaurantName;
+            RestaurantLogoUrl = restaurantLogoUrl;
         }
     }
 }

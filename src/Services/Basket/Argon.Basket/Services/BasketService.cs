@@ -1,9 +1,10 @@
 ﻿using Argon.Basket.Data;
+using Argon.Basket.Models;
 using Argon.Basket.Requests;
+using Argon.Basket.Responses;
 using Argon.Core.DomainObjects;
-using FluentValidation.Results;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Argon.Basket.Services
@@ -11,43 +12,69 @@ namespace Argon.Basket.Services
     public class BasketService : IBasketService
     {
         private readonly IAppUser _appUser;
-        private readonly IMongoCollection<Models.Basket> _baskets;
+        private readonly IBasketDAO _Basket;
 
-        public BasketService(
-            IAppUser appUser, 
-            IOptions<BasketDatabaseSettings> settings)
+        public BasketService(IAppUser appUser, IBasketDAO Basket)
         {
             _appUser = appUser;
-
-            var client = new MongoClient(settings.Value.ConnectionString);
-            var database = client.GetDatabase(settings.Value.DatabaseName);
-
-            _baskets = database.GetCollection<Models.Basket>("Baskets");
+            _Basket = Basket;
         }
 
-        public async Task<ValidationResult> AddProductToBasket(ProductToBasketDTO product)
+        public async Task AddProductToBasket(ProductToBasketDTO product)
         {
-            var filter = Builders<Models.Basket>.Filter.Eq(b => b.CustomerId, _appUser.Id);
-            var basket = await _baskets.Find(filter).SingleOrDefaultAsync();
+            var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
 
             var basketWasNull = basket is null;
-            
-            basket ??= 
-                new Models.Basket(product.RestaurantId, product.RestaurantName, _appUser.Id);
 
-            basket.AddProduct(new(product.Id, product.Name, 
+            basket ??=
+                new CustomerBasket(product.RestaurantId, product.RestaurantName, 
+                    product.RestaurantLogoUrl, _appUser.Id);
+
+            basket.AddItem(new(product.Id, product.Name, 
                 product.Amount, product.Price, product.ImageUrl));
 
             if (basketWasNull)
             {
-                await _baskets.InsertOneAsync(basket);
+                await _Basket.AddAsync(basket);
             }
             else
             {
-               await _baskets.ReplaceOneAsync(b => b.Id == basket.Id, basket);
+               await _Basket.UpdateAsync(basket);
+            }
+        }
+
+        public async Task<BasketReponse> GetBasketAsync()
+            => MapToBasketReponse(await _Basket.GetByCustomerIdAsync(_appUser.Id));
+
+        public async Task RemoveProductFromBasket(Guid productId)
+        {
+            var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
+
+            if(basket is null)
+            {
+                return;
             }
 
-            return new();
+            basket.RemoveItem(productId);
+
+            await _Basket.UpdateAsync(basket);
         }
+
+        private static BasketReponse MapToBasketReponse(CustomerBasket basket)
+            => new()
+            {
+                RestaurantId = basket.RestaurantId,
+                RestaurantName = basket.RestaurantName,
+                RestaurantLogoUrl = basket.RestaurantLogoUrl,
+                Total = basket.Total,
+                Products = basket.Products.Select(p => new ProductDTO
+                {
+                    Id = p.Id,
+                    Name = p.ProductName,
+                    Price = p.Price,
+                    Amount= p.Quantity,
+                    ImageUrl= p.ImageUrl,   
+                })
+            };
     }
 }

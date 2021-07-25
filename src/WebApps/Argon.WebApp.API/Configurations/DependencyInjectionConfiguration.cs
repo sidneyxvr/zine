@@ -1,4 +1,6 @@
-﻿using Argon.Basket.Services;
+﻿using Argon.Basket.Data;
+using Argon.Basket.Models;
+using Argon.Basket.Services;
 using Argon.Core.Communication;
 using Argon.Core.Data.EventSourcing;
 using Argon.Core.DomainObjects;
@@ -10,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization;
-using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -27,7 +28,9 @@ namespace Argon.WebApp.API.Configurations
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
 
             services.AddScoped<IAppUser, AppUser>();
+
             services.AddScoped<IBasketService, BasketService>();
+            services.AddSingleton<IBasketDAO, BasketDAO>();
 
             services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
             services.AddSingleton<IEventStoreConnection>(provider => {
@@ -42,10 +45,13 @@ namespace Argon.WebApp.API.Configurations
                 return connection;
             });
 
-            BsonClassMap.RegisterClassMap<Basket.Models.Basket>(cm =>
+            BsonClassMap.RegisterClassMap<CustomerBasket>(cm =>
             {
                 cm.AutoMap();
-                cm.MapField("_products").SetElementName("Products");
+                cm.MapProperty(b => b.RestaurantLogoUrl)
+                    .SetIgnoreIfNull(true);
+                cm.MapField("_products")
+                    .SetElementName("Products");
             });
 
             var emailSenderSettingsSection = configuration.GetSection(nameof(EmailSenderSettings));

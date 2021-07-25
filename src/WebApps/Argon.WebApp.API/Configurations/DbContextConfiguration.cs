@@ -3,6 +3,7 @@ using Argon.Catalog.Infra.Data;
 using Argon.Catalog.Infra.Data.Queries;
 using Argon.Customers.Infra.Data;
 using Argon.Identity.Data;
+using Argon.Ordering.Infra.Data;
 using Argon.Restaurants.Infra.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ namespace Argon.WebApp.API.Configurations
             services.TryAddScoped<CustomerContext>();
             services.TryAddScoped<RestaurantContext>();
             services.TryAddScoped<CatalogContext>();
+            services.TryAddScoped<OrderingContext>();
 
             services.Configure<CatalogDatabaseSettings>(
                 configuration.GetSection(nameof(CatalogDatabaseSettings)));
@@ -78,6 +80,13 @@ namespace Argon.WebApp.API.Configurations
                        .EnableDetailedErrors()
                        .EnableSensitiveDataLogging());
 
+            services.AddDbContext<OrderingContext>(options =>
+               options
+                   .UseSqlServer(configuration.GetConnectionString("OrderingConnection"))
+                       .LogTo(Console.WriteLine, LogLevel.Information)
+                       .EnableDetailedErrors()
+                       .EnableSensitiveDataLogging());
+
             return services;
         }
 
@@ -99,6 +108,9 @@ namespace Argon.WebApp.API.Configurations
             services.AddDbContext<CatalogContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("CatalogConnection"), 
                 x => x.UseNetTopologySuite()));
+
+            services.AddDbContext<OrderingContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("OrderingConnection")));
 
             return services;
         }

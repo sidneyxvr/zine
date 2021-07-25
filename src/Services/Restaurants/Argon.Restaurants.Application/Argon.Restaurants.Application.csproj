@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
     <ProjectReference Include="..\..\Catalog\Argon.Catalog.Domain\Argon.Catalog.Domain.csproj" />
-    <ProjectReference Include="..\Argon.Supplier.Domain\Argon.Restaurants.Domain.csproj" />
+    <ProjectReference Include="..\Argon.Restaurants.Domain\Argon.Restaurants.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -38,11 +38,14 @@
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.Infra.Data\Argon.Catalog.Infra.Data.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.QueryStack.Cache\Argon.Catalog.Caching.csproj" />
     <ProjectReference Include="..\..\Services\Catalog\Argon.Catalog.QueryStack\Argon.Catalog.QueryStack.csproj" />
-    <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Application\Argon.Customers.Application.csproj" />
-    <ProjectReference Include="..\..\Services\Customer\Argon.Customer.Infra.Data\Argon.Customers.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Customers\Argon.Customers.Application\Argon.Customers.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Customers\Argon.Customers.Domain\Argon.Customers.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Customers\Argon.Customers.Infra.Data\Argon.Customers.Infra.Data.csproj" />
     <ProjectReference Include="..\..\Services\Identity\Argon.Identity\Argon.Identity.csproj" />
-    <ProjectReference Include="..\..\Services\Supplier\Argon.Supplier.Application\Argon.Restaurants.Application.csproj" />
-    <ProjectReference Include="..\..\Services\Supplier\Argon.Suppliers.Infra.Data\Argon.Restaurants.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Ordering\Argon.Ordering.Infra.Data\Argon.Ordering.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Restaurants\Argon.Restaurants.Application\Argon.Restaurants.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Restaurants\Argon.Restaurants.Domain\Argon.Restaurants.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Restaurants\Argon.Restaurants.Infra.Data\Argon.Restaurants.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Argon.Catalog.Infra.Data.Mappings
 {
-    public class ServiceMapping : IEntityTypeConfiguration<Product>
+    public class ProductMapping : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
@@ -32,7 +32,8 @@ namespace Argon.Catalog.Infra.Data.Mappings
 
             builder.Property(p => p.ImageUrl)
                 .IsUnicode(false)
-                .HasMaxLength(256);
+                .HasMaxLength(256)
+                .IsRequired();
 
             builder.HasOne(p => p.Restaurant)
                 .WithMany(s => s.Services)

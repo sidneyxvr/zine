@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Core\Argon.Core.csproj" />
-    <ProjectReference Include="..\Argon.Customer.Domain\Argon.Customers.Domain.csproj" />
+    <ProjectReference Include="..\Argon.Customers.Domain\Argon.Customers.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
