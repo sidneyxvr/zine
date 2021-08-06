@@ -15,20 +15,21 @@ namespace Argon.Ordering.Infra.Data.Mappings
             builder.Property(o => o.Id)
                 .ValueGeneratedNever();
 
+
             builder.HasOne(o => o.CurrentOrderStatus)
                 .WithOne()
                 .HasForeignKey<Order>("CurrentOrderStatusId")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(o => o.OrderItems)
                 .WithOne()
-                .HasForeignKey("OrderId")
+                .HasForeignKey(o => o.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(o => o.OrderStatuses)
                 .WithOne()
-                .HasForeignKey("OrderId")
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(o => o.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.OwnsOne(o => o.Address, a =>
             {

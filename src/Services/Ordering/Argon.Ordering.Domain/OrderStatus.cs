@@ -13,6 +13,7 @@ namespace Argon.Ordering.Domain
 
         public DateTime ExecutedAt { get; private set; }
         public OrderStatusAction Action { get; private set; }
+        public Guid OrderId { get; private set; }
 
         private OrderStatus() { }
 

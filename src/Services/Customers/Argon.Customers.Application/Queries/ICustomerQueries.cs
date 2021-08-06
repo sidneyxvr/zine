@@ -7,7 +7,8 @@ namespace Argon.Customers.Application.Queries
 {
     public interface ICustomerQueries : IDisposable
     {
-        Task<IEnumerable<AddressReponse>> GetAddressesByCustomerId(Guid customerId);
-        Task<AddressReponse?> GetAddressByCustomerId(Guid customerId, Guid addressId);
+        Task<IEnumerable<AddressReponse>> GetAddressesByCustomerIdAsync(Guid customerId);
+        Task<AddressReponse?> GetAddressByCustomerIdAsync(Guid customerId, Guid addressId);
+        Task<CustomerNameResponse?> GetCustomerNameByIdAsync(Guid id);
     }
 }

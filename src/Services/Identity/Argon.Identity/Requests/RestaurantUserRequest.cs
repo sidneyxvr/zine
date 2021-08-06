@@ -3,7 +3,7 @@ using Argon.Core.Utils;
 
 namespace Argon.Identity.Requests
 {
-    public record SupplierUserRequest : BaseRequest
+    public record RestaurantUserRequest : BaseRequest
     {
         public string? CorparateName { get; init; }
         public string? TradeName { get; init; }

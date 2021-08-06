@@ -15,7 +15,7 @@ namespace Argon.WebApp.API.Controllers.V1
         private readonly IProductQueries _productQueries;
 
         public ProductsController(
-            IBus bus, 
+            IBus bus,
             IProductQueries productQueries)
         {
             _bus = bus;
@@ -23,7 +23,7 @@ namespace Argon.WebApp.API.Controllers.V1
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProductAsync(CreateProductCommand command)
+        public async Task<IActionResult> AddProductAsync([FromForm] CreateProductCommand command)
             => CustomResponse(await _bus.SendAsync(command));
 
         [HttpGet("{id}")]

@@ -24,12 +24,10 @@ namespace Argon.Customers.Domain
         public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        protected Customer()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        {
-            _addresses = new ();
-        }
+#pragma warning disable CS8618 
+        private Customer()
+#pragma warning restore CS8618 
+            => _addresses = new ();
 
         public Customer(Guid id, string? firstName, string? LastName, string? email,
             string? cpf, DateTime? birthDate, Gender gender, string? phone)
@@ -86,16 +84,12 @@ namespace Argon.Customers.Domain
         {
             Check.NotEmpty(addressId, nameof(addressId));
 
-            var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
+            _addresses?.RemoveAll(a => a.Id == addressId);
 
-            Check.NotNull(address, nameof(address));
-
-            if (MainAddress?.Id == address!.Id)
+            if (MainAddress?.Id == addressId)
             {
                 MainAddress = null;
             }
-
-            _addresses!.Remove(address);
         }
 
         public void DefineMainAddress(Guid addressId)

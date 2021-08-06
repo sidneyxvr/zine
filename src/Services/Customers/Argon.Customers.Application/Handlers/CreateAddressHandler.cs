@@ -23,7 +23,7 @@ namespace Argon.Customers.Application.Handlers
         public override async Task<ValidationResult> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
         {
             var customer = await _unitOfWork.CustomerRepository
-                .GetByIdAsync(request.CustomerId, Include.None, cancellationToken);
+                .GetByIdAsync(_appUser.Id, Include.None, cancellationToken);
 
             if(customer is null)
             {
@@ -37,6 +37,7 @@ namespace Argon.Customers.Application.Handlers
             customer.AddAddress(address);
 
             await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
+            await _unitOfWork.CustomerRepository.AddAsync(address, cancellationToken);
             await _unitOfWork.CommitAsync();
 
             return ValidationResult;

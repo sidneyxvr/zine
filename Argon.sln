@@ -83,9 +83,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Restaurants.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Basket", "src\Services\Basket\Argon.Basket\Argon.Basket.csproj", "{94C82306-7893-494B-B7AC-B526CC48FBD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Ordering.Domain", "src\Services\Ordering\Argon.Ordering.Domain\Argon.Ordering.Domain.csproj", "{A484A7C2-E98D-48AA-AABA-CAA34BB17CC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Ordering.Domain", "src\Services\Ordering\Argon.Ordering.Domain\Argon.Ordering.Domain.csproj", "{A484A7C2-E98D-48AA-AABA-CAA34BB17CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Ordering.Infra.Data", "src\Services\Ordering\Argon.Ordering.Infra.Data\Argon.Ordering.Infra.Data.csproj", "{ACC9E6CF-B157-4688-A837-85D2E98469F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Ordering.Infra.Data", "src\Services\Ordering\Argon.Ordering.Infra.Data\Argon.Ordering.Infra.Data.csproj", "{ACC9E6CF-B157-4688-A837-85D2E98469F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Chat", "src\Services\Chat\Argon.Chat\Argon.Chat.csproj", "{F51AEA88-A64C-4177-9559-9A28475F014C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.WebApp.Chat", "src\WebApps\Argon.WebApp.Chat\Argon.WebApp.Chat.csproj", "{6AB6E4C0-EC71-4347-92CC-CD26E89D8876}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +209,14 @@ Global
 		{ACC9E6CF-B157-4688-A837-85D2E98469F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACC9E6CF-B157-4688-A837-85D2E98469F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACC9E6CF-B157-4688-A837-85D2E98469F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51AEA88-A64C-4177-9559-9A28475F014C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51AEA88-A64C-4177-9559-9A28475F014C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51AEA88-A64C-4177-9559-9A28475F014C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51AEA88-A64C-4177-9559-9A28475F014C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB6E4C0-EC71-4347-92CC-CD26E89D8876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB6E4C0-EC71-4347-92CC-CD26E89D8876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB6E4C0-EC71-4347-92CC-CD26E89D8876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB6E4C0-EC71-4347-92CC-CD26E89D8876}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,6 +261,8 @@ Global
 		{94C82306-7893-494B-B7AC-B526CC48FBD5} = {02074151-2914-4DDC-9E0F-467EC1C68E26}
 		{A484A7C2-E98D-48AA-AABA-CAA34BB17CC8} = {ED03C174-6009-41BD-92AB-6D9A1586D805}
 		{ACC9E6CF-B157-4688-A837-85D2E98469F6} = {ED03C174-6009-41BD-92AB-6D9A1586D805}
+		{F51AEA88-A64C-4177-9559-9A28475F014C} = {DC563004-6780-46C3-9A1A-A7EFD9E4ACF3}
+		{6AB6E4C0-EC71-4347-92CC-CD26E89D8876} = {38F7C4BE-56BE-4304-8B48-B5F6799D80E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91A45E2F-9D6D-4902-B556-7D06DC132948}

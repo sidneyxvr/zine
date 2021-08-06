@@ -24,7 +24,7 @@ namespace Argon.Customers.Infra.Data.Queries
             GC.SuppressFinalize(this);
         }
 
-        public Task<AddressReponse?> GetAddressByCustomerId(Guid customerId, Guid addressId)
+        public Task<AddressReponse?> GetAddressByCustomerIdAsync(Guid customerId, Guid addressId)
         {
             return _context.Addresses
                 .Where(a => a.CustomerId == customerId)
@@ -44,7 +44,7 @@ namespace Argon.Customers.Infra.Data.Queries
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<AddressReponse>> GetAddressesByCustomerId(Guid customerId)
+        public async Task<IEnumerable<AddressReponse>> GetAddressesByCustomerIdAsync(Guid customerId)
         {
             return await _context.Addresses
                 .AsNoTracking()
@@ -64,5 +64,16 @@ namespace Argon.Customers.Infra.Data.Queries
                 })
                 .ToListAsync();
         }
+
+        public async Task<CustomerNameResponse?> GetCustomerNameByIdAsync(Guid id)
+            => await _context.Customers
+            .AsNoTracking()
+            .Select(c => new CustomerNameResponse
+            {
+                Id = c.Id,
+                FirstName = c.Name.FirstName,
+                LastName = c.Name.LastName,
+            })
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Argon.Ordering.Application.Handlers
 {
-    public class AddPaymentMethodHandler : RequestHandler<AddPaymentMethodCommad>
+    public class AddPaymentMethodHandler : RequestHandler<AddPaymentMethodCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,7 +16,7 @@ namespace Argon.Ordering.Application.Handlers
             _unitOfWork = unitOfWork;
         }
 
-        public override async Task<ValidationResult> Handle(AddPaymentMethodCommad request, CancellationToken cancellationToken)
+        public override async Task<ValidationResult> Handle(AddPaymentMethodCommand request, CancellationToken cancellationToken)
         {
             var buyer = await _unitOfWork.BuyerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
 

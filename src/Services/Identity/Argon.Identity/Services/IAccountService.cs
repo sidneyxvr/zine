@@ -10,7 +10,7 @@ namespace Argon.Identity.Services
         Task<ValidationResult> ResetPasswordAsync(ResetPasswordRequest request);
         Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request);
         Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request);
-        Task<ValidationResult> CreateSupplierUserAsync(SupplierUserRequest request);
+        Task<ValidationResult> CreateRestaurantUserAsync(RestaurantUserRequest request);
         Task<ValidationResult> ConfirmEmailAccountAsync(EmailAccountConfirmationRequest request);
     }
 }

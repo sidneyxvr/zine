@@ -33,10 +33,10 @@ namespace Argon.Identity.Services
             _localizer = localizerFactory.Create(typeof(AccountService));
         }
 
-        public async Task<ValidationResult> CreateSupplierUserAsync(SupplierUserRequest request)
+        public async Task<ValidationResult> CreateRestaurantUserAsync(RestaurantUserRequest request)
         {
-            var localizer = _localizerFactory.Create(typeof(SupplierUserValidator));
-            var validationResult = new SupplierUserValidator(localizer).Validate(request);
+            var localizer = _localizerFactory.Create(typeof(RestaurantUserValidator));
+            var validationResult = new RestaurantUserValidator(localizer).Validate(request);
 
             if (!validationResult.IsValid)
             {
@@ -47,6 +47,8 @@ namespace Argon.Identity.Services
             {
                 Email = request.Email,
                 UserName = request.Email,
+                FirstName = request.FirstName!,
+                LastName = request.LastName!,
                 LockoutEnabled = true,
                 IsActive = true
             };
@@ -91,6 +93,8 @@ namespace Argon.Identity.Services
                 Email = request.Email,
                 UserName = request.Email,
                 PhoneNumber = request.Phone,
+                FirstName = request.FirstName!,
+                LastName = request.LastName!,
                 LockoutEnabled = true,
                 IsActive = true
             };
@@ -226,7 +230,7 @@ namespace Argon.Identity.Services
                 NotifyError(_localizer["Cannot Reset Password"]);
         }
 
-        private static CreateRestaurantCommand FromRequestToCommand(SupplierUserRequest request, Guid userId)
+        private static CreateRestaurantCommand FromRequestToCommand(RestaurantUserRequest request, Guid userId)
             => new()
             {
                 UserId = userId,

@@ -3,7 +3,7 @@ using System;
 
 namespace Argon.Ordering.Application.Commands
 {
-    public record AddPaymentMethodCommad : Command
+    public record AddPaymentMethodCommand : Command
     {
         public Guid CustomerId { get; set; }
         public string CustomerFirstName { get; set; } = null!;

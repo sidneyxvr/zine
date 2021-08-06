@@ -30,7 +30,6 @@ namespace Argon.WebApp.API.Controllers.V1
         public async Task<IActionResult> UpdateAddressAsync(UpdateAddressCommand command)
             => CustomResponse(await _bus.SendAsync(command));
 
-
         [HttpPut("open")]
         public async Task<IActionResult> OpenRestaurantAsync(OpenRestaurantCommand command)
             => CustomResponse(await _bus.SendAsync(command));

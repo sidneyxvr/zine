@@ -25,6 +25,12 @@ namespace Argon.Customers.Infra.Data.Repositories
             _context.Entry(customer).Property("CreatedAt").CurrentValue = DateTime.UtcNow;
         }
 
+        public async Task AddAsync(Address address,
+            CancellationToken calcelationToken = default)
+        {
+            await _context.AddAsync(address, calcelationToken);
+        }
+
         public void Dispose()
         {
             _context?.Dispose();

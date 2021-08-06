@@ -26,12 +26,14 @@ namespace Argon.Identity.Services
             _tokenValidationParameters = tokenValidationParameters;
         }
 
-        public string CodifyToken(ICollection<Claim> claims, Guid userId, string userEmail)
+        public string CodifyToken(ICollection<Claim> claims, User user)
         {
             var tokenCreatedAt = ToUnixEpochDate(DateTime.UtcNow).ToString(CultureInfo.CurrentCulture);
             var notValidBefore = ToUnixEpochDate(DateTime.UtcNow).ToString(CultureInfo.CurrentCulture);
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, userEmail));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+            claims.Add(new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName));
+            claims.Add(new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName));
             claims.Add(new Claim(JwtRegisteredClaimNames.Jti, NewGuid().ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, notValidBefore));
             claims.Add(new Claim(JwtRegisteredClaimNames.Iat, tokenCreatedAt, ClaimValueTypes.Integer64));

@@ -1,25 +1,35 @@
 ﻿using Argon.Core.DomainObjects;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 
 namespace Argon.WebApp.API.Extensions
 {
     public class AppUser : IAppUser
     {
-        public readonly IHttpContextAccessor _accessor;
+        private readonly IHttpContextAccessor? _accessor;
 
         public AppUser(IHttpContextAccessor accessor)
         {
             _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
 
-            if (_accessor.HttpContext!.User.Identity!.IsAuthenticated)
+            if (_accessor.HttpContext?.User.Identity!.IsAuthenticated == false)
             {
-                Id = new Guid(_accessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+                throw new InvalidOperationException("Cannot get authenticated user");
             }
+
+            var claims = _accessor.HttpContext!.User.Claims;
+
+            Id = new(claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)!.Value);
+            FirstName = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.GivenName)!.Value;
+            LastName = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.FamilyName)!.Value;
         }
 
-        public Guid Id { get; set; } = new Guid("D5683FAE-C7C0-4380-81E2-285704723B48");
+        public Guid Id { get; init; } 
+        public string FirstName { get; init; } 
+        public string LastName { get; init; } 
+
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

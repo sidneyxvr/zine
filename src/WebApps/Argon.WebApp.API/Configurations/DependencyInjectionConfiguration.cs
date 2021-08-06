@@ -9,11 +9,14 @@ using Argon.WebApp.API.Extensions;
 using EventStore.ClientAPI;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Principal;
 
 namespace Argon.WebApp.API.Configurations
 {
@@ -27,7 +30,12 @@ namespace Argon.WebApp.API.Configurations
             services.AddScoped<IBus, InMemoryBus>();
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
 
-            services.AddScoped<IAppUser, AppUser>();
+            services.AddScoped<IAppUser>(provider => 
+            {
+                var httpContext = provider.GetRequiredService<IHttpContextAccessor>();
+
+                return new AppUser(httpContext);
+            });
 
             services.AddScoped<IBasketService, BasketService>();
             services.AddSingleton<IBasketDAO, BasketDAO>();

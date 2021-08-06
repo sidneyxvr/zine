@@ -129,7 +129,7 @@ namespace Argon.Identity.Services
                 .Select(role => new Claim("role", role))
                 .ToList();
 
-            var encodedToken = _tokenService.CodifyToken(claims, user.Id, user.Email);
+            var encodedToken = _tokenService.CodifyToken(claims, user);
 
             var refreshToken = _tokenService.GenerateRefreshToken(encodedToken);
 

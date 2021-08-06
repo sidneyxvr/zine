@@ -49,7 +49,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             var command = new CreateAddressCommand
             {
-                CustomerId = customer.Id,
                 Street = properties.Street,
                 Number = properties.Number,
                 District = properties.District,
@@ -87,7 +86,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new CreateAddressCommand
             {
-                CustomerId = Guid.Empty,
                 Street = "",
                 Number = "",
                 District = "",
@@ -110,7 +108,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new CreateAddressCommand
             {
-                CustomerId = Guid.Empty
             };
 
             //Act
@@ -132,7 +129,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
             //Arrange
             var command = new CreateAddressCommand
             {
-                CustomerId = Guid.NewGuid(),
                 Street = "",
                 Number = _faker.Random.ULong(10_000_000_000).ToString(),
                 District = "",
@@ -165,7 +161,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             var command = new CreateAddressCommand
             {
-                CustomerId = Guid.NewGuid(),
                 Street = properties.Street,
                 Number = properties.Number,
                 District = properties.District,
@@ -195,7 +190,6 @@ namespace Argon.Customers.Tests.Application.AddressHandlers
 
             var command = new CreateAddressCommand
             {
-                CustomerId = Guid.NewGuid(),
                 Street = properties.Street,
                 Number = properties.Number,
                 District = properties.District,

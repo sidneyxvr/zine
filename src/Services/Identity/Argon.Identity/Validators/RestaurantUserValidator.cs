@@ -4,9 +4,9 @@ using Microsoft.Extensions.Localization;
 
 namespace Argon.Identity.Validators
 {
-    public class SupplierUserValidator : AbstractValidator<SupplierUserRequest>
+    public class RestaurantUserValidator : AbstractValidator<RestaurantUserRequest>
     {
-        public SupplierUserValidator(IStringLocalizer localizer)
+        public RestaurantUserValidator(IStringLocalizer localizer)
         {
             //RuleFor(c => c.TradeName)
             //    .NotEmpty().WithMessage(localizer["EmptyTradeName"])

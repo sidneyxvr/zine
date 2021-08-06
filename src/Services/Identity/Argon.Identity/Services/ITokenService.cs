@@ -9,7 +9,7 @@ namespace Argon.Identity.Services
     {
         RefreshToken? GenerateRefreshToken(string token);
         (Guid UserId, Guid Jti)? GetUserClaimsSimplifiedOrDefault(string token);
-        string CodifyToken(ICollection<Claim> claims, Guid userId, string userEmail);
+        string CodifyToken(ICollection<Claim> claims, User user);
         UserLoginResponse GetUserLoginResponse(string encodedToken, 
             string refreshToken, Guid userId, string userEmail, IEnumerable<Claim> claims);
     }

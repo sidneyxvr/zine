@@ -1,7 +1,6 @@
 ﻿using Argon.Identity.Requests;
 using Argon.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Argon.WebApp.API.Controllers.V1
@@ -26,9 +25,9 @@ namespace Argon.WebApp.API.Controllers.V1
         }
 
         [HttpPost("register-restaurant")]
-        public async Task<IActionResult> CreateSupplierUserAsync(SupplierUserRequest request)
+        public async Task<IActionResult> CreateSupplierUserAsync(RestaurantUserRequest request)
         {
-            var result = await _accountService.CreateSupplierUserAsync(request);
+            var result = await _accountService.CreateRestaurantUserAsync(request);
 
             return CustomResponse(result);
         }

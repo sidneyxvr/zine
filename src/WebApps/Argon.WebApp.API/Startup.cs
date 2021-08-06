@@ -1,4 +1,5 @@
 using Argon.WebApp.API.Configurations;
+using Argon.WebApp.API.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -57,17 +58,24 @@ namespace Argon.WebApp.API
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            services.RegisterCatalog();
-            services.RegisterCustomer();
-            services.RegisterSupplier();
-            services.RegisterIdentity(Environment);
-            services.RegisterJwt(Configuration);
-            services.RegisterDbContexts(Configuration, Environment);
+            services.RegisterCatalog()
+                .RegisterCustomer()
+                .RegisterSupplier()
+                .RegisterOrdering()
+                .RegisterChat()
+                .RegisterIdentity(Environment)
+                .RegisterJwt(Configuration)
+                .RegisterDbContexts(Configuration, Environment)
+                .RegisterServices(Configuration);
+
+            services.AddSignalR(options => options.EnableDetailedErrors = true)
+                .AddMessagePackProtocol();
 
             services.AddControllers();
 
+            services.AddCors();
+
             services.RegisterSwagger(Environment);
-            services.RegisterServices(Configuration);
 
             services.AddApiVersioning(options =>
             {
@@ -101,6 +109,8 @@ namespace Argon.WebApp.API
                 .AddSupportedCultures(supportedCultures)
                 .AddSupportedUICultures(supportedCultures);
 
+            app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
             app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
@@ -113,6 +123,7 @@ namespace Argon.WebApp.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }

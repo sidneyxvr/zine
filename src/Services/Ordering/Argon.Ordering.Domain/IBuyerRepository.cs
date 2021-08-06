@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Argon.Ordering.Domain
 {
-    public interface IBuyerRepository
+    public interface IBuyerRepository : IDisposable
     {
         Task AddAsync(Buyer buyer, CancellationToken cancellationToken);
         Task UpdateAsync(Buyer buyer, CancellationToken cancellationToken);
-        Task<Buyer> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<Buyer?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

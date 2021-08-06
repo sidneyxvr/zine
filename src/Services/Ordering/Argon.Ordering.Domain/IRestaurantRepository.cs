@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Argon.Ordering.Domain
 {
-    public interface IRestaurantRepository
+    public interface IRestaurantRepository : IDisposable
     {
-        Task<Restaurant> GetByIdAsync(Guid id);
+        Task<Restaurant?> GetByIdAsync(Guid id);
     }
 }

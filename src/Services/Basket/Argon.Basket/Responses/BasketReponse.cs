@@ -18,6 +18,6 @@ namespace Argon.Basket.Responses
         public string Name { get; init; } = null!;
         public int Amount { get; init; }
         public decimal Price { get; init; }
-        public string? ImageUrl { get; init; }
+        public string ImageUrl { get; init; } = null!;
     }
 }

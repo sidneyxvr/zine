@@ -8,6 +8,7 @@ namespace Argon.Customers.Domain
     public interface ICustomerRepository : IRepository<Customer>
     {
         Task AddAsync(Customer customer, CancellationToken calcelationToken = default);
+        Task AddAsync(Address address, CancellationToken calcelationToken = default);
         Task UpdateAsync(Customer customer, CancellationToken calcelationToken = default);
         Task<Customer?> GetByIdAsync(Guid id, Include include = Include.None,
             CancellationToken calcelationToken = default);

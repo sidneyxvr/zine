@@ -1,6 +1,7 @@
 ﻿using Argon.Basket.Data;
 using Argon.Catalog.Infra.Data;
 using Argon.Catalog.Infra.Data.Queries;
+using Argon.Chat.Data;
 using Argon.Customers.Infra.Data;
 using Argon.Identity.Data;
 using Argon.Ordering.Infra.Data;
@@ -42,6 +43,8 @@ namespace Argon.WebApp.API.Configurations
                 configuration.GetSection(nameof(CatalogDatabaseSettings)));
             services.Configure<BasketDatabaseSettings>(
                 configuration.GetSection(nameof(BasketDatabaseSettings)));
+            services.Configure<ChatDatabaseSettings>(
+                configuration.GetSection(nameof(ChatDatabaseSettings)));
 
             return services;
         }
@@ -98,16 +101,16 @@ namespace Argon.WebApp.API.Configurations
                 options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
 
             services.AddDbContext<CustomerContext>(options =>
-               options.UseSqlServer(configuration.GetConnectionString("CustomerConnection"), 
-               x => x.UseNetTopologySuite()));
+                options.UseSqlServer(configuration.GetConnectionString("CustomerConnection"), 
+                    x => x.UseNetTopologySuite()));
 
             services.AddDbContext<RestaurantContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("RestaurantConnection"), 
-                x => x.UseNetTopologySuite()));
+                    x => x.UseNetTopologySuite()));
 
             services.AddDbContext<CatalogContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("CatalogConnection"), 
-                x => x.UseNetTopologySuite()));
+                    x => x.UseNetTopologySuite()));
 
             services.AddDbContext<OrderingContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("OrderingConnection")));

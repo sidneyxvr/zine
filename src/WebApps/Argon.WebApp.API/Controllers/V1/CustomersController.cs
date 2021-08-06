@@ -68,7 +68,7 @@ namespace Argon.WebApp.API.Controllers.V1
         [AllowAnonymous]
         public async Task<IActionResult> GetAddressesAsync()
         {
-            var result = await _customerQueries.GetAddressesByCustomerId(new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A"));
+            var result = await _customerQueries.GetAddressesByCustomerIdAsync(new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A"));
 
             return Ok(result);
         }
@@ -78,7 +78,7 @@ namespace Argon.WebApp.API.Controllers.V1
         public async Task<IActionResult> GetAddressAsync(Guid addressId)
         {
             var customerId = new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A");
-            var result = await _customerQueries.GetAddressByCustomerId(customerId, addressId);
+            var result = await _customerQueries.GetAddressByCustomerIdAsync(customerId, addressId);
 
             return Ok(result);
         }

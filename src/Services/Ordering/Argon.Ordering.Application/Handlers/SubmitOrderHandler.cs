@@ -11,10 +11,14 @@ namespace Argon.Ordering.Application.Handlers
     public class SubmitOrderHandler : RequestHandler<SubmitOrderCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISequencialIdentifier _sequenciaIdentifier;
 
-        public SubmitOrderHandler(IUnitOfWork unitOfWork)
+        public SubmitOrderHandler(
+            IUnitOfWork unitOfWork, 
+            ISequencialIdentifier sequenciaIdentifier)
         {
             _unitOfWork = unitOfWork;
+            _sequenciaIdentifier = sequenciaIdentifier;
         }
 
         public override async Task<ValidationResult> Handle(SubmitOrderCommand request, CancellationToken cancellationToken)
@@ -26,7 +30,9 @@ namespace Argon.Ordering.Application.Handlers
                 .Select(o => new OrderItem(o.ProductId, o.ProductName, o.ProductImageUrl, o.UnitPrice, o.Units))
                 .ToList();
 
-            var order = Order.SubmitOrder(request.CustomerId, request.PaymentMethodId, request.RestaurantId, address, orderItems);
+            var sequentialId = await _sequenciaIdentifier.GetSequentialId();
+            var order = Order.SubmitOrder(request.CustomerId, request.PaymentMethodId, 
+                sequentialId, request.RestaurantId, address, orderItems);
 
             await _unitOfWork.OrderRepository.AddAsync(order, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
