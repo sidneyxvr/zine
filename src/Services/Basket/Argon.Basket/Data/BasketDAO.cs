@@ -29,5 +29,16 @@ namespace Argon.Basket.Data
 
         public async Task UpdateAsync(CustomerBasket basket)
             => await _baskets.ReplaceOneAsync(b => b.Id == basket.Id, basket);
+
+        public async Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price)
+        {
+            var filter = Builders<CustomerBasket>.Filter
+                .ElemMatch(c => c.Products,
+                    Builders<BasketItem>.Filter.Eq(b => b.Id, basketItemId));
+
+            var update = Builders<CustomerBasket>.Update.Set("Products.$.Price", price);
+
+            await _baskets.UpdateManyAsync(filter, update);
+        }
     }
 }

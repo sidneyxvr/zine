@@ -1,6 +1,4 @@
 ﻿using Argon.Core.Messages;
-using System;
-using System.Collections.Generic;
 
 namespace Argon.Core.DomainObjects
 {
@@ -11,8 +9,8 @@ namespace Argon.Core.DomainObjects
             => Id = Guid.NewGuid();
 
         private readonly List<Event> _domainEvents = new();
-        public IReadOnlyCollection<Event>? DomainEvents 
-            => _domainEvents?.AsReadOnly();
+        public IReadOnlyCollection<Event> DomainEvents
+            => _domainEvents?.AsReadOnly() ?? new List<Event>().AsReadOnly();
 
         public void AddDomainEvent(Event @event)
             => _domainEvents.Add(@event);

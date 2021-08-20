@@ -8,6 +8,7 @@ namespace Argon.Basket.Data
     {
         Task AddAsync(CustomerBasket basket);
         Task UpdateAsync(CustomerBasket basket);
+        Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price);
         Task<CustomerBasket> GetByCustomerIdAsync(Guid customerId);
     }
 }

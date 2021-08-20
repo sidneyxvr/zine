@@ -3,9 +3,6 @@ using Argon.Basket.Models;
 using Argon.Basket.Requests;
 using Argon.Basket.Responses;
 using Argon.Core.DomainObjects;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Argon.Basket.Services
 {
@@ -27,10 +24,10 @@ namespace Argon.Basket.Services
             var basketWasNull = basket is null;
 
             basket ??=
-                new CustomerBasket(product.RestaurantId, product.RestaurantName, 
+                new CustomerBasket(product.RestaurantId, product.RestaurantName,
                     product.RestaurantLogoUrl, _appUser.Id);
 
-            basket.AddItem(new(product.Id, product.Name, 
+            basket.AddItem(new(product.Id, product.Name,
                 product.Amount, product.Price, product.ImageUrl));
 
             if (basketWasNull)
@@ -39,7 +36,7 @@ namespace Argon.Basket.Services
             }
             else
             {
-               await _Basket.UpdateAsync(basket);
+                await _Basket.UpdateAsync(basket);
             }
         }
 
@@ -50,7 +47,7 @@ namespace Argon.Basket.Services
         {
             var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
 
-            if(basket is null)
+            if (basket is null)
             {
                 return;
             }
@@ -72,9 +69,12 @@ namespace Argon.Basket.Services
                     Id = p.Id,
                     Name = p.ProductName,
                     Price = p.Price,
-                    Amount= p.Quantity,
-                    ImageUrl= p.ImageUrl,   
+                    Amount = p.Quantity,
+                    ImageUrl = p.ImageUrl!,
                 })
             };
+
+        public async Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price)
+            => await _Basket.UpdateBasketItemPriceAsync(basketItemId, price);
     }
 }

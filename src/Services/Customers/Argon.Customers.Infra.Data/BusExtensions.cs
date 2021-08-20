@@ -1,7 +1,5 @@
 ﻿using Argon.Core.Communication;
 using Argon.Core.DomainObjects;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Argon.Customers.Infra.Data
 {

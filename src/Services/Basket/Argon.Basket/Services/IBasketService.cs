@@ -1,7 +1,5 @@
 ﻿using Argon.Basket.Requests;
 using Argon.Basket.Responses;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Basket.Services
 {
@@ -10,5 +8,6 @@ namespace Argon.Basket.Services
         Task AddProductToBasket(ProductToBasketDTO product);
         Task RemoveProductFromBasket(Guid productId);
         Task<BasketReponse> GetBasketAsync();
+        Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price);
     }
 }

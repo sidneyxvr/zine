@@ -3,9 +3,6 @@ using Argon.Core.Messages;
 using Argon.Customers.Application.Commands;
 using Argon.Customers.Domain;
 using FluentValidation.Results;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Argon.Customers.Application.Handlers
 {
