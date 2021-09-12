@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
-namespace Argon.Customers.Tests
+namespace Argon.Zine.Customers.Tests
 {
     public static class LocalizerHelper
     {

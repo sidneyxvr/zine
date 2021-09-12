@@ -3,7 +3,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
-namespace Argon.Identity.Tests
+namespace Argon.Zine.Identity.Tests
 {
     public static class LocalizerHelper
     {

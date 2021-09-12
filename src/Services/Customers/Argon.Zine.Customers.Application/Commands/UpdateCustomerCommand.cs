@@ -2,7 +2,7 @@
 using Argon.Zine.Core.Messages;
 using System;
 
-namespace Argon.Customers.Application.Commands
+namespace Argon.Zine.Customers.Application.Commands
 {
     public record UpdateCustomerCommand : Command
     {

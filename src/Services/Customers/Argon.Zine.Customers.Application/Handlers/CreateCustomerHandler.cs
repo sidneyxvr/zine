@@ -1,11 +1,11 @@
 ﻿using Argon.Zine.Core.Messages;
 using Argon.Zine.Core.Messages.IntegrationCommands;
-using Argon.Customers.Domain;
+using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Argon.Customers.Application.Handlers
+namespace Argon.Zine.Customers.Application.Handlers
 {
     public class CreateCustomerHandler : RequestHandler<CreateCustomerCommand>
     {

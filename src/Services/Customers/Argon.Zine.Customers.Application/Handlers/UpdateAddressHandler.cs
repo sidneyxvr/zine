@@ -1,11 +1,11 @@
 ﻿using Argon.Zine.Core.DomainObjects;
 using Argon.Zine.Core.Messages;
-using Argon.Customers.Application.Commands;
-using Argon.Customers.Domain;
+using Argon.Zine.Customers.Application.Commands;
+using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
-namespace Argon.Customers.Application.Handlers
+namespace Argon.Zine.Customers.Application.Handlers
 {
     public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
     {

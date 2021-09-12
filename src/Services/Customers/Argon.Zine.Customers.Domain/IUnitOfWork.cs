@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Argon.Customers.Domain
+namespace Argon.Zine.Customers.Domain
 {
     public interface IUnitOfWork
     {

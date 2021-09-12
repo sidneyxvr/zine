@@ -1,8 +1,8 @@
 ﻿using Argon.Zine.Core.Communication;
-using Argon.Customers.Domain;
+using Argon.Zine.Customers.Domain;
 using System.Threading.Tasks;
 
-namespace Argon.Customers.Infra.Data
+namespace Argon.Zine.Customers.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

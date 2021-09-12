@@ -1,8 +1,8 @@
 ﻿using Argon.Zine.Core.Messages;
-using Argon.Customers.Domain;
+using Argon.Zine.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Argon.Customers.Infra.Data
+namespace Argon.Zine.Customers.Infra.Data
 {
     public class CustomerContext : DbContext
     {

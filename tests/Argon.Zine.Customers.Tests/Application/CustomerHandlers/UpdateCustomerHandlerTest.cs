@@ -1,8 +1,8 @@
-﻿using Argon.Customers.Application.Commands;
-using Argon.Customers.Application.Handlers;
-using Argon.Customers.Application.Validators;
-using Argon.Customers.Domain;
-using Argon.Customers.Tests.Fixtures;
+﻿using Argon.Zine.Customers.Application.Commands;
+using Argon.Zine.Customers.Application.Handlers;
+using Argon.Zine.Customers.Application.Validators;
+using Argon.Zine.Customers.Domain;
+using Argon.Zine.Customers.Tests.Fixtures;
 using Argon.Zine.Core.DomainObjects;
 using Bogus;
 using Microsoft.Extensions.Localization;
@@ -10,7 +10,7 @@ using Moq;
 using Moq.AutoMock;
 using Xunit;
 
-namespace Argon.Customers.Tests.Application.CustomerHandlers
+namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
 {
     public class UpdateCustomerHandlerTest
     {

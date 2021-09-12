@@ -1,6 +1,6 @@
 ﻿using Argon.Zine.Core.Communication;
-using Argon.Customers.Application.Commands;
-using Argon.Customers.Application.Queries;
+using Argon.Zine.Customers.Application.Commands;
+using Argon.Zine.Customers.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

@@ -1,4 +1,4 @@
-﻿namespace Argon.Customers.Application.Reponses
+﻿namespace Argon.Zine.Customers.Application.Reponses
 {
     public class AddressReponse
     {

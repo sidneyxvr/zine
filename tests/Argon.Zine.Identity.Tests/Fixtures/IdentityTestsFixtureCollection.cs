@@ -3,7 +3,7 @@ using Microsoft.Extensions.Localization;
 using Moq.AutoMock;
 using Xunit;
 
-namespace Argon.Identity.Tests.Fixture
+namespace Argon.Zine.Identity.Tests.Fixture
 {
     [CollectionDefinition(nameof(IdentityTestsFixtureCollection))]
     public class IdentityTestsFixtureCollection : ICollectionFixture<IdentityTestsFixture> { }
@@ -24,10 +24,7 @@ namespace Argon.Identity.Tests.Fixture
     public class StringLocalizerFactory : IStringLocalizerFactory
     {
         public IStringLocalizer Create(Type resourceSource)
-        {
-            var t = LocalizerHelper.CreateInstanceStringLocalizer(resourceSource);
-            return t;
-        }
+            => LocalizerHelper.CreateInstanceStringLocalizer(resourceSource);
 
         public IStringLocalizer Create(string baseName, string location)
         {

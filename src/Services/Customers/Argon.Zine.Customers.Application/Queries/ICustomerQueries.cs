@@ -1,9 +1,9 @@
-﻿using Argon.Customers.Application.Reponses;
+﻿using Argon.Zine.Customers.Application.Reponses;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Argon.Customers.Application.Queries
+namespace Argon.Zine.Customers.Application.Queries
 {
     public interface ICustomerQueries : IDisposable
     {

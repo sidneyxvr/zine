@@ -1,10 +1,10 @@
 ﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Customers.Application.Commands;
+using Argon.Zine.Customers.Application.Commands;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using System;
 
-namespace Argon.Customers.Application.Validators
+namespace Argon.Zine.Customers.Application.Validators
 {
     public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
     {

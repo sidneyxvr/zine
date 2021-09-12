@@ -1,8 +1,8 @@
-﻿using Argon.Customers.Domain;
+﻿using Argon.Zine.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Argon.Customers.Infra.Data.Mappings
+namespace Argon.Zine.Customers.Infra.Data.Mappings
 {
     public class AddressMapping : IEntityTypeConfiguration<Address>
     {

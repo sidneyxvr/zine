@@ -1,7 +1,7 @@
 ﻿using Argon.Zine.Core.Communication;
 using Argon.Zine.Core.DomainObjects;
 
-namespace Argon.Customers.Infra.Data
+namespace Argon.Zine.Customers.Infra.Data
 {
     public static class BusExtensions
     {

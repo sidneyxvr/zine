@@ -1,8 +1,8 @@
-﻿using Argon.Customers.Application.Queries;
-using Argon.Customers.Application.Reponses;
+﻿using Argon.Zine.Customers.Application.Queries;
+using Argon.Zine.Customers.Application.Reponses;
 using Microsoft.EntityFrameworkCore;
 
-namespace Argon.Customers.Infra.Data.Queries
+namespace Argon.Zine.Customers.Infra.Data.Queries
 {
     public class CustomerQueries : ICustomerQueries
     {

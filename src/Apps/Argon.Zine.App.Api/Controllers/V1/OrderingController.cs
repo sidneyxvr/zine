@@ -1,7 +1,7 @@
 ﻿using Argon.Zine.Basket.Services;
 using Argon.Zine.Core.Communication;
 using Argon.Zine.Core.DomainObjects;
-using Argon.Customers.Application.Queries;
+using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Application.Requests;
 using Microsoft.AspNetCore.Mvc;

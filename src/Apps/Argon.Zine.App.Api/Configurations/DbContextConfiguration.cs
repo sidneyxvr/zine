@@ -2,7 +2,7 @@
 using Argon.Zine.Catalog.Infra.Data;
 using Argon.Zine.Catalog.Infra.Data.Queries;
 using Argon.Zine.Chat.Data;
-using Argon.Customers.Infra.Data;
+using Argon.Zine.Customers.Infra.Data;
 using Argon.Zine.Identity.Data;
 using Argon.Zine.Ordering.Infra.Data;
 using Argon.Restaurants.Infra.Data;

@@ -1,9 +1,9 @@
-﻿using Argon.Customers.Domain;
-using Argon.Customers.Tests.Fixtures;
+﻿using Argon.Zine.Customers.Domain;
+using Argon.Zine.Customers.Tests.Fixtures;
 using Argon.Zine.Core.DomainObjects;
 using Xunit;
 
-namespace Argon.Customers.Tests.Domain
+namespace Argon.Zine.Customers.Tests.Domain
 {
     public class CustomerTest
     {

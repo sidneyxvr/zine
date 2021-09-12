@@ -1,7 +1,7 @@
 ﻿using Argon.Zine.Core.DomainObjects;
 using System;
 
-namespace Argon.Customers.Domain
+namespace Argon.Zine.Customers.Domain
 {
     public class Address : Entity
     {

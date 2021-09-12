@@ -1,8 +1,8 @@
-﻿using Argon.Customers.Application.Commands;
+﻿using Argon.Zine.Customers.Application.Commands;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace Argon.Customers.Application.Validators
+namespace Argon.Zine.Customers.Application.Validators
 {
     public class DeleteAddressValidator : AbstractValidator<DeleteAddressCommand>
     {

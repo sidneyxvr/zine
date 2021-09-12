@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Argon.Customers.Domain
+namespace Argon.Zine.Customers.Domain
 {
     public class Customer : Entity, IAggregateRoot
     {

@@ -2,7 +2,7 @@
 using Bogus;
 using Bogus.Extensions.Brazil;
 
-namespace Argon.Identity.Tests.Fixtures
+namespace Argon.Zine.Identity.Tests.Fixtures
 {
     public class CustomerUserFixture
     {

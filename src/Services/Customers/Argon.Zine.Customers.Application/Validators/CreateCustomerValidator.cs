@@ -5,7 +5,7 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using System;
 
-namespace Argon.Customers.Application.Validators
+namespace Argon.Zine.Customers.Application.Validators
 {
     public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
     {

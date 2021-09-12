@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Argon.Customers.Application.Reponses
+namespace Argon.Zine.Customers.Application.Reponses
 {
     public record CustomerNameResponse
     {

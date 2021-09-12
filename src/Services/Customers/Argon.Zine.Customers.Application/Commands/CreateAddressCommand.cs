@@ -1,6 +1,6 @@
 ﻿using Argon.Zine.Core.Messages;
 
-namespace Argon.Customers.Application.Commands
+namespace Argon.Zine.Customers.Application.Commands
 {
     public record CreateAddressCommand : Command
     {

@@ -1,8 +1,8 @@
-﻿using Argon.Customers.Domain;
+﻿using Argon.Zine.Customers.Domain;
 using Bogus;
 using System;
 
-namespace Argon.Customers.Tests.Fixtures
+namespace Argon.Zine.Customers.Tests.Fixtures
 {
     public class AddressFixture
     {

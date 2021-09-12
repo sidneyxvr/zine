@@ -1,11 +1,11 @@
 ﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Customers.Domain;
+using Argon.Zine.Customers.Domain;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using System;
 using System.Linq;
 
-namespace Argon.Customers.Tests.Fixtures
+namespace Argon.Zine.Customers.Tests.Fixtures
 {
     public class CustomerFixture
     {

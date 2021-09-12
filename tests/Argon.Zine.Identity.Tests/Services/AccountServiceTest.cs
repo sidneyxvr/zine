@@ -1,5 +1,5 @@
-﻿using Argon.Identity.Tests.Fixture;
-using Argon.Identity.Tests.Fixtures;
+﻿using Argon.Zine.Identity.Tests.Fixture;
+using Argon.Zine.Identity.Tests.Fixtures;
 using Argon.Zine.Core.Communication;
 using Argon.Zine.Core.DomainObjects;
 using Argon.Zine.Core.Messages.IntegrationCommands;
@@ -14,7 +14,7 @@ using Moq;
 using Moq.AutoMock;
 using Xunit;
 
-namespace Argon.Identity.Tests.Services
+namespace Argon.Zine.Identity.Tests.Services
 {
     [Collection(nameof(IdentityTestsFixtureCollection))]
     public class AccountServiceTest
