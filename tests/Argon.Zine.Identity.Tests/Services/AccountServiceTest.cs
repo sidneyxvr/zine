@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Identity;
 using Moq;
 using Moq.AutoMock;
 using Xunit;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace Argon.Zine.Identity.Tests.Services
 {

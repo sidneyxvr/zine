@@ -1,4 +1,6 @@
 ﻿using Argon.Zine.Core.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace Argon.Zine.Core.DomainObjects
 {

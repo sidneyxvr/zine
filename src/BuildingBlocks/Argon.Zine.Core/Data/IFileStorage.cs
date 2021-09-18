@@ -1,4 +1,7 @@
 ﻿using Argon.Zine.Core.DomainObjects;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Core.Data
 {

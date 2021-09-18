@@ -11,6 +11,9 @@ using MediatR;
 using MongoDB.Bson.Serialization;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Argon.Zine.App.Api.Configurations
 {

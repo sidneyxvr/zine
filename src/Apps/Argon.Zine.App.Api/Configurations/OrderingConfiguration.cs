@@ -5,6 +5,7 @@ using Argon.Zine.Ordering.Infra.Data;
 using Argon.Zine.Ordering.Infra.Data.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Argon.Zine.App.Api.Configurations

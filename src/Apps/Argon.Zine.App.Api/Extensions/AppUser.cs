@@ -1,5 +1,8 @@
 ﻿using Argon.Zine.Core.DomainObjects;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Argon.Zine.App.Api.Extensions
 {

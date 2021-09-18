@@ -1,6 +1,10 @@
 ﻿using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Customers.Application.Reponses;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Customers.Infra.Data.Queries
 {

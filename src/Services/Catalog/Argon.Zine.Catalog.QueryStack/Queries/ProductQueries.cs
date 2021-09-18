@@ -1,5 +1,7 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Response;
 using Argon.Zine.Catalog.QueryStack.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.QueryStack.Queries
 {
@@ -18,19 +20,5 @@ namespace Argon.Zine.Catalog.QueryStack.Queries
 
         public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id)
             => await _productService.GetProductDetailsByIdAsync(id);
-            //var product = await _productCache.GetByIdAsync(id);
-
-            //if (product is not null)
-            //{
-            //    return product;
-            //}
-
-
-            //if(product is not null)
-            //{
-            //    await _productCache.AddAsync(product);
-            //}
-
-            //return product;
     }
 }

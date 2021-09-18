@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using Microsoft.Extensions.Localization;
 using Moq.AutoMock;
+using System;
 using Xunit;
 
 namespace Argon.Zine.Identity.Tests.Fixture

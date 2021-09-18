@@ -9,6 +9,9 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using Xunit;
+using System.Threading.Tasks;
+using System;
+using System.Threading;
 
 namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
 {

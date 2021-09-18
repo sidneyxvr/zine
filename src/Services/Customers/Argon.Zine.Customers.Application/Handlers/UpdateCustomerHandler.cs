@@ -3,6 +3,9 @@ using Argon.Zine.Core.Messages;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Customers.Application.Handlers
 {

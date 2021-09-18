@@ -1,6 +1,8 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Models;
 using Argon.Zine.Catalog.QueryStack.Response;
 using Argon.Zine.Catalog.QueryStack.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.QueryStack.Queries
 {
@@ -14,20 +16,6 @@ namespace Argon.Zine.Catalog.QueryStack.Queries
 
         public async Task<Restaurant?> GetByIdAsync(Guid id)
             => await _restaurantService.GetByIdAsync(id);
-            //var restaurant = await _restaurantCache.GetByIdAsync(id);
-
-            //if(restaurant is not null)
-            //{
-            //    return restaurant;
-            //}
-
-
-            //if(restaurant is not null)
-            //{
-            //    await _restaurantCache.AddAsync(restaurant!);
-            //}
-
-            //return restaurant;
 
         public Task<RestaurantDetails?> GetRestaurantDetailsByIdAsync(Guid id)
             => throw new NotImplementedException();

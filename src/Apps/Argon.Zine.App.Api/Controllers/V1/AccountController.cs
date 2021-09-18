@@ -1,6 +1,7 @@
 ﻿using Argon.Zine.Identity.Requests;
 using Argon.Zine.Identity.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {

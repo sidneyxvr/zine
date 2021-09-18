@@ -3,6 +3,9 @@ using Argon.Zine.Basket.Models;
 using Argon.Zine.Basket.Requests;
 using Argon.Zine.Basket.Responses;
 using Argon.Zine.Core.DomainObjects;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Basket.Services
 {

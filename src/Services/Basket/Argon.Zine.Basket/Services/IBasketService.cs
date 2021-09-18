@@ -1,5 +1,7 @@
 ﻿using Argon.Zine.Basket.Requests;
 using Argon.Zine.Basket.Responses;
+using System;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Basket.Services
 {

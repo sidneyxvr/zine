@@ -1,4 +1,6 @@
-﻿namespace Argon.Restaurants.Domain;
+﻿using System.Threading.Tasks;
+
+namespace Argon.Restaurants.Domain;
 
 public interface IUnitOfWork
 {

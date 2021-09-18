@@ -1,5 +1,6 @@
 ﻿using Argon.Zine.Core.Communication;
 using Argon.Restaurants.Domain;
+using System.Threading.Tasks;
 
 namespace Argon.Restaurants.Infra.Data;
 

@@ -11,6 +11,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Argon.Zine.App.Api.Configurations
 {

@@ -1,4 +1,6 @@
-﻿namespace Argon.Zine.Catalog.QueryStack.Models;
+﻿using System;
+
+namespace Argon.Zine.Catalog.QueryStack.Models;
 
 public class Restaurant
 {

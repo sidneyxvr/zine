@@ -3,8 +3,10 @@ using Argon.Zine.Catalog.QueryStack.Queries;
 using Argon.Zine.Catalog.QueryStack.Response;
 using Argon.Zine.Catalog.QueryStack.Services;
 using Microsoft.Extensions.Caching.Distributed;
+using System;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Caching
 {

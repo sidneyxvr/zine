@@ -1,6 +1,7 @@
 ﻿using Argon.Zine.Core.DomainObjects;
 using Bogus;
 using Bogus.Extensions.Brazil;
+using System;
 
 namespace Argon.Zine.Identity.Tests.Fixtures
 {

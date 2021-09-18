@@ -1,8 +1,12 @@
 ﻿using Argon.Zine.Core.Data.EventSourcing;
 using Argon.Zine.Core.Messages;
 using EventStore.ClientAPI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Argon.Zine.EventSourcing
 {

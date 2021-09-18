@@ -3,6 +3,7 @@ using Argon.Zine.Customers.Tests.Fixtures;
 using Argon.Zine.Core.DomainObjects;
 using Bogus;
 using Xunit;
+using System;
 
 namespace Argon.Zine.Customers.Tests.Domain
 {
