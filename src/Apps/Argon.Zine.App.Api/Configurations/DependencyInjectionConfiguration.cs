@@ -1,19 +1,17 @@
-﻿using Argon.Zine.Basket.Data;
+﻿using Argon.Zine.App.Api.Extensions;
+using Argon.Zine.Basket.Data;
 using Argon.Zine.Basket.Models;
 using Argon.Zine.Basket.Services;
 using Argon.Zine.Core.Communication;
 using Argon.Zine.Core.Data.EventSourcing;
 using Argon.Zine.Core.DomainObjects;
 using Argon.Zine.EventSourcing;
-using Argon.Zine.App.Api.Extensions;
 using EventStore.ClientAPI;
 using MediatR;
-using MongoDB.Bson.Serialization;
-using System.Net;
-using System.Net.Mail;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization;
 
 namespace Argon.Zine.App.Api.Configurations
 {
@@ -58,19 +56,6 @@ namespace Argon.Zine.App.Api.Configurations
                 cm.MapField("_products")
                     .SetElementName("Products");
             });
-
-            var emailSenderSettingsSection = configuration.GetSection(nameof(EmailSenderSettings));
-            var emailSenderSettings = emailSenderSettingsSection.Get<EmailSenderSettings>();
-            services.AddFluentEmail(emailSenderSettings.Email)
-                .AddRazorRenderer()
-                .AddSmtpSender(new SmtpClient
-                {
-                    Host = emailSenderSettings.Host,
-                    Port = emailSenderSettings.Port,
-                    EnableSsl = true,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(emailSenderSettings.Email, emailSenderSettings.Password)
-                });
 
             services.AddStackExchangeRedisCache(options =>
             {
