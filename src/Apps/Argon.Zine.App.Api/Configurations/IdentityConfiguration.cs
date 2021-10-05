@@ -20,8 +20,8 @@ namespace Argon.Zine.App.Api.Configurations
             services.TryAddScoped<ITokenService, JwtService>();
             services.TryAddScoped<IRefreshTokenStore, RefreshTokenStore>();
 
-            services.TryAddSingleton<ConnectionFactory>(_
-                => new() { HostName = "localhost" });
+            services.TryAddSingleton<IConnectionFactory>(_
+                => new ConnectionFactory() { HostName = "localhost" });
 
             services.TryAddSingleton<IConnection>(provider 
                 => provider.GetRequiredService<ConnectionFactory>().CreateConnection());

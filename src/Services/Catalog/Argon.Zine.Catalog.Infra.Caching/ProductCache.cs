@@ -1,28 +1,30 @@
-﻿using Argon.Zine.Catalog.QueryStack.Queries;
-using Argon.Zine.Catalog.QueryStack.Response;
-using System;
-using System.Threading.Tasks;
+﻿//using Argon.Zine.Catalog.QueryStack.Queries;
+//using Argon.Zine.Catalog.QueryStack.Response;
+//using Argon.Zine.Catalog.QueryStack.Services;
+//using Microsoft.Extensions.Caching.Distributed;
+//using System;
+//using System.Threading.Tasks;
 
-namespace Argon.Zine.Catalog.Infra.Caching
-{
-    public class ProductCache : IProductQueries
-    {
-        //public Task AddAsync(ProductDetailsResponse product)
-        //    => Task.CompletedTask;
+//namespace Argon.Zine.Catalog.Infra.Caching
+//{
+//    public class ProductCache : IProductQueries
+//    {
+//        private readonly IDistributedCache _cache;
+//        private readonly IProductService _productService;
 
-        //public Task DeleteAsync(Guid id)
-        //    => Task.CompletedTask;
+//        public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id)
+//        {
+//            throw new NotImplementedException();
+//        }
 
-        //public Task<ProductDetailsResponse?> GetByIdAsync(Guid id)
-        //    => Task.FromResult((ProductDetailsResponse?)null);
-        public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+//        public Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id)
+//        {
+//            throw new NotImplementedException();
+//        }
 
-        public Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-    }
-}
+//        public Task<PagedList<ProductDetailsResponse>> GetProductsAsync()
+//        {
+//            throw new NotImplementedException();
+//        }
+//    }
+//}

@@ -57,7 +57,9 @@ namespace Argon.Zine.App.Api
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            services.RegisterCatalog()
+            services.RegisterHealthChecks(Configuration);
+
+            services.RegisterCatalog(Configuration)
                 .RegisterCustomer()
                 .RegisterSupplier()
                 .RegisterOrdering()
@@ -124,6 +126,8 @@ namespace Argon.Zine.App.Api
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chathub");
             });
+
+            app.UseHealthChecks();
         }
     }
 }

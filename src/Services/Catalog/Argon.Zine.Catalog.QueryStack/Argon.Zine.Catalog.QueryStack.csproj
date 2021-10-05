@@ -6,17 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mapper\**" />
+    <EmbeddedResource Remove="Mapper\**" />
+    <None Remove="Mapper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.13.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Catalog.Shared\Argon.Zine.Catalog.Shared.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Shared\Argon.Zine.Shared.csproj" />
     <ProjectReference Include="..\Argon.Zine.Catalog.Communication\Argon.Zine.Catalog.Communication.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mapper\" />
   </ItemGroup>
 
 </Project>

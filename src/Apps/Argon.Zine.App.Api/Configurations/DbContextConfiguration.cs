@@ -39,8 +39,6 @@ namespace Argon.Zine.App.Api.Configurations
             services.TryAddScoped<CatalogContext>();
             services.TryAddScoped<OrderingContext>();
 
-            services.Configure<CatalogDatabaseSettings>(
-                configuration.GetSection(nameof(CatalogDatabaseSettings)));
             services.Configure<BasketDatabaseSettings>(
                 configuration.GetSection(nameof(BasketDatabaseSettings)));
             services.Configure<ChatDatabaseSettings>(

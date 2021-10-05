@@ -1,6 +1,7 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Models;
-using Argon.Zine.Catalog.QueryStack.Response;
 using Argon.Zine.Catalog.QueryStack.Services;
+using Argon.Zine.Catalog.Shared.Response;
+using Argon.Zine.Shared;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
@@ -47,5 +48,21 @@ namespace Argon.Zine.Catalog.Infra.Data.Queries.Services
                     ImageUrl = p.ImageUrl
                 })
                 .FirstOrDefaultAsync();
+
+        public async Task<PagedList<ProductDetailsResponse>> GetProductsAsync()
+        {
+            var list = await _products.Find(Builders<Product>.Filter.Empty)
+            .Project(p => new ProductDetailsResponse
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                ImageUrl = p.ImageUrl
+            }).ToListAsync();
+
+            var count = await _products.CountDocumentsAsync(Builders<Product>.Filter.Empty);
+
+            return new(list, count);
+        }
     }
 }

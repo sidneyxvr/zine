@@ -1,5 +1,4 @@
-﻿using Argon.Zine.Catalog.QueryStack.Models;
-using Argon.Zine.Catalog.QueryStack.Response;
+﻿using Argon.Zine.Catalog.Shared.Response;
 using System;
 using System.Threading.Tasks;
 
@@ -7,7 +6,6 @@ namespace Argon.Zine.Catalog.QueryStack.Queries
 {
     public interface IRestaurantQueries
     {
-        Task<Restaurant?> GetByIdAsync(Guid id);
-        Task<RestaurantDetails?> GetRestaurantDetailsByIdAsync(Guid id);
+        Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(Guid id);
     }
 }

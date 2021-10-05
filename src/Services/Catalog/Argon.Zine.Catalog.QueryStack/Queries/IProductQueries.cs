@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Catalog.QueryStack.Response;
+﻿using Argon.Zine.Catalog.Shared.Response;
 using System;
 using System.Threading.Tasks;
 

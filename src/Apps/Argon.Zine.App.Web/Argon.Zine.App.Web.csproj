@@ -6,8 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AntDesign" Version="0.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21452.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21452.15" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Argon.Zine.Catalog.Shared\Argon.Zine.Catalog.Shared.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\Argon.Zine.Shared\Argon.Zine.Shared.csproj" />
   </ItemGroup>
 
 </Project>
