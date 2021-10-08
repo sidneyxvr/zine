@@ -3,7 +3,7 @@ using FluentEmail.Core;
 
 namespace Argon.Zine.Identity.Notifications.Handlers;
 
-public class SendEmailConfirmationAccountHandler
+internal class SendEmailConfirmationAccountHandler : IHandler<SendEmailConfirmationAccountCommand>
 {
     private readonly IFluentEmail _emailSender;
 

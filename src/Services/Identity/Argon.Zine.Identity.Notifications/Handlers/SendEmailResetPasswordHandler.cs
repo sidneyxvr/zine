@@ -3,7 +3,7 @@ using FluentEmail.Core;
 
 namespace Argon.Zine.Identity.Notifications.Handlers;
 
-public class SendEmailResetPasswordHandler
+internal class SendEmailResetPasswordHandler : IHandler<SendEmailResetPasswordCommand>
 {
     private readonly IFluentEmail _emailSender;
 
@@ -16,7 +16,7 @@ public class SendEmailResetPasswordHandler
 
         await _emailSender
             .To(command.Email)
-            .Subject("Zine - Recuperar Senha")//_localizer.GetTranslation("ConfirmationAccountSubject"))
+            .Subject("Zine - Recuperar Senha")
             .UsingTemplateFromFile(path, new { command.Token })
             .SendAsync();
     }

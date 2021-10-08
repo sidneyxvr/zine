@@ -24,7 +24,7 @@ namespace Argon.Zine.App.Api.Configurations
                 => new ConnectionFactory() { HostName = "localhost" });
 
             services.TryAddSingleton<IConnection>(provider 
-                => provider.GetRequiredService<ConnectionFactory>().CreateConnection());
+                => new ConnectionFactory().CreateConnection());
 
 
             services.TryAddSingleton<IEmailService>(provider =>

@@ -4,8 +4,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:54609/",
-      "sslPort": 44331
+      "applicationUrl": "http://localhost:54624/",
+      "sslPort": 44374
     }
   },
   "profiles": {
@@ -19,7 +19,6 @@
     },
     "Kestrel - Dev": {
       "commandName": "Project",
-      "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

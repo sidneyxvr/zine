@@ -1,27 +1,25 @@
 using Argon.Zine.Identity.Notifications.Commands;
-using Argon.Zine.Identity.Notifications.Handlers;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Text.Json;
 
 namespace Argon.Zine.Identity.Notifications
 {
-    public class Worker1 : BackgroundService
+    internal class Worker : BackgroundService
     {
         private IModel? _channel;
         private IConnection? _connection;
-        private readonly ILogger<Worker1> _logger;
+        private readonly ILogger<Worker> _logger;
+        private readonly Func<Type, object> _handlerFactory;
         private readonly ConnectionFactory _connectionFactory;
-        private readonly SendEmailResetPasswordHandler _handler;
 
-        public Worker1(
-            ILogger<Worker1> logger,
-            ConnectionFactory connectionFactory,
-            SendEmailResetPasswordHandler handler)
+        public Worker(
+            ILogger<Worker> logger,
+            Func<Type, object> handlerFactory,
+            ConnectionFactory connectionFactory)
         {
             _logger = logger;
-            _handler = handler;
+            _handlerFactory = handlerFactory;
             _connectionFactory = connectionFactory;
         }
 
@@ -30,16 +28,15 @@ namespace Argon.Zine.Identity.Notifications
             _connection = _connectionFactory.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.QueueDeclare(
-                queue: "SendEmailResetPassword",
+                queue: "IdentityNotification",
                 durable: false,
                 exclusive: false,
                 autoDelete: false);
-            _logger.LogInformation($"Queue [SendEmailResetPassword] is waiting for messages.");
 
             return base.StartAsync(cancellationToken);
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             stoppingToken.ThrowIfCancellationRequested();
 
@@ -50,27 +47,31 @@ namespace Argon.Zine.Identity.Notifications
 
                 var message = Encoding.UTF8.GetString(body);
 
-                var command = JsonSerializer.Deserialize<SendEmailResetPasswordCommand>(message);
-                _logger.LogInformation("command", command);
                 try
                 {
-                    await _handler.HandleAsync(command!);
+                    var command = CommandFactory.Create(ea.BasicProperties.Type, message);
+
+                    _logger.LogInformation("command", command);
+
+                    var handler = _handlerFactory(command.GetType());
+
+                    await (Task)handler.GetType().GetMethod("HandleAsync")!.Invoke(handler, new[] { command })!;
 
                     _channel!.BasicAck(ea.DeliveryTag, multiple: false);
                 }
                 catch (Exception ex)
-                {
+                { 
                     _channel!.BasicNack(ea.DeliveryTag, multiple: false, requeue: true);
                     _logger.LogError(ex.Message, ex);
                 }
             };
 
             _channel.BasicConsume(
-                queue: "SendEmailResetPassword",
+                queue: "IdentityNotification",
                 autoAck: false,
                 consumer: consumer);
 
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)

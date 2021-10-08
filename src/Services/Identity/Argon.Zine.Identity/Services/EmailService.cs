@@ -23,6 +23,22 @@ namespace Argon.Zine.Identity.Services
 
             var model = new { Token = emailConfirmationToken };
 
+            _channel.QueueDeclare(
+                queue: "IdentityNotification",
+                durable: false,
+                exclusive: false,
+                autoDelete: false);
+
+            var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(model));
+
+            var basicProperties = _channel.CreateBasicProperties();
+            basicProperties.Type = "SendEmailConfirmationAccount";
+            _channel.BasicPublish(
+                exchange: "",
+                routingKey: "IdentityNotification",
+                basicProperties: basicProperties,
+                body: body);
+
             return Task.CompletedTask;
         }
 
@@ -38,17 +54,19 @@ namespace Argon.Zine.Identity.Services
             var model = new { Email = to, Token = resetPasswordToken };
 
             _channel.QueueDeclare(
-                queue: "SendEmailResetPassword",
+                queue: "IdentityNotification",
                 durable: false,
                 exclusive: false,
                 autoDelete: false);
 
             var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(model));
 
+            var basicProperties = _channel.CreateBasicProperties();
+            basicProperties.Type = "SendEmailResetPassword";
             _channel.BasicPublish(
                 exchange: "",
-                routingKey: "SendEmailResetPassword",
-                basicProperties: null,
+                routingKey: "IdentityNotification",
+                basicProperties: basicProperties,
                 body: body);
 
             return Task.CompletedTask;
