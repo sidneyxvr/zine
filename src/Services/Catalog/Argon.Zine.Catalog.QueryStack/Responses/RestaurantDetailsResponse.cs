@@ -1,4 +1,4 @@
-﻿namespace Argon.Zine.Catalog.Shared.Response;
+﻿namespace Argon.Zine.Catalog.QueryStack.Responses;
 
 public record RestaurantDetailsResponse
 {

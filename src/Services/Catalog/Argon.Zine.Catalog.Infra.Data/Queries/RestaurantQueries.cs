@@ -1,5 +1,5 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Queries;
-using Argon.Zine.Catalog.Shared.Response;
+using Argon.Zine.Catalog.QueryStack.Responses;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SqlKata;

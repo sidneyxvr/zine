@@ -1,11 +1,12 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Queries;
-using Argon.Zine.Catalog.Shared.Response;
+using Argon.Zine.Catalog.QueryStack.Responses;
+using Argon.Zine.Shared;
+using Dapper;
+using Microsoft.EntityFrameworkCore;
 using SqlKata;
 using System;
 using System.Data;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Dapper;
 
 namespace Argon.Zine.Catalog.Infra.Data.Queries
 {
@@ -35,6 +36,22 @@ namespace Argon.Zine.Catalog.Infra.Data.Queries
                 .GetSqlResult();
 
             return await _connection.QueryFirstOrDefaultAsync<ProductDetailsResponse>(query.Sql, query.NamedBindings);
+        }
+
+        public async Task<PagedList<ProductItemGridResponse>> GetProductsAsync()
+        {
+            var baseQuery = new Query("Product")
+                .Select("Id", "Name", "Description", "Price", "ImageUrl", "IsActive");
+
+            var query = baseQuery.GetSqlResult();
+            var countQuery = baseQuery.AsCount().GetSqlResult();
+
+            var list = await _connection.QueryAsync<ProductItemGridResponse>(query.Sql);
+            var count = await _connection.QueryFirstAsync<int>(countQuery.Sql);
+
+            Console.WriteLine(countQuery.Sql);
+
+            return new(list, count);
         }
     }
 }

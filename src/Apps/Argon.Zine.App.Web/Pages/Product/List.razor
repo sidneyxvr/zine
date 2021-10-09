@@ -1,0 +1,44 @@
+﻿@page "/products"
+@using System.Text.Json
+@using AntDesign.TableModels
+@using System.ComponentModel
+@inject HttpClient HttpClient
+<h3>ListProduct</h3>
+
+<a href="/products/add">Adicionar</a>
+
+<Table @ref="table"
+    TItem="ProductGridItemViewModel"
+    DataSource="@(pagedList?.List)"
+    Total="_total"
+    @bind-PageIndex="_pageIndex"
+    @bind-PageSize="_pageSize"
+>
+    <Selection Key="@(context.Id.ToString())" Hidden="true" />
+    <Column @bind-Field="@context.ImageUrl" Title="Imagem">
+        <Image Width="50px" Src="@context.ImageUrl" />
+    </Column>
+    <Column @bind-Field="@context.Name" Title="Nome" Sortable />
+    <Column @bind-Field="@context.Description" Title="Descrição" Sortable />
+    <Column @bind-Field="@context.Price" Title="Preço" Sortable />
+    <Column @bind-Field="@context.IsActive" Title="Ativo" />
+    <ActionColumn>
+        <Space>
+            <SpaceItem><Button>Edit</Button></SpaceItem>
+            <SpaceItem><Button Danger>Delete</Button></SpaceItem>
+        </Space>
+    </ActionColumn>
+</Table>
+
+@code {
+    int _pageIndex = 1;
+    int _pageSize = 10;
+    int _total = 0;
+    PagedList<ProductGridItemViewModel>? pagedList;
+    ITable? table;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pagedList = await HttpClient.GetFromJsonAsync<PagedList<ProductGridItemViewModel>>("/api/products");
+    }
+}

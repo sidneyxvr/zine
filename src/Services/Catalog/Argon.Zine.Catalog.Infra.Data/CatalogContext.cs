@@ -16,7 +16,6 @@ namespace Argon.Zine.Catalog.Infra.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Event>();
-            modelBuilder.Ignore<Image>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
         }

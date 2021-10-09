@@ -1,6 +1,5 @@
-﻿using Argon.Zine.Catalog.Shared.Response;
-using System;
-using System.Threading.Tasks;
+﻿using Argon.Zine.Catalog.QueryStack.Responses;
+using Argon.Zine.Shared;
 
 namespace Argon.Zine.Catalog.QueryStack.Queries
 {
@@ -8,5 +7,6 @@ namespace Argon.Zine.Catalog.QueryStack.Queries
     {
         Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id);
         Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id);
+        Task<PagedList<ProductItemGridResponse>> GetProductsAsync();
     }
 }

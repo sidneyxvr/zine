@@ -30,8 +30,8 @@ namespace Argon.Zine.App.Api.Controllers.V1
         public async Task<IActionResult> GetProductByIdAsync(Guid id)
             => Ok(await _productQueries.GetProductDetailsByIdAsync(id));
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetProducsAsync()
-        //    => Ok(await _productQueries.GetProductsAsync());
+        [HttpGet]
+        public async Task<IActionResult> GetProducsAsync()
+            => Ok(await _productQueries.GetProductsAsync());
     }
 }

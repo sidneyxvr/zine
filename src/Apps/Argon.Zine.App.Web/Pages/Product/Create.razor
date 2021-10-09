@@ -1,0 +1,84 @@
+﻿@page "/products/add"
+@using System.ComponentModel.DataAnnotations;
+@using System.Text.Json;
+@inject MessageService _message
+
+<Form Model="@viewModel"
+        LabelColSpan="8"
+        WrapperColSpan="16">
+    <FormItem Label="Nome">
+        <Input @bind-Value="@context.Name" />
+    </FormItem>
+    <FormItem Label="Descrição">
+        <Input @bind-Value="@context.Description" />
+    </FormItem>
+    <FormItem Label="Preço" >
+        <AntDesign.InputNumber @bind-Value="@context.Price" Formatter="PriceFormatter" Parser="Parse1" Min="0" Max="9999"/>
+    </FormItem>
+    <FormItem WrapperColOffset="8" WrapperColSpan="16">
+        <Checkbox @bind-Value="context.IsActive">Ativo</Checkbox>
+    </FormItem>
+@*    <Upload 
+        Action="https://localhost:5101"
+        Name="avatar"
+        @bind-FileList="fileList"
+        ShowButton="fileList?.Count < 8"
+        ListType="picture-card"
+        OnPreview="(file)=> {
+            Console.WriteLine(file.FileName);
+            Console.WriteLine(file.Url);
+            previewVisible = true;
+            previewTitle = file.FileName;
+            imgUrl = file.Url;
+        }"
+        OnChange="HandleChange">
+        <div>
+            <Icon Type="plus"></Icon>
+            <div className="ant-upload-text">Upload</div>
+        </div>
+    </Upload>
+    <Modal Visible="previewVisible"
+        Title="previewTitle"
+        OnCancel="()=> previewVisible=false">
+        <img style="width: 100%" src="@imgUrl" />
+    </Modal>*@
+
+    <FormItem WrapperColOffset="8" WrapperColSpan="16">
+        <Button Type="@ButtonType.Primary" HtmlType="submit">
+            Submit
+        </Button>
+    </FormItem>
+</Form>
+
+@code {
+    bool previewVisible = false;
+    string previewTitle = string.Empty;
+    string imgUrl = string.Empty;
+
+    ProductGridItemViewModel viewModel = new();
+    List<UploadFileItem> fileList = new();
+
+    private string PriceFormatter(double value)
+    {
+        return $"R$ {value.ToString("N2")}";
+    }
+
+    private string Parse1(string value)
+    {
+       return Regex.Replace(value, @"[R$\s]", "");
+    }
+
+    void HandleChange(UploadInfo fileinfo)
+    {
+        WriteLine(fileinfo.File.FileName);
+        WriteLine(fileinfo.File.State.ToString());
+        WriteLine(JsonSerializer.Serialize(fileinfo.File));
+        if (fileinfo.File.State == UploadState.Success)
+        {
+            WriteLine("deu certo");
+            fileinfo.File.Url = fileinfo.File.ObjectURL;
+        }
+
+        imgUrl = fileinfo.File.ObjectURL;
+    }
+}

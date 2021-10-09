@@ -1,6 +1,4 @@
-﻿using Argon.Zine.Catalog.Shared.Response;
-using System;
-using System.Threading.Tasks;
+﻿using Argon.Zine.Catalog.QueryStack.Responses;
 
 namespace Argon.Zine.Catalog.QueryStack.Queries
 {

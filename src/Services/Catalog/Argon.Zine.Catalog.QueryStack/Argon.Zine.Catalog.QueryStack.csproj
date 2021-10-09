@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,10 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Catalog.Shared\Argon.Zine.Catalog.Shared.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Core.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Shared\Argon.Zine.Shared.csproj" />
     <ProjectReference Include="..\Argon.Zine.Catalog.Communication\Argon.Zine.Catalog.Communication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Requests\" />
   </ItemGroup>
 
 </Project>
