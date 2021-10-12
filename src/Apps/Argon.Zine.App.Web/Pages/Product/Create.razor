@@ -1,59 +1,68 @@
 ﻿@page "/products/add"
 @using System.ComponentModel.DataAnnotations;
 @using System.Text.Json;
+@inject HttpClient HttpClient
 @inject MessageService _message
 
 <Form Model="@viewModel"
-        LabelColSpan="8"
-        WrapperColSpan="16">
+    Layout="@FormLayout.Vertical"
+    LabelColOffset="8"
+    WrapperColOffset="8"
+    WrapperColSpan="8"
+    OnFinish="Submit"
+    >
     <FormItem Label="Nome">
         <Input @bind-Value="@context.Name" />
     </FormItem>
     <FormItem Label="Descrição">
         <Input @bind-Value="@context.Description" />
     </FormItem>
-    <FormItem Label="Preço" >
+    <FormItem Label="Preço" WrapperColSpan="8" WrapperColOffset="8" >
         <AntDesign.InputNumber @bind-Value="@context.Price" Formatter="PriceFormatter" Parser="Parse1" Min="0" Max="9999"/>
     </FormItem>
-    <FormItem WrapperColOffset="8" WrapperColSpan="16">
+    <FormItem>
         <Checkbox @bind-Value="context.IsActive">Ativo</Checkbox>
     </FormItem>
-@*    <Upload 
-        Action="https://localhost:5101"
-        Name="avatar"
-        @bind-FileList="fileList"
-        ShowButton="fileList?.Count < 8"
-        ListType="picture-card"
-        OnPreview="(file)=> {
-            Console.WriteLine(file.FileName);
-            Console.WriteLine(file.Url);
-            previewVisible = true;
-            previewTitle = file.FileName;
-            imgUrl = file.Url;
-        }"
-        OnChange="HandleChange">
-        <div>
-            <Icon Type="plus"></Icon>
-            <div className="ant-upload-text">Upload</div>
-        </div>
-    </Upload>
-    <Modal Visible="previewVisible"
-        Title="previewTitle"
-        OnCancel="()=> previewVisible=false">
-        <img style="width: 100%" src="@imgUrl" />
-    </Modal>*@
+    <FormItem>
+        <InputFile OnChange="HandleFileSelected" />
+@*        <Upload 
+            Action="https://localhost:5001/api/images"
+            Name="avatar"
+            @bind-FileList="fileList"
+            ShowButton="fileList?.Count < 8"
+            ListType="picture-card"
+            OnPreview="(file)=> {
+                previewVisible = true;
+                previewTitle = file.FileName;
+                imgUrl = file.Url;
+            }"
+            OnChange="HandleChange">
+            <div>
+                <Icon Type="plus"></Icon>
+                <div className="ant-upload-text">Upload</div>
+            </div>
+        </Upload>*@
+    </FormItem>
 
-    <FormItem WrapperColOffset="8" WrapperColSpan="16">
+    <FormItem WrapperColOffset="8" WrapperColSpan="8" Class="submit-item">
         <Button Type="@ButtonType.Primary" HtmlType="submit">
             Submit
         </Button>
     </FormItem>
 </Form>
 
+@*<Modal Visible="previewVisible"
+    Title="previewTitle"
+    OnCancel="()=> previewVisible=false">
+    <img style="width: 100%" src="@imgUrl" />
+</Modal>
+*@
 @code {
     bool previewVisible = false;
     string previewTitle = string.Empty;
     string imgUrl = string.Empty;
+
+    IBrowserFile? file;
 
     ProductGridItemViewModel viewModel = new();
     List<UploadFileItem> fileList = new();
@@ -70,15 +79,35 @@
 
     void HandleChange(UploadInfo fileinfo)
     {
-        WriteLine(fileinfo.File.FileName);
-        WriteLine(fileinfo.File.State.ToString());
-        WriteLine(JsonSerializer.Serialize(fileinfo.File));
         if (fileinfo.File.State == UploadState.Success)
         {
-            WriteLine("deu certo");
             fileinfo.File.Url = fileinfo.File.ObjectURL;
         }
+    }
 
-        imgUrl = fileinfo.File.ObjectURL;
+    void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        file = e.GetMultipleFiles().FirstOrDefault();
+    }
+
+    async Task Submit()
+    {
+        var form = new MultipartFormDataContent();
+
+        //form.Add(viewModel.Name, nameof(viewModel.Name));
+        if(file is not null)
+        {
+            form.Add(new StreamContent(file.OpenReadStream()), "image", file.Name);
+        }
+        form.Add(new StringContent(viewModel.Name), nameof(viewModel.Name));
+        form.Add(new StringContent(viewModel.Description), nameof(viewModel.Description));
+        form.Add(new StringContent(viewModel.IsActive.ToString()), nameof(viewModel.IsActive));
+        form.Add(new StringContent(viewModel.Price.ToString()), nameof(viewModel.Price));
+
+        var response = await HttpClient.PostAsync("/api/products", form);
+
+        var result = await response.Content.ReadAsStringAsync();
+
+        WriteLine(result);
     }
 }

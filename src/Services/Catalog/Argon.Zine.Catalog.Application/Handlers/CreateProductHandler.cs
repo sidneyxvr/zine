@@ -5,8 +5,6 @@ using Argon.Zine.Core.Data;
 using Argon.Zine.Core.Messages;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Application.Handlers
 {
@@ -37,14 +35,14 @@ namespace Argon.Zine.Catalog.Application.Handlers
                 return WithError(_localizer["Restaurant Not Found"]);
             }
 
-            //var image = await _fileStorage
-            //    .AddAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
+            var image = await _fileStorage
+                .AddAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
 
-            var product = new Product(request.Name, "teste", 
-                request.Price, "teste", request.RestaurantId);
+            var product = new Product(request.Name, request.Description, 
+                request.Price, image.Url, request.RestaurantId);
 
             product.AddDomainEvent(new ProductCreatedEvent(product.Id,
-                product.Name, product.Price, product.ImageUrl, 
+                product.Name, product.Price, product.ImageUrl,
                 restaurant.Id, restaurant.Name, restaurant.LogoUrl));
 
             await _unitOfWork.ProductRepository.AddAsync(product, cancellationToken);

@@ -19,10 +19,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="SqlKata" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Argon.Zine.Restaurants.Domain\Argon.Zine.Restaurants.Domain.csproj" />
+    <ProjectReference Include="..\Argon.Zine.Restaurants.QueryStack\Argon.Zine.Restaurants.QueryStack.csproj" />
   </ItemGroup>
 
 </Project>

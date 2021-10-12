@@ -30,8 +30,8 @@ public class CreateRestaurantHandler : RequestHandler<CreateRestaurantCommand>
         var address = new Address(request.Street, request.Number, request.District, request.City,
             request.State, request.PostalCode, request.Complement, request.Latitude, request.Longitude);
 
-        var logoUrl = request.Logo is not null and { Length: > 0 }
-            ? (await _fileStorage.AddAsync(request.Logo.OpenReadStream(), request.Logo.FileName, cancellationToken)).ImageUrl
+        var logoUrl = request.Logo is { Length: > 0 }
+            ? (await _fileStorage.AddAsync(request.Logo.OpenReadStream(), request.Logo.FileName, cancellationToken)).Url
             : null;
 
         var supplier = new Restaurant(request.CorparateName, request.TradeName, request.CpfCnpj, logoUrl, user, address);

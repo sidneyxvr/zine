@@ -47,8 +47,6 @@ namespace Argon.Zine.App.Api.Configurations
             services.TryAddScoped<IProductQueries, ProductQueries>();
             services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
 
-            services.TryAddScoped<IFileStorage, FileStorage>();
-
             services.TryAddScoped<IDbConnection>(provider
                 => new SqlConnection(configuration.GetConnectionString("CatalogConnection")));
 

@@ -5,6 +5,8 @@ using Argon.Restaurants.Domain;
 using Argon.Restaurants.Infra.Data;
 using Argon.Restaurants.Infra.Data.Repositories;
 using Argon.Zine.Core.Messages.IntegrationCommands;
+using Argon.Zine.Restaurants.Infra.Data.Queries;
+using Argon.Zine.Restaurants.QueryStack.Queries;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -26,6 +28,8 @@ namespace Argon.Zine.App.Api.Configurations
 
             services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
 
             return services;
         }
