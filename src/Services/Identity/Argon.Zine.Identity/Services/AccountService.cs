@@ -116,7 +116,6 @@ namespace Argon.Zine.Identity.Services
                 Phone = request.Phone,
                 Cpf = request.Cpf,
                 BirthDate = request.BirthDate,
-                Gender = request.Gender
             });
 
             if (!requestResult.IsValid)

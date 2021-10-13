@@ -123,9 +123,6 @@
   <data name="Invalid Birthdate" xml:space="preserve">
     <value>Data de Nascimento inválida</value>
   </data>
-  <data name="Invalid Gender" xml:space="preserve">
-    <value>Sexo inválido</value>
-  </data>
   <data name="Invalid Phone" xml:space="preserve">
     <value>Número de celular inválido</value>
   </data>

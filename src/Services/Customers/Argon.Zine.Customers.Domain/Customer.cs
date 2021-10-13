@@ -12,7 +12,6 @@ namespace Argon.Zine.Customers.Domain
         public Cpf Cpf { get; private set; }
         public BirthDate BirthDate { get; private set; }
         public Phone? Phone { get; private set; }
-        public Gender Gender { get; private set; }
         public bool IsActive { get; private set; }
         public bool IsDeleted { get; private set; }
         public bool IsSuspended { get; private set; }
@@ -30,16 +29,14 @@ namespace Argon.Zine.Customers.Domain
             => _addresses = new ();
 
         public Customer(Guid id, string? firstName, string? LastName, string? email,
-            string? cpf, DateTime? birthDate, Gender gender, string? phone)
+            string? cpf, DateTime? birthDate, string? phone)
         {
             Check.NotEmpty(id, nameof(id));
-            Check.IsEnum(gender, typeof(Gender), nameof(gender));
 
             Id = id;
             Name = new Name(firstName, LastName);
             Email = email;
             Cpf = cpf;
-            Gender = gender;
             BirthDate = birthDate!;
             Phone = phone;
             IsActive = true;
@@ -47,12 +44,9 @@ namespace Argon.Zine.Customers.Domain
             IsSuspended = true;
         }
 
-        public void Update(string? firstName, string? LastName, DateTime birthDate, Gender gender)
+        public void Update(string? firstName, string? LastName, DateTime birthDate)
         {
-            Check.IsEnum(gender, typeof(Gender), nameof(gender));
-
             Name = new Name(firstName, LastName);
-            Gender = gender;
             BirthDate = birthDate;
         }
 

@@ -33,7 +33,7 @@ namespace Argon.Zine.Customers.Application.Handlers
                 throw new ArgumentNullException(nameof(customer), "Customer cannot be null");
             }
 
-            customer.Update(request.FirstName, request.LastName, request.BirthDate, request.Gender);
+            customer.Update(request.FirstName, request.LastName, request.BirthDate);
 
             await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
             await _unitOfWork.CommitAsync();

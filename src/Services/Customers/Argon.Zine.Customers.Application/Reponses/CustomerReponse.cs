@@ -10,7 +10,6 @@ namespace Argon.Zine.Customers.Application.Reponses
         public string Cpf { get; init; } = null!;
         public DateTime BirthDate { get; init; }
         public string? Phone { get; init; }
-        public int Gender { get; init; }
         public bool IsActive { get; init; }
         public bool IsDeleted { get; init; }
         public bool IsSuspended { get; init; }

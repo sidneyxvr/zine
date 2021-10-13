@@ -27,9 +27,6 @@ namespace Argon.Zine.Customers.Application.Validators
                 RuleFor(c => c.Phone)
                     .Must(p => Phone.IsValid(p)).WithMessage(localizer["Invalid Phone"]);
             });
-
-            RuleFor(c => c.Gender)
-                .IsInEnum().WithMessage(localizer["Invalid Gender"]);
         }
     }
 }

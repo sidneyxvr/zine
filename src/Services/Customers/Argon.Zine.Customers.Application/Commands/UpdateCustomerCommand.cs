@@ -10,6 +10,5 @@ namespace Argon.Zine.Customers.Application.Commands
         public string? LastName { get; init; }
         public string? Phone { get; init; }
         public DateTime BirthDate { get; init; }
-        public Gender Gender { get; init; }
     }
 }

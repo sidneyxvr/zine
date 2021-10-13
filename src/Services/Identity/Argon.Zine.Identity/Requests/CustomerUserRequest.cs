@@ -12,7 +12,6 @@ namespace Argon.Zine.Identity.Requests
         private string? _cpf;
         public string? Cpf { get => _cpf?.OnlyNumbers(); init => _cpf = value; }
         public DateTime BirthDate { get; init; }
-        public Gender Gender { get; init; }
         public string? Password { get; init; }
     }
 }

@@ -14,7 +14,6 @@ namespace Argon.Zine.Core.Messages.IntegrationCommands
         private string? _cpf;
         public string? Cpf { get => _cpf?.OnlyNumbers(); init => _cpf = value; }
         public DateTime BirthDate { get; init; }
-        public Gender Gender { get; init; }
         public string? ConfirmationToken { get; init; }
     }
 }

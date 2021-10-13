@@ -49,9 +49,6 @@ namespace Argon.Zine.Identity.Validators
             //        RuleFor(c => c.Email).EmailAddress().WithMessage(Localizer.GetTranslation("InvalidEmail"));
             //    });
 
-            //RuleFor(c => c.Gender)
-            //    .IsInEnum().WithMessage(Localizer.GetTranslation("InvalidGender"));
-
             //RuleFor(c => c.Password)
             //    .NotEmpty().WithMessage(Localizer.GetTranslation("EmptyPassword"))
             //    .Length(8, 100).WithMessage(Localizer.GetTranslation("PasswordOutOfRange"));

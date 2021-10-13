@@ -17,7 +17,7 @@ namespace Argon.Zine.Customers.Application.Handlers
         public override async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = new Customer(request.UserId, request.FirstName, request.LastName,
-                request.Email, request.Cpf, request.BirthDate, request.Gender, request.Phone);
+                request.Email, request.Cpf, request.BirthDate, request.Phone);
 
             await _unitOfWork.CustomerRepository.AddAsync(customer, cancellationToken);
             await _unitOfWork.CommitAsync();

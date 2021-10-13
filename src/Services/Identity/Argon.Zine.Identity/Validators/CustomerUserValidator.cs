@@ -43,9 +43,6 @@ namespace Argon.Zine.Identity.Validators
                 .Must(p => Phone.IsValid(p)).WithMessage(localizer["Invalid Phone"]);
             });
 
-            RuleFor(c => c.Gender)
-                .IsInEnum().WithMessage(localizer["Invalid Gender"]);
-
             RuleFor(c => c.Password)
                 .NotEmpty().WithMessage(localizer["Required Password"])
                 .Length(8, 100).WithMessage(localizer["Invalid Password Length"]);

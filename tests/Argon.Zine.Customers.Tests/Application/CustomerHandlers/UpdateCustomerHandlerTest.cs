@@ -43,7 +43,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
                 LastName = props.LastName,
                 Phone = props.Phone,
                 BirthDate = props.BirthDate,
-                Gender = props.Gender
             };
 
             _mocker.GetMock<IUnitOfWork>()
@@ -73,7 +72,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
             var command = new UpdateCustomerCommand
             {
                 BirthDate = DateTime.Now.AddYears(-19),
-                Gender = Gender.Other
             };
 
             //Act
@@ -96,7 +94,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
                 LastName = _faker.Random.String2(Name.MaxLengthLastName + 1),
                 Phone = _faker.Person.Email,
                 BirthDate = DateTime.Now,
-                Gender = 0
             };
 
             //Act

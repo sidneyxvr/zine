@@ -1,5 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Utils;
+﻿using Argon.Zine.Core.Utils;
 
 namespace Argon.Zine.Identity.Requests
 {
@@ -14,7 +13,6 @@ namespace Argon.Zine.Identity.Requests
         //User
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
-        public Gender Gender { get; init; }
         public string? Email { get; set; }
         public string? Password { get; set; }
 

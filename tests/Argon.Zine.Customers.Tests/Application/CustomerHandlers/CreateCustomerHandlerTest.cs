@@ -46,7 +46,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
                 Phone = props.Phone,
                 Cpf = props.Cpf,
                 BirthDate = props.BirthDate,
-                Gender = props.Gender
             };
 
             _mocker.GetMock<IUnitOfWork>()
@@ -71,7 +70,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
             {
                 UserId = Guid.Empty,
                 BirthDate = DateTime.Now.AddYears(-19),
-                Gender = Gender.Other
             };
 
             //Act
@@ -99,7 +97,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
                 Phone = "999",
                 Cpf = "12345678900",
                 BirthDate = DateTime.Now,
-                Gender = 0
             };
 
             //Act
@@ -107,7 +104,7 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(7, result.Errors.Count);
+            Assert.Equal(6, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
                 $"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
@@ -117,7 +114,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
                 $"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de nascimento inválida"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Sexo inválido"));
         }
 
         [Fact]
@@ -133,7 +129,6 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
                 Email = _faker.Person.FullName,
                 Cpf = props.Cpf,
                 BirthDate = props.BirthDate,
-                Gender = props.Gender
             };
 
             //Act

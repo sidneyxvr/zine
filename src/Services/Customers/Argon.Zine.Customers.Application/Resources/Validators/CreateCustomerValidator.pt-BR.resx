@@ -132,9 +132,6 @@
   <data name="Invalid Email Length" xml:space="preserve">
     <value>O email deve ter entre {MinLength} e {MaxLength} caracteres</value>
   </data>
-  <data name="Invalid Gender" xml:space="preserve">
-    <value>Sexo inválido</value>
-  </data>
   <data name="Invalid Phone" xml:space="preserve">
     <value>Número de celular inválido</value>
   </data>

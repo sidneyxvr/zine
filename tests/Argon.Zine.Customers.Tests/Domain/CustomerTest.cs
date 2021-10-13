@@ -16,22 +16,6 @@ namespace Argon.Zine.Customers.Tests.Domain
         }
 
         [Fact]
-        public void CreateCustomerInvalidGenderShouldThrowDomainException()
-        {
-            //Arrange
-            var gender = 0;
-            var customer = _customerFixture.GetCustomerTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Customer(
-                Guid.NewGuid(), customer.FirstName, customer.LastName, customer.Email, customer.Cpf,
-                customer.BirthDate, (Gender)gender, customer.Phone));
-
-            //Assert
-            Assert.Equal(nameof(Customer.Gender).ToLower(), result.Message);
-        }
-
-        [Fact]
         public void CreateValidCustomerShouldBeActiveAndSuspended()
         {
             //Arrange
@@ -39,8 +23,8 @@ namespace Argon.Zine.Customers.Tests.Domain
 
             //Act
             var result = new Customer(
-                Guid.NewGuid(), customer.FirstName, customer.LastName, customer.Email, customer.Cpf,
-                customer.BirthDate, customer.Gender, customer.Phone);
+                Guid.NewGuid(), customer.FirstName, customer.LastName, 
+                customer.Email, customer.Cpf, customer.BirthDate, customer.Phone);
 
             //Assert
             Assert.True(result.IsActive);
@@ -121,14 +105,13 @@ namespace Argon.Zine.Customers.Tests.Domain
             var validCustomer = _customerFixture.CreateValidCustomer();
 
             //Act
-            validCustomer.Update(customer.FirstName, customer.LastName, customer.BirthDate, customer.Gender);
+            validCustomer.Update(customer.FirstName, customer.LastName, customer.BirthDate);
 
             //Assert
             Assert.Equal(customer.FirstName, validCustomer.Name.FirstName);
             Assert.Equal(customer.LastName, validCustomer.Name.LastName);
             Assert.Equal(customer.BirthDate.Date, validCustomer.BirthDate.Date);
             Assert.Equal(customer.BirthDate.Day, validCustomer.BirthDate.Birthday);
-            Assert.Equal(customer.Gender, validCustomer.Gender);
         }
 
         [Fact]
@@ -138,7 +121,7 @@ namespace Argon.Zine.Customers.Tests.Domain
             var customer1 = _customerFixture.CreateValidCustomer();
             var customer2 = new Customer(customer1.Id, customer1.Name.FirstName, 
                 customer1.Name.LastName, customer1.Email.Address, customer1.Cpf.Number, 
-                customer1.BirthDate.Date, customer1.Gender, customer1.Phone.Number);
+                customer1.BirthDate.Date, customer1.Phone.Number);
 
             //Act
             var isEqual1 = customer1.Equals(customer2);
@@ -156,7 +139,7 @@ namespace Argon.Zine.Customers.Tests.Domain
             var customer1 = _customerFixture.CreateValidCustomer();
             var customer2 = new Customer(Guid.NewGuid(), customer1.Name.FirstName,
                 customer1.Name.LastName, customer1.Email.Address, customer1.Cpf.Number,
-                customer1.BirthDate.Date, customer1.Gender, customer1.Phone.Number);
+                customer1.BirthDate.Date, customer1.Phone.Number);
 
             //Act
             var isEqual1 = customer1.Equals(customer2);

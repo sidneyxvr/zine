@@ -1,5 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Bogus;
+﻿using Bogus;
 using Bogus.Extensions.Brazil;
 using System;
 
@@ -21,13 +20,12 @@ namespace Argon.Zine.Identity.Tests.Fixtures
             var email = _faker.Person.Email;
             var cpf = _faker.Person.Cpf();
             var birthDate = DateTime.UtcNow.AddYears(-20);
-            var gender = _faker.Random.Enum<Gender>();
             var password = _faker.Internet.Password();
 
-            return new CustomerUser(firstName, LastName, email, cpf, birthDate, gender, password);
+            return new CustomerUser(firstName, LastName, email, cpf, birthDate, password);
         }
     }
 
     public record CustomerUser(string FirstName, string LastName, string Email,
-        string Cpf, DateTime BirthDate, Gender Gender, string Password);
+        string Cpf, DateTime BirthDate, string Password);
 }

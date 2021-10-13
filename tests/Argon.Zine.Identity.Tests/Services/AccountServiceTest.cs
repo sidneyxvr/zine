@@ -48,7 +48,6 @@ namespace Argon.Zine.Identity.Tests.Services
                 Email = customerUser.Email,
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
-                Gender = customerUser.Gender,
                 Password = customerUser.Password
             };
 
@@ -89,7 +88,6 @@ namespace Argon.Zine.Identity.Tests.Services
                 Email = null,
                 Cpf = null,
                 BirthDate = DateTime.MinValue,
-                Gender = 0,
                 Password = null
             };
 
@@ -97,8 +95,7 @@ namespace Argon.Zine.Identity.Tests.Services
             var result = await _accountService.CreateCustomerUserAsync(request);
 
             //Assert
-            Assert.Equal(7, result.Errors.Count);
-            Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Sexo inválido"));
+            Assert.Equal(6, result.Errors.Count);
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Data de nascimento inválida"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Informe o CPF"));
             Assert.Contains(result.Errors, r => r.ErrorMessage.Equals("Informe o email"));
@@ -120,7 +117,6 @@ namespace Argon.Zine.Identity.Tests.Services
                 Cpf = _faker.Random.String(CpfValidator.NumberLength + 1, '0', '9'),
                 BirthDate = DateTime.MaxValue,
                 Phone = _faker.Random.String(Phone.NumberMaxLength + 1, '0', '9'),
-                Gender = Gender.Other,
                 Password = _faker.Lorem.Letter(101)
             };
 
@@ -153,7 +149,6 @@ namespace Argon.Zine.Identity.Tests.Services
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
                 Phone = _faker.Random.String(Phone.NumberMinLength - 1, '0', '9'),
-                Gender = customerUser.Gender,
                 Password = _faker.Lorem.Letter(7)
             };
 
@@ -181,7 +176,6 @@ namespace Argon.Zine.Identity.Tests.Services
                 Email = customerUser.Email,
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
-                Gender = customerUser.Gender,
                 Password = customerUser.Password
             };
 
@@ -209,7 +203,6 @@ namespace Argon.Zine.Identity.Tests.Services
                 Email = customerUser.Email,
                 Cpf = customerUser.Cpf,
                 BirthDate = customerUser.BirthDate,
-                Gender = customerUser.Gender,
                 Password = customerUser.Password
             };
 

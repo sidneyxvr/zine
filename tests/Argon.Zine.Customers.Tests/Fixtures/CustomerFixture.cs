@@ -1,5 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Customers.Domain;
+﻿using Argon.Zine.Customers.Domain;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using System;
@@ -25,9 +24,8 @@ namespace Argon.Zine.Customers.Tests.Fixtures
             var cpf = _faker.Person.Cpf(false);
             var birthDate = DateTime.UtcNow.AddYears(-_faker.Random.Int(18, 99)).AddSeconds(-2);
             var phone = $"{_faker.Random.Int(1, 9)}{_faker.Random.Int(1, 9)}{_faker.Random.Int(910000000, 999999999)}";
-            var gender = _faker.PickRandom<Gender>();
 
-            return new CustomerTestDTO(firstName, LastName, email, cpf, birthDate, phone, gender);
+            return new CustomerTestDTO(firstName, LastName, email, cpf, birthDate, phone);
         }
 
         public Customer CreateValidCustomer()
@@ -38,9 +36,8 @@ namespace Argon.Zine.Customers.Tests.Fixtures
             var cpf = _faker.Person.Cpf(false);
             var birthDate = DateTime.UtcNow.AddYears(-_faker.Random.Int(18, 99)).AddSeconds(-2);
             var phone = $"{_faker.Random.Int(1, 9)}{_faker.Random.Int(1, 9)}{_faker.Random.Int(910000000, 999999999)}";
-            var gender = _faker.PickRandom<Gender>();
 
-            return new Customer(Guid.NewGuid(), firstName, LastName, email, cpf, birthDate, gender, phone);
+            return new Customer(Guid.NewGuid(), firstName, LastName, email, cpf, birthDate, phone);
         }
 
         public Customer CreateValidCustomerWithAddresses()
@@ -61,5 +58,5 @@ namespace Argon.Zine.Customers.Tests.Fixtures
         }
     }
 
-    public record CustomerTestDTO(string FirstName, string LastName, string Email, string Cpf, DateTime BirthDate, string Phone, Gender Gender);
+    public record CustomerTestDTO(string FirstName, string LastName, string Email, string Cpf, DateTime BirthDate, string Phone);
 }
