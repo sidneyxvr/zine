@@ -23,6 +23,24 @@ services:
         source: eventstore-volume-logs
         target: /var/log/eventstore
 
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    volumes:
+      - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    
 volumes:
   eventstore-volume-data:
+    driver: local
   eventstore-volume-logs:
+    driver: local

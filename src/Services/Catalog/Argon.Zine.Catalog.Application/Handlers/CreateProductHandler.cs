@@ -35,11 +35,11 @@ namespace Argon.Zine.Catalog.Application.Handlers
                 return WithError(_localizer["Restaurant Not Found"]);
             }
 
-            var image = await _fileStorage
-                .AddAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
+            var (_, imageUrl) = await _fileStorage
+                .UploadAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
 
-            var product = new Product(request.Name, request.Description, 
-                request.Price, image.Url, request.RestaurantId);
+            var product = new Product(request.Name, request.Description,
+                request.Price, request.IsActive, imageUrl, request.RestaurantId);
 
             product.AddDomainEvent(new ProductCreatedEvent(product.Id,
                 product.Name, product.Price, product.ImageUrl,

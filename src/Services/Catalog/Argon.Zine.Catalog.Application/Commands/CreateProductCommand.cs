@@ -12,6 +12,7 @@ namespace Argon.Zine.Catalog.Application.Commands
         [JsonIgnore]
         public Guid RestaurantId { get; private set; }
         public IFormFile? Image { get; init; }
+        public bool IsActive { get; set; }
 
         public void SetRestaurantId(Guid restaurantId)
             => RestaurantId = restaurantId;

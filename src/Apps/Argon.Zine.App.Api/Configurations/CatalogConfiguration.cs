@@ -1,13 +1,12 @@
-﻿using Argon.Storage;
-using Argon.Zine.Catalog.Application.Commands;
+﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Catalog.Application.Handlers;
 using Argon.Zine.Catalog.Application.Validators;
 using Argon.Zine.Catalog.Domain;
+using Argon.Zine.Catalog.Infra.Caching;
 using Argon.Zine.Catalog.Infra.Data;
 using Argon.Zine.Catalog.Infra.Data.Queries;
 using Argon.Zine.Catalog.Infra.Data.Repositories;
 using Argon.Zine.Catalog.QueryStack.Queries;
-using Argon.Zine.Core.Data;
 using Argon.Zine.Core.Messages.IntegrationEvents;
 using FluentValidation;
 using FluentValidation.Results;
@@ -37,14 +36,14 @@ namespace Argon.Zine.App.Api.Configurations
             services.AddScoped<INotificationHandler<ClosedRestaurantEvent>, ClosedRestaurantHandler>();
 
 
-            //services.TryDecorate<IRestaurantQueries, RestaurantCache>();
-
             services.TryAddScoped<IUnitOfWork, UnitOfWork>();
             services.TryAddScoped<ICategoryRepository, CategoryRepository>();
             services.TryAddScoped<IProductRepository, ProductRepository>();
             services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
             
-            services.TryAddScoped<IProductQueries, ProductQueries>();
+            services.AddScoped<IProductQueries, ProductQueries>();
+            services.Decorate<IProductQueries, ProductCache>();
+
             services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
 
             services.TryAddScoped<IDbConnection>(provider

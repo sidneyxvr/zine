@@ -7,23 +7,21 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Argon.Storage;
+
 public class FileStorage : IFileStorage
 {
-    private readonly string _baseUrl;
     private readonly string _bucketName;
     private readonly TransferUtility _transferUtility;
 
     public FileStorage(
-        string baseUrl,
         string bucketName, 
         TransferUtility transferUtility)
     {
-        _baseUrl = baseUrl;
         _bucketName = bucketName;
         _transferUtility = transferUtility;
     }
 
-    public async Task<(string FileName, string Url)> AddAsync(
+    public async Task<(string FileName, string Url)> UploadAsync(
         Stream imageStream, string fileName,
         CancellationToken cancellationToken = default)
     {
@@ -39,6 +37,6 @@ public class FileStorage : IFileStorage
 
         await _transferUtility.UploadAsync(uploadRequest, cancellationToken);
 
-        return (newFileName, $"{_baseUrl}/{_bucketName}/{newFileName}");
+        return (newFileName, $"https://{_bucketName}.s3.amazonaws.com/{newFileName}");
     }
 }

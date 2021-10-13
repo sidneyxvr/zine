@@ -17,12 +17,11 @@ namespace Argon.Zine.Catalog.Domain
         public Restaurant? Restaurant { get; private set; }
         public string ImageUrl { get; private set; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618
         protected Product() { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
+#pragma warning restore CS8618
         public Product(string? name, string? description, 
-            decimal price, string? imageUrl, Guid restaurantId)
+            decimal price, bool active, string? imageUrl, Guid restaurantId)
         {
             Check.NotEmpty(name, nameof(name));
             Check.NotEmpty(description, nameof(description));
@@ -35,6 +34,7 @@ namespace Argon.Zine.Catalog.Domain
             Price = price;
             RestaurantId = restaurantId;
             ImageUrl = imageUrl!;
+            IsActive = active;
         }
     }
 }

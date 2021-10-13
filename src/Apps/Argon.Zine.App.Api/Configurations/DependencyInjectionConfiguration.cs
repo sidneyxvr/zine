@@ -82,7 +82,7 @@ namespace Argon.Zine.App.Api.Configurations
                 => new TransferUtility(provider.GetRequiredService<AmazonS3Client>()));
 
             services.TryAddScoped<IFileStorage>(provider
-                => new FileStorage(s3Settings.BaseUrl, s3Settings.BucketName, provider.GetRequiredService<TransferUtility>()));
+                => new FileStorage(s3Settings.BucketName, provider.GetRequiredService<TransferUtility>()));
 
             return services;
         }

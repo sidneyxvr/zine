@@ -6,7 +6,7 @@ namespace Argon.Zine.Core.Data
 {
     public interface IFileStorage
     {
-        Task<(string FileName, string Url)> AddAsync(
+        Task<(string FileName, string Url)> UploadAsync(
             Stream imageStream, string fileName, 
             CancellationToken cancellationToken = default);
     }
