@@ -238,6 +238,7 @@ namespace Argon.Zine.Identity.Tests.Services
                 Email = "a@b",
                 Token = _faker.Lorem.Letter(50)
             };
+            _mocker.GetMock<UserManager<User>>().Invocations.Clear();
 
             //Act
             var result = await _accountService.ConfirmEmailAccountAsync(request);
@@ -278,6 +279,7 @@ namespace Argon.Zine.Identity.Tests.Services
                 Email = customerUser.Email,
                 Token = _faker.Lorem.Letter(50)
             };
+            _mocker.GetMock<UserManager<User>>().Invocations.Clear();
 
             //Act
             var result = await _accountService.ConfirmEmailAccountAsync(request);

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using Moq.AutoMock;
 using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -137,6 +138,8 @@ namespace Argon.Zine.Customers.Tests.Application.AddressHandlers
                 PostalCode = "",
                 Complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100)),
             };
+
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("pt-BR");
 
             //Act
             var result = new CreateAddressValidator(_localizer).Validate(command);

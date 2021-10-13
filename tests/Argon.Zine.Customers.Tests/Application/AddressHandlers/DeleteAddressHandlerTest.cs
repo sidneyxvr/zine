@@ -81,31 +81,5 @@ namespace Argon.Zine.Customers.Tests.Application.AddressHandlers
             //Assert
             Assert.StartsWith("Customer cannot be null", result.Message);
         }
-
-        [Fact]
-        public async Task DeleteAddressShouldThrowDomainExceptionAddress()
-        {
-            //Arrange
-            var customer = _customerFixture.CreateValidCustomerWithAddresses();
-            var address = customer.Addresses
-                .ElementAtOrDefault(_faker.Random.Int(0, customer.Addresses.Count - 1));
-
-            var command = new DeleteAddressCommand { AddressId = Guid.NewGuid() };
-
-            _mocker.GetMock<IAppUser>()
-                .Setup(a => a.Id).Returns(Guid.NewGuid());
-
-            _mocker.GetMock<IUnitOfWork>()
-                .Setup(c => c.CustomerRepository
-                    .GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Include>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(customer);
-
-            //Act
-            var result = await Assert.ThrowsAsync<DomainException>(() =>
-                _handler.Handle(command, CancellationToken.None));
-
-            //Assert
-            Assert.Equal(nameof(address), result.Message);
-        }
     }
 }

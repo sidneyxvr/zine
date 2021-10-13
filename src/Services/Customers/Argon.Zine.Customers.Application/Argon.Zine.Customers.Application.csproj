@@ -15,23 +15,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Handlers\UpdateAddressHandler.pt-BR.resx">
+    <EmbeddedResource Update="Resources\Handlers\UpdateAddressHandler.resx">
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Validators\CreateAddressValidator.pt-BR.resx">
+    <EmbeddedResource Update="Resources\Validators\CreateAddressValidator.resx">
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Validators\DefineMainAddressValidator.pt-BR.resx">
+    <EmbeddedResource Update="Resources\Validators\DefineMainAddressValidator.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Validators\DeleteAddressValidator.pt-BR.resx">
+    <EmbeddedResource Update="Resources\Validators\DeleteAddressValidator.resx">
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Validators\UpdateAddressValidator.pt-BR.resx">
+    <EmbeddedResource Update="Resources\Validators\UpdateAddressValidator.resx">
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Validators\UpdateCustomerValidator.pt-BR.resx">
+    <EmbeddedResource Update="Resources\Validators\UpdateCustomerValidator.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator></Generator>
     </EmbeddedResource>

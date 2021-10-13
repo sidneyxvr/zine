@@ -101,12 +101,11 @@ namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
 
             //Assert
             Assert.False(result.IsValid);
-            Assert.Equal(5, result.Errors.Count);
+            Assert.Equal(4, result.Errors.Count);
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de Nascimento inválida"));
             Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));
-            Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Sexo inválido"));
         }
     }
 }

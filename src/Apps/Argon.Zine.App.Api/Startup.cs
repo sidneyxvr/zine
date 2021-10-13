@@ -39,6 +39,11 @@ namespace Argon.Zine.App.Api
         {
             const string ptBRCulture = "pt-BR";
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
