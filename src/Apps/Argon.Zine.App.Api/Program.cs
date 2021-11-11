@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.Loki;
 
 namespace Argon.Zine.App.Api
 {
@@ -16,19 +19,18 @@ namespace Argon.Zine.App.Api
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                //.UseSerilog((context, configuration) =>
-                //{
-                //    if (context.HostingEnvironment.IsProduction())
-                //    {
-                //        var credentials = new NoAuthCredentials("http://localhost:3100");
-
-                //        configuration.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                //            .Enrich.FromLogContext()
-                //            .Enrich.WithProperty("Application", context.HostingEnvironment.ApplicationName)
-                //            .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
-                //            .WriteTo.LokiHttp(credentials);
-                //    }
-                //})
+                .UseSerilog((context, configuration) =>
+                {
+                    if (context.HostingEnvironment.IsProduction())
+                    {
+                        configuration
+                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                            .Enrich.FromLogContext()
+                            .Enrich.WithProperty("Application", context.HostingEnvironment.ApplicationName)
+                            .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+                            .WriteTo.LokiHttp(() => new LokiSinkConfiguration { LokiUrl = "http://localhost:3100" });
+                    }
+                })
             ;
     }
 }

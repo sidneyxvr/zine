@@ -262,3 +262,7 @@ __pycache__/
 *.pyc
 /src/Healin.API/wwwroot/imagens
 /src/UI/Argon.UI.Web
+/data/grafana/data
+/src/Apps/Argon.Zine.App.Api/healthchecks.db
+/src/Apps/Argon.Zine.App.Api/healthchecks.db-shm
+/src/Apps/Argon.Zine.App.Api/healthchecks.db-wal

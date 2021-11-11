@@ -28,7 +28,7 @@ namespace Argon.Zine.App.Api.Configurations
                 .AddRedis(configuration.GetConnectionString("CatalogRedis"), "Catalog Redis", tags: new[] { "redis" })
                 .AddEventStore(configuration.GetConnectionString("EventSourcingConnection"), name: "Event Sourcing Database", tags: new[] { "event store" });
 
-            //services.AddHealthChecksUI().AddSqliteStorage("Data Source=healthchecks.db");
+            services.AddHealthChecksUI().AddSqliteStorage("Data Source=healthchecks.db");
 
             return services;
         }
@@ -40,7 +40,7 @@ namespace Argon.Zine.App.Api.Configurations
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
 
-            //app.UseHealthChecksUI();
+            app.UseHealthChecksUI();
 
             return app;
         }

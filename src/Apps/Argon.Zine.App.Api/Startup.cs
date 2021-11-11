@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -103,10 +104,14 @@ namespace Argon.Zine.App.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerR();
+                
+                app.UseSerilogRequestLogging();
+                
+                app.UsePrometheus();
             }
             else if (env.IsProduction())
             {
-                //app.UseSerilogRequestLogging();
+                app.UseSerilogRequestLogging();
 
                 app.UsePrometheus();
             }
