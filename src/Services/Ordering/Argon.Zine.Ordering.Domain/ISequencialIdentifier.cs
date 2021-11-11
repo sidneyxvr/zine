@@ -4,6 +4,6 @@ namespace Argon.Zine.Ordering.Domain
 {
     public interface ISequencialIdentifier
     {
-        Task<int> GetSequentialId();
+        Task<int> GetSequentialIdAsync();
     }
 }

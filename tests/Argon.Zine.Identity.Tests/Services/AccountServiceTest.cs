@@ -20,6 +20,7 @@ using System.Collections.Generic;
 namespace Argon.Zine.Identity.Tests.Services
 {
     [Collection(nameof(IdentityTestsFixtureCollection))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = "<Pending>")]
     public class AccountServiceTest
     {
         private readonly Faker _faker;
@@ -105,7 +106,7 @@ namespace Argon.Zine.Identity.Tests.Services
             Assert.False(result.IsValid);
         }
 
-        [Fact]
+        [Fact]        
         public async Task CreateCustomerUserMaxLegthFieldsRequestShouldReturnsInvalid()
         {
             //Arrange

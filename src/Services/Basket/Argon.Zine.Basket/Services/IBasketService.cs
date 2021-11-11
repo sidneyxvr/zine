@@ -7,9 +7,9 @@ namespace Argon.Zine.Basket.Services
 {
     public interface IBasketService
     {
-        Task AddProductToBasket(ProductToBasketDTO product);
-        Task RemoveProductFromBasket(Guid productId);
-        Task<BasketReponse> GetBasketAsync();
+        Task AddProductToBasketAsync(ProductToBasketDTO product);
+        Task RemoveProductFromBasketAsync(Guid productId);
+        Task<BasketReponse?> GetBasketAsync();
         Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price);
     }
 }

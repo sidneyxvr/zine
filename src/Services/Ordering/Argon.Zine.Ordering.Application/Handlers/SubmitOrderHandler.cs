@@ -30,7 +30,7 @@ namespace Argon.Zine.Ordering.Application.Handlers
                 .Select(o => new OrderItem(o.ProductId, o.ProductName, o.ProductImageUrl, o.UnitPrice, o.Units))
                 .ToList();
 
-            var sequentialId = await _sequenciaIdentifier.GetSequentialId();
+            var sequentialId = await _sequenciaIdentifier.GetSequentialIdAsync();
             var order = Order.SubmitOrder(request.CustomerId, request.PaymentMethodId, 
                 sequentialId, request.RestaurantId, address, orderItems);
 

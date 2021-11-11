@@ -20,7 +20,7 @@ namespace Argon.Zine.Basket.Services
             _Basket = Basket;
         }
 
-        public async Task AddProductToBasket(ProductToBasketDTO product)
+        public async Task AddProductToBasketAsync(ProductToBasketDTO product)
         {
             var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
 
@@ -43,10 +43,10 @@ namespace Argon.Zine.Basket.Services
             }
         }
 
-        public async Task<BasketReponse> GetBasketAsync()
+        public async Task<BasketReponse?> GetBasketAsync()
             => MapToBasketReponse(await _Basket.GetByCustomerIdAsync(_appUser.Id));
 
-        public async Task RemoveProductFromBasket(Guid productId)
+        public async Task RemoveProductFromBasketAsync(Guid productId)
         {
             var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
 
@@ -60,22 +60,24 @@ namespace Argon.Zine.Basket.Services
             await _Basket.UpdateAsync(basket);
         }
 
-        private static BasketReponse MapToBasketReponse(CustomerBasket basket)
-            => new()
-            {
-                RestaurantId = basket.RestaurantId,
-                RestaurantName = basket.RestaurantName,
-                RestaurantLogoUrl = basket.RestaurantLogoUrl,
-                Total = basket.Total,
-                Products = basket.Products.Select(p => new ProductDTO
+        private static BasketReponse? MapToBasketReponse(CustomerBasket? basket)
+            => basket is not null 
+            ?   new()
                 {
-                    Id = p.Id,
-                    Name = p.ProductName,
-                    Price = p.Price,
-                    Amount = p.Quantity,
-                    ImageUrl = p.ImageUrl!,
-                })
-            };
+                    RestaurantId = basket.RestaurantId,
+                    RestaurantName = basket.RestaurantName,
+                    RestaurantLogoUrl = basket.RestaurantLogoUrl,
+                    Total = basket.Total,
+                    Products = basket.Products.Select(p => new ProductDTO
+                    {
+                        Id = p.Id,
+                        Name = p.ProductName,
+                        Price = p.Price,
+                        Amount = p.Quantity,
+                        ImageUrl = p.ImageUrl!,
+                    })
+                }
+           : null;
 
         public async Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price)
             => await _Basket.UpdateBasketItemPriceAsync(basketItemId, price);

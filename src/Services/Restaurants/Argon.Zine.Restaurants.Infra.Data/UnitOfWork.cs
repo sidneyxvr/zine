@@ -25,7 +25,7 @@ public class UnitOfWork : IUnitOfWork
     {
         var success = await _context.SaveChangesAsync() > 0;
 
-        if (success) await _bus.PublicarEventos(_context);
+        if (success) await _bus.PublishEventsAsync(_context);
 
         return true;
     }

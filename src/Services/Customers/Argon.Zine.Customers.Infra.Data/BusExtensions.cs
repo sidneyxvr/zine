@@ -7,7 +7,7 @@ namespace Argon.Zine.Customers.Infra.Data
 {
     public static class BusExtensions
     {
-        public static async Task PublicarEventos(this IBus bus, CustomerContext ctx)
+        public static async Task PublishEventsAsync(this IBus bus, CustomerContext ctx)
         {
             var domainEntities = ctx.ChangeTracker
                 .Entries<Entity>()

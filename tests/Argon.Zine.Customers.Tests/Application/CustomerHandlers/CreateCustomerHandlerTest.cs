@@ -15,6 +15,7 @@ using Xunit;
 
 namespace Argon.Zine.Customers.Tests.Application.CustomerHandlers
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = "<Pending>")]
     public class CreateCustomerHandlerTest
     {
         private readonly Faker _faker;

@@ -21,7 +21,7 @@ namespace Argon.Zine.Basket.Data
         public async Task AddAsync(CustomerBasket basket)
             => await _baskets.InsertOneAsync(basket);
 
-        public async Task<CustomerBasket> GetByCustomerIdAsync(Guid customerId)
+        public async Task<CustomerBasket?> GetByCustomerIdAsync(Guid customerId)
         {
             var filter = Builders<CustomerBasket>.Filter.Eq(b => b.CustomerId, customerId);
             return await _baskets.Find(filter).SingleOrDefaultAsync();

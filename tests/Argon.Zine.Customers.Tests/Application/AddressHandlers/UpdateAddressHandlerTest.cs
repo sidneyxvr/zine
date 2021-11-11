@@ -16,6 +16,7 @@ using Xunit;
 
 namespace Argon.Zine.Customers.Tests.Application.AddressHandlers
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = "<Pending>")]
     public class UpdateAddressHandlerTest
     {
         private readonly Faker _faker;

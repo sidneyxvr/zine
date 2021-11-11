@@ -31,7 +31,7 @@ namespace Argon.Zine.App.Api.Controllers.V1
                 product.Price, request.Amount, product.ImageUrl, product!.RestaurantId, 
                 product.RestaurantName, product.RestaurantLogoUrl);
 
-            await _basketService.AddProductToBasket(productToBasket);
+            await _basketService.AddProductToBasketAsync(productToBasket);
 
             return Ok();
         }
@@ -39,7 +39,7 @@ namespace Argon.Zine.App.Api.Controllers.V1
         [HttpDelete("{productId}")]
         public async Task<IActionResult> RemoveProductFromBasketAsync(Guid productId)
         {
-            await _basketService.RemoveProductFromBasket(productId);
+            await _basketService.RemoveProductFromBasketAsync(productId);
 
             return Ok();
         }
