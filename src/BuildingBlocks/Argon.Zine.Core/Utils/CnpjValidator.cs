@@ -1,18 +1,15 @@
-﻿using System;
+﻿namespace Argon.Zine.Core.Utils;
 
-namespace Argon.Zine.Core.Utils
+public static class CnpjValidator
 {
-    public static class CnpjValidator
+    public const int NumberLength = 14;
+    public static bool IsValid(string cnpj)
     {
-        public const int NumberLength = 14;
-        public static bool IsValid(string cnpj)
+        if (cnpj is null)
         {
-            if (cnpj is null)
-            {
-                throw new ArgumentNullException(nameof(cnpj));
-            }
-
-            return true;
+            throw new ArgumentNullException(nameof(cnpj));
         }
+
+        return true;
     }
 }

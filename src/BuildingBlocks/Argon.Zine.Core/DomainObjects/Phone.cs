@@ -1,46 +1,43 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace Argon.Zine.Core.DomainObjects
+namespace Argon.Zine.Core.DomainObjects;
+
+public class Phone : ValueObject
 {
-    public class Phone : ValueObject
+    public const string RegularExpression = @"^[1-9]{2}9[1-9][0-9]{7}$";
+
+    public const int NumberMaxLength = 11;
+    public const int NumberMinLength = 10;
+    public string? Number { get; private set; }
+
+    protected Phone() { }
+
+    public Phone(string? number)
     {
-        public const string RegularExpression = @"^[1-9]{2}9[1-9][0-9]{7}$";
-
-        public const int NumberMaxLength = 11;
-        public const int NumberMinLength = 10;
-        public string? Number { get; private set; }
-
-        protected Phone() { }
-
-        public Phone(string? number)
+        if (number == null)
         {
-            if(number == null)
-            {
-                return;
-            }
-
-            Check.Matches(RegularExpression, number, nameof(Phone));
-            Number = number;
+            return;
         }
 
-        public static implicit operator Phone(string? number)
-            => new(number);
+        Check.Matches(RegularExpression, number, nameof(Phone));
+        Number = number;
+    }
 
-        public static bool IsValid(string? phone)
+    public static implicit operator Phone(string? number)
+        => new(number);
+
+    public static bool IsValid(string? phone)
+    {
+        if (phone is null)
         {
-            if (phone is null)
-            {
-                return true;
-            }
-
-            var regexEmail = new Regex(RegularExpression);
-            return regexEmail.IsMatch(phone);
+            return true;
         }
 
-        protected override IEnumerable<object?> GetEqualityComponents()
-        {
-            yield return Number;
-        }
+        return Regex.IsMatch(phone, RegularExpression);
+    }
+
+    protected override IEnumerable<object?> GetEqualityComponents()
+    {
+        yield return Number;
     }
 }

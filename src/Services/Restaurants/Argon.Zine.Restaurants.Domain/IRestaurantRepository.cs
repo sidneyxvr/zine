@@ -1,7 +1,4 @@
 ﻿using Argon.Zine.Core.Data;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Argon.Restaurants.Domain;
 
@@ -11,12 +8,12 @@ public interface IRestaurantRepository : IRepository<Restaurant>
     Task UpdateAsync(Restaurant restaurant, CancellationToken cancellationToken = default);
     Task<Restaurant?> GetByIdAsync(
         Guid id, 
-        Include include = Include.None, 
+        Includes include = Includes.None, 
         CancellationToken cancellationToken = default);
 }
 
 [Flags]
-public enum Include
+public enum Includes
 {
     None = 0,
     Address = 1,

@@ -1,7 +1,5 @@
 ﻿using Argon.Zine.Catalog.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Data.Repositories
 {

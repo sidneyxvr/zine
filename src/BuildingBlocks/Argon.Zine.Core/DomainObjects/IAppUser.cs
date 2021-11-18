@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace Argon.Zine.Core.DomainObjects;
 
-namespace Argon.Zine.Core.DomainObjects
+public interface IAppUser
 {
-    public interface IAppUser
-    {
-        Guid Id { get; init; }
-        public string FirstName { get; init; }
-        public string LastName { get; init; }
-        public string FullName { get; }
-    }
+    Guid Id { get; init; }
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
+    public string FullName { get; }
 }

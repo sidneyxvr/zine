@@ -2,11 +2,8 @@
 using Argon.Zine.Catalog.QueryStack.Responses;
 using Argon.Zine.Shared;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Caching
 {
@@ -21,7 +18,6 @@ namespace Argon.Zine.Catalog.Infra.Caching
             _productQueries = productQueries;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id, CancellationToken cancellationToken)
             => _productQueries.GetProductBasketByIdAsync(id);
 
@@ -51,7 +47,6 @@ namespace Argon.Zine.Catalog.Infra.Caching
             return product;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Task<PagedList<ProductItemGridResponse>> GetProductsAsync(CancellationToken cancellationToken)
             => _productQueries.GetProductsAsync(cancellationToken);
     }

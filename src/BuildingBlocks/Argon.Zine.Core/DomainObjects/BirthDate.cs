@@ -1,54 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Argon.Zine.Core.DomainObjects;
 
-namespace Argon.Zine.Core.DomainObjects
+public class BirthDate : ValueObject
 {
-    public class BirthDate : ValueObject
+    public const int MinAge = 18;
+    public const int MaxAge = 100;
+
+    private readonly DateTime _date;
+
+    public DateTime Date => _date.Date;
+
+    protected BirthDate() { }
+
+    public BirthDate(int year, int month, int day)
     {
-        public const int MinAge = 18;
-        public const int MaxAge = 100;
+        var date = new DateTime(year, month, day);
 
-        private readonly DateTime _date;
+        ValidateBirthDate(date);
 
-        public DateTime Date => _date.Date;
+        _date = date;
+    }
 
-        protected BirthDate() { }
+    public BirthDate(DateTime date)
+    {
+        ValidateBirthDate(date);
 
-        public BirthDate(int year, int month, int day)
-        {
-            var date = new DateTime(year, month, day);
+        _date = date;
+    }
 
-            ValidateBirthDate(date);
+    public static implicit operator BirthDate(DateTime date) =>
+        new(date);
 
-            _date = date;
-        }
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return _date;
+    }
 
-        public BirthDate(DateTime date)
-        {
-            ValidateBirthDate(date);
+    public int Birthday => _date.Day;
 
-            _date = date;
-        }
+    public override string ToString()
+    {
+        return _date.ToString("dd/MM/yyyy");
+    }
 
-        public static implicit operator BirthDate(DateTime date) => 
-            new (date);
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return _date;
-        }
-
-        public int Birthday => _date.Day;
-
-        public override string ToString()
-        {
-            return _date.ToString("dd/MM/yyyy");
-        }
-
-        private static void ValidateBirthDate(DateTime birthDate)
-        {
-            Check.Min(birthDate, DateTime.UtcNow.AddYears(-MinAge), nameof(BirthDate));
-            Check.Max(birthDate, DateTime.UtcNow.AddYears(-MaxAge), nameof(BirthDate));
-        }
+    private static void ValidateBirthDate(DateTime birthDate)
+    {
+        Check.Min(birthDate, DateTime.UtcNow.AddYears(-MinAge), nameof(BirthDate));
+        Check.Max(birthDate, DateTime.UtcNow.AddYears(-MaxAge), nameof(BirthDate));
     }
 }

@@ -8,61 +8,60 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Argon.Zine.EventSourcing
+namespace Argon.Zine.EventSourcing;
+
+public class EventSourcingStorage : IEventSourcingStorage
 {
-    public class EventSourcingStorage : IEventSourcingStorage
+    protected bool ConnectionClosed;
+    private readonly IEventStoreConnection _connection;
+
+    public EventSourcingStorage(IEventStoreConnection connection)
+        => (_connection, ConnectionClosed) = (connection, true);
+
+    private async Task ConnectAsync()
     {
-        protected bool ConnectionClosed;
-        private readonly IEventStoreConnection _connection;
+        await _connection.ConnectAsync();
+        ConnectionClosed = false;
+    }
 
-        public EventSourcingStorage(IEventStoreConnection connection)
-            => (_connection, ConnectionClosed) = (connection, true);
+    public async Task AddAsync<TEvent>(TEvent @event) where TEvent : Event
+    {
+        if (ConnectionClosed) await ConnectAsync();
 
-        private async Task ConnectAsync()
-        {
-            await _connection.ConnectAsync();
-            ConnectionClosed = false;
-        }
+        var formated = FormatEvent(@event);
 
-        public async Task AddAsync<TEvent>(TEvent @event) where TEvent : Event
-        {
-            if (ConnectionClosed) await ConnectAsync();
+        await _connection.AppendToStreamAsync(
+            @event.AggregateId.ToString(),
+            ExpectedVersion.Any,
+            formated);
+    }
 
-            var formated = FormatEvent(@event);
+    public async Task<IEnumerable<StoredEvent>> GetEventsByAggregateIdAsync(Guid aggregateId)
+    {
+        if (ConnectionClosed) await ConnectAsync();
 
-            await _connection.AppendToStreamAsync(
-                @event.AggregateId.ToString(),
-                ExpectedVersion.Any,
-                formated);
-        }
+        var stream = await _connection.ReadStreamEventsBackwardAsync(aggregateId.ToString(), 0, 500, false);
 
-        public async Task<IEnumerable<StoredEvent>> GetEventsByAggregateIdAsync(Guid aggregateId)
-        {
-            if (ConnectionClosed) await ConnectAsync();
+        return stream.Events.Select(MapEvent);
+    }
 
-            var stream = await _connection.ReadStreamEventsBackwardAsync(aggregateId.ToString(), 0, 500, false);
+    private static IEnumerable<EventData> FormatEvent<TEvent>(TEvent @event) where TEvent : Event
+    {
+        yield return new EventData(
+            Guid.NewGuid(),
+            @event.MessageType,
+            true,
+            Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event)),
+            null);
+    }
 
-            return stream.Events.Select(MapEvent);
-        }
+    private static StoredEvent MapEvent(ResolvedEvent @event)
+    {
+        var dataEncoded = Encoding.UTF8.GetString(@event.Event.Data);
+        var timestamp = JsonSerializer.Deserialize<JsonElement>(dataEncoded)
+            .GetProperty("Timestamp")
+            .GetDateTime();
 
-        private static IEnumerable<EventData> FormatEvent<TEvent>(TEvent @event) where TEvent : Event
-        {
-            yield return new EventData(
-                Guid.NewGuid(),
-                @event.MessageType,
-                true,
-                Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event)),
-                null);
-        }
-
-        private static StoredEvent MapEvent(ResolvedEvent @event)
-        {
-            var dataEncoded = Encoding.UTF8.GetString(@event.Event.Data);
-            var timestamp = JsonSerializer.Deserialize<JsonElement>(dataEncoded)
-                .GetProperty("Timestamp")
-                .GetDateTime();
-
-            return new StoredEvent(@event.Event.EventId, @event.Event.EventType, timestamp, dataEncoded);
-        }
+        return new StoredEvent(@event.Event.EventId, @event.Event.EventType, timestamp, dataEncoded);
     }
 }

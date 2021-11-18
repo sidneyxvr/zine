@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace Argon.Zine.Core.DomainObjects;
 
-namespace Argon.Zine.Core.DomainObjects
+public class DomainException : Exception
 {
-    public class DomainException : Exception
-    {
-        public DomainException(string message) : base(message) { }
-    }
+    public DomainException(string message) : base(message) { }
 }

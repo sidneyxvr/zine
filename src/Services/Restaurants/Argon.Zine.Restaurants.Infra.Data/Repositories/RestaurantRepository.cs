@@ -1,6 +1,5 @@
 ﻿using Argon.Restaurants.Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace Argon.Restaurants.Infra.Data.Repositories;
 
@@ -30,13 +29,12 @@ public class RestaurantRepository : IRestaurantRepository
 
     public async Task<Restaurant?> GetByIdAsync(
         Guid id, 
-        Include include = Include.None, 
+        Includes include = Includes.None, 
         CancellationToken cancellationToken = default)
         => await _context.Restaurants
             .Includes(include)
             .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task UpdateAsync(Restaurant restaurant, CancellationToken cancellationToken = default)
         => Task.CompletedTask;
 }
@@ -45,14 +43,14 @@ internal static class RestaurantQueryExtentios
 {
     internal static IQueryable<Restaurant> Includes(
         this IQueryable<Restaurant> source, 
-        Include include)
+        Includes include)
     {
-        if (include.HasFlag(Include.User))
+        if (include.HasFlag(Domain.Includes.User))
         {
             source = source.Include(s => s.Users);
         }
 
-        if (include.HasFlag(Include.Address))
+        if (include.HasFlag(Domain.Includes.Address))
         {
             source = source.Include(s => s.Users);
         }

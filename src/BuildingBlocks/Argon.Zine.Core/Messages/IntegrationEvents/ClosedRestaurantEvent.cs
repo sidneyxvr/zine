@@ -1,10 +1,7 @@
-﻿using System;
+﻿namespace Argon.Zine.Core.Messages.IntegrationEvents;
 
-namespace Argon.Zine.Core.Messages.IntegrationEvents
+public record ClosedRestaurantEvent : Event
 {
-    public record ClosedRestaurantEvent : Event
-    {
-        public ClosedRestaurantEvent(Guid aggregateId)
-            => AggregateId = aggregateId;
-    }
+    public ClosedRestaurantEvent(Guid aggregateId)
+        => AggregateId = aggregateId;
 }

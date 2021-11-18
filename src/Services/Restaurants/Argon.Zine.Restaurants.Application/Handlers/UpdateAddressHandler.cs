@@ -30,7 +30,7 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
         UpdateAddressCommand request, CancellationToken cancellationToken)
     {
         var restaurant = await _unitOfWork.RestaurantRepository
-            .GetByIdAsync(_appUser.Id, Include.Address, cancellationToken);
+            .GetByIdAsync(_appUser.Id, Includes.Address, cancellationToken);
 
         if (restaurant is null)
         {

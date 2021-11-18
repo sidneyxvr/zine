@@ -1,4 +1,3 @@
-﻿namespace Argon.Zine.Core.DomainObjects
-{
-    public interface IAggregateRoot { }
-}
+﻿namespace Argon.Zine.Core.DomainObjects;
+
+public interface IAggregateRoot { }

@@ -1,9 +1,6 @@
 ﻿using Argon.Zine.Catalog.Domain;
 using Argon.Zine.Core.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Data.Repositories
 {

@@ -1,45 +1,41 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿namespace Argon.Zine.Core.DomainObjects;
 
-namespace Argon.Zine.Core.DomainObjects
+public abstract class ValueObject
 {
-    public abstract class ValueObject
+    protected abstract IEnumerable<object?> GetEqualityComponents();
+
+    public override bool Equals(object? obj)
     {
-        protected abstract IEnumerable<object?> GetEqualityComponents();
-
-        public override bool Equals(object? obj)
+        if (obj == null || obj.GetType() != GetType())
         {
-            if (obj == null || obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            var other = (ValueObject)obj;
-
-            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+            return false;
         }
 
-        public static bool operator ==(ValueObject left, ValueObject right)
-        {
-            if (left is null && right is null)
-                return true;
+        var other = (ValueObject)obj;
 
-            if (left is null || right is null)
-                return false;
+        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+    }
 
-            return left.Equals(right);
-        }
+    public static bool operator ==(ValueObject left, ValueObject right)
+    {
+        if (left is null && right is null)
+            return true;
 
-        public static bool operator !=(ValueObject left, ValueObject right)
-        {
-            return !(left == right);
-        }
+        if (left is null || right is null)
+            return false;
 
-        public override int GetHashCode()
-        {
-            return GetEqualityComponents()
-                .Select(x => x != null ? x.GetHashCode() : 0)
-                .Aggregate((x, y) => x ^ y);
-        }
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ValueObject left, ValueObject right)
+    {
+        return !(left == right);
+    }
+
+    public override int GetHashCode()
+    {
+        return GetEqualityComponents()
+            .Select(x => x != null ? x.GetHashCode() : 0)
+            .Aggregate((x, y) => x ^ y);
     }
 }

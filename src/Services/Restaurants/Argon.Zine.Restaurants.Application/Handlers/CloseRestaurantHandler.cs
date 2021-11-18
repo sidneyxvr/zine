@@ -26,7 +26,7 @@ public class CloseRestaurantHandler : RequestHandler<CloseRestaurantCommand>
         CloseRestaurantCommand request, CancellationToken cancellationToken)
     {
         var restarutant = await _unitOfWork.RestaurantRepository
-            .GetByIdAsync(request.RestaurantId, Include.None, cancellationToken);
+            .GetByIdAsync(request.RestaurantId, Includes.None, cancellationToken);
 
         if (restarutant is null)
         {

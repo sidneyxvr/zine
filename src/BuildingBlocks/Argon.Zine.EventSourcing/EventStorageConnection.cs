@@ -1,7 +1,6 @@
-﻿namespace Argon.Zine.EventSourcing
+﻿namespace Argon.Zine.EventSourcing;
+
+public class EventStorageConnection
 {
-    public class EventStorageConnection
-    {
-        public string ConnectionString { get; init; } = null!;
-    }
+    public string ConnectionString { get; init; } = null!;
 }
