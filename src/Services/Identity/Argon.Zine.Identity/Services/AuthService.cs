@@ -49,26 +49,26 @@ namespace Argon.Zine.Identity.Services
 
             if (user is null)
             {
-                return NotifyError(_localizer["Invalid Login Credentials"]);
+                return WithError(_localizer["Invalid Login Credentials"]);
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
 
             if (result.IsNotAllowed)
             {
-                return NotifyError(_localizer["Invalid Login Credentials"]);
+                return WithError(_localizer["Invalid Login Credentials"]);
             }
 
             if (!result.Succeeded)
             {
-                return NotifyError(_localizer["Invalid Login Credentials"]);
+                return WithError(_localizer["Invalid Login Credentials"]);
             }
 
             var loginResponse = await GenerateUserLoginResponseAsync(user);
 
             if (loginResponse is null)
             {
-                return NotifyError(_localizer["Invalid Login Credentials"]);
+                return WithError(_localizer["Invalid Login Credentials"]);
             }
 
             return new IdentityResponse<UserLoginResponse>(loginResponse);
@@ -80,14 +80,14 @@ namespace Argon.Zine.Identity.Services
 
             if (!validationResult.IsValid)
             {
-                return NotifyError(_localizer["Cannot Refresh Token"]);
+                return WithError(_localizer["Cannot Refresh Token"]);
             }
 
             var claimsSimplified = _tokenService.GetUserClaimsSimplifiedOrDefault(request.AccessToken!);
 
             if (claimsSimplified is null)
             {
-                return NotifyError(_localizer["Cannot Refresh Token"]);
+                return WithError(_localizer["Cannot Refresh Token"]);
             }
 
             var refreshToken = await _refreshTokenStore.GetByTokenAsync(request.RefreshToken!);
@@ -95,14 +95,14 @@ namespace Argon.Zine.Identity.Services
             if (refreshToken is null || refreshToken.JwtId != claimsSimplified.Value.Jti ||
                refreshToken.UserId != claimsSimplified.Value.UserId || !refreshToken.IsValid)
             {
-                return NotifyError(_localizer["Cannot Refresh Token"]);
+                return WithError(_localizer["Cannot Refresh Token"]);
             }
 
             var user = await _userManager.FindByIdAsync(claimsSimplified.Value.UserId.ToString());
 
             if (user is null || !user.IsActive)
             {
-                return NotifyError(_localizer["Cannot Refresh Token"]);
+                return WithError(_localizer["Cannot Refresh Token"]);
             }
 
             refreshToken.Revoked = DateTime.UtcNow;
@@ -110,14 +110,14 @@ namespace Argon.Zine.Identity.Services
 
             if (!result.Succeeded)
             {
-                return NotifyError(_localizer["Cannot Refresh Token"]);
+                return WithError(_localizer["Cannot Refresh Token"]);
             }
 
             var loginResponse = await GenerateUserLoginResponseAsync(user);
 
             if (loginResponse is null)
             {
-                return NotifyError(_localizer["Cannot Refresh Token"]);
+                return WithError(_localizer["Cannot Refresh Token"]);
             }
 
             return new IdentityResponse<UserLoginResponse>(loginResponse);

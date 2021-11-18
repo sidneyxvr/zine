@@ -3,9 +3,6 @@ using Argon.Zine.Basket.Models;
 using Argon.Zine.Basket.Requests;
 using Argon.Zine.Basket.Responses;
 using Argon.Zine.Core.DomainObjects;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Basket.Services
 {
@@ -43,8 +40,8 @@ namespace Argon.Zine.Basket.Services
             }
         }
 
-        public async Task<BasketReponse?> GetBasketAsync()
-            => MapToBasketReponse(await _Basket.GetByCustomerIdAsync(_appUser.Id));
+        public async Task<BasketReponse?> GetBasketAsync(CancellationToken cancellationToken = default)
+            => MapToBasketReponse(await _Basket.GetByCustomerIdAsync(_appUser.Id, cancellationToken));
 
         public async Task RemoveProductFromBasketAsync(Guid productId)
         {

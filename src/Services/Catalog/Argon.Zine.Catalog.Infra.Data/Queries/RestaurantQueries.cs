@@ -3,9 +3,7 @@ using Argon.Zine.Catalog.QueryStack.Responses;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SqlKata;
-using System;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Data.Queries
 {
@@ -16,8 +14,10 @@ namespace Argon.Zine.Catalog.Infra.Data.Queries
         public RestaurantQueries(CatalogContext context)
             => _connection = context.Database.GetDbConnection();
 
-        public async Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(Guid id)
+        public async Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(Guid id, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var query = new Query("Restaurant")
                 .Select("Id", "Name", "LogoUrl")
                 .Where("Id", id)

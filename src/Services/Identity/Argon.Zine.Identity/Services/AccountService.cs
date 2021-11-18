@@ -7,8 +7,6 @@ using Argon.Zine.Identity.Validators;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Identity.Services
 {
@@ -57,7 +55,7 @@ namespace Argon.Zine.Identity.Services
 
             if (!result.Succeeded)
             {
-                result.Errors.ToList().ForEach(e => NotifyError(e.Description));
+                result.Errors.ToList().ForEach(e => WithError(e.Description));
                 return ValidationResult;
             }
 
@@ -103,7 +101,7 @@ namespace Argon.Zine.Identity.Services
 
             if (!result.Succeeded)
             {
-                result.Errors.ToList().ForEach(e => NotifyError(e.Description));
+                result.Errors.ToList().ForEach(e => WithError(e.Description));
                 return ValidationResult;
             }
 
@@ -147,14 +145,14 @@ namespace Argon.Zine.Identity.Services
 
             if (user is null)
             {
-                return NotifyError(_localizer["Cannot Confirm Email Account"]);
+                return WithError(_localizer["Cannot Confirm Email Account"]);
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
 
             return result.Succeeded ?
                 ValidationResult :
-                NotifyError(_localizer["Cannot Confirm Email Account"]);
+                WithError(_localizer["Cannot Confirm Email Account"]);
         }
 
         public async Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request)
@@ -171,7 +169,7 @@ namespace Argon.Zine.Identity.Services
 
             if (user is null)
             {
-                return NotifyError(_localizer["Cannot Resend Confirm Email Account"]);
+                return WithError(_localizer["Cannot Resend Confirm Email Account"]);
             }
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -195,7 +193,7 @@ namespace Argon.Zine.Identity.Services
 
             if (user is null || !user.EmailConfirmed)
             {
-                return NotifyError(_localizer["Cannot Send Reset Password"]);
+                return WithError(_localizer["Cannot Send Reset Password"]);
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -219,14 +217,14 @@ namespace Argon.Zine.Identity.Services
 
             if (user is null || !user.EmailConfirmed)
             {
-                return NotifyError(_localizer["Cannot Reset Password"]);
+                return WithError(_localizer["Cannot Reset Password"]);
             }
 
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
             return result.Succeeded ?
                 ValidationResult :
-                NotifyError(_localizer["Cannot Reset Password"]);
+                WithError(_localizer["Cannot Reset Password"]);
         }
 
         private static CreateRestaurantCommand FromRequestToCommand(RestaurantUserRequest request, Guid userId)

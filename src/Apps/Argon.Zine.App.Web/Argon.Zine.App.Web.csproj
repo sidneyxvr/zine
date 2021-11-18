@@ -10,6 +10,8 @@
     <PackageReference Include="AntDesign" Version="0.10.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.64">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\Argon.Zine.Shared\Argon.Zine.Shared.csproj" />
+    <ProjectReference Include="..\..\Services\Chat\Argon.Zine.Chat\Argon.Zine.Chat.csproj" />
   </ItemGroup>
 
   <ItemGroup>

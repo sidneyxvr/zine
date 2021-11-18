@@ -4,9 +4,7 @@ using Argon.Zine.Shared;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using SqlKata;
-using System;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Data.Queries
 {
@@ -17,8 +15,11 @@ namespace Argon.Zine.Catalog.Infra.Data.Queries
         public ProductQueries(CatalogContext context)
             => _connection = context.Database.GetDbConnection();
 
-        public async Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id)
+        public async Task<ProductBasketResponse?> GetProductBasketByIdAsync(
+            Guid id, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var query = new Query("Product")
                 .Join("Restaurant", "Restaurant.Id", "Product.RestaurantId")
                 .Select("Id", "Name", "Price", "ImageUrl", "RestaurantId", "RestaurantName", "RestaurantLogoUrl")
@@ -28,8 +29,11 @@ namespace Argon.Zine.Catalog.Infra.Data.Queries
             return await _connection.QueryFirstOrDefaultAsync<ProductBasketResponse>(query.Sql, query.NamedBindings);
         }
 
-        public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id)
+        public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(
+            Guid id, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var query = new Query("Product")
                 .Select("Id", "Name", "Price", "ImageUrl")
                 .Where("Product.Id", id)
@@ -38,8 +42,10 @@ namespace Argon.Zine.Catalog.Infra.Data.Queries
             return await _connection.QueryFirstOrDefaultAsync<ProductDetailsResponse>(query.Sql, query.NamedBindings);
         }
 
-        public async Task<PagedList<ProductItemGridResponse>> GetProductsAsync()
+        public async Task<PagedList<ProductItemGridResponse>> GetProductsAsync(CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var baseQuery = new Query("Product")
                 .Select("Id", "Name", "Description", "Price", "ImageUrl", "IsActive");
 

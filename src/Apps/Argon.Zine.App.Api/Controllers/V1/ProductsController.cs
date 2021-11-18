@@ -3,9 +3,6 @@ using Argon.Zine.Catalog.QueryStack.Queries;
 using Argon.Zine.Core.Communication;
 using Argon.Zine.Core.DomainObjects;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {
@@ -44,15 +41,11 @@ namespace Argon.Zine.App.Api.Controllers.V1
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductByIdAsync(Guid id)
-            => Ok(await _productQueries.GetProductDetailsByIdAsync(id));
+        public async Task<IActionResult> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
+            => Ok(await _productQueries.GetProductDetailsByIdAsync(id, cancellationToken));
 
         [HttpGet]
-        public async Task<IActionResult> GetProducsAsync()
-        {
-            _logger.LogError("só de teste", new { field1 = "teste 1", field2 = "teste 2" });
-
-            return Ok(await _productQueries.GetProductsAsync());
-        }
+        public async Task<IActionResult> GetProducsAsync(CancellationToken cancellationToken)
+            => Ok(await _productQueries.GetProductsAsync(cancellationToken));
     }
 }

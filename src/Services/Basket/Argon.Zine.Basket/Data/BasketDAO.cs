@@ -1,8 +1,6 @@
 ﻿using Argon.Zine.Basket.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Basket.Data
 {
@@ -21,10 +19,11 @@ namespace Argon.Zine.Basket.Data
         public async Task AddAsync(CustomerBasket basket)
             => await _baskets.InsertOneAsync(basket);
 
-        public async Task<CustomerBasket?> GetByCustomerIdAsync(Guid customerId)
+        public async Task<CustomerBasket?> GetByCustomerIdAsync(
+            Guid customerId, CancellationToken cancellationToken = default)
         {
             var filter = Builders<CustomerBasket>.Filter.Eq(b => b.CustomerId, customerId);
-            return await _baskets.Find(filter).SingleOrDefaultAsync();
+            return await _baskets.Find(filter).SingleOrDefaultAsync(cancellationToken);
         }
 
         public async Task UpdateAsync(CustomerBasket basket)

@@ -1,14 +1,13 @@
 ﻿using Argon.Zine.Customers.Application.Reponses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Customers.Application.Queries
 {
     public interface ICustomerQueries : IDisposable
     {
-        Task<IEnumerable<AddressReponse>> GetAddressesByCustomerIdAsync(Guid customerId);
-        Task<AddressReponse?> GetAddressByCustomerIdAsync(Guid customerId, Guid addressId);
+        Task<IEnumerable<AddressReponse>> GetAddressesByCustomerIdAsync(
+            Guid customerId, CancellationToken cancellationToken = default);
+        public Task<AddressReponse?> GetAddressAsync(
+            Guid customerId, Guid addressId, CancellationToken cancellationToken = default);
         Task<CustomerNameResponse?> GetCustomerNameByIdAsync(Guid id);
     }
 }

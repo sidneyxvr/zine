@@ -2,8 +2,6 @@
 using Argon.Zine.Catalog.QueryStack.Queries;
 using Argon.Zine.Core.Communication;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {
@@ -23,8 +21,8 @@ namespace Argon.Zine.App.Api.Controllers.V1
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(Guid id)
-            => Ok(await _restaurantQueries.GetRestaurantDetailsByIdAsync(id));
+        public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => Ok(await _restaurantQueries.GetRestaurantDetailsByIdAsync(id, cancellationToken));
 
         [HttpPut("address")]
         public async Task<IActionResult> UpdateAddressAsync(UpdateAddressCommand command)

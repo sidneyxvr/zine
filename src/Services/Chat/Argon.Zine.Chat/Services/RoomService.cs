@@ -1,7 +1,6 @@
 ﻿using Argon.Zine.Chat.Models;
 using Argon.Zine.Chat.Repositories;
 using Argon.Zine.Chat.Requests;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Chat.Services
 {
@@ -12,7 +11,7 @@ namespace Argon.Zine.Chat.Services
         public RoomService(IRoomRepository roomRepository)
             => _roomRepository = roomRepository;
 
-        public async Task AddAsync(CreateRoomDTO createRoom)
+        public async Task AddAsync(CreateRoomDto createRoom)
         {
             var customerUser = new User(createRoom.CustomerId, createRoom.CustomerName);
             var restaurantUser = new User(createRoom.RestaurantId, 

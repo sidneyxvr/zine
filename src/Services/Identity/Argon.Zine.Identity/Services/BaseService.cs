@@ -6,7 +6,7 @@ namespace Argon.Zine.Identity.Services
     {
         protected ValidationResult ValidationResult = new();
 
-        public ValidationResult NotifyError(string error)
+        public ValidationResult WithError(string error)
         {
             ValidationResult.Errors.Add(new ValidationFailure(string.Empty, error));
 

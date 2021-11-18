@@ -22,36 +22,37 @@ namespace Argon.Zine.Catalog.Infra.Caching
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id)
+        public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id, CancellationToken cancellationToken)
             => _productQueries.GetProductBasketByIdAsync(id);
 
-        public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id)
+        public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var productCached = await _cache.GetAsync(id.ToString());
+            var productCached = await _cache.GetAsync(id.ToString(), cancellationToken);
 
-            if(productCached is not null)
+            if (productCached is not null)
             {
                 return JsonSerializer.Deserialize<ProductDetailsResponse?>(
                     Encoding.UTF8.GetString(productCached));
             }
 
-            var product = await _productQueries.GetProductDetailsByIdAsync(id);
+            var product = await _productQueries.GetProductDetailsByIdAsync(id, cancellationToken);
 
-            if(product is not null)
+            if (product is not null)
             {
                 await _cache.SetAsync(id.ToString(),
                     JsonSerializer.SerializeToUtf8Bytes(product),
                     new DistributedCacheEntryOptions
                     {
                         SlidingExpiration = TimeSpan.FromMinutes(15),
-                    });
+                    },
+                    cancellationToken);
             }
 
             return product;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Task<PagedList<ProductItemGridResponse>> GetProductsAsync()
-            => _productQueries.GetProductsAsync();
+        public Task<PagedList<ProductItemGridResponse>> GetProductsAsync(CancellationToken cancellationToken)
+            => _productQueries.GetProductsAsync(cancellationToken);
     }
 }

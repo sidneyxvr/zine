@@ -1,6 +1,30 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
+@foreach (var message in messages)
+{
+    <p>@message.Content</p>
+}
+
+@code {
+    private HubConnection? hubConnection;
+    private List<Argon.Zine.Chat.Models.Message> messages = new List<Argon.Zine.Chat.Models.Message>();
+    private string? userInput;
+    private string? messageInput;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:5001/chathub")
+            .AddMessagePackProtocol()
+            .Build();
+
+        await hubConnection.StartAsync();
+
+        messages = await hubConnection.InvokeAsync<List<Argon.Zine.Chat.Models.Message>>("messages", new { Limit = 20, OffSet = 0 });
+    }
+}

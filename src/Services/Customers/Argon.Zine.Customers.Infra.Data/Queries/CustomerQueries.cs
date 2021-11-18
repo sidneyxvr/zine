@@ -1,10 +1,6 @@
 ﻿using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Customers.Application.Reponses;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Customers.Infra.Data.Queries
 {
@@ -13,10 +9,7 @@ namespace Argon.Zine.Customers.Infra.Data.Queries
         private readonly CustomerContext _context;
 
         public CustomerQueries(CustomerContext context)
-        {
-            _context = context;
-            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
-        }
+            => _context = context;
 
         public void Dispose()
         {
@@ -24,10 +17,11 @@ namespace Argon.Zine.Customers.Infra.Data.Queries
             GC.SuppressFinalize(this);
         }
 
-        public Task<AddressReponse?> GetAddressByCustomerIdAsync(Guid customerId, Guid addressId)
+        public Task<AddressReponse?> GetAddressAsync(
+            Guid customerId, Guid addressId, CancellationToken cancellationToken = default)
         {
             return _context.Addresses
-                .Where(a => a.CustomerId == customerId)
+                .Where(a => a.CustomerId == customerId && a.Id == addressId)
                 .Select(a => new AddressReponse
                 {
                     City = a.City,
@@ -41,10 +35,11 @@ namespace Argon.Zine.Customers.Infra.Data.Queries
                     State = a.State,
                     Street = a.Street
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<AddressReponse>> GetAddressesByCustomerIdAsync(Guid customerId)
+        public async Task<IEnumerable<AddressReponse>> GetAddressesByCustomerIdAsync(
+            Guid customerId, CancellationToken cancellationToken = default)
         {
             return await _context.Addresses
                 .AsNoTracking()
@@ -62,7 +57,7 @@ namespace Argon.Zine.Customers.Infra.Data.Queries
                     State = a.State,
                     Street = a.Street
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<CustomerNameResponse?> GetCustomerNameByIdAsync(Guid id)

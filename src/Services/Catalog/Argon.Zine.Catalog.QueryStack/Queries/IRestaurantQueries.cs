@@ -4,6 +4,7 @@ namespace Argon.Zine.Catalog.QueryStack.Queries
 {
     public interface IRestaurantQueries
     {
-        Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(Guid id);
+        Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(
+            Guid id, CancellationToken cancellationToken = default);
     }
 }

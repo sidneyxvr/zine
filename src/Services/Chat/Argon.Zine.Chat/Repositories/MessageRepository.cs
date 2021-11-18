@@ -2,9 +2,6 @@
 using Argon.Zine.Chat.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Chat.Repositories
 {
@@ -27,11 +24,12 @@ namespace Argon.Zine.Chat.Repositories
             => await _messages.Find(Builders<Message>.Filter.Eq(r => r.Id, id))
             .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<Message>> GetPagedAsync(Guid userId, int limit, int offset)
+        public async Task<IEnumerable<Message>> GetPagedAsync(
+            Guid userId, int limit, int offset, CancellationToken cancellationToken = default)
             => await _messages.Find(Builders<Message>.Filter.Eq(m => m.Sender.Id, userId))
             .Skip(offset)
             .Limit(limit)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         public async Task UpdateAsync(Message message)
             => await _messages.ReplaceOneAsync(r => r.Id == message.Id, message);

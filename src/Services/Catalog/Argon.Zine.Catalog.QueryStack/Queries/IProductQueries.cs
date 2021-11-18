@@ -5,8 +5,8 @@ namespace Argon.Zine.Catalog.QueryStack.Queries
 {
     public interface IProductQueries
     {
-        Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id);
-        Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id);
-        Task<PagedList<ProductItemGridResponse>> GetProductsAsync();
+        Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<PagedList<ProductItemGridResponse>> GetProductsAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -4,7 +4,6 @@ using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Application.Requests;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {

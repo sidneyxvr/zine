@@ -1,7 +1,6 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Core.Communication;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {

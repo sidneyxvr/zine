@@ -3,8 +3,6 @@ using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Application.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {
@@ -66,19 +64,20 @@ namespace Argon.Zine.App.Api.Controllers.V1
 
         [HttpGet("addresses")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAddressesAsync()
+        public async Task<IActionResult> GetAddressesAsync(CancellationToken cancellationToken)
         {
-            var result = await _customerQueries.GetAddressesByCustomerIdAsync(new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A"));
+            var customerId = new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A");
+            var result = await _customerQueries.GetAddressesByCustomerIdAsync(customerId, cancellationToken);
 
             return Ok(result);
         }
 
         [HttpGet("address/{addressId:Guid}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAddressAsync(Guid addressId)
+        public async Task<IActionResult> GetAddressAsync(Guid addressId, CancellationToken cancellationToken)
         {
             var customerId = new Guid("144FDB4E-2436-4407-7B0B-08D8E34E905A");
-            var result = await _customerQueries.GetAddressByCustomerIdAsync(customerId, addressId);
+            var result = await _customerQueries.GetAddressAsync(customerId, addressId, cancellationToken);
 
             return Ok(result);
         }

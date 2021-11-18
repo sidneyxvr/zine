@@ -5,8 +5,6 @@ using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Application.Requests;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {
@@ -34,7 +32,7 @@ namespace Argon.Zine.App.Api.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> SubmitOrderAsync(SubmitOrderRequest request)
         {
-            var address = (await _customerQueries.GetAddressByCustomerIdAsync(_appUser.Id, request.AddressId))!;
+            var address = (await _customerQueries.GetAddressAsync(_appUser.Id, request.AddressId))!;
             var basket = (await _basketService.GetBasketAsync())!;
 
             var commad = new SubmitOrderCommand

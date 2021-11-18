@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,17 +47,17 @@ namespace Argon.Zine.Customers.Infra.Data.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id, calcelationToken);
         }
 
-        public Task UpdateAsync(Customer customer, 
+        public ValueTask UpdateAsync(Customer customer, 
             CancellationToken calcelationToken = default)
         {
             //EF Core already tracks the entity
             //_context.Update(customer);
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 
-    internal static class SupplierQueryExtentios
+    internal static class CustomerQueryExtentions
     {
         internal static IQueryable<Customer> Includes(this IQueryable<Customer> source, Include include)
         {
@@ -73,42 +72,6 @@ namespace Argon.Zine.Customers.Infra.Data.Repositories
             }
 
             return source;
-        }
-    }
-
-    internal static class LinqEFExtentions
-    {
-        internal static IQueryable<T> WhereIf<T>(
-            this IQueryable<T> source, bool evaluation, Expression<Func<T, bool>> predicate)
-        {
-            if(source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return evaluation ? source.Where(predicate) : source;
-        }
-
-        public static IQueryable<T> OrderByIf<T>(
-            this IQueryable<T> source, bool evaluation, Expression<Func<T, bool>> predicate)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return evaluation ? source.OrderBy(predicate) : source;
-        }
-
-        public static IQueryable<T> OrderByDescendingIf<T>(
-            this IQueryable<T> source, bool evaluation, Expression<Func<T, bool>> predicate)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return evaluation ? source.OrderByDescending(predicate) : source;
         }
     }
 }

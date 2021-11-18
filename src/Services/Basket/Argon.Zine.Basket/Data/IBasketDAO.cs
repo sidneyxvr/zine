@@ -1,6 +1,4 @@
 ﻿using Argon.Zine.Basket.Models;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Basket.Data
 {
@@ -9,6 +7,6 @@ namespace Argon.Zine.Basket.Data
         Task AddAsync(CustomerBasket basket);
         Task UpdateAsync(CustomerBasket basket);
         Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price);
-        Task<CustomerBasket?> GetByCustomerIdAsync(Guid customerId);
+        Task<CustomerBasket?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
     }
 }

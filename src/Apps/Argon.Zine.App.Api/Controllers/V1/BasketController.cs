@@ -2,8 +2,6 @@
 using Argon.Zine.Basket.Services;
 using Argon.Zine.Catalog.QueryStack.Queries;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Controllers.V1
 {
@@ -45,7 +43,7 @@ namespace Argon.Zine.App.Api.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBasketAsync()
-            => Ok(await _basketService.GetBasketAsync());
+        public async Task<IActionResult> GetBasketAsync(CancellationToken cancellationToken)
+            => Ok(await _basketService.GetBasketAsync(cancellationToken));
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Argon.Zine.Catalog.Domain;
 using Argon.Zine.Core.Communication;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Catalog.Infra.Data
 {
@@ -26,9 +25,12 @@ namespace Argon.Zine.Catalog.Infra.Data
             _categoryRepository = categoryRepository;
         }
 
-        public ICategoryRepository CategoryRepository => _categoryRepository;
-        public IProductRepository ProductRepository => _productRepository;
-        public IRestaurantRepository RestaurantRepository => _supplierRepository;
+        public ICategoryRepository CategoryRepository 
+            => _categoryRepository;
+        public IProductRepository ProductRepository 
+            => _productRepository;
+        public IRestaurantRepository RestaurantRepository
+            => _supplierRepository;
 
         public async Task<bool> CommitAsync()
         {

@@ -1,17 +1,13 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Queries;
+using Argon.Zine.Chat.Models;
 using Argon.Zine.Chat.Requests;
 using Argon.Zine.Chat.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.App.Api.Hubs
 {
-    [Authorize]
+    //[Authorize]
     public class ChatHub : Hub
     {
         private readonly IUserService _userService;
@@ -40,7 +36,7 @@ namespace Argon.Zine.App.Api.Hubs
             var userId = Context.GetUserId();
             var userName = Context.GetUserFullName();
 
-            var createRoom = new CreateRoomDTO
+            var createRoom = new CreateRoomDto
             {
                 CustomerId = userId,
                 CustomerName = userName,
@@ -71,25 +67,20 @@ namespace Argon.Zine.App.Api.Hubs
         }
 
         [HubMethodName("messages")]
-        public async Task GetPagedMessageAsync(GetPagedMessagesRequest request)
+        public async Task<IEnumerable<Message>> GetPagedMessageAsync(GetPagedMessagesRequest request)
         {
             request.SetUser(Context.GetUserId());
-            var messages = await _messageService.GetPagedMessagesAsync(request);
-
-            var connectionId = Context.ConnectionId;
-
-            await Clients.Client(connectionId).SendAsync("receivePagedMessages", messages);
+            return await _messageService.GetPagedMessagesAsync(request);
         }
     }
 
     public static class HubContextExtensions
     {
         public static Guid GetUserId(this HubCallerContext context)
-            => new(context.User!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+            => new ("A18B8113-2392-4263-1B78-08D94A24E18B");//new(context.User!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
 
         public static string GetUserFullName(this HubCallerContext context)
             => $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.GivenName)!.Value} " +
             $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.FamilyName)!.Value}";
     }
-
 }

@@ -1,6 +1,5 @@
-﻿using Argon.Zine.Core.Communication;
-using Argon.Restaurants.Domain;
-using System.Threading.Tasks;
+﻿using Argon.Restaurants.Domain;
+using Argon.Zine.Core.Communication;
 
 namespace Argon.Restaurants.Infra.Data;
 
@@ -19,7 +18,8 @@ public class UnitOfWork : IUnitOfWork
         _restaurantRepository = restaurantRepository;
     }
 
-    public IRestaurantRepository RestaurantRepository => _restaurantRepository;
+    public IRestaurantRepository RestaurantRepository 
+        => _restaurantRepository;
 
     public async Task<bool> CommitAsync()
     {
