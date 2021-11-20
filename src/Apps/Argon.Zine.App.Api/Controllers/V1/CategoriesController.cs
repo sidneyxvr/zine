@@ -2,25 +2,24 @@
 using Argon.Zine.Core.Communication;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Argon.Zine.App.Api.Controllers.V1
+namespace Argon.Zine.App.Api.Controllers.V1;
+
+[Route("api/categories")]
+[ApiController]
+public class CategoriesController : BaseController
 {
-    [Route("api/categories")]
-    [ApiController]
-    public class CategoriesController : BaseController
+    private readonly IBus _bus;
+
+    public CategoriesController(IBus bus)
     {
-        private readonly IBus _bus;
+        _bus = bus;
+    }
 
-        public CategoriesController(IBus bus)
-        {
-            _bus = bus;
-        }
+    [HttpPost]
+    public async Task<IActionResult> CreateCategoryAsync(CreateCategoryCommand command)
+    {
+        var result = await _bus.SendAsync(command);
 
-        [HttpPost]
-        public async Task<IActionResult> CreateCategoryAsync(CreateCategoryCommand command)
-        {
-            var result = await _bus.SendAsync(command);
-
-            return CustomResponse(result);
-        }
+        return CustomResponse(result);
     }
 }

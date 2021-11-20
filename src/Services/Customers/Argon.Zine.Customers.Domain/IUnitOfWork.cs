@@ -1,12 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿namespace Argon.Zine.Customers.Domain;
 
-namespace Argon.Zine.Customers.Domain
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        Task<bool> CommitAsync();
+    Task<bool> CommitAsync();
 
-        public ICustomerRepository CustomerRepository { get; }
-    }
+    public ICustomerRepository CustomerRepository { get; }
 }

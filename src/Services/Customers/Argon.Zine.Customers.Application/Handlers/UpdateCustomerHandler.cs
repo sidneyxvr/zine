@@ -3,42 +3,38 @@ using Argon.Zine.Core.Messages;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Customers.Application.Handlers
+namespace Argon.Zine.Customers.Application.Handlers;
+
+public class UpdateCustomerHandler : RequestHandler<UpdateCustomerCommand>
 {
-    public class UpdateCustomerHandler : RequestHandler<UpdateCustomerCommand>
+    private readonly IAppUser _appUser;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public UpdateCustomerHandler(
+        IAppUser appUser,
+        IUnitOfWork unitOfWork)
     {
-        private readonly IAppUser _appUser;
-        private readonly IUnitOfWork _unitOfWork;
+        _appUser = appUser;
+        _unitOfWork = unitOfWork;
+    }
 
-        public UpdateCustomerHandler(
-            IAppUser appUser,
-            IUnitOfWork unitOfWork)
+    public override async Task<ValidationResult> Handle(
+        UpdateCustomerCommand request, CancellationToken cancellationToken)
+    {
+        var customer = await _unitOfWork.CustomerRepository
+            .GetByIdAsync(_appUser.Id, Includes.None, cancellationToken);
+
+        if (customer is null)
         {
-            _appUser = appUser;
-            _unitOfWork = unitOfWork;
+            throw new ArgumentNullException(nameof(customer), "Customer cannot be null");
         }
 
-        public override async Task<ValidationResult> Handle(
-            UpdateCustomerCommand request, CancellationToken cancellationToken)
-        {
-            var customer = await _unitOfWork.CustomerRepository
-                .GetByIdAsync(_appUser.Id, Include.None, cancellationToken);
+        customer.Update(request.FirstName, request.LastName, request.BirthDate);
 
-            if (customer is null)
-            {
-                throw new ArgumentNullException(nameof(customer), "Customer cannot be null");
-            }
+        await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
+        await _unitOfWork.CommitAsync();
 
-            customer.Update(request.FirstName, request.LastName, request.BirthDate);
-
-            await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
-            await _unitOfWork.CommitAsync();
-
-            return ValidationResult;
-        }
+        return ValidationResult;
     }
 }

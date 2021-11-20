@@ -8,7 +8,7 @@ public interface IRestaurantRepository : IRepository<Restaurant>
     Task UpdateAsync(Restaurant restaurant, CancellationToken cancellationToken = default);
     Task<Restaurant?> GetByIdAsync(
         Guid id, 
-        Includes include = Includes.None, 
+        Includes includes = Includes.None, 
         CancellationToken cancellationToken = default);
 }
 

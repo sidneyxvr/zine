@@ -2,37 +2,34 @@
 using Argon.Zine.Core.Messages;
 using Argon.Zine.Core.Messages.IntegrationEvents;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Basket.Handlers
+namespace Argon.Zine.Basket.Handlers;
+
+public class ChangedProductPriceHandler : NotificationHandler<ChangedProductPriceEvent>
 {
-    public class ChangedProductPriceHandler : NotificationHandler<ChangedProductPriceEvent>
+    private readonly IBasketService _basketService;
+    private readonly ILogger<ChangedProductPriceHandler> _logger;
+
+    public ChangedProductPriceHandler(
+        IBasketService basketService,
+        ILogger<ChangedProductPriceHandler> logger)
     {
-        private readonly IBasketService _basketService;
-        private readonly ILogger<ChangedProductPriceHandler> _logger;
+        _logger = logger;
+        _basketService = basketService;
+    }
 
-        public ChangedProductPriceHandler(
-            IBasketService basketService, 
-            ILogger<ChangedProductPriceHandler> logger)
+    public override async Task Handle(ChangedProductPriceEvent notification, CancellationToken cancellationToken)
+    {
+        try
         {
-            _logger = logger;
-            _basketService = basketService;
+            await _basketService.UpdateBasketItemPriceAsync(notification.AggregateId, notification.Price);
         }
-
-        public override async Task Handle(ChangedProductPriceEvent notification, CancellationToken cancellationToken)
+        catch
         {
-            try
-            {
-                await _basketService.UpdateBasketItemPriceAsync(notification.AggregateId, notification.Price);
-            }
-            catch
-            {
-                _logger.LogWarning($"Cannot update basket item price - item id: {notification.AggregateId}",
-                   $"Handler {nameof(ChangedProductPriceHandler)}",
-                   $"Assembly {typeof(ChangedProductPriceHandler).Assembly}",
-                   notification);
-            }
+            _logger.LogWarning($"Cannot update basket item price - item id: {notification.AggregateId}",
+               $"Handler {nameof(ChangedProductPriceHandler)}",
+               $"Assembly {typeof(ChangedProductPriceHandler).Assembly}",
+               notification);
         }
     }
 }

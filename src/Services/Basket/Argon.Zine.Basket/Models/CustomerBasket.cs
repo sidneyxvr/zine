@@ -1,50 +1,46 @@
 ﻿using Argon.Zine.Core.DomainObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Argon.Zine.Basket.Models
+namespace Argon.Zine.Basket.Models;
+
+public class CustomerBasket : Entity
 {
-    public class CustomerBasket : Entity
+    public Guid CustomerId { get; private set; }
+    public Guid RestaurantId { get; private set; }
+    public string RestaurantName { get; private set; }
+    public string? RestaurantLogoUrl { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+    public decimal Total => _products.Sum(p => p.Price * p.Quantity);
+
+    private List<BasketItem> _products = new();
+    public IReadOnlyCollection<BasketItem> Products
+        => _products.AsReadOnly();
+
+    public CustomerBasket(Guid restaurantId, string restaurantName,
+        string? restaurantLogoUrl, Guid customerId)
     {
-        public Guid CustomerId { get; private set; }
-        public Guid RestaurantId { get; private set; }
-        public string RestaurantName { get; private set; }
-        public string? RestaurantLogoUrl { get; private set; }
-        public DateTime UpdatedAt { get; private set; }
-        public decimal Total => _products.Sum(p => p.Price * p.Quantity);
+        RestaurantId = restaurantId;
+        RestaurantName = restaurantName;
+        RestaurantLogoUrl = restaurantLogoUrl;
+        CustomerId = customerId;
+        UpdatedAt = DateTime.UtcNow;
+    }
 
-        private List<BasketItem> _products = new();
-        public IReadOnlyCollection<BasketItem> Products
-            => _products.AsReadOnly();
+    public void AddItem(BasketItem item)
+    {
+        _products ??= new();
 
-        public CustomerBasket(Guid restaurantId, string restaurantName, 
-            string? restaurantLogoUrl, Guid customerId)
-        {
-            RestaurantId = restaurantId;
-            RestaurantName = restaurantName;
-            RestaurantLogoUrl = restaurantLogoUrl;
-            CustomerId = customerId;
-            UpdatedAt = DateTime.UtcNow;
-        }
+        _products.RemoveAll(p => p.Id == item.Id);
 
-        public void AddItem(BasketItem item)
-        {
-            _products ??= new();
+        _products.Add(new(item.Id, item.ProductName,
+            item.Quantity, item.Price, item.ImageUrl));
 
-            _products.RemoveAll(p => p.Id == item.Id);
+        UpdatedAt = DateTime.UtcNow;
+    }
 
-            _products.Add(new(item.Id, item.ProductName,
-                item.Quantity, item.Price, item.ImageUrl));
+    public void RemoveItem(Guid productId)
+    {
+        _products.RemoveAll(p => p.Id == productId);
 
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void RemoveItem(Guid productId)
-        {
-            _products.RemoveAll(p => p.Id == productId);
-
-            UpdatedAt = DateTime.UtcNow;
-        }
+        UpdatedAt = DateTime.UtcNow;
     }
 }

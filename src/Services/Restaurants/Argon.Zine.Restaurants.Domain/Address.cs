@@ -1,5 +1,4 @@
 ﻿using Argon.Zine.Core.DomainObjects;
-using System;
 
 namespace Argon.Restaurants.Domain;
 

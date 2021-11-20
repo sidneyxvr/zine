@@ -10,28 +10,26 @@ using Argon.Zine.Restaurants.QueryStack.Queries;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Argon.Zine.App.Api.Configurations
+namespace Argon.Zine.App.Api.Configurations;
+
+public static class RestaurantConfiguration
 {
-    public static class RestaurantConfiguration
+    public static IServiceCollection RegisterSupplier(this IServiceCollection services)
     {
-        public static IServiceCollection RegisterSupplier(this IServiceCollection services)
-        {
-            services.TryAddTransient<IValidator<CreateRestaurantCommand>, CreateRestaurantValidator>();
-            services.TryAddTransient<IValidator<UpdateAddressCommand>, UpdateAddressValidator>();
+        services.TryAddTransient<IValidator<CreateRestaurantCommand>, CreateRestaurantValidator>();
+        services.TryAddTransient<IValidator<UpdateAddressCommand>, UpdateAddressValidator>();
 
-            services.TryAddScoped<IRequestHandler<CreateRestaurantCommand, ValidationResult>, CreateRestaurantHandler>();
-            services.TryAddScoped<IRequestHandler<OpenRestaurantCommand, ValidationResult>, OpenRestaurantHandler>();
-            services.TryAddScoped<IRequestHandler<CloseRestaurantCommand, ValidationResult>, CloseRestaurantHandler>();
+        services.TryAddScoped<IRequestHandler<CreateRestaurantCommand, ValidationResult>, CreateRestaurantHandler>();
+        services.TryAddScoped<IRequestHandler<OpenRestaurantCommand, ValidationResult>, OpenRestaurantHandler>();
+        services.TryAddScoped<IRequestHandler<CloseRestaurantCommand, ValidationResult>, CloseRestaurantHandler>();
 
-            services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
-            services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+        services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
+        services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
+        services.TryAddScoped<IRestaurantQueries, RestaurantQueries>();
 
-            return services;
-        }
+        return services;
     }
 }

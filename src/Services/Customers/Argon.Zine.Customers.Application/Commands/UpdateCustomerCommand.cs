@@ -1,14 +1,11 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Messages;
-using System;
+﻿using Argon.Zine.Core.Messages;
 
-namespace Argon.Zine.Customers.Application.Commands
+namespace Argon.Zine.Customers.Application.Commands;
+
+public record UpdateCustomerCommand : Command
 {
-    public record UpdateCustomerCommand : Command
-    {
-        public string? FirstName { get; init; }
-        public string? LastName { get; init; }
-        public string? Phone { get; init; }
-        public DateTime BirthDate { get; init; }
-    }
+    public string? FirstName { get; init; }
+    public string? LastName { get; init; }
+    public string? Phone { get; init; }
+    public DateTime BirthDate { get; init; }
 }

@@ -2,27 +2,26 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Argon.Zine.Ordering.Infra.Data.Mappings
+namespace Argon.Zine.Ordering.Infra.Data.Mappings;
+
+public class RestaurantMapping : IEntityTypeConfiguration<Restaurant>
 {
-    public class RestaurantMapping : IEntityTypeConfiguration<Restaurant>
+    public void Configure(EntityTypeBuilder<Restaurant> builder)
     {
-        public void Configure(EntityTypeBuilder<Restaurant> builder)
-        {
-            builder.ToTable(nameof(Restaurant));
+        builder.ToTable(nameof(Restaurant));
 
-            builder.HasKey(o => o.Id);
+        builder.HasKey(o => o.Id);
 
-            builder.Property(o => o.Id)
-                .ValueGeneratedNever();
+        builder.Property(o => o.Id)
+            .ValueGeneratedNever();
 
-            builder.Property(o => o.Name)
-                .IsUnicode(false)
-                .HasMaxLength(Restaurant.NameMaxLength)
-                .IsRequired();
+        builder.Property(o => o.Name)
+            .IsUnicode(false)
+            .HasMaxLength(Restaurant.NameMaxLength)
+            .IsRequired();
 
-            builder.Property(o => o.LogoUrl)
-                .IsUnicode(false)
-                .HasMaxLength(256);
-        }
+        builder.Property(o => o.LogoUrl)
+            .IsUnicode(false)
+            .HasMaxLength(256);
     }
 }

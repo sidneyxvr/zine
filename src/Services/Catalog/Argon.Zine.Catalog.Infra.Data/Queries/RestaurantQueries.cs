@@ -1,29 +1,20 @@
 ﻿using Argon.Zine.Catalog.QueryStack.Queries;
 using Argon.Zine.Catalog.QueryStack.Responses;
-using Dapper;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
-using SqlKata;
-using System.Data;
 
-namespace Argon.Zine.Catalog.Infra.Data.Queries
+namespace Argon.Zine.Catalog.Infra.Data.Queries;
+
+public class RestaurantQueries : IRestaurantQueries
 {
-    public class RestaurantQueries : IRestaurantQueries
-    {
-        private readonly IDbConnection _connection;
+    private readonly CatalogContext _context;
 
-        public RestaurantQueries(CatalogContext context)
-            => _connection = context.Database.GetDbConnection();
+    public RestaurantQueries(CatalogContext context)
+        => _context = context;
 
-        public async Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var query = new Query("Restaurant")
-                .Select("Id", "Name", "LogoUrl")
-                .Where("Id", id)
-                .GetSqlResult();
-
-            return await _connection.QueryFirstOrDefaultAsync<RestaurantDetailsResponse>(query.Sql, query.NamedBindings);
-        }
-    }
+    public async Task<RestaurantDetailsResponse?> GetRestaurantDetailsByIdAsync(
+        Guid id, CancellationToken cancellationToken)
+        => await _context.Restaurants
+        .ProjectToType<RestaurantDetailsResponse>()
+        .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
 }

@@ -1,8 +1,7 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Restaurants.Domain;
+﻿using Argon.Restaurants.Domain;
+using Argon.Zine.Core.DomainObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Argon.Restaurants.Infra.Data.Mappings;
 

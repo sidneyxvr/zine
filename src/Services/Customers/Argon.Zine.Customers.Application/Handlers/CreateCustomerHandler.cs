@@ -2,27 +2,24 @@
 using Argon.Zine.Core.Messages.IntegrationCommands;
 using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Customers.Application.Handlers
+namespace Argon.Zine.Customers.Application.Handlers;
+
+public class CreateCustomerHandler : RequestHandler<CreateCustomerCommand>
 {
-    public class CreateCustomerHandler : RequestHandler<CreateCustomerCommand>
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateCustomerHandler(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
+
+    public override async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        private readonly IUnitOfWork _unitOfWork;
+        var customer = new Customer(request.UserId, request.FirstName, request.LastName,
+            request.Email, request.Cpf, request.BirthDate, request.Phone);
 
-        public CreateCustomerHandler(IUnitOfWork unitOfWork)
-            => _unitOfWork = unitOfWork;
+        await _unitOfWork.CustomerRepository.AddAsync(customer, cancellationToken);
+        await _unitOfWork.CommitAsync();
 
-        public override async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
-        {
-            var customer = new Customer(request.UserId, request.FirstName, request.LastName,
-                request.Email, request.Cpf, request.BirthDate, request.Phone);
-
-            await _unitOfWork.CustomerRepository.AddAsync(customer, cancellationToken);
-            await _unitOfWork.CommitAsync();
-
-            return ValidationResult;
-        }
+        return ValidationResult;
     }
 }

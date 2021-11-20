@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.Messages;
-using Argon.Restaurants.Domain;
+﻿using Argon.Restaurants.Domain;
+using Argon.Zine.Core.Messages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Argon.Restaurants.Infra.Data;

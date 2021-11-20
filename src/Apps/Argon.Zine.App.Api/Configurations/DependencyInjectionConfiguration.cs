@@ -14,77 +14,79 @@ using Argon.Zine.EventSourcing;
 using Argon.Zine.Storage;
 using EventStore.ClientAPI;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson.Serialization;
+using StackExchange.Redis;
 
-namespace Argon.Zine.App.Api.Configurations
+namespace Argon.Zine.App.Api.Configurations;
+
+public static class DependencyInjectionConfiguration
 {
-    public static class DependencyInjectionConfiguration
+    public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
+        //General
+        services.AddMediatR(typeof(Startup).Assembly);
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<IBus, InMemoryBus>();
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
+
+        services.AddScoped<IAppUser>(provider =>
         {
-            //General
-            services.AddMediatR(typeof(Startup).Assembly);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IBus, InMemoryBus>();
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
+            var httpContext = provider.GetRequiredService<IHttpContextAccessor>();
 
-            services.AddScoped<IAppUser>(provider =>
+            return new AppUser(httpContext);
+        });
+
+        services.AddScoped<IBasketService, BasketService>();
+        services.AddSingleton<IBasketDAO, BasketDAO>();
+
+        services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
+        services.AddSingleton<IEventStoreConnection>(provider =>
+        {
+            var settings = ConnectionSettings.Create()
+                .DisableTls()
+                .UseDebugLogger()
+                .SetMaxDiscoverAttempts(1)
+                .EnableVerboseLogging();
+
+            var connection = EventStoreConnection.Create("ConnectTo=tcp://admin:changeit@localhost:1113", settings);
+
+            return connection;
+        });
+
+        BsonClassMap.RegisterClassMap<CustomerBasket>(cm =>
+        {
+            cm.AutoMap();
+            cm.MapProperty(b => b.RestaurantLogoUrl)
+                .SetIgnoreIfNull(true);
+            cm.MapField("_products")
+                .SetElementName("Products");
+        });
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("CatalogRedis");
+            options.ConfigurationOptions = new ConfigurationOptions
             {
-                var httpContext = provider.GetRequiredService<IHttpContextAccessor>();
+                AsyncTimeout = 400,
+                SyncTimeout = 400
+            };
+        });
 
-                return new AppUser(httpContext);
-            });
+        var s3SettingsSection = configuration.GetSection(nameof(S3Settings));
+        services.Configure<S3Settings>(s3SettingsSection);
 
-            services.AddScoped<IBasketService, BasketService>();
-            services.AddSingleton<IBasketDAO, BasketDAO>();
+        var s3Settings = s3SettingsSection.Get<S3Settings>();
 
-            services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
-            services.AddSingleton<IEventStoreConnection>(provider =>
-            {
-                var settings = ConnectionSettings.Create()
-                    .DisableTls()
-                    .UseDebugLogger()
-                    .SetMaxDiscoverAttempts(1)
-                    .EnableVerboseLogging();
+        services.AddScoped<AmazonS3Client>(provider
+            => new AmazonS3Client(s3Settings.AccessId, s3Settings.AccessKey, RegionEndpoint.GetBySystemName(s3Settings.Region)));
 
-                var connection = EventStoreConnection.Create("ConnectTo=tcp://admin:changeit@localhost:1113", settings);
+        services.AddScoped<TransferUtility>(provider
+            => new TransferUtility(provider.GetRequiredService<AmazonS3Client>()));
 
-                return connection;
-            });
+        services.TryAddScoped<IFileStorage>(provider
+            => new FileStorage(s3Settings.BucketName, provider.GetRequiredService<TransferUtility>()));
 
-            BsonClassMap.RegisterClassMap<CustomerBasket>(cm =>
-            {
-                cm.AutoMap();
-                cm.MapProperty(b => b.RestaurantLogoUrl)
-                    .SetIgnoreIfNull(true);
-                cm.MapField("_products")
-                    .SetElementName("Products");
-            });
-
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = configuration.GetConnectionString("CatalogRedis");
-            });
-
-            var s3SettingsSection = configuration.GetSection(nameof(S3Settings));
-            services.Configure<S3Settings>(s3SettingsSection);
-
-            var s3Settings = s3SettingsSection.Get<S3Settings>();
-
-            services.AddScoped<AmazonS3Client>(provider
-                => new AmazonS3Client(s3Settings.AccessId, s3Settings.AccessKey, RegionEndpoint.GetBySystemName(s3Settings.Region)));
-
-            services.AddScoped<TransferUtility>(provider
-                => new TransferUtility(provider.GetRequiredService<AmazonS3Client>()));
-
-            services.TryAddScoped<IFileStorage>(provider
-                => new FileStorage(s3Settings.BucketName, provider.GetRequiredService<TransferUtility>()));
-
-            return services;
-        }
+        return services;
     }
 }

@@ -1,25 +1,21 @@
 ﻿using Argon.Zine.Core.Data;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Customers.Domain
+namespace Argon.Zine.Customers.Domain;
+
+public interface ICustomerRepository : IRepository<Customer>
 {
-    public interface ICustomerRepository : IRepository<Customer>
-    {
-        Task AddAsync(Customer customer, CancellationToken calcelationToken = default);
-        Task AddAsync(Address address, CancellationToken calcelationToken = default);
-        ValueTask UpdateAsync(Customer customer, CancellationToken calcelationToken = default);
-        Task<Customer?> GetByIdAsync(Guid id, Include include = Include.None,
-            CancellationToken calcelationToken = default);
-    }
+    Task AddAsync(Customer customer, CancellationToken calcelationToken = default);
+    Task AddAsync(Address address, CancellationToken calcelationToken = default);
+    ValueTask UpdateAsync(Customer customer, CancellationToken calcelationToken = default);
+    Task<Customer?> GetByIdAsync(Guid id, Includes includes = Includes.None,
+        CancellationToken calcelationToken = default);
+}
 
-    [Flags]
-    public enum Include
-    {
-        None = 0,
-        MainAddress = 1,
-        Addresses = 2,
-        All = MainAddress | Addresses
-    }
+[Flags]
+public enum Includes
+{
+    None = 0,
+    MainAddress = 1,
+    Addresses = 2,
+    All = MainAddress | Addresses
 }

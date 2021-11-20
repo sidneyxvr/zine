@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace Argon.Zine.Ordering.Domain;
 
-namespace Argon.Zine.Ordering.Domain
+public interface ISequencialIdentifier
 {
-    public interface ISequencialIdentifier
-    {
-        Task<int> GetSequentialIdAsync();
-    }
+    Task<int> GetSequentialIdAsync();
 }

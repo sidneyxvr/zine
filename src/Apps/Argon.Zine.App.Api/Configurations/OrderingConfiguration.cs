@@ -5,27 +5,25 @@ using Argon.Zine.Ordering.Infra.Data;
 using Argon.Zine.Ordering.Infra.Data.Repositories;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Argon.Zine.App.Api.Configurations
+namespace Argon.Zine.App.Api.Configurations;
+
+public static class OrderingConfiguration
 {
-    public static class OrderingConfiguration
+    public static IServiceCollection RegisterOrdering(this IServiceCollection services)
     {
-        public static IServiceCollection RegisterOrdering(this IServiceCollection services)
-        {
-            services.TryAddScoped<IRequestHandler<AddPaymentMethodCommand, ValidationResult>, AddPaymentMethodHandler>();
-            services.TryAddScoped<IRequestHandler<SubmitOrderCommand, ValidationResult>, SubmitOrderHandler>();
+        services.TryAddScoped<IRequestHandler<AddPaymentMethodCommand, ValidationResult>, AddPaymentMethodHandler>();
+        services.TryAddScoped<IRequestHandler<SubmitOrderCommand, ValidationResult>, SubmitOrderHandler>();
 
-            services.TryAddScoped<IBuyerRepository, BuyerRepository>();
-            services.TryAddScoped<IOrderRepository, OrderRepository>();
-            services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
+        services.TryAddScoped<IBuyerRepository, BuyerRepository>();
+        services.TryAddScoped<IOrderRepository, OrderRepository>();
+        services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
 
-            services.TryAddScoped<IUnitOfWork, UnitOfWork>();
+        services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.TryAddScoped<ISequencialIdentifier, SequencialIdentifier>();
+        services.TryAddScoped<ISequencialIdentifier, SequencialIdentifier>();
 
-            return services;
-        }
+        return services;
     }
 }

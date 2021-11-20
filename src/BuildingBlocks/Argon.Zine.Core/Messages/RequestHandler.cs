@@ -9,9 +9,7 @@ public abstract class RequestHandler<TRequest> : IRequestHandler<TRequest, Valid
     protected ValidationResult ValidationResult;
 
     public RequestHandler()
-    {
-        ValidationResult = new();
-    }
+        => ValidationResult = new();
 
     public abstract Task<ValidationResult> Handle(TRequest request, CancellationToken cancellationToken);
 

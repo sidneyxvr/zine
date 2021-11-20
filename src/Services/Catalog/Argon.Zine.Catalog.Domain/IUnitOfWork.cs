@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿namespace Argon.Zine.Catalog.Domain;
 
-namespace Argon.Zine.Catalog.Domain
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        Task<bool> CommitAsync();
+    Task<bool> CommitAsync();
 
-        public IProductRepository ProductRepository { get; }
-        public IRestaurantRepository RestaurantRepository { get; }
-        public ICategoryRepository CategoryRepository { get; }
-    }
+    public IProductRepository ProductRepository { get; }
+    public IRestaurantRepository RestaurantRepository { get; }
+    public ICategoryRepository CategoryRepository { get; }
 }

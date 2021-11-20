@@ -1,13 +1,12 @@
-﻿namespace Argon.Zine.Ordering.Domain
-{
-    public enum OrderStatusAction : short
-    {
-        Submitted = 1,
-        Paid = 2,
-        OrderAccepted = 3,
-        Delivered,
+﻿namespace Argon.Zine.Ordering.Domain;
 
-        OrderRejected = 98,
-        Cancelled = 99
-    }
+public enum OrderStatusAction : short
+{
+    Submitted = 1,
+    Paid = 2,
+    OrderAccepted = 3,
+    Delivered,
+
+    OrderRejected = 98,
+    Cancelled = 99
 }

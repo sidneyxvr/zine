@@ -2,14 +2,13 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace Argon.Zine.Customers.Application.Validators
+namespace Argon.Zine.Customers.Application.Validators;
+
+public class DeleteAddressValidator : AbstractValidator<DeleteAddressCommand>
 {
-    public class DeleteAddressValidator : AbstractValidator<DeleteAddressCommand>
+    public DeleteAddressValidator(IStringLocalizer<DeleteAddressValidator> localizer)
     {
-        public DeleteAddressValidator(IStringLocalizer<DeleteAddressValidator> localizer)
-        {
-            RuleFor(a => a.AddressId)
-                .NotEmpty().WithMessage(localizer["Address Id is Empty"]);
-        }
+        RuleFor(a => a.AddressId)
+            .NotEmpty().WithMessage(localizer["Address Id is Empty"]);
     }
 }

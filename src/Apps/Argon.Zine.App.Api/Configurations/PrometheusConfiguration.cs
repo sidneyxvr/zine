@@ -1,28 +1,26 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Prometheus;
+﻿using Prometheus;
 
-namespace Argon.Zine.App.Api.Configurations
+namespace Argon.Zine.App.Api.Configurations;
+
+public static class PrometheusConfiguration
 {
-    public static class PrometheusConfiguration
+    public static IApplicationBuilder UsePrometheus(this IApplicationBuilder app)
     {
-        public static IApplicationBuilder UsePrometheus(this IApplicationBuilder app)
-        {
-            var counter = Metrics.CreateCounter("webapi_path_counter", "Counts requests to the WEB API endpoints", 
-                new CounterConfiguration
-                {
-                    LabelNames = new[] { "method", "endpoint" }
-                });
-
-            app.Use((context, next) =>
+        var counter = Metrics.CreateCounter("webapi_path_counter", "Counts requests to the WEB API endpoints",
+            new CounterConfiguration
             {
-                counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
-                return next();
+                LabelNames = new[] { "method", "endpoint" }
             });
 
-            app.UseMetricServer();
-            app.UseHttpMetrics();
+        app.Use((context, next) =>
+        {
+            counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
+            return next();
+        });
 
-            return app;
-        }
+        app.UseMetricServer();
+        app.UseHttpMetrics();
+
+        return app;
     }
 }

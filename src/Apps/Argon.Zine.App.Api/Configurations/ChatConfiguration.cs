@@ -1,22 +1,20 @@
 ﻿using Argon.Zine.Chat.Repositories;
 using Argon.Zine.Chat.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Argon.Zine.App.Api.Configurations
+namespace Argon.Zine.App.Api.Configurations;
+
+public static class ChatConfiguration
 {
-    public static class ChatConfiguration
+    public static IServiceCollection RegisterChat(this IServiceCollection services)
     {
-        public static IServiceCollection RegisterChat(this IServiceCollection services)
-        {
-            services.TryAddScoped<IUserService, UserService>();
-            services.TryAddScoped<IMessageService, MessageService>();
-            services.TryAddScoped<IRoomService, RoomService>();
+        services.TryAddScoped<IUserService, UserService>();
+        services.TryAddScoped<IMessageService, MessageService>();
+        services.TryAddScoped<IRoomService, RoomService>();
 
-            services.TryAddScoped<IMessageRepository, MessageRepository>();
-            services.TryAddScoped<IRoomRepository, RoomRepository>();
+        services.TryAddScoped<IMessageRepository, MessageRepository>();
+        services.TryAddScoped<IRoomRepository, RoomRepository>();
 
-            return services;
-        }
+        return services;
     }
 }

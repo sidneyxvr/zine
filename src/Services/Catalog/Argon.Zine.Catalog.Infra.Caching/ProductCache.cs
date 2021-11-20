@@ -5,25 +5,29 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using System.Text.Json;
 
-namespace Argon.Zine.Catalog.Infra.Caching
+namespace Argon.Zine.Catalog.Infra.Caching;
+
+public class ProductCache : IProductQueries
 {
-    public class ProductCache : IProductQueries
+    private readonly IDistributedCache _cache;
+    private readonly IProductQueries _productQueries;
+
+    public ProductCache(IDistributedCache cache, IProductQueries productQueries)
     {
-        private readonly IDistributedCache _cache;
-        private readonly IProductQueries _productQueries;
+        _cache = cache;
+        _productQueries = productQueries;
+    }
 
-        public ProductCache(IDistributedCache cache, IProductQueries productQueries)
+    public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id, CancellationToken cancellationToken)
+        => _productQueries.GetProductBasketByIdAsync(id);
+
+    public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        byte[]? productCached;
+        var caheAvailable = true;
+        try
         {
-            _cache = cache;
-            _productQueries = productQueries;
-        }
-
-        public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id, CancellationToken cancellationToken)
-            => _productQueries.GetProductBasketByIdAsync(id);
-
-        public async Task<ProductDetailsResponse?> GetProductDetailsByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            var productCached = await _cache.GetAsync(id.ToString(), cancellationToken);
+            productCached = await _cache.GetAsync(id.ToString(), cancellationToken);
 
             if (productCached is not null)
             {
@@ -31,23 +35,28 @@ namespace Argon.Zine.Catalog.Infra.Caching
                     Encoding.UTF8.GetString(productCached));
             }
 
-            var product = await _productQueries.GetProductDetailsByIdAsync(id, cancellationToken);
-
-            if (product is not null)
-            {
-                await _cache.SetAsync(id.ToString(),
-                    JsonSerializer.SerializeToUtf8Bytes(product),
-                    new DistributedCacheEntryOptions
-                    {
-                        SlidingExpiration = TimeSpan.FromMinutes(15),
-                    },
-                    cancellationToken);
-            }
-
-            return product;
+        }
+        catch
+        {
+            caheAvailable = false;
         }
 
-        public Task<PagedList<ProductItemGridResponse>> GetProductsAsync(CancellationToken cancellationToken)
-            => _productQueries.GetProductsAsync(cancellationToken);
+        var product = await _productQueries.GetProductDetailsByIdAsync(id, cancellationToken);
+
+        if (product is not null && caheAvailable)
+        {
+            await _cache.SetAsync(id.ToString(),
+                JsonSerializer.SerializeToUtf8Bytes(product),
+                new DistributedCacheEntryOptions
+                {
+                    SlidingExpiration = TimeSpan.FromMinutes(15),
+                },
+                cancellationToken);
+        }
+
+        return product;
     }
+
+    public Task<PagedList<ProductItemGridResponse>> GetProductsAsync(CancellationToken cancellationToken)
+        => _productQueries.GetProductsAsync(cancellationToken);
 }

@@ -1,18 +1,16 @@
 ﻿using Argon.Zine.Core.DomainObjects;
-using System;
 
-namespace Argon.Zine.Chat.Models
+namespace Argon.Zine.Chat.Models;
+
+public class User : Entity
 {
-    public class User : Entity
-    {
-        public string Name { get; private set; }
-        public string? ImageUrl { get; private set; }
+    public string Name { get; private set; }
+    public string? ImageUrl { get; private set; }
 
-        public User(Guid id, string name, string? imageUrl = null)
-        {
-            Id = id;
-            Name = name;
-            ImageUrl = imageUrl;
-        }
+    public User(Guid id, string name, string? imageUrl = null)
+    {
+        Id = id;
+        Name = name;
+        ImageUrl = imageUrl;
     }
 }

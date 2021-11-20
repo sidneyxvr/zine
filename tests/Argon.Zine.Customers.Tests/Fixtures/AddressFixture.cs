@@ -2,9 +2,9 @@
 using Bogus;
 using System;
 
-namespace Argon.Zine.Customers.Tests.Fixtures
-{
-    public class AddressFixture
+namespace Argon.Zine.Customers.Tests.Fixtures;
+
+public class AddressFixture
     {
         private readonly Faker _faker;
         public AddressFixture()
@@ -51,4 +51,3 @@ namespace Argon.Zine.Customers.Tests.Fixtures
     public record AddressTestDTO(Guid Id, string Street, string Number, 
         string District, string City, string State, string Country, 
         string PostalCode, string Complement, double Latitude, double Longitude);
-}

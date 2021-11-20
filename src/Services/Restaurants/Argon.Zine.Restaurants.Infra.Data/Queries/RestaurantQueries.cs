@@ -1,30 +1,21 @@
 ﻿using Argon.Restaurants.Infra.Data;
 using Argon.Zine.Restaurants.QueryStack.Queries;
-using Dapper;
+using Argon.Zine.Restaurants.QueryStack.Reponses;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
-using SqlKata;
-using System;
-using System.Data;
-using System.Threading.Tasks;
 
 namespace Argon.Zine.Restaurants.Infra.Data.Queries;
 
 public class RestaurantQueries : IRestaurantQueries
 {
-    private readonly IDbConnection _connection;
+    private readonly RestaurantContext _context;
 
     public RestaurantQueries(RestaurantContext context)
-        => _connection = context.Database.GetDbConnection();
+        => _context = context;
 
-    public async Task<Guid> GetRestaurantIdByUserIdAsync(Guid userId)
-    {
-        var query = new Query("User")
-            .Select("RestaurantId")
-            .Where("Id", userId)
-            .GetSqlResult();
-
-        Console.WriteLine(query.Sql);
-
-        return await _connection.QueryFirstOrDefaultAsync<Guid>(query.Sql, query.NamedBindings);
-    }
+    public async Task<RestaurantDetailsReponse?> GetRestaurantByUserIdAsync(Guid userId)
+        => await _context.Restaurants
+        .Where(r => r.Users.Any(u => u.Id == userId))
+        .ProjectToType<RestaurantDetailsReponse>()
+        .FirstOrDefaultAsync();
 }

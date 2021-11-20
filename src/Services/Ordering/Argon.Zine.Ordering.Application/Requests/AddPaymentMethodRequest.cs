@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace Argon.Zine.Ordering.Application.Requests;
 
-namespace Argon.Zine.Ordering.Application.Requests
+public class AddPaymentMethodRequest
 {
-    public class AddPaymentMethodRequest
-    {
-        public string Alias { get; init; } = null!;
-        public string CardNamber { get; init; } = null!;
-        public string CardHolderName { get; init; } = null!;
-        public DateTime Expiration { get; init; }
-    }
+    public string Alias { get; init; } = null!;
+    public string CardNamber { get; init; } = null!;
+    public string CardHolderName { get; init; } = null!;
+    public DateTime Expiration { get; init; }
 }

@@ -1,315 +1,314 @@
-﻿using Argon.Zine.Customers.Domain;
+﻿using Argon.Zine.Core.DomainObjects;
+using Argon.Zine.Customers.Domain;
 using Argon.Zine.Customers.Tests.Fixtures;
-using Argon.Zine.Core.DomainObjects;
 using Bogus;
-using Xunit;
 using System;
+using Xunit;
 
-namespace Argon.Zine.Customers.Tests.Domain
+namespace Argon.Zine.Customers.Tests.Domain;
+
+public class AddressTest
 {
-    public class AddressTest
+    private readonly Faker _faker;
+    private readonly AddressFixture _addressFixture;
+
+    public AddressTest()
     {
-        private readonly Faker _faker;
-        private readonly AddressFixture _addressFixture;
+        _faker = new Faker("pt_BR");
+        _addressFixture = new AddressFixture();
+    }
 
-        public AddressTest()
-        {
-            _faker = new Faker("pt_BR");
-            _addressFixture = new AddressFixture();
-        }
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void CreateAddresssEmptyStreetShouldThrowDomainException(string street)
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void CreateAddresssEmptyStreetShouldThrowDomainException(string street)
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), street, address.Number, address.District, address.City, address.State,
+            address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), street, address.Number, address.District, address.City, address.State,
+        //Assert
+        Assert.Equal(nameof(Address.Street).ToLower(), result.Message);
+    }
+
+    [Fact]
+    public void CreateAddresssStreetOutOfRangeShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var street = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
+
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), street, address.Number, address.District, address.City, address.State,
                 address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.Street).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.Street).ToLower(), result.Message);
+    }
 
-        [Fact]
-        public void CreateAddresssStreetOutOfRangeShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var street = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
+    [Fact]
+    public void CreateAddresssInvalidNumberShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var number = _faker.Lorem.Letter(_faker.Random.Int(Address.NumberMaxLength, Address.NumberMaxLength + 5));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), street, address.Number, address.District, address.City, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, number, address.District, address.City, address.State,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.Street).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.Number).ToLower(), result.Message);
+    }
 
-        [Fact]
-        public void CreateAddresssInvalidNumberShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var number = _faker.Lorem.Letter(_faker.Random.Int(Address.NumberMaxLength, Address.NumberMaxLength + 5));
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void CreateAddresssEmptyDistrictShouldThrowDomainException(string district)
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, number, address.District, address.City, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, district, address.City, address.State,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.Number).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.District).ToLower(), result.Message);
+    }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void CreateAddresssEmptyDistrictShouldThrowDomainException(string district)
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+    [Fact]
+    public void CreateAddressDistrictOutOfRangeShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var district = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, district, address.City, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, district, address.City, address.State,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.District).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.District).ToLower(), result.Message);
+    }
 
-        [Fact]
-        public void CreateAddressDistrictOutOfRangeShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var district = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void CreateAddressEmptyCityShouldThrowDomainException(string city)
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, district, address.City, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, city, address.State,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.District).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.City).ToLower(), result.Message);
+    }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void CreateAddressEmptyCityShouldThrowDomainException(string city)
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+    [Fact]
+    public void CreateAddressCityOutOfRangeShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var city = _faker.Lorem.Letter(_faker.Random.Int(41, 100));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, city, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, city, address.State,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.City).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.City).ToLower(), result.Message);
+    }
 
-        [Fact]
-        public void CreateAddressCityOutOfRangeShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var city = _faker.Lorem.Letter(_faker.Random.Int(41, 100));
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void CreateAddressEmptyStateShouldThrowDomainException(string state)
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, city, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, state,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.City).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.State).ToLower(), result.Message);
+    }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void CreateAddressEmptyStateShouldThrowDomainException(string state)
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+    [Fact]
+    public void CreateAddressInvalidStateShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var state = _faker.Lorem.Letter(_faker.Random.Int(3, 100));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, state,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, state,
+                address.PostalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.State).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.State).ToLower(), result.Message);
+    }
 
-        [Fact]
-        public void CreateAddressInvalidStateShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var state = _faker.Lorem.Letter(_faker.Random.Int(3, 100));
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void CreateAddressEmptyPostalCodeShouldThrowDomainException(string postalCode)
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, state,
-                    address.PostalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
+            postalCode, address.Complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal(nameof(Address.State).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal("postalCode", result.Message);
+    }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void CreateAddressEmptyPostalCodeShouldThrowDomainException(string postalCode)
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+    [Fact]
+    public void CreateAddressComplementOutOfRangeShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
-                postalCode, address.Complement, address.Latitude, address.Longitude));
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
+                address.PostalCode, complement, address.Latitude, address.Longitude));
 
-            //Assert
-            Assert.Equal("postalCode", result.Message);
-        }
+        //Assert
+        Assert.Equal(nameof(Address.Complement).ToLower(), result.Message);
+    }
 
-        [Fact]
-        public void CreateAddressComplementOutOfRangeShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var complement = _faker.Lorem.Letter(_faker.Random.Int(51, 100));
+    [Fact]
+    public void CreateAddressInvalidLatitudeShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var greaterThanPositive90 = _faker.Random.Double(91, 1e9);
+        var lessThanNegative90 = _faker.Random.Double(-1e9, -91);
+        var latitude = _faker.Random.Bool() ? greaterThanPositive90 : lessThanNegative90;
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
+                address.PostalCode, address.Complement, latitude, address.Longitude));
 
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
-                    address.PostalCode, complement, address.Latitude, address.Longitude));
+        //Assert
+        Assert.Equal(nameof(Address.Location.Latitude).ToLower(), result.Message);
+    }
 
-            //Assert
-            Assert.Equal(nameof(Address.Complement).ToLower(), result.Message);
-        }
+    [Fact]
+    public void CreateAddressInvalidLongitudeShouldThrowDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
+        var greaterThanPositive180 = _faker.Random.Double(181, 1e9);
+        var lessThanNegative180 = _faker.Random.Double(-1e9, -181);
+        var longitude = _faker.Random.Bool() ? greaterThanPositive180 : lessThanNegative180;
+        //Act
+        var result = Assert.Throws<DomainException>(() =>
+            new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
+                address.PostalCode, address.Complement, address.Latitude, longitude));
 
-        [Fact]
-        public void CreateAddressInvalidLatitudeShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var greaterThanPositive90 = _faker.Random.Double(91, 1e9);
-            var lessThanNegative90 = _faker.Random.Double(-1e9, -91);
-            var latitude = _faker.Random.Bool() ? greaterThanPositive90 : lessThanNegative90;
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
-                    address.PostalCode, address.Complement, latitude, address.Longitude));
+        //Assert
+        Assert.Equal(nameof(Address.Location.Longitude).ToLower(), result.Message);
+    }
 
-            //Assert
-            Assert.Equal(nameof(Address.Location.Latitude).ToLower(), result.Message);
-        }
+    [Fact]
+    public void CreateValidAddressShouldWorkSuccessfully()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-        [Fact]
-        public void CreateAddressInvalidLongitudeShouldThrowDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-            var greaterThanPositive180 = _faker.Random.Double(181, 1e9);
-            var lessThanNegative180 = _faker.Random.Double(-1e9, -181);
-            var longitude = _faker.Random.Bool() ? greaterThanPositive180 : lessThanNegative180;
-            //Act
-            var result = Assert.Throws<DomainException>(() =>
-                new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, address.State,
-                    address.PostalCode, address.Complement, address.Latitude, longitude));
+        //Act
+        var result = new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City,
+            address.State, address.PostalCode, address.Complement, address.Latitude, address.Longitude);
 
-            //Assert
-            Assert.Equal(nameof(Address.Location.Longitude).ToLower(), result.Message);
-        }
+        //Assert
+        Assert.Equal(address.Street, result.Street);
+        Assert.Equal(address.Number, result.Number);
+        Assert.Equal(address.District, result.District);
+        Assert.Equal(address.City, result.City);
+        Assert.Equal(address.State, result.State);
+        Assert.Equal(address.PostalCode, result.PostalCode);
+        Assert.Equal(address.Complement, result.Complement);
+    }
 
-        [Fact]
-        public void CreateValidAddressShouldWorkSuccessfully()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+    [Fact]
+    public void CreateAddressNullCoordinatesShouldReturnThrowsDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-            //Act
-            var result = new Address(Guid.NewGuid(), address.Street, address.Number, address.District, address.City, 
-                address.State, address.PostalCode, address.Complement, address.Latitude, address.Longitude);
+        //Act
+        var result = Assert.Throws<DomainException>(() => new Address(Guid.NewGuid(), address.Street,
+            address.Number, address.District, address.City, address.State, address.PostalCode, address.Complement, null, null));
 
-            //Assert
-            Assert.Equal(address.Street, result.Street);
-            Assert.Equal(address.Number, result.Number);
-            Assert.Equal(address.District, result.District);
-            Assert.Equal(address.City, result.City);
-            Assert.Equal(address.State, result.State);
-            Assert.Equal(address.PostalCode, result.PostalCode);
-            Assert.Equal(address.Complement, result.Complement);
-        }
+        //Assert
+        Assert.Equal("latitude", result.Message);
+    }
 
-        [Fact]
-        public void CreateAddressNullCoordinatesShouldReturnThrowsDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
+    [Fact]
+    public void CreateAddressNullLongitudeShouldReturnThrowsDomainException()
+    {
+        //Arrange
+        var address = _addressFixture.GetAddressTestDTO();
 
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Address(Guid.NewGuid(), address.Street, 
-                address.Number, address.District, address.City, address.State, address.PostalCode, address.Complement, null, null));
+        //Act
+        var result = Assert.Throws<DomainException>(() => new Address(Guid.NewGuid(), address.Street,
+            address.Number, address.District, address.City, address.State, address.PostalCode, address.Complement, 0, null));
 
-            //Assert
-            Assert.Equal("latitude", result.Message);
-        }
-
-        [Fact]
-        public void CreateAddressNullLongitudeShouldReturnThrowsDomainException()
-        {
-            //Arrange
-            var address = _addressFixture.GetAddressTestDTO();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Address(Guid.NewGuid(), address.Street,
-                address.Number, address.District, address.City, address.State, address.PostalCode, address.Complement, 0, null));
-
-            //Assert
-            Assert.Equal("longitude", result.Message);
-        }
+        //Assert
+        Assert.Equal("longitude", result.Message);
+    }
 
 
-        [Fact]
-        public void UpdateAddressShouldUpdate()
-        {
-            //Arrange
-            var street = "Rua nome 1";
-            var number = "12345";
-            var district = "Bairro 1";
-            var city = "Cidade 1";
-            var state = "CE";
-            var country = "Brasil";
-            var postalCode = "50000999";
+    [Fact]
+    public void UpdateAddressShouldUpdate()
+    {
+        //Arrange
+        var street = "Rua nome 1";
+        var number = "12345";
+        var district = "Bairro 1";
+        var city = "Cidade 1";
+        var state = "CE";
+        var country = "Brasil";
+        var postalCode = "50000999";
 
-            //Act
-            var result = new Address(Guid.NewGuid(), street, number, district, city, state, postalCode, null, 0, 0);
+        //Act
+        var result = new Address(Guid.NewGuid(), street, number, district, city, state, postalCode, null, 0, 0);
 
-            //Assert
-            Assert.Equal(street, result.Street);
-            Assert.Equal(number, result.Number);
-            Assert.Equal(district, result.District);
-            Assert.Equal(city, result.City);
-            Assert.Equal(state, result.State);
-            Assert.Equal(country, result.Country);
-            Assert.Equal(postalCode, result.PostalCode);
-        }
+        //Assert
+        Assert.Equal(street, result.Street);
+        Assert.Equal(number, result.Number);
+        Assert.Equal(district, result.District);
+        Assert.Equal(city, result.City);
+        Assert.Equal(state, result.State);
+        Assert.Equal(country, result.Country);
+        Assert.Equal(postalCode, result.PostalCode);
     }
 }

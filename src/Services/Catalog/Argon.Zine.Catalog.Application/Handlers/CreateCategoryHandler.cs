@@ -3,41 +3,38 @@ using Argon.Zine.Catalog.Domain;
 using Argon.Zine.Core.Messages;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Catalog.Application.Handlers
+namespace Argon.Zine.Catalog.Application.Handlers;
+
+public class CreateCategoryHandler : RequestHandler<CreateCategoryCommand>
 {
-    public class CreateCategoryHandler : RequestHandler<CreateCategoryCommand>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IStringLocalizer<CreateCategoryHandler> _localizer;
+
+    public CreateCategoryHandler(
+        IUnitOfWork unitOfWork,
+        IStringLocalizer<CreateCategoryHandler> localizer)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IStringLocalizer<CreateCategoryHandler> _localizer;
+        _localizer = localizer;
+        _unitOfWork = unitOfWork;
+    }
 
-        public CreateCategoryHandler(
-            IUnitOfWork unitOfWork,
-            IStringLocalizer<CreateCategoryHandler> localizer)
+    public override async Task<ValidationResult> Handle(
+        CreateCategoryCommand request, CancellationToken cancellationToken)
+    {
+        var departmentExists = await _unitOfWork.CategoryRepository
+            .ExistsByNameAsync(request.Name!, cancellationToken);
+
+        if (!departmentExists)
         {
-            _localizer = localizer;
-            _unitOfWork = unitOfWork;
+            return WithError("department", _localizer["Department Not Found"]);
         }
 
-        public override async Task<ValidationResult> Handle(
-            CreateCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var departmentExists = await _unitOfWork.CategoryRepository
-                .ExistsByNameAsync(request.Name!, cancellationToken);
+        var category = new Category(request.Name, request.Description);
 
-            if (!departmentExists)
-            {
-                return WithError("department", _localizer["Department Not Found"]);
-            }
+        await _unitOfWork.CategoryRepository.AddAsync(category, cancellationToken);
+        await _unitOfWork.CommitAsync();
 
-            var category = new Category(request.Name, request.Description);
-
-            await _unitOfWork.CategoryRepository.AddAsync(category, cancellationToken);
-            await _unitOfWork.CommitAsync();
-
-            return ValidationResult;
-        }
+        return ValidationResult;
     }
 }

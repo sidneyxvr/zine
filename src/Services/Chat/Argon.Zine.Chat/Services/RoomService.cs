@@ -2,24 +2,23 @@
 using Argon.Zine.Chat.Repositories;
 using Argon.Zine.Chat.Requests;
 
-namespace Argon.Zine.Chat.Services
+namespace Argon.Zine.Chat.Services;
+
+public class RoomService : IRoomService
 {
-    public class RoomService : IRoomService
+    private readonly IRoomRepository _roomRepository;
+
+    public RoomService(IRoomRepository roomRepository)
+        => _roomRepository = roomRepository;
+
+    public async Task AddAsync(CreateRoomDto createRoom)
     {
-        private readonly IRoomRepository _roomRepository;
+        var customerUser = new User(createRoom.CustomerId, createRoom.CustomerName);
+        var restaurantUser = new User(createRoom.RestaurantId,
+            createRoom.RestaurantName, createRoom.RestaurantLogoUrl);
 
-        public RoomService(IRoomRepository roomRepository)
-            => _roomRepository = roomRepository;
+        var room = new Room($"{createRoom.OrderSequentialId}", customerUser, restaurantUser);
 
-        public async Task AddAsync(CreateRoomDto createRoom)
-        {
-            var customerUser = new User(createRoom.CustomerId, createRoom.CustomerName);
-            var restaurantUser = new User(createRoom.RestaurantId, 
-                createRoom.RestaurantName, createRoom.RestaurantLogoUrl);
-
-            var room = new Room($"{createRoom.OrderSequentialId}", customerUser, restaurantUser);
-
-            await _roomRepository.AddAsync(room);
-        }
+        await _roomRepository.AddAsync(room);
     }
 }

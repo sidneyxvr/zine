@@ -6,49 +6,48 @@ using Argon.Zine.Core.Messages;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
-namespace Argon.Zine.Catalog.Application.Handlers
+namespace Argon.Zine.Catalog.Application.Handlers;
+
+public class CreateProductHandler : RequestHandler<CreateProductCommand>
 {
-    public class CreateProductHandler : RequestHandler<CreateProductCommand>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IFileStorage _fileStorage;
+    private readonly IStringLocalizer<CreateProductHandler> _localizer;
+
+    public CreateProductHandler(
+        IUnitOfWork unitOfWork,
+        IFileStorage fileStorage,
+        IStringLocalizer<CreateProductHandler> localizer)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IFileStorage _fileStorage;
-        private readonly IStringLocalizer<CreateProductHandler> _localizer;
+        _localizer = localizer;
+        _unitOfWork = unitOfWork;
+        _fileStorage = fileStorage;
+    }
 
-        public CreateProductHandler(
-            IUnitOfWork unitOfWork,
-            IFileStorage fileStorage,
-            IStringLocalizer<CreateProductHandler> localizer)
+    public override async Task<ValidationResult> Handle(
+        CreateProductCommand request, CancellationToken cancellationToken)
+    {
+        var restaurant = await _unitOfWork.RestaurantRepository
+            .GetByIdAsync(request.RestaurantId);
+
+        if (restaurant is null)
         {
-            _localizer = localizer;
-            _unitOfWork = unitOfWork;
-            _fileStorage = fileStorage;
+            return WithError(_localizer["Restaurant Not Found"]);
         }
 
-        public override async Task<ValidationResult> Handle(
-            CreateProductCommand request, CancellationToken cancellationToken)
-        {
-            var restaurant = await _unitOfWork.RestaurantRepository
-                .GetByIdAsync(request.RestaurantId);
+        var (_, imageUrl) = await _fileStorage
+            .UploadAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
 
-            if(restaurant is null)
-            {
-                return WithError(_localizer["Restaurant Not Found"]);
-            }
+        var product = new Product(request.Name, request.Description,
+            request.Price, request.IsActive, imageUrl, request.RestaurantId);
 
-            var (_, imageUrl) = await _fileStorage
-                .UploadAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
+        product.AddDomainEvent(new ProductCreatedEvent(product.Id,
+            product.Name, product.Price, product.ImageUrl,
+            restaurant.Id, restaurant.Name, restaurant.LogoUrl));
 
-            var product = new Product(request.Name, request.Description,
-                request.Price, request.IsActive, imageUrl, request.RestaurantId);
+        await _unitOfWork.ProductRepository.AddAsync(product, cancellationToken);
+        await _unitOfWork.CommitAsync();
 
-            product.AddDomainEvent(new ProductCreatedEvent(product.Id,
-                product.Name, product.Price, product.ImageUrl,
-                restaurant.Id, restaurant.Name, restaurant.LogoUrl));
-
-            await _unitOfWork.ProductRepository.AddAsync(product, cancellationToken);
-            await _unitOfWork.CommitAsync();
-
-            return ValidationResult;
-        }
+        return ValidationResult;
     }
 }

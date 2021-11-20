@@ -1,9 +1,8 @@
 ﻿using Argon.Zine.Chat.Requests;
 
-namespace Argon.Zine.Chat.Services
+namespace Argon.Zine.Chat.Services;
+
+public interface IRoomService
 {
-    public interface IRoomService
-    {
-        Task AddAsync(CreateRoomDto createRoom);
-    }
+    Task AddAsync(CreateRoomDto createRoom);
 }
