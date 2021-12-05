@@ -13,33 +13,6 @@ namespace Argon.Zine.Core.Tests.DomainObjects
             _faker = new Faker("pt_BR");
         }
 
-        [Fact]
-        public void CreateLocationNullLatitudeShouldThrowDomainException()
-        {
-            //Arrange
-            var latitude = (double?)null;
-            var longitude = _faker.Address.Longitude();
-
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Location(latitude, longitude));
-
-            //Assert
-            Assert.Equal(nameof(latitude), result.Message);
-        }
-
-        [Fact]
-        public void CreateLocationNullLongitudeShouldThrowDomainException()
-        {
-            //Arrange
-            var latitude = _faker.Address.Latitude();
-            var longitude = (double?)null;
-            //Act
-            var result = Assert.Throws<DomainException>(() => new Location(latitude, longitude));
-
-            //Assert
-            Assert.Equal(nameof(longitude), result.Message);
-        }
-
         [Theory]
         [InlineData(90.000000001)]
         [InlineData(91)]

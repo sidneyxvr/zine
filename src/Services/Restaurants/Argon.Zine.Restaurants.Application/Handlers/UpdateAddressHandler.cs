@@ -1,12 +1,9 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Messages;
-using Argon.Restaurants.Application.Commands;
+﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
+using Argon.Zine.Core.DomainObjects;
+using Argon.Zine.Core.Messages;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
-using System.Threading.Tasks;
-using System;
-using System.Threading;
 
 namespace Argon.Restaurants.Application.Handlers;
 
@@ -44,9 +41,10 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
             return WithError(nameof(address), _localizer["Address not found"]);
         }
 
-        address.Update(request.Street, request.Number,
-            request.District, request.City, request.State, request.PostalCode,
-            request.Complement, request.Latitude, request.Longitude);
+        var location = new Location(request.Latitude!.Value, request.Longitude!.Value);
+        address.Update(request.Street, request.Number, request.District, 
+            request.City, request.State, request.PostalCode, location);
+        address.SetComplement(request.Complement);
 
         await _unitOfWork.RestaurantRepository.UpdateAsync(restaurant, cancellationToken);
         await _unitOfWork.CommitAsync();

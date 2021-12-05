@@ -1,11 +1,10 @@
-﻿using Argon.Zine.Core.Data;
+﻿using Argon.Restaurants.Domain;
+using Argon.Zine.Core.Data;
+using Argon.Zine.Core.DomainObjects;
 using Argon.Zine.Core.Messages;
 using Argon.Zine.Core.Messages.IntegrationCommands;
 using Argon.Zine.Core.Messages.IntegrationEvents;
-using Argon.Restaurants.Domain;
 using FluentValidation.Results;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Argon.Restaurants.Application.Handlers;
 
@@ -25,23 +24,26 @@ public class CreateRestaurantHandler : RequestHandler<CreateRestaurantCommand>
     public override async Task<ValidationResult> Handle(
         CreateRestaurantCommand request, CancellationToken cancellationToken)
     {
-        var user = new User(request.UserId, request.CorparateName, request.CorparateName, request.Email);
+        var name = new Name(request.CorparateName!, request.CorparateName!);
+        var user = new User(request.UserId, name, request.Email);
 
-        var address = new Address(request.Street, request.Number, request.District, request.City,
-            request.State, request.PostalCode, request.Complement, request.Latitude, request.Longitude);
+        var location = new Location(request.Latitude!.Value, request.Longitude!.Value);
+        var address = new Address(request.Street!, request.Number!, request.District!, 
+            request.City!, request.State!, request.PostalCode!, location);
 
         var logoUrl = request.Logo is { Length: > 0 }
             ? (await _fileStorage.UploadAsync(request.Logo.OpenReadStream(), request.Logo.FileName, cancellationToken)).Url
             : null;
 
-        var supplier = new Restaurant(request.CorparateName, request.TradeName, request.CpfCnpj, logoUrl, user, address);
+        var restaurant = new Restaurant(request.CorparateName!, request.TradeName!, request.CpfCnpj!, user, address);
+        restaurant.SetLogo(logoUrl);
 
-        var supplierCreatedEvent = new RestaurantCreatedEvent(supplier.Id, supplier.TradeName,
+        var supplierCreatedEvent = new RestaurantCreatedEvent(restaurant.Id, restaurant.TradeName,
             address.Location.Latitude, address.Location.Longitude, address.ToString(), logoUrl);
 
-        supplier.AddDomainEvent(supplierCreatedEvent);
+        restaurant.AddDomainEvent(supplierCreatedEvent);
 
-        await _unitOfWork.RestaurantRepository.AddAsync(supplier, cancellationToken);
+        await _unitOfWork.RestaurantRepository.AddAsync(restaurant, cancellationToken);
         await _unitOfWork.CommitAsync();
 
         return ValidationResult;

@@ -18,15 +18,12 @@ public class Location : ValueObject
     protected Location() { }
 #pragma warning restore CS8618
 
-    public Location(double? latitude, double? longitude)
+    public Location(double latitude, double longitude)
     {
-        Check.NotNull(latitude, nameof(latitude));
-        Check.NotNull(longitude, nameof(longitude));
+        Check.Range(latitude, MinLatitude, MaxLatitude, nameof(latitude));
+        Check.Range(longitude, MinLongitude, MaxLongitude, nameof(longitude));
 
-        Check.Range(latitude!.Value, MinLatitude, MaxLatitude, nameof(latitude));
-        Check.Range(longitude!.Value, MinLongitude, MaxLongitude, nameof(longitude));
-
-        _coordinate = new Point(latitude.Value, longitude.Value) { SRID = 4326 };
+        _coordinate = new Point(latitude, longitude) { SRID = 4326 };
     }
 
     public double GetDistance(Location location) =>

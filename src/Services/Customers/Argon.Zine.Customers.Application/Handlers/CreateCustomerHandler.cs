@@ -1,4 +1,5 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Core.DomainObjects;
+using Argon.Zine.Core.Messages;
 using Argon.Zine.Core.Messages.IntegrationCommands;
 using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
@@ -14,7 +15,8 @@ public class CreateCustomerHandler : RequestHandler<CreateCustomerCommand>
 
     public override async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        var customer = new Customer(request.UserId, request.FirstName, request.LastName,
+        var name = new Name(request.FirstName!, request.LastName!);
+        var customer = new Customer(request.UserId, name,
             request.Email, request.Cpf, request.BirthDate, request.Phone);
 
         await _unitOfWork.CustomerRepository.AddAsync(customer, cancellationToken);

@@ -231,7 +231,7 @@ namespace Argon.Zine.Identity.Services
             => new()
             {
                 UserId = userId,
-                Email = request.Email,
+                Email = request.Email!,
                 City = request.City,
                 Complement = request.Complement,
                 CorparateName = request.CorparateName,

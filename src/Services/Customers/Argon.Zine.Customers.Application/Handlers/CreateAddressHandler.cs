@@ -27,14 +27,13 @@ public class CreateAddressHandler : RequestHandler<CreateAddressCommand>
             throw new ArgumentNullException(nameof(customer), "Customer cannot be null");
         }
 
-        var address = new Address(_appUser.Id, request.Street, request.Number,
-            request.District, request.City, request.State, request.PostalCode,
-            request.Complement, request.Latitude, request.Longitude);
+        var location = new Location(request.Latitude!.Value, request.Longitude!.Value);
+        var address = new Address(request.Street, request.Number, request.District, 
+            request.City, request.State, request.PostalCode, location);
 
         customer.AddAddress(address);
 
         await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
-        await _unitOfWork.CustomerRepository.AddAsync(address, cancellationToken);
         await _unitOfWork.CommitAsync();
 
         return ValidationResult;

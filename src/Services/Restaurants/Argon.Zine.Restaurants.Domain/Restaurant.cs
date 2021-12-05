@@ -1,4 +1,5 @@
 ﻿using Argon.Zine.Core.DomainObjects;
+using Argon.Zine.Core.Messages.IntegrationEvents;
 
 namespace Argon.Restaurants.Domain;
 
@@ -29,27 +30,28 @@ public class Restaurant : Entity, IAggregateRoot
     private Restaurant() { }
 #pragma warning restore CS8618 
 
-    public Restaurant(string? corparateName, string? tradeName,
-        string? cpfCnpj, string? logoUrl, User? user, Address? address)
+    public Restaurant(string corparateName, string tradeName,
+        CpfCnpj cpfCnpj, User user, Address address)
     {
         Check.NotEmpty(corparateName, nameof(corparateName));
         Check.NotEmpty(tradeName, nameof(tradeName));
-        Check.NotEmpty(cpfCnpj, nameof(cpfCnpj));
+        Check.NotNull(cpfCnpj, nameof(cpfCnpj));
         Check.NotNull(address, nameof(address));
         Check.NotNull(user, nameof(user));
 
-        CorporateName = corparateName!;
-        TradeName = tradeName!;
-        CpfCnpj = cpfCnpj!;
-        Address = address!;
-        LogoUrl = logoUrl;
-
+        CorporateName = corparateName;
+        TradeName = tradeName;
+        CpfCnpj = cpfCnpj;
+        Address = address;
         IsActive = true;
         IsDeleted = false;
         IsSuspended = false;
 
-        AddUser(user!);
+        AddUser(user);
     }
+
+    public void SetLogo(string? logoUrl)
+        => LogoUrl = logoUrl;
 
     public void AddUser(User user)
     {

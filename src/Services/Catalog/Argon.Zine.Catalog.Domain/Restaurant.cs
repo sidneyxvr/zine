@@ -21,9 +21,9 @@ public class Restaurant : Entity, IAggregateRoot
     protected Restaurant() { }
 #pragma warning restore CS8618
 
-    public Restaurant(Guid id, string? name,
-        double? latitude, double? longitude,
-        string? address, string? logoUrl)
+    public Restaurant(Guid id, string name,
+        double latitude, double longitude,
+        string address, string? logoUrl)
     {
         Check.NotEmpty(id, nameof(id));
         Check.NotEmpty(name, nameof(name));
@@ -32,12 +32,12 @@ public class Restaurant : Entity, IAggregateRoot
         Check.NotNull(longitude, nameof(longitude));
 
         Id = id;
-        Name = name!;
+        Name = name;
         IsAvailable = false;
         IsOpen = false;
         IsDeleted = false;
         Location = new Location(latitude, longitude);
-        Address = address!;
+        Address = address;
         LogoUrl = logoUrl;
     }
 

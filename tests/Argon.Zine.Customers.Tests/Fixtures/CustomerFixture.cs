@@ -37,7 +37,7 @@ public class CustomerFixture
         var birthDate = DateTime.UtcNow.AddYears(-_faker.Random.Int(18, 99)).AddSeconds(-2);
         var phone = $"{_faker.Random.Int(1, 9)}{_faker.Random.Int(1, 9)}{_faker.Random.Int(910000000, 999999999)}";
 
-        return new Customer(Guid.NewGuid(), firstName, LastName, email, cpf, birthDate, phone);
+        return new Customer(Guid.NewGuid(), new(firstName, LastName), email, cpf, birthDate, phone);
     }
 
     public Customer CreateValidCustomerWithAddresses()

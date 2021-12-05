@@ -26,7 +26,7 @@ public class AddressFixture
             var latitude = _faker.Address.Latitude();
             var longitude = _faker.Address.Longitude();
 
-            return new AddressTestDTO(Guid.NewGuid(), street, number, district, 
+            return new(Guid.NewGuid(), street, number, district, 
                 city, state, country, postalCode, complement, latitude, longitude);
         }
 
@@ -38,13 +38,12 @@ public class AddressFixture
             var district = _faker.Lorem.Letter(_faker.Random.Int(2, 50));
             var city = _faker.Address.City();
             var postalCode = _faker.Address.ZipCode("########");
-            var complement = _faker.Lorem.Letter(_faker.Random.Int(2, 50));
 
             var latitude = _faker.Address.Latitude();
             var longitude = _faker.Address.Longitude();
 
-            return new Address(Guid.NewGuid(), street, number, district, city, state, 
-                postalCode, complement, latitude, longitude);
+            return new(street, number, district, city, state, 
+                postalCode, new(latitude, longitude));
         }
     }
 

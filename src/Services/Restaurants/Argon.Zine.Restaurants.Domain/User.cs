@@ -16,14 +16,14 @@ public class User : Entity
     private User() { }
 #pragma warning restore CS8618
 
-    public User(Guid id, string? firstName, string? lastName, string? email)
+    public User(Guid id, Name name, Email email)
     {
         Check.NotEmpty(id, nameof(id));
-        Check.NotEmpty(firstName, nameof(firstName));
-        Check.NotEmpty(lastName, nameof(lastName));
+        Check.NotNull(name, nameof(name));
+        Check.NotNull(email, nameof(email));
 
         Id = id;
-        Name = new Name(firstName!, lastName!);
+        Name = name;
         Email = email;
         IsActive = true;
         IsDelete = false;

@@ -25,13 +25,13 @@ public class Customer : Entity, IAggregateRoot
 #pragma warning restore CS8618
             => _addresses = new();
 
-    public Customer(Guid id, string? firstName, string? LastName, string? email,
-        string? cpf, DateTime? birthDate, string? phone)
+    public Customer(Guid id, Name name, Email email,
+        Cpf cpf, BirthDate birthDate, Phone phone)
     {
         Check.NotEmpty(id, nameof(id));
 
         Id = id;
-        Name = new Name(firstName, LastName);
+        Name = name;
         Email = email;
         Cpf = cpf;
         BirthDate = birthDate!;
@@ -41,30 +41,28 @@ public class Customer : Entity, IAggregateRoot
         IsSuspended = true;
     }
 
-    public void Update(string? firstName, string? LastName, DateTime birthDate)
+    public void Update(Name name, BirthDate birthDate)
     {
-        Name = new Name(firstName, LastName);
+        Name = name;
         BirthDate = birthDate;
     }
 
-    public void Enable() => IsActive = true;
+    public void Enable() 
+        => IsActive = true;
 
-    public void Disable() => IsActive = false;
+    public void Disable() 
+        => IsActive = false;
 
-    public void Delete() => IsDeleted = true;
+    public void Delete()
+        => IsDeleted = true;
 
-    public void Suspend() => IsSuspended = true;
+    public void Suspend() 
+        => IsSuspended = true;
 
-    public void Resume() => IsSuspended = false;
+    public void Resume() 
+        => IsSuspended = false;
 
     public void AddAddress(Address address)
-    {
-        Check.NotNull(address, nameof(address));
-
-        _addresses.Add(address);
-    }
-
-    public void UpdateAddress(Address address)
     {
         Check.NotNull(address, nameof(address));
 
@@ -85,6 +83,8 @@ public class Customer : Entity, IAggregateRoot
 
     public void DefineMainAddress(Guid addressId)
     {
+        Check.NotEmpty(addressId, nameof(addressId));
+
         var address = _addresses?.FirstOrDefault(a => a.Id == addressId);
 
         Check.NotNull(address, nameof(address));

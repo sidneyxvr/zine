@@ -12,7 +12,7 @@ public class Name : ValueObject
 
     public string FullName => $"{FirstName} {LastName}";
 
-    public Name(string? firstName, string? lastName)
+    public Name(string firstName, string lastName)
     {
         Check.NotEmpty(firstName, nameof(firstName));
         Check.NotEmpty(lastName, nameof(lastName));

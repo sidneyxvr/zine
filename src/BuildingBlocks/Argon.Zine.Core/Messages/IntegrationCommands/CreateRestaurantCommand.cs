@@ -2,6 +2,7 @@
 
 namespace Argon.Zine.Core.Messages.IntegrationCommands;
 
+#pragma warning disable CS8618 
 public record CreateRestaurantCommand : Command
 {
     public Guid UserId { get; init; }
@@ -24,3 +25,4 @@ public record CreateRestaurantCommand : Command
     //Logo
     public IFormFile? Logo { get; init; }
 }
+#pragma warning restore CS8618

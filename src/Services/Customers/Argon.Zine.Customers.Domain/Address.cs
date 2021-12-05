@@ -32,48 +32,49 @@ public class Address : Entity
     protected Address() { }
 #pragma warning restore CS8618
 
-    public Address(Guid customerId, string? street, string? number, string? district, string? city,
-        string? state, string? postalCode, string? complement, double? latitude, double? longitude)
+    public Address(string street, string number, string district,
+        string city, string state, string postalCode, Location location)
     {
-        Check.NotEmpty(customerId, nameof(customerId));
-        Validate(street, number, district, city, state, postalCode, complement);
+        Validate(street, number, district, city, state, postalCode);
 
-        CustomerId = customerId;
-        Street = street!;
-        Number = number!;
-        District = district!;
-        City = city!;
-        State = state!;
+        Street = street;
+        Number = number;
+        District = district;
+        City = city;
+        State = state;
         Country = "Brasil";
-        PostalCode = postalCode!;
-        Complement = complement;
-        Location = new Location(latitude, longitude);
+        PostalCode = postalCode;
+        Location = location;
     }
 
-    public void Update(string? street, string? number, string? district, string? city, string? state,
-        string? postalCode, string? complement, double? latitude, double? longitude)
+    public void Update(string street, string number, string district,
+        string city, string state, string postalCode, Location location)
     {
-        Validate(street, number, district, city, state, postalCode, complement);
+        Validate(street, number, district, city, state, postalCode);
 
-        Street = street!;
-        Number = number!;
-        District = district!;
-        City = city!;
-        State = state!;
-        PostalCode = postalCode!;
-        Complement = complement!;
-        Location = new Location(latitude, longitude);
+        Street = street;
+        Number = number;
+        District = district;
+        City = city;
+        State = state;
+        PostalCode = postalCode;
+        Location = location;
     }
 
-    private static void Validate(string? street, string? number, string? district,
-        string? city, string? state, string? postalCode, string? complement)
+    public void SetComplement(string? complement)
+    {
+        Check.MaxLength(complement, ComplementMaxLength, nameof(complement));
+
+        Complement = complement;
+    }
+
+    private static void Validate(string street, string number,
+        string district, string city, string state, string postalCode)
     {
         Check.NotEmpty(street, nameof(street));
         Check.Range(street!, StreetMinLength, StreetMaxLength, nameof(street));
 
         Check.MaxLength(number, NumberMaxLength, nameof(number));
-
-        Check.MaxLength(complement, ComplementMaxLength, nameof(complement));
 
         Check.NotEmpty(district, nameof(district));
         Check.Range(district!, DistrictMinLength, DistrictMaxLength, nameof(district));

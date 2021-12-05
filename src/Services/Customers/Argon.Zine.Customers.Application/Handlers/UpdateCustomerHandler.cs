@@ -30,7 +30,8 @@ public class UpdateCustomerHandler : RequestHandler<UpdateCustomerCommand>
             throw new ArgumentNullException(nameof(customer), "Customer cannot be null");
         }
 
-        customer.Update(request.FirstName, request.LastName, request.BirthDate);
+        var name = new Name(request.FirstName!, request.LastName!);
+        customer.Update(name, request.BirthDate);
 
         await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
         await _unitOfWork.CommitAsync();

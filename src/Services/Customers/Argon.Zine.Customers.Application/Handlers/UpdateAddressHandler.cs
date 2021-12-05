@@ -40,9 +40,10 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
             return WithError(nameof(address), _localizer["Address Not Found"]);
         }
 
-        address.Update(request.Street, request.Number, request.District,
-            request.City, request.State, request.PostalCode,
-            request.Complement, request.Latitude, request.Longitude);
+        var location = new Location(request.Latitude!.Value, request.Longitude!.Value);
+        address.Update(request.Street!, request.Number!, request.District!,
+            request.City!, request.State!, request.PostalCode!, location);
+        address.SetComplement(request.Complement);
 
         await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
         await _unitOfWork.CommitAsync();
