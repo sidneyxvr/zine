@@ -10,7 +10,8 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public ValidationPipeline(IEnumerable<IValidator<TRequest>> validators)
+    public ValidationPipeline(
+        IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators;
     }
@@ -20,15 +21,14 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
         CancellationToken cancellationToken,
         RequestHandlerDelegate<ValidationResult> next)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var validationResult = _validators
             ?.Select(v => v.Validate(request))
             ?.FirstOrDefault();
 
-        if (validationResult?.IsValid == false)
-        {
-            return validationResult;
-        }
-
-        return await next();
+        return validationResult is null or { IsValid: true } 
+            ? await next()
+            : validationResult;
     }
 }

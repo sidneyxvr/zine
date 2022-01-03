@@ -1,14 +1,11 @@
 ﻿using Argon.Zine.Identity.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Identity.Data
+namespace Argon.Zine.Identity.Data;
+
+public interface IRefreshTokenStore
 {
-    public interface IRefreshTokenStore
-    {
-        Task<IdentityResult> CreateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default);
-        Task<IdentityResult> UpdateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default);
-        Task<RefreshToken?> GetByTokenAsync(string token);
-    }
+    Task<IdentityResult> CreateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default);
+    Task<IdentityResult> UpdateAsync(RefreshToken refreshToken, CancellationToken cancellationToken = default);
+    Task<RefreshToken?> GetByTokenAsync(string token);
 }

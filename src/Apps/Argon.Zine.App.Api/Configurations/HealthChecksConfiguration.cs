@@ -32,12 +32,15 @@ public static class HealthChecksConfiguration
 
     public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
     {
-        app.UseHealthChecks("/health", new HealthCheckOptions
+        app.UseHealthChecks("/hc", new HealthCheckOptions
         {
+            Predicate = _ => true,
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        }).UseHealthChecksUI(options =>
+        {
+            options.ApiPath = "/hc";
+            options.UIPath = "/hc-ui";
         });
-
-        app.UseHealthChecksUI();
 
         return app;
     }

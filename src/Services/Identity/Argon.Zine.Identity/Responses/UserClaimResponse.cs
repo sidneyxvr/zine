@@ -1,8 +1,7 @@
-﻿namespace Argon.Zine.Identity.Responses
+﻿namespace Argon.Zine.Identity.Responses;
+
+public record UserClaimResponse
 {
-    public record UserClaimResponse
-    {
-        public string Value { get; init; } = null!;
-        public string Type { get; set; } = null!;
-    }
+    public string Value { get; init; } = null!;
+    public string Type { get; set; } = null!;
 }

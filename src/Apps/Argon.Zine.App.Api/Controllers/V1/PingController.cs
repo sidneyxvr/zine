@@ -9,7 +9,6 @@ namespace Argon.Zine.App.Api.Controllers.V1;
 public class PingController : ControllerBase
 {
     [HttpGet]
-
     public IActionResult Ping()
         => Ok("V1");
 }

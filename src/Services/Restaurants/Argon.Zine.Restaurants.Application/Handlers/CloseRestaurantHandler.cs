@@ -1,11 +1,10 @@
-﻿using Argon.Zine.Core.Messages;
-using Argon.Zine.Core.Messages.IntegrationEvents;
-using Argon.Restaurants.Application.Commands;
+﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
+using Argon.Zine.Application;
+using Argon.Zine.Core.Messages;
+using Argon.Zine.Core.Messages.IntegrationEvents;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Argon.Restaurants.Application.Handlers;
 
@@ -22,6 +21,7 @@ public class CloseRestaurantHandler : RequestHandler<CloseRestaurantCommand>
         _unitOfWork = unitOfWork;
     }
 
+    [PermissionValidator(Permission = 1)]
     public override async Task<ValidationResult> Handle(
         CloseRestaurantCommand request, CancellationToken cancellationToken)
     {

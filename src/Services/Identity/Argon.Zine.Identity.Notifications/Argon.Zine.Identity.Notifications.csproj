@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Argon.Zine.Identity.Notifications-E314CEC6-1DEF-40DC-812F-79C96BEDCF5A</UserSecretsId>
 	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerfileContext>..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +36,7 @@
     <PackageReference Include="FluentEmail.Razor" Version="3.0.0" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.64">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

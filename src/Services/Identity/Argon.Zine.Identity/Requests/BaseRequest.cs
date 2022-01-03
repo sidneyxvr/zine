@@ -1,6 +1,5 @@
-﻿namespace Argon.Zine.Identity.Requests
+﻿namespace Argon.Zine.Identity.Requests;
+
+public abstract record BaseRequest
 {
-    public abstract record BaseRequest
-    {
-    }
 }

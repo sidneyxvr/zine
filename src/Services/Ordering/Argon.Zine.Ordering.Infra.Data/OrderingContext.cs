@@ -14,7 +14,7 @@ public class OrderingContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Ignore<Event>();
-
+ 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderingContext).Assembly);
     }
 

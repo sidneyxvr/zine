@@ -2,7 +2,7 @@
 
 namespace Argon.Zine.Basket.Data;
 
-public interface IBasketDAO
+public interface IBasketDao
 {
     Task AddAsync(CustomerBasket basket);
     Task UpdateAsync(CustomerBasket basket);

@@ -1,10 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿namespace Argon.Zine.Identity.Services;
 
-namespace Argon.Zine.Identity.Services
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendEmailConfirmationAccountAsync(string? to, string? emailConfirmationToken);
-        Task SendEmailResetPasswordAsync(string? to, string? resetPasswordToken);
-    }
+    Task SendEmailConfirmationAccountAsync(string? to, string? emailConfirmationToken);
+    Task SendEmailResetPasswordAsync(string? to, string? resetPasswordToken);
 }

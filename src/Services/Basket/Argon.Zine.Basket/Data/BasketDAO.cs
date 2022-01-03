@@ -1,33 +1,27 @@
 ﻿using Argon.Zine.Basket.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Argon.Zine.Basket.Data;
 
-public class BasketDAO : IBasketDAO
+public class BasketDao : IBasketDao
 {
-    private readonly IMongoCollection<CustomerBasket> _baskets;
+    private readonly BasketContext _context;
 
-    public BasketDAO(IOptions<BasketDatabaseSettings> settings)
-    {
-        var client = new MongoClient(settings.Value.ConnectionString);
-        var database = client.GetDatabase(settings.Value.DatabaseName);
-
-        _baskets = database.GetCollection<CustomerBasket>("Baskets");
-    }
+    public BasketDao(BasketContext context)
+        => _context = context;
 
     public async Task AddAsync(CustomerBasket basket)
-        => await _baskets.InsertOneAsync(basket);
+        => await _context.CustomerBaskets.InsertOneAsync(basket);
 
     public async Task<CustomerBasket?> GetByCustomerIdAsync(
         Guid customerId, CancellationToken cancellationToken = default)
     {
         var filter = Builders<CustomerBasket>.Filter.Eq(b => b.CustomerId, customerId);
-        return await _baskets.Find(filter).SingleOrDefaultAsync(cancellationToken);
+        return await _context.CustomerBaskets.Find(filter).SingleOrDefaultAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(CustomerBasket basket)
-        => await _baskets.ReplaceOneAsync(b => b.Id == basket.Id, basket);
+        => await _context.CustomerBaskets.ReplaceOneAsync(b => b.Id == basket.Id, basket);
 
     public async Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price)
     {
@@ -37,6 +31,6 @@ public class BasketDAO : IBasketDAO
 
         var update = Builders<CustomerBasket>.Update.Set("Products.$.Price", price);
 
-        await _baskets.UpdateManyAsync(filter, update);
+        await _context.CustomerBaskets.UpdateManyAsync(filter, update);
     }
 }

@@ -9,9 +9,9 @@ namespace Argon.Zine.Basket.Services;
 public class BasketService : IBasketService
 {
     private readonly IAppUser _appUser;
-    private readonly IBasketDAO _Basket;
+    private readonly IBasketDao _Basket;
 
-    public BasketService(IAppUser appUser, IBasketDAO Basket)
+    public BasketService(IAppUser appUser, IBasketDao Basket)
     {
         _appUser = appUser;
         _Basket = Basket;
@@ -23,9 +23,8 @@ public class BasketService : IBasketService
 
         var basketWasNull = basket is null;
 
-        basket ??=
-            new CustomerBasket(product.RestaurantId, product.RestaurantName,
-                product.RestaurantLogoUrl, _appUser.Id);
+        basket ??= new CustomerBasket(product.RestaurantId, 
+            product.RestaurantName, product.RestaurantLogoUrl, _appUser.Id);
 
         basket.AddItem(new(product.Id, product.Name,
             product.Amount, product.Price, product.ImageUrl));

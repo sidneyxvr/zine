@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
 using System.Threading;
+using Argon.Zine.Application;
 
 namespace Argon.Restaurants.Application.Handlers;
 
@@ -13,7 +14,7 @@ public class OpenRestaurantHandler : RequestHandler<OpenRestaurantCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IStringLocalizer<OpenRestaurantHandler> _localizer;
-
+    
     public OpenRestaurantHandler(
         IUnitOfWork unitOfWork,
         IStringLocalizer<OpenRestaurantHandler> localizer)
@@ -22,6 +23,7 @@ public class OpenRestaurantHandler : RequestHandler<OpenRestaurantCommand>
         _unitOfWork = unitOfWork;
     }
 
+    [PermissionValidator(Permission = 1)]
     public override async Task<ValidationResult> Handle(
         OpenRestaurantCommand request, CancellationToken cancellationToken)
     {

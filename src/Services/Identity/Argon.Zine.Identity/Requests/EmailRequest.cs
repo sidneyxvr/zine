@@ -1,7 +1,6 @@
-﻿namespace Argon.Zine.Identity.Requests
+﻿namespace Argon.Zine.Identity.Requests;
+
+public record EmailRequest : BaseRequest
 {
-    public record EmailRequest : BaseRequest
-    {
-        public string? Email { get; set; }
-    }
+    public string? Email { get; set; }
 }

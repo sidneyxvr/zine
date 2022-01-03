@@ -98,17 +98,12 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
             app.UseSwaggerR();
-
-            app.UseSerilogRequestLogging();
-
-            app.UsePrometheus();
         }
-        else if (env.IsProduction())
-        {
-            app.UseSerilogRequestLogging();
 
-            app.UsePrometheus();
-        }
+        app.UseSerilogRequestLogging();
+
+        app.UsePrometheus();
+
         var supportedCultures = new[] { "en-US", "pt-BR" };
         var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[1])
             .AddSupportedCultures(supportedCultures)

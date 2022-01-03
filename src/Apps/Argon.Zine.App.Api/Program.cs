@@ -1,8 +1,5 @@
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.Loki;
-
 namespace Argon.Zine.App.Api;
+using Serilog;
 
 public class Program
 {
@@ -17,17 +14,9 @@ public class Program
             {
                 webBuilder.UseStartup<Startup>();
             })
-            .UseSerilog((context, configuration) =>
+            .UseSerilog((context, loggerConfiguration) =>
             {
-                if (context.HostingEnvironment.IsProduction())
-                {
-                    configuration
-                        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                        .Enrich.FromLogContext()
-                        .Enrich.WithProperty("Application", context.HostingEnvironment.ApplicationName)
-                        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
-                        .WriteTo.LokiHttp(() => new LokiSinkConfiguration { LokiUrl = "http://localhost:3100" });
-                }
+                loggerConfiguration.ReadFrom.Configuration(context.Configuration, "Serilog");
             })
         ;
 }

@@ -6,7 +6,7 @@ namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/account")]
 [ApiController]
-public class AccountController : BaseController
+public class AccountController : BaseController 
 {
     private readonly IAccountService _accountService;
 

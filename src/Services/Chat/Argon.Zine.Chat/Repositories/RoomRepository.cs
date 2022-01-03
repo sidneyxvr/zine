@@ -1,29 +1,23 @@
 ﻿using Argon.Zine.Chat.Data;
 using Argon.Zine.Chat.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Argon.Zine.Chat.Repositories;
 
 public class RoomRepository : IRoomRepository
 {
-    private readonly IMongoCollection<Room> _rooms;
+    private readonly ChatContext _context;
 
-    public RoomRepository(IOptions<ChatDatabaseSettings> settings)
-    {
-        var client = new MongoClient(settings.Value.ConnectionString);
-        var database = client.GetDatabase(settings.Value.DatabaseName);
-
-        _rooms = database.GetCollection<Room>("Rooms");
-    }
+    public RoomRepository(ChatContext context)
+        => _context = context;
 
     public async Task AddAsync(Room room)
-        => await _rooms.InsertOneAsync(room);
+        => await _context.Rooms.InsertOneAsync(room);
 
     public async Task<Room> GetByIdAsync(Guid id)
-        => await _rooms.Find(Builders<Room>.Filter.Eq(r => r.Id, id))
+        => await _context.Rooms.Find(Builders<Room>.Filter.Eq(r => r.Id, id))
         .FirstOrDefaultAsync();
 
     public async Task UpdateAsync(Room room)
-        => await _rooms.ReplaceOneAsync(r => r.Id == room.Id, room);
+        => await _context.Rooms.ReplaceOneAsync(r => r.Id == room.Id, room);
 }

@@ -3,6 +3,7 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using Argon.Storage;
 using Argon.Zine.App.Api.Extensions;
+using Argon.Zine.Application;
 using Argon.Zine.Basket.Data;
 using Argon.Zine.Basket.Models;
 using Argon.Zine.Basket.Services;
@@ -29,6 +30,7 @@ public static class DependencyInjectionConfiguration
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IBus, InMemoryBus>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PermissionValidatorBehavior<,>));
 
         services.AddScoped<IAppUser>(provider =>
         {
@@ -38,7 +40,7 @@ public static class DependencyInjectionConfiguration
         });
 
         services.AddScoped<IBasketService, BasketService>();
-        services.AddSingleton<IBasketDAO, BasketDAO>();
+        services.AddSingleton<IBasketDao, BasketDao>();
 
         services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
         services.AddSingleton<IEventStoreConnection>(provider =>

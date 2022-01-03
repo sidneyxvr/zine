@@ -1,7 +1,16 @@
 version: '3.4'
 
 services:
-  eventstore.db:
+  mongodb:
+    image: mongo
+
+  argon.zine.app.api:
+    image: ${DOCKER_REGISTRY-}argonzineappapi
+    build:
+      context: .
+      dockerfile: src/Apps/Argon.Zine.App.Api/Dockerfile
+
+  eventstoredb:
     image: eventstore/eventstore:21.2.0-buster-slim
     container_name: eventstore
     environment:
@@ -91,7 +100,8 @@ volumes:
     driver: local
   eventstore-volume-logs:
     driver: local
-
+  mongo_data:
+    
 networks:
   monitoring-network:
     driver: bridge

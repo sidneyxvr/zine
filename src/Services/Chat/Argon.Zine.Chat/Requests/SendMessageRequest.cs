@@ -11,7 +11,7 @@ public class SendMessageRequest
         => (SenderId, SenderName) = (senderId, SenderName);
 }
 
-public class SendMessageDTO
+public class SendMessageDto
 {
     public Guid RoomId { get; init; }
     public Guid SenderId { get; init; }

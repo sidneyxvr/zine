@@ -1,6 +1,3 @@
 ﻿namespace Argon.Zine.Identity.Notifications.Commands;
 
-internal record SendEmailConfirmationAccountCommand : ICommand
-{
-    public string Email { get; set; } = null!;
-}
+internal record SendEmailConfirmationAccountCommand(string Email) : ICommand;

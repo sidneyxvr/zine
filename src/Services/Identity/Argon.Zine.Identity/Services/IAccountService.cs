@@ -1,16 +1,14 @@
 ﻿using Argon.Zine.Identity.Requests;
 using FluentValidation.Results;
-using System.Threading.Tasks;
 
-namespace Argon.Zine.Identity.Services
+namespace Argon.Zine.Identity.Services;
+
+public interface IAccountService
 {
-    public interface IAccountService
-    {
-        Task<ValidationResult> SendResetPasswordAsync(EmailRequest request);
-        Task<ValidationResult> ResetPasswordAsync(ResetPasswordRequest request);
-        Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request);
-        Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request);
-        Task<ValidationResult> CreateRestaurantUserAsync(RestaurantUserRequest request);
-        Task<ValidationResult> ConfirmEmailAccountAsync(EmailAccountConfirmationRequest request);
-    }
+    Task<ValidationResult> SendResetPasswordAsync(EmailRequest request);
+    Task<ValidationResult> ResetPasswordAsync(ResetPasswordRequest request);
+    Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request);
+    Task<ValidationResult> CreateCustomerUserAsync(CustomerUserRequest request);
+    Task<ValidationResult> CreateRestaurantUserAsync(RestaurantUserRequest request);
+    Task<ValidationResult> ConfirmEmailAccountAsync(EmailAccountConfirmationRequest request);
 }

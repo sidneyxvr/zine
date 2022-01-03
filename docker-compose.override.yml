@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  mongodb:
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  argon.zine.app.api:
+    container_name: webapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - BasketDatabaseSettings:ConnectionString=mongo://mongodb:27017
+      - ChatDatabaseSettings:ConnectionString=mongo://mongodb:27017
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

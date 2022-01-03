@@ -8,7 +8,7 @@ public class AppUser : IAppUser
 
     public AppUser(IHttpContextAccessor accessor)
     {
-        //_accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
+        _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
 
         //if (_accessor.HttpContext?.User.Identity!.IsAuthenticated == false)
         //{
@@ -24,8 +24,8 @@ public class AppUser : IAppUser
     }
 
     public Guid Id { get; init; }
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
+    public string FirstName { get; init; } = null!;
+    public string LastName { get; init; } = null!;
 
     public string FullName => $"{FirstName} {LastName}";
 }

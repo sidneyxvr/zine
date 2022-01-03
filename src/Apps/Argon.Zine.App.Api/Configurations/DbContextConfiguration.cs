@@ -7,6 +7,7 @@ using Argon.Zine.Identity.Data;
 using Argon.Zine.Ordering.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Driver;
 
 namespace Argon.Zine.App.Api.Configurations;
 
@@ -34,8 +35,28 @@ public static class DbContextConfiguration
 
         services.Configure<BasketDatabaseSettings>(
             configuration.GetSection(nameof(BasketDatabaseSettings)));
-        services.Configure<ChatDatabaseSettings>(
-            configuration.GetSection(nameof(ChatDatabaseSettings)));
+
+        services.AddSingleton<BasketContext>(provider =>
+        {
+            var settings = configuration.GetSection(nameof(BasketDatabaseSettings))
+                .Get<BasketDatabaseSettings>();
+
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
+
+            return new BasketContext(database);
+        });
+
+        services.AddSingleton<ChatContext>(provider =>
+        {
+            var settings = configuration.GetSection(nameof(ChatDatabaseSettings))
+                .Get<ChatDatabaseSettings>();
+
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
+
+            return new ChatContext(database);
+        });
 
         return services;
     }

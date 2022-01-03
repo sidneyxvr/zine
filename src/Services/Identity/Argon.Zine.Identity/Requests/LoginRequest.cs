@@ -1,8 +1,7 @@
-﻿namespace Argon.Zine.Identity.Requests
+﻿namespace Argon.Zine.Identity.Requests;
+
+public record LoginRequest : BaseRequest
 {
-    public record LoginRequest
-    {
-        public string? Email { get; init; }
-        public string? Password { get; init; }
-    }
+    public string? Email { get; init; }
+    public string? Password { get; init; }
 }
