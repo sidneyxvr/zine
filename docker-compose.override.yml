@@ -14,10 +14,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - BasketDatabaseSettings:ConnectionString=mongo://mongodb:27017
-      - ChatDatabaseSettings:ConnectionString=mongo://mongodb:27017
+      - BasketDatabaseSettings__ConnectionString=mongodb://mongodb:27017
+      - ChatDatabaseSettings__ConnectionString=mongodb://mongodb:27017
     ports:
-      - "80"
+      - "5000:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - "monitoring-network"

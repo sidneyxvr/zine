@@ -43,8 +43,8 @@ public class Startup
         {
             var supportedCultures = new[]
             {
-                    new CultureInfo(ptBRCulture),
-                    new CultureInfo("en-US"),
+                new CultureInfo(ptBRCulture),
+                new CultureInfo("en-US"),
             };
 
             options.DefaultRequestCulture = new RequestCulture(culture: ptBRCulture, uiCulture: ptBRCulture);
@@ -99,9 +99,9 @@ public class Startup
             app.UseDeveloperExceptionPage();
             app.UseSwaggerR();
         }
-
+#if !DEBUG
         app.UseSerilogRequestLogging();
-
+#endif
         app.UsePrometheus();
 
         var supportedCultures = new[] { "en-US", "pt-BR" };
