@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Argon.Zine.Core.Messages;
+namespace Argon.Zine.Commom.Messages;
 
 public abstract class NotificationHandler<TNotification> : INotificationHandler<TNotification>
     where TNotification : Event

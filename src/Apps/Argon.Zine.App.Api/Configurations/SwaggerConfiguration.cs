@@ -6,22 +6,45 @@ public static class SwaggerConfiguration
 {
     public static IServiceCollection RegisterSwagger(this IServiceCollection services, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment())
+        if (env.IsProduction())
         {
-            services.AddSwaggerGen(options =>
-            {
-                options.CustomSchemaIds(type =>
-                {
-                    var t = type.ToString().Split('.');
-
-                    var service = t.ElementAt(1);
-
-                    return service.Equals(nameof(Core)) ? $"Common-{t.Last()}" : $"{t.ElementAt(1)}-{t.Last()}";
-                });
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Argon.Zine.App.Api", Version = "v1" });
-                options.SwaggerDoc("v2", new OpenApiInfo { Title = "Argon.Zine.App.Api", Version = "v2" });
-            });
+            return services;
         }
+        services.AddSwaggerGen(options =>
+        {
+            options.CustomSchemaIds(type 
+                => type.FullName!.StartsWith(nameof(Commom))
+                    ? $"Common.{type.Name}"
+                    : $"{type.FullName.Split('.')[2]}.{type.Name}");
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "Bearer {your token}",
+                Name = "Authorization",
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                },
+            });
+
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Argon.Zine.App.Api", Version = "v1" });
+            options.SwaggerDoc("v2", new OpenApiInfo { Title = "Argon.Zine.App.Api", Version = "v2" });
+        });
 
         return services;
     }

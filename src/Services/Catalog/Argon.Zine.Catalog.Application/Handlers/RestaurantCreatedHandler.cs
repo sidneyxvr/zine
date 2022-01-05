@@ -1,6 +1,6 @@
 ﻿using Argon.Zine.Catalog.Domain;
-using Argon.Zine.Core.Messages;
-using Argon.Zine.Core.Messages.IntegrationEvents;
+using Argon.Zine.Commom.Messages;
+using Argon.Zine.Commom.Messages.IntegrationEvents;
 
 namespace Argon.Zine.Catalog.Application.Handlers;
 

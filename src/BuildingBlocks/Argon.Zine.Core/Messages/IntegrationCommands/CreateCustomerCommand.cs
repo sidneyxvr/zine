@@ -1,6 +1,6 @@
-﻿using Argon.Zine.Core.Utils;
+﻿using Argon.Zine.Commom.Utils;
 
-namespace Argon.Zine.Core.Messages.IntegrationCommands;
+namespace Argon.Zine.Commom.Messages.IntegrationCommands;
 
 public record CreateCustomerCommand : Command
 {

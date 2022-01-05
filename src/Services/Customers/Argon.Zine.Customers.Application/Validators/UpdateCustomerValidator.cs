@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Customers.Application.Commands;
 using FluentValidation;
 using Microsoft.Extensions.Localization;

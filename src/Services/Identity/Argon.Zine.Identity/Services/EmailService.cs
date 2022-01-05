@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using Argon.Zine.Commom.DomainObjects;
+using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
@@ -14,7 +15,7 @@ public class EmailService : IEmailService
     public Task SendEmailConfirmationAccountAsync(string? to, string? emailConfirmationToken)
     {
         if (string.IsNullOrWhiteSpace(to) ||
-            !Core.DomainObjects.Email.IsValid(to) ||
+            !Email.IsValid(to) ||
             string.IsNullOrWhiteSpace(emailConfirmationToken))
         {
             return Task.CompletedTask;
@@ -44,7 +45,7 @@ public class EmailService : IEmailService
     public Task SendEmailResetPasswordAsync(string? to, string? resetPasswordToken)
     {
         if (string.IsNullOrWhiteSpace(to) ||
-            !Core.DomainObjects.Email.IsValid(to) ||
+            !Email.IsValid(to) ||
             string.IsNullOrWhiteSpace(resetPasswordToken))
         {
             return Task.CompletedTask;

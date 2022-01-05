@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Messages.IntegrationCommands;
+﻿using Argon.Zine.Commom.Messages.IntegrationCommands;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 

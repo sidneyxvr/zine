@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 using Argon.Zine.Ordering.Domain;
 using Microsoft.EntityFrameworkCore;
 

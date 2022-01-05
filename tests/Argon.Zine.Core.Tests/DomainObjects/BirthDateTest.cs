@@ -1,9 +1,9 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Argon.Zine.Core.Tests.DomainObjects
+namespace Argon.Zine.Commom.Tests.DomainObjects
 {
     public class BirthDateTest
     {

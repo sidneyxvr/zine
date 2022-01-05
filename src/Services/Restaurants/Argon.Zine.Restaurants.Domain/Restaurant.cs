@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Messages.IntegrationEvents;
+﻿using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Messages.IntegrationEvents;
 
 namespace Argon.Restaurants.Domain;
 

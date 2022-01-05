@@ -1,4 +1,4 @@
-﻿namespace Argon.Zine.Core.Messages;
+﻿namespace Argon.Zine.Commom.Messages;
 
 public class StoredEvent
 {

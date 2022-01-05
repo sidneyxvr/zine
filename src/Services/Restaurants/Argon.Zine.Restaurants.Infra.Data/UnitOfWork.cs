@@ -1,5 +1,5 @@
 ﻿using Argon.Restaurants.Domain;
-using Argon.Zine.Core.Communication;
+using Argon.Zine.Commom.Communication;
 
 namespace Argon.Restaurants.Infra.Data;
 

@@ -59,7 +59,7 @@ internal static class CustomerQueryExtentions
     {
         if (include.HasFlag(Domain.Includes.MainAddress))
         {
-            source = source.Include<Customer, Address>(s => s.MainAddress);
+            source = source.Include(s => s.MainAddress);
         }
 
         if (include.HasFlag(Domain.Includes.Addresses))

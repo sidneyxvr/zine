@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Communication;
+﻿using Argon.Zine.Commom.Communication;
 using Argon.Zine.Customers.Domain;
 
 namespace Argon.Zine.Customers.Infra.Data;

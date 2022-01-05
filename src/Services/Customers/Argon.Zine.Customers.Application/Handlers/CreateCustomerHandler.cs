@@ -1,6 +1,6 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Messages;
-using Argon.Zine.Core.Messages.IntegrationCommands;
+﻿using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Messages;
+using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Customers.Domain;
 using FluentValidation.Results;
 

@@ -1,9 +1,9 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 
-namespace Argon.Zine.Core.Communication;
+namespace Argon.Zine.Commom.Communication;
 
 public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, ValidationResult>
     where TRequest : Command

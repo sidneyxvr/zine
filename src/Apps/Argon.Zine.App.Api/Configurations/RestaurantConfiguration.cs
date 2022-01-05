@@ -4,7 +4,7 @@ using Argon.Restaurants.Application.Validators;
 using Argon.Restaurants.Domain;
 using Argon.Restaurants.Infra.Data;
 using Argon.Restaurants.Infra.Data.Repositories;
-using Argon.Zine.Core.Messages.IntegrationCommands;
+using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Restaurants.Infra.Data.Queries;
 using Argon.Zine.Restaurants.QueryStack.Queries;
 using FluentValidation;

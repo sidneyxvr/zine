@@ -1,6 +1,6 @@
-﻿using Argon.Zine.Core.Utils;
+﻿using Argon.Zine.Commom.Utils;
 
-namespace Argon.Zine.Core.DomainObjects;
+namespace Argon.Zine.Commom.DomainObjects;
 
 public class CpfCnpj : ValueObject
 {

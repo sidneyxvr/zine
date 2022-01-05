@@ -1,5 +1,5 @@
 ﻿using Argon.Zine.Catalog.Domain;
-using Argon.Zine.Core.Messages;
+using Argon.Zine.Commom.Messages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Argon.Zine.Catalog.Infra.Data;

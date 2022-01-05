@@ -2,7 +2,7 @@
 using Argon.Zine.Basket.Models;
 using Argon.Zine.Basket.Requests;
 using Argon.Zine.Basket.Responses;
-using Argon.Zine.Core.DomainObjects;
+using Argon.Zine.Commom.DomainObjects;
 
 namespace Argon.Zine.Basket.Services;
 

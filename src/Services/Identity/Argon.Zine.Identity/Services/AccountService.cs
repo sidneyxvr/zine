@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.Communication;
-using Argon.Zine.Core.Messages.IntegrationCommands;
+﻿using Argon.Zine.Commom.Communication;
+using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Identity.Constants;
 using Argon.Zine.Identity.Models;
 using Argon.Zine.Identity.Requests;

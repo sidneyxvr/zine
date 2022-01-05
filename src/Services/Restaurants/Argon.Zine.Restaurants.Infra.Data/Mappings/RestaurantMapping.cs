@@ -1,5 +1,5 @@
 ﻿using Argon.Restaurants.Domain;
-using Argon.Zine.Core.Utils;
+using Argon.Zine.Commom.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

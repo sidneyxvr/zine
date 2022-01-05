@@ -1,6 +1,6 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 
-namespace Argon.Zine.Core.DomainObjects;
+namespace Argon.Zine.Commom.DomainObjects;
 
 public abstract class Entity
 {

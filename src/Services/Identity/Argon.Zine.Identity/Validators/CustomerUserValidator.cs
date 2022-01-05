@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Utils;
+﻿using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Utils;
 using Argon.Zine.Identity.Requests;
 using FluentValidation;
 using Microsoft.Extensions.Localization;

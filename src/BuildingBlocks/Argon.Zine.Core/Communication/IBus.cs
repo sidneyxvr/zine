@@ -1,7 +1,7 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 using FluentValidation.Results;
 
-namespace Argon.Zine.Core.Communication;
+namespace Argon.Zine.Commom.Communication;
 
 public interface IBus
 {

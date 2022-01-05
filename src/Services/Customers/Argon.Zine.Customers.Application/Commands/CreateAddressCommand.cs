@@ -1,7 +1,8 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 
 namespace Argon.Zine.Customers.Application.Commands;
 
+#pragma warning disable CS8618
 public record CreateAddressCommand : Command
 {
     public string Street { get; init; }
@@ -14,3 +15,4 @@ public record CreateAddressCommand : Command
     public double? Latitude { get; init; }
     public double? Longitude { get; init; }
 }
+#pragma warning restore CS8618

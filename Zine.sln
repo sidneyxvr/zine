@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AD2C03DB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.EventSourcing", "src\BuildingBlocks\Argon.Zine.EventSourcing\Argon.Zine.EventSourcing.csproj", "{CEAF5568-45DB-4EE3-87E2-5C293A68DD87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Core", "src\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Core.csproj", "{036C1F14-68F8-44A7-9683-BE94C312EEC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Commom", "src\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Commom.csproj", "{036C1F14-68F8-44A7-9683-BE94C312EEC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Storage", "src\BuildingBlocks\Argon.Zine.Storage\Argon.Zine.Storage.csproj", "{B76D0B0F-E405-4848-B9FE-081AC7FE92BD}"
 EndProject

@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Core.csproj" />
     <ProjectReference Include="..\Argon.Zine.Customers.Application\Argon.Zine.Customers.Application.csproj" />
   </ItemGroup>
 

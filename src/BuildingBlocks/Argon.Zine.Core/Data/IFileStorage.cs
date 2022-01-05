@@ -1,4 +1,4 @@
-﻿namespace Argon.Zine.Core.Data;
+﻿namespace Argon.Zine.Commom.Data;
 
 public interface IFileStorage
 {

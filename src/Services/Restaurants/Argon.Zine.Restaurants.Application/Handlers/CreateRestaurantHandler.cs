@@ -1,9 +1,9 @@
 ﻿using Argon.Restaurants.Domain;
-using Argon.Zine.Core.Data;
-using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Messages;
-using Argon.Zine.Core.Messages.IntegrationCommands;
-using Argon.Zine.Core.Messages.IntegrationEvents;
+using Argon.Zine.Commom.Data;
+using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Messages;
+using Argon.Zine.Commom.Messages.IntegrationCommands;
+using Argon.Zine.Commom.Messages.IntegrationEvents;
 using FluentValidation.Results;
 
 namespace Argon.Restaurants.Application.Handlers;

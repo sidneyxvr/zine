@@ -1,4 +1,4 @@
-﻿namespace Argon.Zine.Core.DomainObjects;
+﻿namespace Argon.Zine.Commom.DomainObjects;
 
 public class DomainException : Exception
 {

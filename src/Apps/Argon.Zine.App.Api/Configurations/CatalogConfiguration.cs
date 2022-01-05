@@ -7,7 +7,7 @@ using Argon.Zine.Catalog.Infra.Data;
 using Argon.Zine.Catalog.Infra.Data.Queries;
 using Argon.Zine.Catalog.Infra.Data.Repositories;
 using Argon.Zine.Catalog.QueryStack.Queries;
-using Argon.Zine.Core.Messages.IntegrationEvents;
+using Argon.Zine.Commom.Messages.IntegrationEvents;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

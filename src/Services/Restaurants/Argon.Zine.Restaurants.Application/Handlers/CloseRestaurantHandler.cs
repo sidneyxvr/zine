@@ -1,8 +1,8 @@
 ﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
 using Argon.Zine.Application;
-using Argon.Zine.Core.Messages;
-using Argon.Zine.Core.Messages.IntegrationEvents;
+using Argon.Zine.Commom.Messages;
+using Argon.Zine.Commom.Messages.IntegrationEvents;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 

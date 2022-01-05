@@ -1,9 +1,9 @@
 ﻿using Argon.Zine.Identity.Tests.Fixture;
 using Argon.Zine.Identity.Tests.Fixtures;
-using Argon.Zine.Core.Communication;
-using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Messages.IntegrationCommands;
-using Argon.Zine.Core.Utils;
+using Argon.Zine.Commom.Communication;
+using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Messages.IntegrationCommands;
+using Argon.Zine.Commom.Utils;
 using Argon.Zine.Identity.Models;
 using Argon.Zine.Identity.Requests;
 using Argon.Zine.Identity.Services;

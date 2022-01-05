@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 
 namespace Argon.Zine.Catalog.Domain;
 

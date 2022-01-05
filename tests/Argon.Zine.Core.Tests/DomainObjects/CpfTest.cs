@@ -1,10 +1,10 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using RTools_NTS.Util;
 using Xunit;
 
-namespace Argon.Zine.Core.Tests.DomainObjects
+namespace Argon.Zine.Commom.Tests.DomainObjects
 {
     public class CpfTest
     {

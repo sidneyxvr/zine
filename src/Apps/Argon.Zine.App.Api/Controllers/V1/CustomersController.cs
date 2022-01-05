@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Communication;
+﻿using Argon.Zine.Commom.Communication;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Application.Queries;
 using Microsoft.AspNetCore.Authorization;

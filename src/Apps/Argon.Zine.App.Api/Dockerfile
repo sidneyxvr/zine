@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/Apps/Argon.Zine.App.Api/Argon.Zine.App.Api.csproj", "src/Apps/Argon.Zine.App.Api/"]
 COPY ["src/Services/Identity/Argon.Zine.Identity/Argon.Zine.Identity.csproj", "src/Services/Identity/Argon.Zine.Identity/"]
-COPY ["src/BuildingBlocks/Argon.Zine.Core/Argon.Zine.Core.csproj", "src/BuildingBlocks/Argon.Zine.Core/"]
+COPY ["src/BuildingBlocks/Argon.Zine.Commom/Argon.Zine.Commom.csproj", "src/BuildingBlocks/Argon.Zine.Commom/"]
 COPY ["src/Services/Restaurants/Argon.Zine.Restaurants.Application/Argon.Zine.Restaurants.Application.csproj", "src/Services/Restaurants/Argon.Zine.Restaurants.Application/"]
 COPY ["src/Services/Restaurants/Argon.Zine.Restaurants.Domain/Argon.Zine.Restaurants.Domain.csproj", "src/Services/Restaurants/Argon.Zine.Restaurants.Domain/"]
 COPY ["src/Services/Chat/Argon.Zine.Chat/Argon.Zine.Chat.csproj", "src/Services/Chat/Argon.Zine.Chat/"]

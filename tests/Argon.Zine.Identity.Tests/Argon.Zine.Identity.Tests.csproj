@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Core.csproj" />
     <ProjectReference Include="..\..\src\Services\Identity\Argon.Zine.Identity\Argon.Zine.Identity.csproj" />
   </ItemGroup>
 

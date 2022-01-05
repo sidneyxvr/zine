@@ -1,11 +1,11 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 
 namespace Argon.Zine.Customers.Domain;
 
 public class Address : Entity
 {
     public string Street { get; private set; }
-    public string Number { get; private set; }
+    public string? Number { get; private set; }
     public string District { get; private set; }
     public string City { get; private set; }
     public string State { get; private set; }
@@ -32,7 +32,7 @@ public class Address : Entity
     protected Address() { }
 #pragma warning restore CS8618
 
-    public Address(string street, string number, string district,
+    public Address(string street, string? number, string district,
         string city, string state, string postalCode, Location location)
     {
         Validate(street, number, district, city, state, postalCode);
@@ -68,7 +68,7 @@ public class Address : Entity
         Complement = complement;
     }
 
-    private static void Validate(string street, string number,
+    private static void Validate(string street, string? number,
         string district, string city, string state, string postalCode)
     {
         Check.NotEmpty(street, nameof(street));

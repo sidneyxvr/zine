@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 
 namespace Argon.Zine.Catalog.Communication.Events;
 

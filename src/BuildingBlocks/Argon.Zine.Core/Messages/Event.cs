@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Argon.Zine.Core.Messages;
+namespace Argon.Zine.Commom.Messages;
 
 public abstract record Event : Message, INotification
 {

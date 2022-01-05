@@ -1,4 +1,4 @@
-﻿namespace Argon.Zine.Core.Messages.IntegrationEvents;
+﻿namespace Argon.Zine.Commom.Messages.IntegrationEvents;
 
 public record OpenRestaurantEvent : Event
 {

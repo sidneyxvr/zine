@@ -1,7 +1,7 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Catalog.QueryStack.Queries;
-using Argon.Zine.Core.Communication;
-using Argon.Zine.Core.DomainObjects;
+using Argon.Zine.Commom.Communication;
+using Argon.Zine.Commom.DomainObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Argon.Zine.App.Api.Controllers.V1;

@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.Communication;
-using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.Communication;
+using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Application.Requests;

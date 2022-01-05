@@ -1,5 +1,5 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
-using Argon.Zine.Core.Communication;
+using Argon.Zine.Commom.Communication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Argon.Zine.App.Api.Controllers.V1;

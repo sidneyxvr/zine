@@ -1,9 +1,9 @@
-﻿using Argon.Zine.Core.Data.EventSourcing;
-using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Data.EventSourcing;
+using Argon.Zine.Commom.Messages;
 using FluentValidation.Results;
 using MediatR;
 
-namespace Argon.Zine.Core.Communication;
+namespace Argon.Zine.Commom.Communication;
 
 public class InMemoryBus : IBus
 {

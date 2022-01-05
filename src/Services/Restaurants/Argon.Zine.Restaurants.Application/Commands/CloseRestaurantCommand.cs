@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 using System;
 
 namespace Argon.Restaurants.Application.Commands;

@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.DomainObjects;
-using Argon.Zine.Core.Utils;
+﻿using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Utils;
 using Argon.Zine.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

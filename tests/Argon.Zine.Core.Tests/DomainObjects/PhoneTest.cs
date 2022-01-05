@@ -1,7 +1,7 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 using Xunit;
 
-namespace Argon.Zine.Core.Tests.DomainObjects
+namespace Argon.Zine.Commom.Tests.DomainObjects
 {
     public class PhoneTest
     {

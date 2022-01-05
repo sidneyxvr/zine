@@ -1,4 +1,4 @@
-﻿namespace Argon.Zine.Core.Utils;
+﻿namespace Argon.Zine.Commom.Utils;
 
 public static class StringUtils
 {

@@ -1,6 +1,6 @@
-﻿using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Messages;
 
-namespace Argon.Zine.Core.Data.EventSourcing;
+namespace Argon.Zine.Commom.Data.EventSourcing;
 
 public interface IEventSourcingStorage
 {

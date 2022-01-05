@@ -1,8 +1,8 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Catalog.Communication.Events;
 using Argon.Zine.Catalog.Domain;
-using Argon.Zine.Core.Data;
-using Argon.Zine.Core.Messages;
+using Argon.Zine.Commom.Data;
+using Argon.Zine.Commom.Messages;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 

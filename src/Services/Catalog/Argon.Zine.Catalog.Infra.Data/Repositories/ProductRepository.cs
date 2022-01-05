@@ -1,5 +1,5 @@
 ﻿using Argon.Zine.Catalog.Domain;
-using Argon.Zine.Core.Data;
+using Argon.Zine.Commom.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Argon.Zine.Catalog.Infra.Data.Repositories;

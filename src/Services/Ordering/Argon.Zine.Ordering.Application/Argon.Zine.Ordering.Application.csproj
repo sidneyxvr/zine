@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Argon.Zine.Core\Argon.Zine.Commom.csproj" />
     <ProjectReference Include="..\Argon.Zine.Ordering.Domain\Argon.Zine.Ordering.Domain.csproj" />
   </ItemGroup>
 

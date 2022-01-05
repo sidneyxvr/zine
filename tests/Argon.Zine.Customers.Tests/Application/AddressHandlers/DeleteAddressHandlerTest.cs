@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Application.Handlers;
 using Argon.Zine.Customers.Domain;

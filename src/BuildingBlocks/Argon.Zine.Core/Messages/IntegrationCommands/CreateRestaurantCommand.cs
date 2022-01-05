@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Argon.Zine.Core.Messages.IntegrationCommands;
+namespace Argon.Zine.Commom.Messages.IntegrationCommands;
 
 #pragma warning disable CS8618 
 public record CreateRestaurantCommand : Command

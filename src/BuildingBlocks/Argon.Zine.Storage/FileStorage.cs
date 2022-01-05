@@ -1,6 +1,6 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Transfer;
-using Argon.Zine.Core.Data;
+using Argon.Zine.Commom.Data;
 
 namespace Argon.Storage;
 

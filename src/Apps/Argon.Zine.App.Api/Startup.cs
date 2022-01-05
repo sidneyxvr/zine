@@ -56,9 +56,9 @@ public class Startup
         });
 
         services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+#if !DEBUG
         services.RegisterHealthChecks(Configuration);
-
+#endif
         services.RegisterCatalog(Configuration)
             .RegisterCustomer()
             .RegisterSupplier()
@@ -126,6 +126,8 @@ public class Startup
             endpoints.MapHub<ChatHub>("/chathub");
         });
 
+#if !DEBUG
         app.UseHealthChecks();
+#endif
     }
 }

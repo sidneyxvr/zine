@@ -1,5 +1,5 @@
-﻿using Argon.Zine.Core.Data.EventSourcing;
-using Argon.Zine.Core.Messages;
+﻿using Argon.Zine.Commom.Data.EventSourcing;
+using Argon.Zine.Commom.Messages;
 using EventStore.ClientAPI;
 using System.Text;
 using System.Text.Json;

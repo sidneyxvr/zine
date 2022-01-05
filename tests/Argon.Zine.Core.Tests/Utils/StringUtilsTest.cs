@@ -1,7 +1,7 @@
-﻿using Argon.Zine.Core.Utils;
+﻿using Argon.Zine.Commom.Utils;
 using Xunit;
 
-namespace Argon.Zine.Core.Tests.Utils
+namespace Argon.Zine.Commom.Tests.Utils
 {
     public class StringUtilsTest
     {

@@ -1,5 +1,5 @@
 ﻿using Argon.Zine.Catalog.Domain;
-using Argon.Zine.Core.Communication;
+using Argon.Zine.Commom.Communication;
 
 namespace Argon.Zine.Catalog.Infra.Data;
 

@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.Messages.IntegrationCommands;
+﻿using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Application.Handlers;
 using Argon.Zine.Customers.Application.Queries;

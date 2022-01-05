@@ -1,4 +1,4 @@
-﻿using Argon.Zine.Core.DomainObjects;
+﻿using Argon.Zine.Commom.DomainObjects;
 using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
 using FluentValidation;
