@@ -17,9 +17,9 @@
     <FormItem Label="Descrição">
         <Input @bind-Value="@context.Description" />
     </FormItem>
-    <FormItem Label="Preço" WrapperColSpan="8" WrapperColOffset="8" >
-        <AntDesign.InputNumber @bind-Value="@context.Price" Formatter="PriceFormatter" Parser="Parse1" Min="0" Max="9999"/>
-    </FormItem>
+    @* <FormItem Label="Preço" WrapperColSpan="8" WrapperColOffset="8" > *@
+    @*     <AntDesign.InputNumber @bind-Value="@context.Price" Formatter="PriceFormatter" Parser="Parse1" Min="0" Max="9999"/> *@
+    @* </FormItem> *@
     <FormItem>
         <Checkbox @bind-Value="context.IsActive">Ativo</Checkbox>
     </FormItem>

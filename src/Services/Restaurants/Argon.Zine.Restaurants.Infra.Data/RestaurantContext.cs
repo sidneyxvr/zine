@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Argon.Restaurants.Infra.Data;
 
+#pragma warning disable CS8618 
 public class RestaurantContext : DbContext
 {
     public RestaurantContext(DbContextOptions<RestaurantContext> options)
@@ -18,7 +19,7 @@ public class RestaurantContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RestaurantContext).Assembly);
     }
 
-    public DbSet<Address> Addresses { get; } = null!;
-    public DbSet<Restaurant> Restaurants { get; } = null!;
-    public DbSet<User> Users { get; } = null!;
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<Restaurant> Restaurants { get; set; }
+    public DbSet<User> Users { get; set; }
 }

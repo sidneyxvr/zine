@@ -53,7 +53,7 @@ public class DeleteAddressHandlerTest
         var result = await _handler.Handle(command, CancellationToken.None);
 
         //Assert
-        Assert.True(result.IsValid);
+        Assert.True(result.ValidationResult.IsValid);
         _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
     }
 

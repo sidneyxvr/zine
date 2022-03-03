@@ -17,7 +17,7 @@ public class RoomService : IRoomService
         var restaurantUser = new User(createRoom.RestaurantId,
             createRoom.RestaurantName, createRoom.RestaurantLogoUrl);
 
-        var room = new Room($"{createRoom.OrderSequentialId}", customerUser, restaurantUser);
+        var room = new Room($"{createRoom.CustomerId}", customerUser, restaurantUser);
 
         await _roomRepository.AddAsync(room);
     }

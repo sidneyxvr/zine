@@ -1,8 +1,8 @@
-﻿using Argon.Zine.Commom.DomainObjects;
+﻿using Argon.Zine.Commom;
+using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Domain;
-using FluentValidation.Results;
 
 namespace Argon.Zine.Customers.Application.Handlers;
 
@@ -19,7 +19,7 @@ public class UpdateCustomerHandler : RequestHandler<UpdateCustomerCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         var customer = await _unitOfWork.CustomerRepository
@@ -36,6 +36,6 @@ public class UpdateCustomerHandler : RequestHandler<UpdateCustomerCommand>
         await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return customer;
     }
 }

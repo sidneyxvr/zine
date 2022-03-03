@@ -2,30 +2,30 @@
 
 namespace Argon.Zine.Identity.Responses;
 
-public class IdentityResponse<T>
+public class IdentityResult<T>
 {
     public T? Result { get; private set; }
     public ValidationResult ValidationResult { get; private set; }
 
-    public static implicit operator IdentityResponse<T>(ValidationResult validationResult)
+    public static implicit operator IdentityResult<T>(ValidationResult validationResult)
         => new(validationResult);
 
-    public IdentityResponse(ValidationResult validationResult)
+    public IdentityResult(ValidationResult validationResult)
         => ValidationResult = validationResult;
 
-    public IdentityResponse(T result)
+    public IdentityResult(T result)
     {
         Result = result;
         ValidationResult = new ValidationResult();
     }
 }
 
-public class IdentityResponse
+public class IdentityResult
 {
     public ValidationResult ValidationResult { get; private set; }
 
-    public static implicit operator IdentityResponse(ValidationResult validationResult)
+    public static implicit operator IdentityResult(ValidationResult validationResult)
         => new(validationResult);
-    public IdentityResponse(ValidationResult validationResult)
+    public IdentityResult(ValidationResult validationResult)
          => ValidationResult = validationResult;
 }

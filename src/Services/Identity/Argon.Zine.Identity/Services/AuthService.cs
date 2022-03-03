@@ -34,7 +34,7 @@ public class AuthService : BaseService, IAuthService
         _refreshTokenStore = refreshTokenStore;
     }
 
-    public async Task<IdentityResponse<UserLoginResponse>> LoginAsync(LoginRequest request)
+    public async Task<IdentityResult<UserLoginResponse>> LoginAsync(LoginRequest request)
     {
         var localizer = _localizerFactory.Create(typeof(LoginValidator));
         var validationResult = new LoginValidator(localizer).Validate(request);
@@ -69,10 +69,10 @@ public class AuthService : BaseService, IAuthService
             return WithError(_localizer["Invalid Login Credentials"]);
         }
 
-        return new IdentityResponse<UserLoginResponse>(loginResponse);
+        return new IdentityResult<UserLoginResponse>(loginResponse);
     }
 
-    public async Task<IdentityResponse<UserLoginResponse>> RefreshTokenAsync(RefreshTokenRequest request)
+    public async Task<IdentityResult<UserLoginResponse>> RefreshTokenAsync(RefreshTokenRequest request)
     {
         var validationResult = new RefreshTokenValidator().Validate(request);
 
@@ -118,7 +118,7 @@ public class AuthService : BaseService, IAuthService
             return WithError(_localizer["Cannot Refresh Token"]);
         }
 
-        return new IdentityResponse<UserLoginResponse>(loginResponse);
+        return new IdentityResult<UserLoginResponse>(loginResponse);
     }
 
     private async Task<UserLoginResponse?> GenerateUserLoginResponseAsync(User user)

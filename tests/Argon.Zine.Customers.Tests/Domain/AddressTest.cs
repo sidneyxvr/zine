@@ -53,11 +53,11 @@ public class AddressTest
     }
 
     [Fact]
-    public void CreateAddresssInvalidNumberShouldThrowDomainException()
+    public void CreateAddressInvalidNumberShouldThrowDomainException()
     {
         //Arrange
         var address = _addressFixture.GetAddressTestDTO();
-        var number = _faker.Lorem.Letter(_faker.Random.Int(Address.NumberMaxLength, Address.NumberMaxLength + 5));
+        var number = _faker.Lorem.Letter(_faker.Random.Int(min: 000_000_000));
 
         //Act
         var result = Assert.Throws<DomainException>(() =>

@@ -1,10 +1,10 @@
 ﻿using Argon.Restaurants.Domain;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.Data;
 using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Commom.Messages.IntegrationEvents;
-using FluentValidation.Results;
 
 namespace Argon.Restaurants.Application.Handlers;
 
@@ -21,7 +21,7 @@ public class CreateRestaurantHandler : RequestHandler<CreateRestaurantCommand>
         _fileStorage = fileStorage;
     }
 
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         CreateRestaurantCommand request, CancellationToken cancellationToken)
     {
         var name = new Name(request.CorparateName!, request.CorparateName!);
@@ -46,6 +46,6 @@ public class CreateRestaurantHandler : RequestHandler<CreateRestaurantCommand>
         await _unitOfWork.RestaurantRepository.AddAsync(restaurant, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return restaurant;
     }
 }

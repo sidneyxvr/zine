@@ -1,6 +1,7 @@
 ﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
 using Argon.Zine.Application;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Commom.Messages.IntegrationEvents;
 using FluentValidation.Results;
@@ -22,7 +23,7 @@ public class CloseRestaurantHandler : RequestHandler<CloseRestaurantCommand>
     }
 
     [PermissionValidator(Permission = 1)]
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         CloseRestaurantCommand request, CancellationToken cancellationToken)
     {
         var restarutant = await _unitOfWork.RestaurantRepository
@@ -39,6 +40,6 @@ public class CloseRestaurantHandler : RequestHandler<CloseRestaurantCommand>
         await _unitOfWork.RestaurantRepository.UpdateAsync(restarutant, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return restarutant;
     }
 }

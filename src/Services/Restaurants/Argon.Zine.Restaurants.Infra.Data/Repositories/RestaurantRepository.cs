@@ -28,10 +28,10 @@ public class RestaurantRepository : IRestaurantRepository
     }
 
     public async Task<Restaurant?> GetByIdAsync(
-        Guid id, 
-        Includes include = Includes.None, 
+        Guid id,
+        Includes include = Includes.None,
         CancellationToken cancellationToken = default)
-        => await _context.Restaurants
+            => await _context.Restaurants
             .Includes(include)
             .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
 
@@ -42,7 +42,7 @@ public class RestaurantRepository : IRestaurantRepository
 internal static class RestaurantQueryExtentios
 {
     internal static IQueryable<Restaurant> Includes(
-        this IQueryable<Restaurant> source, 
+        this IQueryable<Restaurant> source,
         Includes include)
     {
         if (include.HasFlag(Domain.Includes.User))

@@ -26,10 +26,13 @@ public class ChangedProductPriceHandler : NotificationHandler<ChangedProductPric
         }
         catch
         {
-            _logger.LogWarning($"Cannot update basket item price - item id: {notification.AggregateId}",
-               $"Handler {nameof(ChangedProductPriceHandler)}",
-               $"Assembly {typeof(ChangedProductPriceHandler).Assembly}",
-               notification);
+            const string errorMessageLog =
+                "Cannot update basket item price - item id: {AggregationId}\n{Handler}\n{Assembly}\n{@Notification}";
+            _logger.LogWarning(errorMessageLog,
+                notification.AggregateId,
+                nameof(ChangedProductPriceHandler),
+                typeof(ChangedProductPriceHandler).Assembly,
+                notification);
         }
     }
 }

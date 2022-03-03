@@ -1,5 +1,6 @@
 ﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages;
 using FluentValidation.Results;
@@ -23,7 +24,7 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
         _localizer = localizer;
     }
 
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         UpdateAddressCommand request, CancellationToken cancellationToken)
     {
         var restaurant = await _unitOfWork.RestaurantRepository
@@ -49,6 +50,6 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
         await _unitOfWork.RestaurantRepository.UpdateAsync(restaurant, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return restaurant;
     }
 }

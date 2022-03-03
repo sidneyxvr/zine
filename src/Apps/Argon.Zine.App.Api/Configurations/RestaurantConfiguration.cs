@@ -4,11 +4,11 @@ using Argon.Restaurants.Application.Validators;
 using Argon.Restaurants.Domain;
 using Argon.Restaurants.Infra.Data;
 using Argon.Restaurants.Infra.Data.Repositories;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Restaurants.Infra.Data.Queries;
 using Argon.Zine.Restaurants.QueryStack.Queries;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,9 +21,9 @@ public static class RestaurantConfiguration
         services.TryAddTransient<IValidator<CreateRestaurantCommand>, CreateRestaurantValidator>();
         services.TryAddTransient<IValidator<UpdateAddressCommand>, UpdateAddressValidator>();
 
-        services.TryAddScoped<IRequestHandler<CreateRestaurantCommand, ValidationResult>, CreateRestaurantHandler>();
-        services.TryAddScoped<IRequestHandler<OpenRestaurantCommand, ValidationResult>, OpenRestaurantHandler>();
-        services.TryAddScoped<IRequestHandler<CloseRestaurantCommand, ValidationResult>, CloseRestaurantHandler>();
+        services.TryAddScoped<IRequestHandler<CreateRestaurantCommand, AppResult>, CreateRestaurantHandler>();
+        services.TryAddScoped<IRequestHandler<OpenRestaurantCommand, AppResult>, OpenRestaurantHandler>();
+        services.TryAddScoped<IRequestHandler<CloseRestaurantCommand, AppResult>, CloseRestaurantHandler>();
 
         services.TryAddScoped<IRestaurantRepository, RestaurantRepository>();
         services.TryAddScoped<IUnitOfWork, UnitOfWork>();

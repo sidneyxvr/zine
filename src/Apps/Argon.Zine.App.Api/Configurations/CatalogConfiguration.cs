@@ -7,9 +7,9 @@ using Argon.Zine.Catalog.Infra.Data;
 using Argon.Zine.Catalog.Infra.Data.Queries;
 using Argon.Zine.Catalog.Infra.Data.Repositories;
 using Argon.Zine.Catalog.QueryStack.Queries;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.Messages.IntegrationEvents;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -24,8 +24,8 @@ public static class CatalogConfiguration
         services.TryAddTransient<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
         services.TryAddTransient<IValidator<CreateProductCommand>, CreateProductValidator>();
 
-        services.TryAddScoped<IRequestHandler<CreateCategoryCommand, ValidationResult>, CreateCategoryHandler>();
-        services.TryAddScoped<IRequestHandler<CreateProductCommand, ValidationResult>, CreateProductHandler>();
+        services.TryAddScoped<IRequestHandler<CreateCategoryCommand, AppResult>, CreateCategoryHandler>();
+        services.TryAddScoped<IRequestHandler<CreateProductCommand, AppResult>, CreateProductHandler>();
 
         services.AddScoped<INotificationHandler<RestaurantCreatedEvent>, RestaurantCreatedHandler>();
 

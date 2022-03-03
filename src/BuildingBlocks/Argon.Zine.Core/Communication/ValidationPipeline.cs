@@ -1,11 +1,10 @@
 ﻿using Argon.Zine.Commom.Messages;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 
 namespace Argon.Zine.Commom.Communication;
 
-public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, ValidationResult>
+public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, AppResult>
     where TRequest : Command
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
@@ -16,10 +15,10 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
         _validators = validators;
     }
 
-    public async Task<ValidationResult> Handle(
+    public async Task<AppResult> Handle(
         TRequest request,
         CancellationToken cancellationToken,
-        RequestHandlerDelegate<ValidationResult> next)
+        RequestHandlerDelegate<AppResult> next)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -27,8 +26,8 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
             ?.Select(v => v.Validate(request))
             ?.FirstOrDefault();
 
-        return validationResult is null or { IsValid: true } 
-            ? await next()
-            : validationResult;
+        return validationResult is { IsValid: false }
+            ? AppResult.Failed(validationResult)
+            : await next();
     }
 }

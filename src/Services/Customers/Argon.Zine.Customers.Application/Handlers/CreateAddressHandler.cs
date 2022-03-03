@@ -1,8 +1,8 @@
-﻿using Argon.Zine.Commom.DomainObjects;
+﻿using Argon.Zine.Commom;
+using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Domain;
-using FluentValidation.Results;
 
 namespace Argon.Zine.Customers.Application.Handlers;
 
@@ -17,7 +17,7 @@ public class CreateAddressHandler : RequestHandler<CreateAddressCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public override async Task<ValidationResult> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
+    public override async Task<AppResult> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
     {
         var customer = await _unitOfWork.CustomerRepository
             .GetByIdAsync(_appUser.Id, Includes.None, cancellationToken);
@@ -36,6 +36,6 @@ public class CreateAddressHandler : RequestHandler<CreateAddressCommand>
         await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return customer;
     }
 }

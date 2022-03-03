@@ -25,7 +25,7 @@ public class BasketController : BaseController
     {
         var product = await _productQueries.GetProductBasketByIdAsync(request.Id);
 
-        var productToBasket = new ProductToBasketDTO(product!.Id, product.Name,
+        var productToBasket = new ProductToBasketDto(product!.Id, product.Name,
             product.Price, request.Amount, product.ImageUrl, product!.RestaurantId,
             product.RestaurantName, product.RestaurantLogoUrl);
 

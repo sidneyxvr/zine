@@ -60,7 +60,7 @@ public class CreateCustomerHandlerTest
         var result = await _handler.Handle(command, CancellationToken.None);
 
         //Assert
-        Assert.True(result.IsValid);
+        Assert.True(result.ValidationResult.IsValid);
     }
 
     [Fact]

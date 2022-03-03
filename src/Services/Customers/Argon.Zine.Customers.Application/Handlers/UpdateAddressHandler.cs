@@ -1,8 +1,8 @@
-﻿using Argon.Zine.Commom.DomainObjects;
+﻿using Argon.Zine.Commom;
+using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Domain;
-using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
 namespace Argon.Zine.Customers.Application.Handlers;
@@ -23,7 +23,7 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
         _localizer = localizer;
     }
 
-    public override async Task<ValidationResult> Handle(UpdateAddressCommand request, CancellationToken cancellationToken)
+    public override async Task<AppResult> Handle(UpdateAddressCommand request, CancellationToken cancellationToken)
     {
         var customer = await _unitOfWork.CustomerRepository
             .GetByIdAsync(_appUser.Id, Includes.Addresses, cancellationToken);
@@ -48,6 +48,6 @@ public class UpdateAddressHandler : RequestHandler<UpdateAddressCommand>
         await _unitOfWork.CustomerRepository.UpdateAsync(customer, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return customer;
     }
 }

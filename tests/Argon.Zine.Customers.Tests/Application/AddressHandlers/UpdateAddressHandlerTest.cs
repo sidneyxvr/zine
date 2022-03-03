@@ -75,7 +75,7 @@ public class UpdateAddressHandlerTest
         var result = await _handler.Handle(command, CancellationToken.None);
 
         //Assert
-        Assert.True(result.IsValid);
+        Assert.True(result.ValidationResult.IsValid);
         _mocker.GetMock<IUnitOfWork>().Verify(u => u.CommitAsync(), Times.Once);
     }
 
@@ -130,8 +130,8 @@ public class UpdateAddressHandlerTest
         var result = await _handler.Handle(command, CancellationToken.None);
 
         //Assert
-        Assert.Single(result.Errors);
-        Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Endereço não encontrado"));
+        Assert.Single(result.ValidationResult.Errors);
+        Assert.Contains(result.ValidationResult.Errors, a => a.ErrorMessage.Equals("Endereço não encontrado"));
     }
 
     [Fact]

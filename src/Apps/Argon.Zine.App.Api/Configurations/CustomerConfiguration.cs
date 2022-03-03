@@ -1,4 +1,5 @@
-﻿using Argon.Zine.Commom.Messages.IntegrationCommands;
+﻿using Argon.Zine.Commom;
+using Argon.Zine.Commom.Messages.IntegrationCommands;
 using Argon.Zine.Customers.Application.Commands;
 using Argon.Zine.Customers.Application.Handlers;
 using Argon.Zine.Customers.Application.Queries;
@@ -25,11 +26,11 @@ public static class CustomerConfiguration
         services.TryAddTransient<IValidator<DeleteAddressCommand>, DeleteAddressValidator>();
         services.TryAddTransient<IValidator<UpdateAddressCommand>, UpdateAddressValidator>();
 
-        services.TryAddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CreateCustomerHandler>();
-        services.TryAddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressHandler>();
-        services.TryAddScoped<IRequestHandler<UpdateAddressCommand, ValidationResult>, UpdateAddressHandler>();
-        services.TryAddScoped<IRequestHandler<DeleteAddressCommand, ValidationResult>, DeleteAddressHandler>();
-        services.TryAddScoped<IRequestHandler<DefineMainAddressCommand, ValidationResult>, DefineMainAddressHandler>();
+        services.TryAddScoped<IRequestHandler<CreateCustomerCommand, AppResult>, CreateCustomerHandler>();
+        services.TryAddScoped<IRequestHandler<CreateAddressCommand, AppResult>, CreateAddressHandler>();
+        services.TryAddScoped<IRequestHandler<UpdateAddressCommand, AppResult>, UpdateAddressHandler>();
+        services.TryAddScoped<IRequestHandler<DeleteAddressCommand, AppResult>, DeleteAddressHandler>();
+        services.TryAddScoped<IRequestHandler<DefineMainAddressCommand, AppResult>, DefineMainAddressHandler>();
 
         services.TryAddScoped<ICustomerQueries, CustomerQueries>();
 

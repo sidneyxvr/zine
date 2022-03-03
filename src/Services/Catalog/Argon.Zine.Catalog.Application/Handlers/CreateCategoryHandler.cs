@@ -1,7 +1,7 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Catalog.Domain;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.Messages;
-using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
 namespace Argon.Zine.Catalog.Application.Handlers;
@@ -19,7 +19,7 @@ public class CreateCategoryHandler : RequestHandler<CreateCategoryCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var departmentExists = await _unitOfWork.CategoryRepository
@@ -35,6 +35,6 @@ public class CreateCategoryHandler : RequestHandler<CreateCategoryCommand>
         await _unitOfWork.CategoryRepository.AddAsync(category, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return category;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Catalog.Communication.Events;
 using Argon.Zine.Catalog.Domain;
+using Argon.Zine.Commom;
 using Argon.Zine.Commom.Data;
 using Argon.Zine.Commom.Messages;
-using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
 namespace Argon.Zine.Catalog.Application.Handlers;
@@ -24,7 +24,7 @@ public class CreateProductHandler : RequestHandler<CreateProductCommand>
         _fileStorage = fileStorage;
     }
 
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         CreateProductCommand request, CancellationToken cancellationToken)
     {
         var restaurant = await _unitOfWork.RestaurantRepository
@@ -48,6 +48,6 @@ public class CreateProductHandler : RequestHandler<CreateProductCommand>
         await _unitOfWork.ProductRepository.AddAsync(product, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return product;
     }
 }

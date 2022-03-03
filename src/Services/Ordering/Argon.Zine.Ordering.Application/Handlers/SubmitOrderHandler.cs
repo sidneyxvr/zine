@@ -1,7 +1,7 @@
-﻿using Argon.Zine.Commom.Messages;
+﻿using Argon.Zine.Commom;
+using Argon.Zine.Commom.Messages;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Domain;
-using FluentValidation.Results;
 
 namespace Argon.Zine.Ordering.Application.Handlers;
 
@@ -18,7 +18,7 @@ public class SubmitOrderHandler : RequestHandler<SubmitOrderCommand>
         _sequenciaIdentifier = sequenciaIdentifier;
     }
 
-    public override async Task<ValidationResult> Handle(SubmitOrderCommand request, CancellationToken cancellationToken)
+    public override async Task<AppResult> Handle(SubmitOrderCommand request, CancellationToken cancellationToken)
     {
         var address = new Address(request.Street, request.Number, request.District, request.District,
             request.State, request.Country, request.PostalCode, request.Complement);
@@ -34,6 +34,6 @@ public class SubmitOrderHandler : RequestHandler<SubmitOrderCommand>
         await _unitOfWork.OrderRepository.AddAsync(order, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new();
+        return order;
     }
 }

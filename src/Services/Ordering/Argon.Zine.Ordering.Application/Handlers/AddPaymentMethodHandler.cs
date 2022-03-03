@@ -1,7 +1,7 @@
-﻿using Argon.Zine.Commom.Messages;
+﻿using Argon.Zine.Commom;
+using Argon.Zine.Commom.Messages;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Domain;
-using FluentValidation.Results;
 
 namespace Argon.Zine.Ordering.Application.Handlers;
 
@@ -14,7 +14,7 @@ public class AddPaymentMethodHandler : RequestHandler<AddPaymentMethodCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public override async Task<ValidationResult> Handle(AddPaymentMethodCommand request, CancellationToken cancellationToken)
+    public override async Task<AppResult> Handle(AddPaymentMethodCommand request, CancellationToken cancellationToken)
     {
         var buyer = await _unitOfWork.BuyerRepository.GetByIdAsync(request.CustomerId, cancellationToken);
 
@@ -37,6 +37,6 @@ public class AddPaymentMethodHandler : RequestHandler<AddPaymentMethodCommand>
 
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new();
+        return buyer;
     }
 }

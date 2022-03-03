@@ -5,6 +5,6 @@ namespace Argon.Zine.Identity.Services;
 
 public interface IAuthService
 {
-    Task<IdentityResponse<UserLoginResponse>> LoginAsync(LoginRequest request);
-    Task<IdentityResponse<UserLoginResponse>> RefreshTokenAsync(RefreshTokenRequest request);
+    Task<IdentityResult<UserLoginResponse>> LoginAsync(LoginRequest request);
+    Task<IdentityResult<UserLoginResponse>> RefreshTokenAsync(RefreshTokenRequest request);
 }

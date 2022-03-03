@@ -16,6 +16,7 @@ using Xunit;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using Argon.Zine.Commom;
 
 namespace Argon.Zine.Identity.Tests.Services
 {
@@ -66,7 +67,7 @@ namespace Argon.Zine.Identity.Tests.Services
 
             _mocker.GetMock<IBus>()
                 .Setup(b => b.SendAsync(It.IsAny<CreateCustomerCommand>()))
-                .ReturnsAsync(new FluentValidation.Results.ValidationResult());
+                .ReturnsAsync(AppResult.Success());
 
             _mocker.GetMock<IEmailService>()
                 .Setup(e => e.SendEmailConfirmationAccountAsync(It.IsAny<string>(), It.IsAny<string>()));
@@ -213,12 +214,11 @@ namespace Argon.Zine.Identity.Tests.Services
 
             _mocker.GetMock<IBus>()
                 .Setup(b => b.SendAsync(It.IsAny<CreateCustomerCommand>()))
-                .ReturnsAsync(new FluentValidation.Results.ValidationResult(
-                    new List<ValidationFailure>
-                    {
-                        new ValidationFailure("any", "Some error")
-                    }));
-
+                .ReturnsAsync(AppResult.Failed(new FluentValidation.Results.ValidationResult(new List<ValidationFailure>
+                {
+                    new ValidationFailure("any", "Some error")
+                })));
+                
             //Act
             var result = await _accountService.CreateCustomerUserAsync(request);
 

@@ -7,19 +7,19 @@ public class PermissionValidatorBehavior<TRequest, TResponse> : IPipelineBehavio
     where TRequest : IRequest<TResponse>
     where TResponse : notnull
 {
-    private readonly IRequestHandler<TRequest, TResponse> requestHandler;
+    private readonly IRequestHandler<TRequest, TResponse> _requestHandler;
 
     public PermissionValidatorBehavior(IRequestHandler<TRequest, TResponse> requestHandler)
     {
-        this.requestHandler = requestHandler;
+        _requestHandler = requestHandler;
     }
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
-        var permission = requestHandler.GetType()
+        var permission = _requestHandler.GetType()
             .GetMethod(nameof(Handle))!
             .GetCustomAttributes<PermissionValidatorAttribute>();
 
-        return await requestHandler.Handle(request, cancellationToken);
+        return await _requestHandler.Handle(request, cancellationToken);
     }
 }

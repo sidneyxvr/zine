@@ -6,7 +6,8 @@ namespace Argon.Zine.Identity.Notifications.Handlers;
 internal class SendEmailResetPasswordHandler : IHandler<SendEmailResetPasswordCommand>
 {
     private readonly IFluentEmail _emailSender;
-
+    private static string s_path =
+        Path.Combine(Directory.GetCurrentDirectory(), "Templates", "ResetPassword.cshtml");
     public SendEmailResetPasswordHandler(IFluentEmail emailSender)
         => _emailSender = emailSender;
 

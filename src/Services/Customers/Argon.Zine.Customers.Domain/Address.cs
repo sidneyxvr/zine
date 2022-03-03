@@ -14,8 +14,8 @@ public class Address : Entity
     public string? Complement { get; private set; }
     public Location Location { get; private set; }
 
-    public Guid CustomerId { get; private set; }
-    public Customer? Customer { get; private set; }
+    public Guid CustomerId { get; }
+    public Customer? Customer { get; } = null!;
 
     public const int StreetMaxLength = 50;
     public const int StreetMinLength = 2;

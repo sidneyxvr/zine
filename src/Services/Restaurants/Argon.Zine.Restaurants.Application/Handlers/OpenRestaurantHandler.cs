@@ -1,12 +1,10 @@
-﻿using Argon.Zine.Commom.Messages;
-using Argon.Zine.Commom.Messages.IntegrationEvents;
-using Argon.Restaurants.Application.Commands;
+﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
-using FluentValidation.Results;
-using Microsoft.Extensions.Localization;
-using System.Threading.Tasks;
-using System.Threading;
 using Argon.Zine.Application;
+using Argon.Zine.Commom;
+using Argon.Zine.Commom.Messages;
+using Argon.Zine.Commom.Messages.IntegrationEvents;
+using Microsoft.Extensions.Localization;
 
 namespace Argon.Restaurants.Application.Handlers;
 
@@ -24,7 +22,7 @@ public class OpenRestaurantHandler : RequestHandler<OpenRestaurantCommand>
     }
 
     [PermissionValidator(Permission = 1)]
-    public override async Task<ValidationResult> Handle(
+    public override async Task<AppResult> Handle(
         OpenRestaurantCommand request, CancellationToken cancellationToken)
     {
         var restarutant = await _unitOfWork.RestaurantRepository
@@ -41,6 +39,6 @@ public class OpenRestaurantHandler : RequestHandler<OpenRestaurantCommand>
         await _unitOfWork.RestaurantRepository.UpdateAsync(restarutant, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return ValidationResult;
+        return restarutant;
     }
 }

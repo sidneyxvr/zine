@@ -1,6 +1,5 @@
 ﻿using Argon.Zine.Commom.Data.EventSourcing;
 using Argon.Zine.Commom.Messages;
-using FluentValidation.Results;
 using MediatR;
 
 namespace Argon.Zine.Commom.Communication;
@@ -25,6 +24,7 @@ public class InMemoryBus : IBus
         await _eventSourcingStorage.AddAsync(@event);
     }
 
-    public async Task<ValidationResult> SendAsync<TRequest>(TRequest request) where TRequest : Command
+    public async Task<AppResult> SendAsync<TRequest>(TRequest request) 
+        where TRequest : Command
         => await _mediator.Send(request);
 }

@@ -36,14 +36,8 @@ public class ChatHub : Hub
         var userId = Context.GetUserId();
         var userName = Context.GetUserFullName();
 
-        var createRoom = new CreateRoomDto
-        {
-            CustomerId = userId,
-            CustomerName = userName,
-            RestaurantId = restaurant.Id,
-            RestaurantName = restaurant.Name,
-            RestaurantLogoUrl = restaurant.LogoUrl,
-        };
+        var createRoom = new CreateRoomDto(userId, userName,
+            restaurant.Id, restaurant.Name, restaurant.LogoUrl);
 
         await _roomService.AddAsync(createRoom);
     }
@@ -51,25 +45,25 @@ public class ChatHub : Hub
     [HubMethodName("sendMessage")]
     public async Task SendMessageAsync(SendMessageRequest request)
     {
-        var (SenderId, ReceiverId) = await _messageService.AddAsync(request);
+        var (senderId, receiverId) = await _messageService.AddAsync(request);
 
         var senderConnectionId = Context.ConnectionId;
         var receiverConnectionId =
-            await _userService.GetConnectionIdByUserIdAsync(ReceiverId);
+            await _userService.GetConnectionIdByUserIdAsync(receiverId);
 
-        await Clients.Clients(new[] { senderConnectionId, receiverConnectionId })
+        await Clients.Clients(new[] {senderConnectionId, receiverConnectionId})
             .SendAsync("receiveMessage", new
             {
                 request.RoomId,
                 request.Content,
-                senderId = SenderId
+                senderId = senderId
             });
     }
 
     [HubMethodName("messages")]
     public async Task<IEnumerable<Message>> GetPagedMessageAsync(GetPagedMessagesRequest request)
     {
-        request.SetUser(Context.GetUserId());
+        request.UserId = Context.GetUserId();
         return await _messageService.GetPagedMessagesAsync(request);
     }
 }
@@ -77,9 +71,10 @@ public class ChatHub : Hub
 public static class HubContextExtensions
 {
     public static Guid GetUserId(this HubCallerContext context)
-        => new("A18B8113-2392-4263-1B78-08D94A24E18B");//new(context.User!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+        => new("A18B8113-2392-4263-1B78-08D94A24E18B");
+    //new(context.User!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
 
     public static string GetUserFullName(this HubCallerContext context)
         => $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.GivenName)!.Value} " +
-        $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.FamilyName)!.Value}";
+           $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.FamilyName)!.Value}";
 }

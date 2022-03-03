@@ -9,21 +9,21 @@ namespace Argon.Zine.Basket.Services;
 public class BasketService : IBasketService
 {
     private readonly IAppUser _appUser;
-    private readonly IBasketDao _Basket;
+    private readonly IBasketDao _basketDao;
 
-    public BasketService(IAppUser appUser, IBasketDao Basket)
+    public BasketService(IAppUser appUser, IBasketDao basketDao)
     {
         _appUser = appUser;
-        _Basket = Basket;
+        _basketDao = basketDao;
     }
 
-    public async Task AddProductToBasketAsync(ProductToBasketDTO product)
+    public async Task AddProductToBasketAsync(ProductToBasketDto product)
     {
-        var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
+        var basket = await _basketDao.GetByCustomerIdAsync(_appUser.Id);
 
         var basketWasNull = basket is null;
 
-        basket ??= new CustomerBasket(product.RestaurantId, 
+        basket ??= new(product.RestaurantId, 
             product.RestaurantName, product.RestaurantLogoUrl, _appUser.Id);
 
         basket.AddItem(new(product.Id, product.Name,
@@ -31,20 +31,20 @@ public class BasketService : IBasketService
 
         if (basketWasNull)
         {
-            await _Basket.AddAsync(basket);
+            await _basketDao.AddAsync(basket);
         }
         else
         {
-            await _Basket.UpdateAsync(basket);
+            await _basketDao.UpdateAsync(basket);
         }
     }
 
-    public async Task<BasketReponse?> GetBasketAsync(CancellationToken cancellationToken = default)
-        => MapToBasketReponse(await _Basket.GetByCustomerIdAsync(_appUser.Id, cancellationToken));
+    public async Task<BasketResponse?> GetBasketAsync(CancellationToken cancellationToken = default)
+        => MapToBasketResponse(await _basketDao.GetByCustomerIdAsync(_appUser.Id, cancellationToken));
 
     public async Task RemoveProductFromBasketAsync(Guid productId)
     {
-        var basket = await _Basket.GetByCustomerIdAsync(_appUser.Id);
+        var basket = await _basketDao.GetByCustomerIdAsync(_appUser.Id);
 
         if (basket is null)
         {
@@ -53,28 +53,22 @@ public class BasketService : IBasketService
 
         basket.RemoveItem(productId);
 
-        await _Basket.UpdateAsync(basket);
+        await _basketDao.UpdateAsync(basket);
     }
 
-    private static BasketReponse? MapToBasketReponse(CustomerBasket? basket)
-        => basket is not null
-        ? new()
+    private static BasketResponse? MapToBasketResponse(CustomerBasket? basket)
+    {
+        if (basket is null)
         {
-            RestaurantId = basket.RestaurantId,
-            RestaurantName = basket.RestaurantName,
-            RestaurantLogoUrl = basket.RestaurantLogoUrl,
-            Total = basket.Total,
-            Products = basket.Products.Select(p => new ProductDTO
-            {
-                Id = p.Id,
-                Name = p.ProductName,
-                Price = p.Price,
-                Amount = p.Quantity,
-                ImageUrl = p.ImageUrl!,
-            })
+            return null;
         }
-       : null;
+        var products = basket.Products.Select(p
+            => new ProductDto(p.Id, p.ProductName, p.Quantity, p.Price, p.ImageUrl));
+        
+        return new BasketResponse(basket.RestaurantId, basket.RestaurantName,
+            basket.RestaurantLogoUrl, basket.Total, products);
+    }
 
     public async Task UpdateBasketItemPriceAsync(Guid basketItemId, decimal price)
-        => await _Basket.UpdateBasketItemPriceAsync(basketItemId, price);
+        => await _basketDao.UpdateBasketItemPriceAsync(basketItemId, price);
 }

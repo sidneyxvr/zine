@@ -59,7 +59,7 @@ public class UpdateCustomerHandlerTest
         var result = await _handler.Handle(command, CancellationToken.None);
 
         //Assert
-        Assert.True(result.IsValid);
+        Assert.True(result.ValidationResult.IsValid);
         _mocker.GetMock<IUnitOfWork>()
             .Verify(r => r.CustomerRepository
                 .UpdateAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Once);

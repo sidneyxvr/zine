@@ -61,10 +61,10 @@ public class AccountService : BaseService, IAccountService
 
         var requestResult = await _bus.SendAsync(FromRequestToCommand(request, user.Id));
 
-        if (!requestResult.IsValid)
+        if (!requestResult.ValidationResult.IsValid)
         {
             await _userManager.DeleteAsync(user);
-            return requestResult;
+            return requestResult.ValidationResult;
         }
 
         await _userManager.AddToRoleAsync(user, RoleContant.Restaurant);
@@ -116,10 +116,10 @@ public class AccountService : BaseService, IAccountService
             BirthDate = request.BirthDate,
         });
 
-        if (!requestResult.IsValid)
+        if (!requestResult.ValidationResult.IsValid)
         {
             await _userManager.DeleteAsync(user);
-            return requestResult;
+            return requestResult.ValidationResult;
         }
 
         await _userManager.AddToRoleAsync(user, RoleContant.Customer);
