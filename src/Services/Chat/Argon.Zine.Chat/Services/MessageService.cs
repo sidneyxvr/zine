@@ -48,6 +48,7 @@ public class MessageService : IMessageService
         return room;
     }
 
-    public async Task<IEnumerable<Message>> GetPagedMessagesAsync(GetPagedMessagesRequest request)
-        => await _messageRepository.GetPagedAsync(request.UserId, request.Limit, request.Offset);
+    public async Task<IEnumerable<Message>> GetPagedMessagesAsync(
+        GetPagedMessagesRequest request, CancellationToken cancellationToken = default)
+        => await _messageRepository.GetPagedAsync(request, cancellationToken);
 }

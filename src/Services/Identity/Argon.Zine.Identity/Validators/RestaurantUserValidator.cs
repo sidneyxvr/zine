@@ -19,7 +19,7 @@ public class RestaurantUserValidator : AbstractValidator<RestaurantUserRequest>
         {
             RuleFor(c => c.CpfCnpj)
                 .NotEmpty().WithMessage(localizer["Empty CPF"])
-                .Must(cpfCnpj => CpfValidator.IsValid(cpfCnpj!)).WithMessage(localizer["InvalidCPF"]);
+                .Must(cpfCnpj => Cpf.IsValid(cpfCnpj!)).WithMessage(localizer["InvalidCPF"]);
         });
 
         When(c => c.IsCompany, () =>
@@ -30,7 +30,7 @@ public class RestaurantUserValidator : AbstractValidator<RestaurantUserRequest>
 
             RuleFor(c => c.CpfCnpj)
                 .NotEmpty().WithMessage(localizer["Empty CNPJ"])
-                .Must(cpfCnpj => CnpjValidator.IsValid(cpfCnpj!)).WithMessage(localizer["Invalid CNPJ"]);
+                .Must(cpfCnpj => Cnpj.IsValid(cpfCnpj!)).WithMessage(localizer["Invalid CNPJ"]);
         });
 
         //User

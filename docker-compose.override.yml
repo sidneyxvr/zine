@@ -3,11 +3,17 @@ version: '3.4'
 services:
   mongodb:
     container_name: mongodb
-    restart: always
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+     
+  sqlserverdb:
+    environment:
+      - SA_PASSWORD=Teste@S3nha
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
 
   argon.zine.app.api:
     container_name: webapi

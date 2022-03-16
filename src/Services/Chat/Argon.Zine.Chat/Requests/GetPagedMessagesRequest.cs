@@ -1,6 +1,3 @@
 ﻿namespace Argon.Zine.Chat.Requests;
 
-public record struct GetPagedMessagesRequest(
-    Guid UserId,
-    int Limit,
-    int Offset);
+public record GetPagedMessagesRequest(Guid RoomId, int Limit, int Offset);

@@ -1,9 +1,11 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Catalog.QueryStack.Queries;
+using Argon.Zine.Catalog.QueryStack.Responses;
 using Argon.Zine.Commom.Communication;
 using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Shared;
 using Microsoft.AspNetCore.Mvc;
-
+using IRestaurantQueries = Argon.Zine.Restaurants.QueryStack.Queries.IRestaurantQueries;
 namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/products")]
@@ -13,18 +15,15 @@ public class ProductsController : BaseController
     private readonly IBus _bus;
     private readonly IAppUser _appUser;
     private readonly IProductQueries _productQueries;
-    private readonly ILogger<ProductsController> _logger;
-    private readonly Restaurants.QueryStack.Queries.IRestaurantQueries _restaurantQueries;
+    private readonly IRestaurantQueries _restaurantQueries;
 
     public ProductsController(
         IBus bus,
         IAppUser appUser,
         IProductQueries productQueries,
-        ILogger<ProductsController> logger,
-        Restaurants.QueryStack.Queries.IRestaurantQueries restaurantQueries)
+        IRestaurantQueries restaurantQueries)
     {
         _bus = bus;
-        _logger = logger;
         _appUser = appUser;
         _productQueries = productQueries;
         _restaurantQueries = restaurantQueries;
@@ -41,10 +40,10 @@ public class ProductsController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
-        => Ok(await _productQueries.GetProductDetailsByIdAsync(id, cancellationToken));
+    public async Task<ProductDetailsResponse?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
+        => await _productQueries.GetProductDetailsByIdAsync(id, cancellationToken);
 
     [HttpGet]
-    public async Task<IActionResult> GetProducsAsync(CancellationToken cancellationToken)
-        => Ok(await _productQueries.GetProductsAsync(cancellationToken));
+    public async Task<PagedList<ProductItemGridResponse>> GetProducsAsync(CancellationToken cancellationToken)
+        => await _productQueries.GetProductsAsync(cancellationToken);
 }

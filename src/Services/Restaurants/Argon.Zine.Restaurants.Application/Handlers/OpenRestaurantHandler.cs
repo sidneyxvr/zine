@@ -1,6 +1,5 @@
 ﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
-using Argon.Zine.Application;
 using Argon.Zine.Commom;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Commom.Messages.IntegrationEvents;
@@ -21,7 +20,6 @@ public class OpenRestaurantHandler : RequestHandler<OpenRestaurantCommand>
         _unitOfWork = unitOfWork;
     }
 
-    [PermissionValidator(Permission = 1)]
     public override async Task<AppResult> Handle(
         OpenRestaurantCommand request, CancellationToken cancellationToken)
     {

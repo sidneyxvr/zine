@@ -16,12 +16,8 @@ public static class IdentityConfiguration
         services.TryAddScoped<ITokenService, JwtService>();
         services.TryAddScoped<IRefreshTokenStore, RefreshTokenStore>();
 
-        services.TryAddSingleton<IConnectionFactory>(_
-            => new ConnectionFactory() { HostName = "localhost" });
-
         services.TryAddSingleton<IConnection>(provider
-            => new ConnectionFactory().CreateConnection());
-
+            => new ConnectionFactory { HostName = "rabbitmq" }.CreateConnection());
 
         services.TryAddSingleton<IEmailService>(provider =>
         {
@@ -36,14 +32,8 @@ public static class IdentityConfiguration
         {
             options.Password.RequiredLength = 8;
             options.Password.RequireNonAlphanumeric = false;
-
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-
-            if (env.IsEnvironment("Testing"))
-            {
-                options.SignIn.RequireConfirmedEmail = true;
-            }
-
+            options.SignIn.RequireConfirmedEmail = true;
             options.User.RequireUniqueEmail = true;
         })
         .AddDefaultTokenProviders()

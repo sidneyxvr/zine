@@ -10,18 +10,18 @@ public class BaseController : ControllerBase
 {
     protected IActionResult CustomResponse(AppResult result)
         => result.ValidationResult.IsValid
-        ? Ok()
+        ? Ok(result.Result)
         : BadRequest(GetValidationProblemDetails(result.ValidationResult.Errors));
 
     protected IActionResult CustomResponse(ValidationResult result)
         => result.IsValid
-            ? Ok()
-            : BadRequest(GetValidationProblemDetails(result.Errors));
+        ? Ok()
+        : BadRequest(GetValidationProblemDetails(result.Errors));
 
     protected IActionResult CustomResponse<T>(IdentityResult<T> response)
          => response.ValidationResult.IsValid
-            ? Ok()
-            : BadRequest(GetValidationProblemDetails(response.ValidationResult.Errors));
+        ? Ok(response.Result)
+        : BadRequest(GetValidationProblemDetails(response.ValidationResult.Errors));
 
     private static ValidationProblemDetails GetValidationProblemDetails(List<ValidationFailure> errors)
     {

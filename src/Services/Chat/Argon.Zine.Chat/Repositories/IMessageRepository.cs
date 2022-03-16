@@ -1,4 +1,5 @@
 ﻿using Argon.Zine.Chat.Models;
+using Argon.Zine.Chat.Requests;
 
 namespace Argon.Zine.Chat.Repositories;
 
@@ -8,6 +9,5 @@ public interface IMessageRepository
     Task UpdateAsync(Message message);
     Task<Message> GetByIdAsync(Guid id);
     Task<IEnumerable<Message>> GetPagedAsync(
-        Guid userId, int limit, int offset,
-        CancellationToken cancellationToken = default);
+        GetPagedMessagesRequest request, CancellationToken cancellationToken = default);
 }

@@ -4,6 +4,7 @@ using Argon.Zine.Chat.Requests;
 using Argon.Zine.Chat.Services;
 using Microsoft.AspNetCore.SignalR;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Argon.Zine.App.Api.Hubs;
 
@@ -45,36 +46,39 @@ public class ChatHub : Hub
     [HubMethodName("sendMessage")]
     public async Task SendMessageAsync(SendMessageRequest request)
     {
+        request.SetSender(Context.GetUserId(), Context.GetUserFullName());
+
         var (senderId, receiverId) = await _messageService.AddAsync(request);
 
         var senderConnectionId = Context.ConnectionId;
         var receiverConnectionId =
             await _userService.GetConnectionIdByUserIdAsync(receiverId);
 
-        await Clients.Clients(new[] {senderConnectionId, receiverConnectionId})
+        await Clients.Clients(new[] { senderConnectionId, receiverConnectionId })
             .SendAsync("receiveMessage", new
             {
                 request.RoomId,
                 request.Content,
-                senderId = senderId
+                senderId
             });
     }
 
     [HubMethodName("messages")]
     public async Task<IEnumerable<Message>> GetPagedMessageAsync(GetPagedMessagesRequest request)
-    {
-        request.UserId = Context.GetUserId();
-        return await _messageService.GetPagedMessagesAsync(request);
-    }
+        => await _messageService.GetPagedMessagesAsync(request);
 }
 
 public static class HubContextExtensions
 {
     public static Guid GetUserId(this HubCallerContext context)
-        => new("A18B8113-2392-4263-1B78-08D94A24E18B");
-    //new(context.User!.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+        => new Guid("E6615DE4-B01F-4760-5869-08D9FD972E54");
+    //=> context.User is { } user
+    //? new(user.FindFirstValue(ClaimTypes.NameIdentifier))
+    //: throw new NullReferenceException(nameof(user));
 
     public static string GetUserFullName(this HubCallerContext context)
-        => $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.GivenName)!.Value} " +
-           $"{context.User!.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.FamilyName)!.Value}";
+        => "Sidney Xavier";
+        //=> context.User is { } user
+        //? $"{user.FindFirstValue(JwtRegisteredClaimNames.GivenName)} {user.FindFirstValue(JwtRegisteredClaimNames.FamilyName)}"
+        //: throw new NullReferenceException(nameof(user));
 }

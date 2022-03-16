@@ -3,7 +3,6 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using Argon.Storage;
 using Argon.Zine.App.Api.Extensions;
-using Argon.Zine.Application;
 using Argon.Zine.Basket.Data;
 using Argon.Zine.Basket.Models;
 using Argon.Zine.Basket.Services;
@@ -30,7 +29,6 @@ public static class DependencyInjectionConfiguration
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IBus, InMemoryBus>();
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PermissionValidatorBehavior<,>));
 
         services.AddScoped<IAppUser>(provider =>
         {
@@ -49,11 +47,12 @@ public static class DependencyInjectionConfiguration
                 .DisableTls()
                 .UseDebugLogger()
                 .SetMaxDiscoverAttempts(1)
-                .EnableVerboseLogging();
+#if DEBUG
+                .EnableVerboseLogging()
+#endif
+                ;
 
-            var connection = EventStoreConnection.Create("ConnectTo=tcp://admin:changeit@localhost:1113", settings);
-
-            return connection;
+            return EventStoreConnection.Create(configuration.GetConnectionString("EventSourcingConnection"), settings);
         });
 
         BsonClassMap.RegisterClassMap<CustomerBasket>(cm =>

@@ -109,7 +109,7 @@ public class CustomerTest
         //Assert
         Assert.Equal(customer.FirstName, validCustomer.Name.FirstName);
         Assert.Equal(customer.LastName, validCustomer.Name.LastName);
-        Assert.Equal(customer.BirthDate.Date, validCustomer.BirthDate.Date);
+        Assert.Equal(customer.BirthDate, validCustomer.BirthDate);
         Assert.Equal(customer.BirthDate.Day, validCustomer.BirthDate.Birthday);
     }
 
@@ -121,7 +121,7 @@ public class CustomerTest
         var customer2 = new Customer(customer1.Id, 
             new(customer1.Name.FirstName, customer1.Name.LastName), 
             customer1.Email.Address, customer1.Cpf.Number,
-            customer1.BirthDate.Date, customer1.Phone.Number);
+            customer1.BirthDate, customer1.Phone.Number);
 
         //Act
         var isEqual1 = customer1.Equals(customer2);
@@ -140,7 +140,7 @@ public class CustomerTest
         var customer2 = new Customer(Guid.NewGuid(), 
             new(customer1.Name.FirstName, customer1.Name.LastName), 
             customer1.Email.Address, customer1.Cpf.Number,
-            customer1.BirthDate.Date, customer1.Phone.Number);
+            customer1.BirthDate, customer1.Phone.Number);
 
         //Act
         var isEqual1 = customer1.Equals(customer2);

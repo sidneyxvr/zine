@@ -14,6 +14,8 @@ public class RestaurantContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresExtension("postgis");
+
         modelBuilder.Ignore<Event>();
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RestaurantContext).Assembly);

@@ -150,9 +150,9 @@ public class AccountService : BaseService, IAccountService
 
         var result = await _userManager.ConfirmEmailAsync(user, request.Token);
 
-        return result.Succeeded ?
-            ValidationResult :
-            WithError(_localizer["Cannot Confirm Email Account"]);
+        return result.Succeeded 
+            ? ValidationResult 
+            : WithError(_localizer["Cannot Confirm Email Account"]);
     }
 
     public async Task<ValidationResult> ResendConfirmEmailAccountAsync(EmailRequest request)
@@ -222,9 +222,9 @@ public class AccountService : BaseService, IAccountService
 
         var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
-        return result.Succeeded ?
-            ValidationResult :
-            WithError(_localizer["Cannot Reset Password"]);
+        return result.Succeeded 
+            ? ValidationResult 
+            : WithError(_localizer["Cannot Reset Password"]);
     }
 
     private static CreateRestaurantCommand FromRequestToCommand(RestaurantUserRequest request, Guid userId)

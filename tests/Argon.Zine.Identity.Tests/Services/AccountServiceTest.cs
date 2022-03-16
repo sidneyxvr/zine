@@ -116,7 +116,7 @@ namespace Argon.Zine.Identity.Tests.Services
                 FirstName = _faker.Lorem.Letter(Name.MaxLengthFirstName + 1),
                 LastName = _faker.Lorem.Letter(Name.MaxLengthLastName + 1),
                 Email = _faker.Lorem.Letter(Email.MaxLength + 1),
-                Cpf = _faker.Random.String(CpfValidator.NumberLength + 1, '0', '9'),
+                Cpf = _faker.Random.String(Cpf.NumberLength + 1, '0', '9'),
                 BirthDate = DateTime.MaxValue,
                 Phone = _faker.Random.String(Phone.NumberMaxLength + 1, '0', '9'),
                 Password = _faker.Lorem.Letter(101)

@@ -17,7 +17,7 @@ public class CreateCustomerHandler : RequestHandler<CreateCustomerCommand>
     {
         var name = new Name(request.FirstName!, request.LastName!);
         var customer = new Customer(request.UserId, name,
-            request.Email, request.Cpf, request.BirthDate, request.Phone);
+            request.Email, request.Cpf, new BirthDate(request.BirthDate), request.Phone);
 
         await _unitOfWork.CustomerRepository.AddAsync(customer, cancellationToken);
         await _unitOfWork.CommitAsync();

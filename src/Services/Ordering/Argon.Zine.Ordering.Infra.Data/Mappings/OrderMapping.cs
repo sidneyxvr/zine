@@ -15,7 +15,6 @@ public class OrderMapping : IEntityTypeConfiguration<Order>
         builder.Property(o => o.Id)
             .ValueGeneratedNever();
 
-
         builder.HasOne(o => o.CurrentOrderStatus)
             .WithOne()
             .HasForeignKey<Order>("CurrentOrderStatusId")
@@ -34,27 +33,32 @@ public class OrderMapping : IEntityTypeConfiguration<Order>
         builder.OwnsOne(o => o.Address, a =>
         {
             a.Property(a => a.City)
-             .HasColumnType("varchar(40)")
-             .HasColumnName(nameof(Address.City))
-             .IsRequired();
+                .IsUnicode(false)
+                .HasMaxLength(40)
+                .HasColumnName(nameof(Address.City))
+                .IsRequired();
 
             a.Property(a => a.Complement)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(50)
                 .HasColumnName(nameof(Address.Complement))
                 .IsRequired(false);
 
             a.Property(a => a.Country)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(50)
                 .HasColumnName(nameof(Address.Country))
                 .IsRequired();
 
             a.Property(a => a.District)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(50)
                 .HasColumnName(nameof(Address.District))
                 .IsRequired();
 
             a.Property(a => a.Number)
-                .HasColumnType("varchar(10)")
+                .IsUnicode(false)
+                .HasMaxLength(10)
                 .HasColumnName(nameof(Address.Number));
 
             a.Property(a => a.PostalCode)
@@ -68,7 +72,8 @@ public class OrderMapping : IEntityTypeConfiguration<Order>
                 .IsRequired();
 
             a.Property(a => a.Street)
-                .HasColumnType("varchar(50)")
+                .IsUnicode(false)
+                .HasMaxLength(50)
                 .HasColumnName(nameof(Address.Street))
                 .IsRequired();
         });

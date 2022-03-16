@@ -26,7 +26,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         });
 
         builder.Property<DateTime>("CreatedAt")
-            .HasColumnType("smalldatetime");
+            .IsRequired();
 
         builder.OwnsOne(c => c.Name, c =>
         {

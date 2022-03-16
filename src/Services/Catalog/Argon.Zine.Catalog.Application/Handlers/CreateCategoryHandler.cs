@@ -22,12 +22,12 @@ public class CreateCategoryHandler : RequestHandler<CreateCategoryCommand>
     public override async Task<AppResult> Handle(
         CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var departmentExists = await _unitOfWork.CategoryRepository
+        var categoryExists = await _unitOfWork.CategoryRepository
             .ExistsByNameAsync(request.Name!, cancellationToken);
 
-        if (!departmentExists)
+        if (categoryExists)
         {
-            return WithError("department", _localizer["Department Not Found"]);
+            return WithError("category", _localizer["Category Not Found"]);
         }
 
         var category = new Category(request.Name, request.Description);

@@ -1,8 +1,3 @@
 ﻿namespace Argon.Zine.Customers.Application.Reponses;
 
-public record CustomerNameResponse
-{
-    public Guid Id { get; init; }
-    public string FirstName { get; init; } = null!;
-    public string LastName { get; init; } = null!;
-}
+public record CustomerNameResponse(Guid Id, string FirstName, string LastName);

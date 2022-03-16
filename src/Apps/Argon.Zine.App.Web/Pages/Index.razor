@@ -23,6 +23,18 @@ Welcome to your new app.
 
         await hubConnection.StartAsync();
 
-        messages = await hubConnection.InvokeAsync<List<Argon.Zine.Chat.Models.Message>>("messages", new { Limit = 20, OffSet = 0 });
+        //await hubConnection.SendAsync("createRoom", new { RestaurantId = new Guid("0FE02B5A-D2F0-4078-9635-1A6E99FF40AD") });
+        //await hubConnection.SendAsync("sendMessage", new
+        //{
+        //    RoomId = new Guid("2c427249-e50f-4b63-bcdb-2ec8e6f3f5e4"),
+        //    Content = $"Mensagem {Random.Shared.Next(1, int.MaxValue)}"
+        //});
+
+        messages = await hubConnection.InvokeAsync<List<Argon.Zine.Chat.Models.Message>>("messages", new
+        {
+            Limit = 20,
+            OffSet = 0,
+            RoomId = new Guid("2c427249-e50f-4b63-bcdb-2ec8e6f3f5e4")
+        });
     }
 }

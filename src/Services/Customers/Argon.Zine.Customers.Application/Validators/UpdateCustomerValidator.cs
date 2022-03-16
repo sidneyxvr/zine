@@ -18,8 +18,10 @@ public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
             .MaximumLength(Name.MaxLengthLastName).WithMessage(localizer["Last Name's Max Length"]);
 
         RuleFor(c => c.BirthDate)
-            .InclusiveBetween(DateTime.UtcNow.AddYears(-BirthDate.MaxAge), DateTime.UtcNow.AddYears(-BirthDate.MinAge))
-                .WithMessage(localizer["Invalid Birthdate"]);
+            .InclusiveBetween(
+                DateTime.UtcNow.AddYears(-BirthDate.MaxAge),
+                DateTime.UtcNow.AddYears(-BirthDate.MinAge))
+            .WithMessage(localizer["Invalid Birthdate"]);
 
         When(c => c.Phone is not null, () =>
         {

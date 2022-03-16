@@ -9,8 +9,7 @@ public class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TReques
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public ValidationPipeline(
-        IEnumerable<IValidator<TRequest>> validators)
+    public ValidationPipeline(IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators;
     }

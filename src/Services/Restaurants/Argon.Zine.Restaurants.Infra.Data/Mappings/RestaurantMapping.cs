@@ -1,4 +1,5 @@
 ﻿using Argon.Restaurants.Domain;
+using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -33,14 +34,14 @@ public class SupplierMapping : IEntityTypeConfiguration<Restaurant>
             .HasMaxLength(256);
 
         builder.Property<DateTime>("CreatedAt")
-            .HasColumnType("smalldatetime");
+            .IsRequired();
 
         builder.OwnsOne(s => s.CpfCnpj, c =>
         {
             c.Property(p => p.Number)
                 .HasColumnName("CPFCNPJ")
                 .IsUnicode(false)
-                .HasMaxLength(CnpjValidator.NumberLength)
+                .HasMaxLength(Cnpj.NumberLength)
                 .IsRequired();
         });
 

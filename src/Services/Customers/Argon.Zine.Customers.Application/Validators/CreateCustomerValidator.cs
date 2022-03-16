@@ -1,6 +1,5 @@
 ﻿using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages.IntegrationCommands;
-using Argon.Zine.Commom.Utils;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -22,7 +21,7 @@ public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
             .NotEmpty().WithMessage(localizer["Required CPF"])
             .DependentRules(() =>
             {
-                RuleFor(c => c.Cpf).Must(c => CpfValidator.IsValid(c!)).WithMessage(localizer["Invalid CPF"]);
+                RuleFor(c => c.Cpf).Must(Cpf.IsValid!).WithMessage(localizer["Invalid CPF"]);
             });
 
         RuleFor(c => c.Email)
@@ -34,8 +33,10 @@ public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
             });
 
         RuleFor(c => c.BirthDate)
-            .InclusiveBetween(DateTime.UtcNow.AddYears(-BirthDate.MaxAge), DateTime.UtcNow.AddYears(-BirthDate.MinAge))
-                .WithMessage(localizer["Invalid Birthdate"]);
+            .InclusiveBetween(
+                DateTime.UtcNow.AddYears(-BirthDate.MaxAge), 
+                DateTime.UtcNow.AddYears(-BirthDate.MinAge))
+            .WithMessage(localizer["Invalid Birthdate"]);
 
         When(c => c.Phone is not null, () =>
         {

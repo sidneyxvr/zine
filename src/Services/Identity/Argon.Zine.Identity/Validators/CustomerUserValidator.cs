@@ -22,7 +22,7 @@ public class CustomerUserValidator : AbstractValidator<CustomerUserRequest>
             .NotEmpty().WithMessage(localizer["Required CPF"])
             .DependentRules(() =>
             {
-                RuleFor(c => c.Cpf).Must(c => CpfValidator.IsValid(c!)).WithMessage(localizer["Invalid CPF"]);
+                RuleFor(c => c.Cpf).Must(Cpf.IsValid!).WithMessage(localizer["Invalid CPF"]);
             });
 
         RuleFor(c => c.Email)
@@ -34,8 +34,10 @@ public class CustomerUserValidator : AbstractValidator<CustomerUserRequest>
             });
 
         RuleFor(c => c.BirthDate)
-            .InclusiveBetween(DateTime.UtcNow.AddYears(-BirthDate.MaxAge), DateTime.UtcNow.AddYears(-BirthDate.MinAge))
-                .WithMessage(localizer["Invalid BirthDate"]);
+            .InclusiveBetween(
+                DateTime.UtcNow.AddYears(-BirthDate.MaxAge), 
+                DateTime.UtcNow.AddYears(-BirthDate.MinAge))
+            .WithMessage(localizer["Invalid BirthDate"]);
 
         When(c => c.Phone is not null, () =>
         {

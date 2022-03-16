@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.10.3.1" />
+    <PackageReference Include="AntDesign" Version="0.10.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="6.0.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.64">
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.1.46">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -21,10 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\Argon.Zine.Shared\Argon.Zine.Shared.csproj" />
     <ProjectReference Include="..\..\Services\Chat\Argon.Zine.Chat\Argon.Zine.Chat.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Pages\Product\" />
   </ItemGroup>
 
 </Project>

@@ -21,19 +21,8 @@ public class CustomerQueries : ICustomerQueries
     {
         return _context.Addresses
             .Where(a => a.CustomerId == customerId && a.Id == addressId)
-            .Select(a => new AddressReponse
-            {
-                City = a.City,
-                Complement = a.Complement,
-                Country = a.Country,
-                District = a.District,
-                Latitude = a.Location.Latitude,
-                Longitude = a.Location.Longitude,
-                Number = a.Number,
-                PostalCode = a.PostalCode,
-                State = a.State,
-                Street = a.Street
-            })
+            .Select(a => new AddressReponse(a.Street, a.Number, a.District, a.City, a.State, 
+                a.Country, a.PostalCode, a.Complement, a.Location.Latitude, a.Location.Longitude))
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -43,30 +32,14 @@ public class CustomerQueries : ICustomerQueries
         return await _context.Addresses
             .AsNoTracking()
             .Where(a => a.CustomerId == customerId)
-            .Select(a => new AddressReponse
-            {
-                City = a.City,
-                Complement = a.Complement,
-                Country = a.Country,
-                District = a.District,
-                Latitude = a.Location.Latitude,
-                Longitude = a.Location.Longitude,
-                Number = a.Number,
-                PostalCode = a.PostalCode,
-                State = a.State,
-                Street = a.Street
-            })
+            .Select(a => new AddressReponse(a.Street, a.Number, a.District, a.City, a.State, 
+                a.Country, a.PostalCode, a.Complement, a.Location.Latitude, a.Location.Longitude))
             .ToListAsync(cancellationToken);
     }
 
     public async Task<CustomerNameResponse?> GetCustomerNameByIdAsync(Guid id)
         => await _context.Customers
         .AsNoTracking()
-        .Select(c => new CustomerNameResponse
-        {
-            Id = c.Id,
-            FirstName = c.Name.FirstName,
-            LastName = c.Name.LastName,
-        })
+        .Select(c => new CustomerNameResponse(c.Id, c.Name.FirstName, c.Name.LastName))
         .FirstOrDefaultAsync(c => c.Id == id);
 }

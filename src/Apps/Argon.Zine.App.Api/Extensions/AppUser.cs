@@ -8,7 +8,7 @@ public class AppUser : IAppUser
 
     public AppUser(IHttpContextAccessor accessor)
     {
-        _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
+        _accessor = accessor;
 
         //if (_accessor.HttpContext?.User.Identity!.IsAuthenticated == false)
         //{

@@ -5,30 +5,30 @@ public class BirthDate : ValueObject
     public const int MinAge = 18;
     public const int MaxAge = 100;
 
-    private readonly DateTime _date;
+    private DateOnly _date;
 
-    public DateTime Date => _date.Date;
+    public DateOnly Date => _date;
 
     protected BirthDate() { }
 
     public BirthDate(int year, int month, int day)
     {
-        var date = new DateTime(year, month, day);
+        var date = new DateOnly(year, month, day);
 
-        ValidateBirthDate(date);
+        ValidateBirthDate(date.ToDateTime(TimeOnly.MinValue));
 
         _date = date;
     }
 
     public BirthDate(DateTime date)
-    {
-        ValidateBirthDate(date);
+        : this(date.Year, date.Month, date.Day) { }
 
-        _date = date;
-    }
+    public BirthDate(DateOnly date)
+        : this(date.Year, date.Month, date.Day) { }
 
-    public static implicit operator BirthDate(DateTime date) =>
-        new(date);
+
+    public static implicit operator BirthDate(DateTime date) 
+        => new(date);
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

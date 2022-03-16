@@ -1,5 +1,4 @@
 ﻿using Argon.Zine.Commom.DomainObjects;
-using Argon.Zine.Commom.Utils;
 using Argon.Zine.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -26,32 +25,34 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
             c.Property(p => p.FirstName)
                 .HasColumnName("FirstName")
                 .IsRequired()
-                .HasColumnType($"varchar({Name.MaxLengthFirstName})");
+                .IsUnicode(false)
+                .HasMaxLength(Name.MaxLengthFirstName);
 
             c.Property(p => p.LastName)
                 .HasColumnName("LastName")
                 .IsRequired()
-                .HasColumnType($"varchar({Name.MaxLengthLastName})");
+                .IsUnicode(false)
+                .HasMaxLength(Name.MaxLengthLastName);
         });
 
         builder.OwnsOne(c => c.BirthDate, e =>
         {
             e.Property("_date")
                 .IsRequired()
-                .HasColumnName("BirthDate")
-                .HasColumnType("date");
+                .HasColumnType("date")
+                .HasColumnName("BirthDate");
         });
 
         builder.Property<DateTime>("CreatedAt")
-            .IsRequired()
-            .HasColumnType("smalldatetime");
+            .IsRequired();
 
         builder.OwnsOne(c => c.Email, e =>
         {
             e.Property(p => p.Address)
                 .HasColumnName("Email")
                 .IsRequired()
-                .HasColumnType($"varchar({Email.MaxLength})");
+                .IsUnicode(false)
+                .HasMaxLength(Email.MaxLength);
         });
 
         builder.OwnsOne(c => c.Cpf, c =>
@@ -59,7 +60,7 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
             c.Property(p => p.Number)
                 .HasColumnName("CPF")
                 .IsRequired()
-                .HasColumnType($"char({CpfValidator.NumberLength})");
+                .HasColumnType($"char({Cpf.NumberLength})");
         });
 
         builder.OwnsOne(c => c.Phone, c =>
@@ -67,16 +68,17 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
             c.Property(p => p.Number)
                 .HasColumnName("Phone")
                 .IsRequired()
-                .HasColumnType($"varchar({Phone.NumberMaxLength})");
+                .IsUnicode(false)
+                .HasMaxLength(Phone.NumberMaxLength);
         });
 
         builder.HasOne(c => c.MainAddress)
             .WithOne(m => m.Customer)
             .HasForeignKey<Customer>(c => c.MainAddressId);
 
-        builder.Metadata
-            .FindNavigation(nameof(Customer.Addresses))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        //builder.Metadata
+        //    .FindNavigation(nameof(Customer.Addresses))!
+        //    .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.HasMany(c => c.Addresses)
             .WithOne()

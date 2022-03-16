@@ -1,17 +1,15 @@
 ﻿namespace Argon.Zine.Chat.Requests;
 
-public class SendMessageRequest
+public record SendMessageRequest(Guid RoomId, string Content)
 {
-    public Guid RoomId { get; init; }
-    public string Content { get; init; } = null!;
     public Guid SenderId { get; private set; }
     public string? SenderName { get; private set; }
 
     public void SetSender(Guid senderId, string senderName)
-        => (SenderId, SenderName) = (senderId, SenderName);
+        => (SenderId, SenderName) = (senderId, senderName);
 }
 
-public class SendMessageDto
+public record SendMessageDto
 {
     public Guid RoomId { get; init; }
     public Guid SenderId { get; init; }

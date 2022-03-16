@@ -5,7 +5,7 @@ namespace Argon.Zine.Ordering.Domain;
 public class Address : ValueObject
 {
     public string Street { get; private set; }
-    public string Number { get; private set; }
+    public string? Number { get; private set; }
     public string District { get; private set; }
     public string City { get; private set; }
     public string State { get; private set; }
@@ -17,7 +17,7 @@ public class Address : ValueObject
     private Address() { }
 #pragma warning restore CS8618
 
-    public Address(string street, string number, string district, string city,
+    public Address(string street, string? number, string district, string city,
         string state, string country, string postalCode, string? complement)
     {
         Street = street;

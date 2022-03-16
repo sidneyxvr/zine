@@ -1,4 +1,5 @@
-﻿using Argon.Zine.Commom.Utils;
+﻿using Argon.Zine.Commom.DomainObjects;
+using Argon.Zine.Commom.Utils;
 
 namespace Argon.Zine.Identity.Requests;
 
@@ -37,5 +38,5 @@ public record RestaurantUserRequest : BaseRequest
     public double? Latitude { get; init; }
     public double? Longitude { get; init; }
     public bool IsCompany
-        => CpfCnpj?.Length == CnpjValidator.NumberLength;
+        => CpfCnpj?.Length == Cnpj.NumberLength;
 }

@@ -1,21 +1,20 @@
-﻿using Argon.Zine.Commom.Utils;
-
-namespace Argon.Zine.Commom.DomainObjects;
+﻿namespace Argon.Zine.Commom.DomainObjects;
 
 public class CpfCnpj : ValueObject
 {
-    public string Number { get; set; }
+    public const int NumberLength = 14;
+    public string Number { get; private set; }
 
     public CpfCnpj(string? number)
     {
         Check.NotEmpty(number, nameof(CpfCnpj));
-        if (number?.Length == CpfValidator.NumberLength)
+        if (number?.Length == Cpf.NumberLength)
         {
-            Check.True(CpfValidator.IsValid(number), nameof(CpfCnpj));
+            Check.True(Cpf.IsValid(number!), nameof(CpfCnpj));
         }
         else
         {
-            Check.True(CnpjValidator.IsValid(number!), nameof(CpfCnpj));
+            Check.True(Cnpj.IsValid(number!), nameof(CpfCnpj));
         }
 
         Number = number!;

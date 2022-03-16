@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Argon.Zine.App.Api.Tests": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

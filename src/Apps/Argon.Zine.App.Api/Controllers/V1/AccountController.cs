@@ -24,7 +24,7 @@ public class AccountController : BaseController
     }
 
     [HttpPost("register-restaurant")]
-    public async Task<IActionResult> CreateSupplierUserAsync(RestaurantUserRequest request)
+    public async Task<IActionResult> CreateRestaurantUserAsync(RestaurantUserRequest request)
     {
         var result = await _accountService.CreateRestaurantUserAsync(request);
 

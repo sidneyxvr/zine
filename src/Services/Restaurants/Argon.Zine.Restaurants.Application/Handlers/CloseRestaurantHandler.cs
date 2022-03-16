@@ -1,10 +1,8 @@
 ﻿using Argon.Restaurants.Application.Commands;
 using Argon.Restaurants.Domain;
-using Argon.Zine.Application;
 using Argon.Zine.Commom;
 using Argon.Zine.Commom.Messages;
 using Argon.Zine.Commom.Messages.IntegrationEvents;
-using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
 namespace Argon.Restaurants.Application.Handlers;
@@ -22,7 +20,6 @@ public class CloseRestaurantHandler : RequestHandler<CloseRestaurantCommand>
         _unitOfWork = unitOfWork;
     }
 
-    [PermissionValidator(Permission = 1)]
     public override async Task<AppResult> Handle(
         CloseRestaurantCommand request, CancellationToken cancellationToken)
     {
@@ -35,7 +32,6 @@ public class CloseRestaurantHandler : RequestHandler<CloseRestaurantCommand>
         }
 
         restarutant.Close();
-        restarutant.AddDomainEvent(new ClosedRestaurantEvent(restarutant.Id));
 
         await _unitOfWork.RestaurantRepository.UpdateAsync(restarutant, cancellationToken);
         await _unitOfWork.CommitAsync();

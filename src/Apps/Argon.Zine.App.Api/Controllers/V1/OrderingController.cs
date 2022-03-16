@@ -49,14 +49,7 @@ public class OrderingController : BaseController
             RestaurantId = basket.RestaurantId,
             PaymentMethodId = request.PaymentMethodId,
             OrderItems = basket.Products
-                .Select(p => new OrderItemDTO
-                {
-                    ProductId = p.Id,
-                    ProductImageUrl = p.ImageUrl,
-                    ProductName = p.Name,
-                    UnitPrice = p.Price,
-                    Units = p.Amount
-                })
+                .Select(p => new OrderItemDTO(p.Id, p.Name, p.ImageUrl, p.Price, p.Amount))
         };
 
         var result = await _bus.SendAsync(commad);

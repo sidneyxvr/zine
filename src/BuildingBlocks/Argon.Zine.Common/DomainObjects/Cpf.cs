@@ -1,8 +1,33 @@
-﻿namespace Argon.Zine.Commom.Utils;
+﻿using Argon.Zine.Commom.Utils;
 
-public static class CpfValidator
+namespace Argon.Zine.Commom.DomainObjects;
+
+public class Cpf : ValueObject
 {
     public const int NumberLength = 11;
+    public string Number { get; private set; }
+
+#pragma warning disable CS8618 
+    protected Cpf() { }
+#pragma warning restore CS8618 
+    public Cpf(string? number)
+    {
+        Check.NotEmpty(number, nameof(Cpf));
+        Check.True(IsValid(number!), nameof(Cpf));
+
+        number = number!.OnlyNumbers();
+
+        Number = number!;
+    }
+
+    public static implicit operator Cpf(string? number)
+        => new(number);
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Number;
+    }
+
     public static bool IsValid(string cpf)
     {
         if (cpf is null)

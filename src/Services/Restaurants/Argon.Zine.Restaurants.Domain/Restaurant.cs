@@ -75,5 +75,7 @@ public class Restaurant : Entity, IAggregateRoot
         Check.Equals(IsDeleted, false, nameof(IsDeleted));
 
         IsOpen = false;
+
+        AddDomainEvent(new ClosedRestaurantEvent(Id));
     }
 }

@@ -152,7 +152,7 @@ namespace Argon.Zine.Commom.Tests.DomainObjects
             BirthDate birthDate = date;
 
             //Assert
-            Assert.Equal(date.Date, birthDate.Date);
+            Assert.Equal(DateOnly.FromDateTime(date), birthDate.Date);
         }
 
         [Fact]

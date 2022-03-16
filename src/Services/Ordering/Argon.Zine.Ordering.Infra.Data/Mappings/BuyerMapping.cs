@@ -21,12 +21,14 @@ public class BuyerMapping : IEntityTypeConfiguration<Buyer>
             c.Property(p => p.FirstName)
                 .HasColumnName("FirstName")
                 .IsRequired()
-                .HasColumnType($"varchar({Name.MaxLengthFirstName})");
+                .IsUnicode(false)
+                .HasMaxLength(Name.MaxLengthFirstName);
 
             c.Property(p => p.LastName)
                 .HasColumnName("LastName")
                 .IsRequired()
-                .HasColumnType($"varchar({Name.MaxLengthLastName})");
+                .IsUnicode(false)
+                .HasMaxLength(Name.MaxLengthLastName);
         });
 
         builder.HasMany(b => b.PaymentMethods)

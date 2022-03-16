@@ -18,13 +18,13 @@ public static class DbContextConfiguration
         IConfiguration configuration,
         IWebHostEnvironment env)
     {
-        if (env.IsProduction())
+        if (env.IsDevelopment())
         {
-            RegisterProductionContexts(services, configuration);
+            RegisterDevelopmentContexts(services, configuration);
         }
         else
         {
-            RegisterDevelopmentContexts(services, configuration);
+            RegisterProductionContexts(services, configuration);
         }
 
         services.TryAddScoped<IdentityContext>();
@@ -72,35 +72,31 @@ public static class DbContextConfiguration
                 .EnableSensitiveDataLogging());
 
         services.AddDbContext<CustomerContext>(options =>
-           options
-               .UseSqlServer(configuration.GetConnectionString("CustomerConnection"),
-                   x => x.UseNetTopologySuite())
-                   .LogTo(Console.WriteLine, LogLevel.Information)
-                   .EnableDetailedErrors()
-                   .EnableSensitiveDataLogging());
+            options.UseNpgsql(configuration.GetConnectionString("CustomerConnection"), 
+                x => x.UseNetTopologySuite())
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging());
 
         services.AddDbContext<RestaurantContext>(options =>
-           options
-               .UseSqlServer(configuration.GetConnectionString("RestaurantConnection"),
-                   x => x.UseNetTopologySuite())
-                   .LogTo(Console.WriteLine, LogLevel.Information)
-                   .EnableDetailedErrors()
-                   .EnableSensitiveDataLogging());
+            options.UseNpgsql(configuration.GetConnectionString("RestaurantConnection"), 
+                x => x.UseNetTopologySuite())
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging());
 
         services.AddDbContext<CatalogContext>(options =>
-           options
-               .UseSqlServer(configuration.GetConnectionString("CatalogConnection"),
-                   x => x.UseNetTopologySuite())
-                   .LogTo(Console.WriteLine, LogLevel.Information)
-                   .EnableDetailedErrors()
-                   .EnableSensitiveDataLogging());
+            options.UseSqlServer(configuration.GetConnectionString("CatalogConnection"), 
+                x => x.UseNetTopologySuite())
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging());
 
         services.AddDbContext<OrderingContext>(options =>
-           options
-               .UseSqlServer(configuration.GetConnectionString("OrderingConnection"))
-                   .LogTo(Console.WriteLine, LogLevel.Information)
-                   .EnableDetailedErrors()
-                   .EnableSensitiveDataLogging());
+            options.UseNpgsql(configuration.GetConnectionString("OrderingConnection"))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging());
 
         return services;
     }
@@ -113,11 +109,11 @@ public static class DbContextConfiguration
             options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
 
         services.AddDbContext<CustomerContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("CustomerConnection"),
+            options.UseNpgsql(configuration.GetConnectionString("CustomerConnection"),
                 x => x.UseNetTopologySuite()));
 
         services.AddDbContext<RestaurantContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("RestaurantConnection"),
+            options.UseNpgsql(configuration.GetConnectionString("RestaurantConnection"),
                 x => x.UseNetTopologySuite()));
 
         services.AddDbContext<CatalogContext>(options =>
@@ -125,7 +121,7 @@ public static class DbContextConfiguration
                 x => x.UseNetTopologySuite()));
 
         services.AddDbContext<OrderingContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("OrderingConnection")));
+            options.UseNpgsql(configuration.GetConnectionString("OrderingConnection")));
 
         return services;
     }
