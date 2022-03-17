@@ -3,13 +3,24 @@ version: '3.4'
 services:
   mongodb:
     image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
 
   sqlserverdb:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sqlserver
+    environment:
+      - SA_PASSWORD=Teste@S3nha
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
 
   argon.zine.app.api:
     image: ${DOCKER_REGISTRY-}argonzineappapi
+    container_name: webapi
     build:
       context: .
       dockerfile: src/Apps/Argon.Zine.App.Api/Dockerfile
@@ -21,11 +32,22 @@ services:
       - ConnectionStrings__OrderingConnection=Server=host.docker.internal;Database=Ordering;User Id=admin;Password=Teste@S3nha;
       - ConnectionStrings__EventSourcingConnection=ConnectTo=tcp://admin:changeit@eventstore:1113
       - ConnectionStrings__CatalogRedis=host.docker.internal:6379
+      - RabbitMQ__HostName=rabbitmq
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - BasketDatabaseSettings__ConnectionString=mongodb://mongodb:27017
+      - ChatDatabaseSettings__ConnectionString=mongodb://mongodb:27017
+    ports:
+      - "5000:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
       - sqlserverdb
     networks:
       - rabbitnetwork
       - eventnetwork
+      - "monitoring-network"
 
   eventstore:
     image: eventstore/eventstore:21.2.0-buster-slim

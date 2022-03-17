@@ -63,8 +63,7 @@ public class Startup
             .RegisterCustomer()
             .RegisterSupplier()
             .RegisterOrdering()
-            .RegisterChat()
-            .RegisterIdentity(Environment)
+            .RegisterIdentity(Configuration, Environment)
             .RegisterJwt(Configuration)
             .RegisterDbContexts(Configuration, Environment)
             .RegisterServices(Configuration);

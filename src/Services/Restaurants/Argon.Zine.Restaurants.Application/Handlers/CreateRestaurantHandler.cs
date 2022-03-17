@@ -38,10 +38,10 @@ public class CreateRestaurantHandler : RequestHandler<CreateRestaurantCommand>
         var restaurant = new Restaurant(request.CorparateName!, request.TradeName!, request.CpfCnpj!, user, address);
         restaurant.SetLogo(logoUrl);
 
-        var supplierCreatedEvent = new RestaurantCreatedEvent(restaurant.Id, restaurant.TradeName,
+        var restaurantCreatedEvent = new RestaurantCreatedEvent(restaurant.Id, restaurant.TradeName,
             address.Location.Latitude, address.Location.Longitude, address.ToString(), logoUrl);
 
-        restaurant.AddDomainEvent(supplierCreatedEvent);
+        restaurant.AddDomainEvent(restaurantCreatedEvent);
 
         await _unitOfWork.RestaurantRepository.AddAsync(restaurant, cancellationToken);
         await _unitOfWork.CommitAsync();

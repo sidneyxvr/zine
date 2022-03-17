@@ -10,7 +10,7 @@ public class EventSourcingStorage : IEventSourcingStorage
 {
     protected bool ConnectionClosed;
     private readonly IEventStoreConnection _connection;
-
+    private static readonly JsonSerializerOptions options = new() { WriteIndented = true };
     public EventSourcingStorage(IEventStoreConnection connection)
         => (_connection, ConnectionClosed) = (connection, true);
 
@@ -41,13 +41,15 @@ public class EventSourcingStorage : IEventSourcingStorage
         return stream.Events.Select(MapEvent);
     }
 
-    private static IEnumerable<EventData> FormatEvent<TEvent>(TEvent @event) where TEvent : Event
+    private static IEnumerable<EventData> FormatEvent<TEvent>(TEvent data) where TEvent : Event
     {
+        var jsonData = JsonSerializer.Serialize<object>(data, options);
+
         yield return new EventData(
             Guid.NewGuid(),
-            @event.MessageType,
+            data.MessageType,
             true,
-            Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event)),
+            Encoding.UTF8.GetBytes(jsonData),
             null);
     }
 

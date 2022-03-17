@@ -1,4 +1,5 @@
 ﻿using Argon.Zine.Identity.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Argon.Zine.App.Api.Tests.Setup;
@@ -11,6 +12,17 @@ public static class IdentitySetup
         identityContext.Database.EnsureDeleted();
         identityContext.Database.EnsureCreated();
 
+        SeedIdentityDatabase(identityContext);
+
         return services;
+    }
+
+    public static void SeedIdentityDatabase(IdentityContext context)
+    {
+        context.Database.ExecuteSqlRaw("INSERT [dbo].[User] ([Id], [FirstName], [LastName], [IsActive], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'0a118de1-08b3-4eac-8204-08da07c1a929', N'Test', N'Test', 1, N'non_confirmed_email@email.com', N'NON_CONFIRMED_EMAIL@EMAIL.COM', N'non_confirmed_email@email.com', N'NON_CONFIRMED_EMAIL@EMAIL.COM', 0, N'AQAAAAEAACcQAAAAENixlQac04QxJMXa9qikfrpwViRd3Hr2bWbGlKcUwiYzqiCVG1rnb1o/RZR21tuJxA==', N'DZDX7LKONL75NQYG5JHQFN257HUBLGRA', N'a89fd611-13b6-4a78-b35f-2941e9af9c22', NULL, 0, 0, NULL, 1, 0)");
+        context.Database.ExecuteSqlRaw("INSERT [dbo].[UserRole] ([UserId], [RoleId]) VALUES (N'0a118de1-08b3-4eac-8204-08da07c1a929', N'3215ca3d-ec71-4df4-bf41-555ffcc04f22')");
+        
+        context.Database.ExecuteSqlRaw("INSERT [dbo].[User] ([Id], [FirstName], [LastName], [IsActive], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'7df063d1-52b3-48ce-4dec-08da07c9ece1', N'Test', N'Test', 1, N'confirmed_email@email.com', N'CONFIRMED_EMAIL@EMAIL.COM', N'confirmed_email@email.com', N'CONFIRMED_EMAIL@EMAIL.COM', 1, N'AQAAAAEAACcQAAAAECr7D2IV1KVp8xOv73ptfMUyllE37sGEu5lHK9ZAOth6/0qc1i0nChL/pMiZYpeKVA==', N'ZB6KHDEMZK2GESLLXTTYJBKKEOHXG22T', N'b05de469-2d4c-4d81-a391-b991a45fe6c6', NULL, 0, 0, NULL, 1, 0)");
+        context.Database.ExecuteSqlRaw("INSERT [dbo].[UserRole] ([UserId], [RoleId]) VALUES (N'7df063d1-52b3-48ce-4dec-08da07c9ece1', N'07e778b6-7c1d-4852-b1f4-63661e4bb08a')");
     }
 }

@@ -9,7 +9,10 @@ namespace Argon.Zine.App.Api.Configurations;
 
 public static class IdentityConfiguration
 {
-    public static IServiceCollection RegisterIdentity(this IServiceCollection services, IWebHostEnvironment env)
+    public static IServiceCollection RegisterIdentity(
+        this IServiceCollection services, 
+        IConfiguration configuration, 
+        IWebHostEnvironment env)
     {
         services.TryAddScoped<IAccountService, AccountService>();
         services.TryAddScoped<IAuthService, AuthService>();
@@ -17,7 +20,10 @@ public static class IdentityConfiguration
         services.TryAddScoped<IRefreshTokenStore, RefreshTokenStore>();
 
         services.TryAddSingleton<IConnection>(provider
-            => new ConnectionFactory { HostName = "rabbitmq" }.CreateConnection());
+            => env.IsProduction() 
+            //TODO: refact
+            ? new ConnectionFactory { HostName = configuration.GetValue<string>("RabbitMQ:HostName") }.CreateConnection()
+            : new ConnectionFactory { HostName = configuration.GetValue<string>("RabbitMQ:HostName") }.CreateConnection());
 
         services.TryAddSingleton<IEmailService>(provider =>
         {

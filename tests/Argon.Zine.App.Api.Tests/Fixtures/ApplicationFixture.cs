@@ -14,6 +14,7 @@ public class ApplicationFixture<TStartup> : IDisposable where TStartup : class
     {
         Factory = new CustomWebApplicationFactory<TStartup>();
         HttpClient = Factory.CreateClient();
+        HttpClient.Timeout = TimeSpan.FromSeconds(5);
         HttpClient.DefaultRequestHeaders.Add("origin", "http://localhost");
     }
 
