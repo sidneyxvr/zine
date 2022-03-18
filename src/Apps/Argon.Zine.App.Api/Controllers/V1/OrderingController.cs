@@ -33,24 +33,16 @@ public class OrderingController : BaseController
     public async Task<IActionResult> SubmitOrderAsync(SubmitOrderRequest request)
     {
         var address = (await _customerQueries.GetAddressAsync(_appUser.Id, request.AddressId))!;
+        var addressDto = new AddressDto(address.Street, address.Number, address.Country, address.City, 
+            address.State, address.Country, address.PostalCode, address.Complement );
+        
         var basket = (await _basketService.GetBasketAsync())!;
 
-        var commad = new SubmitOrderCommand
-        {
-            City = address.City,
-            Complement = address.Complement,
-            Country = address.Country,
-            District = address.District,
-            Number = address.Number,
-            State = address.State,
-            Street = address.Street,
-            PostalCode = address.PostalCode,
-            CustomerId = _appUser.Id,
-            RestaurantId = basket.RestaurantId,
-            PaymentMethodId = request.PaymentMethodId,
-            OrderItems = basket.Products
-                .Select(p => new OrderItemDTO(p.Id, p.Name, p.ImageUrl, p.Price, p.Amount))
-        };
+        var orderItems = basket.Products.Select(p
+            => new OrderItemDto(p.Id, p.Name, p.ImageUrl, p.Price, p.Amount));
+
+        var commad = new SubmitOrderCommand(_appUser.Id, request.PaymentMethodId, 
+            basket.RestaurantId, addressDto, orderItems);
 
         var result = await _bus.SendAsync(commad);
 
