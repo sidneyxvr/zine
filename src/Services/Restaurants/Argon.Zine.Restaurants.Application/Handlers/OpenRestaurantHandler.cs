@@ -23,20 +23,20 @@ public class OpenRestaurantHandler : RequestHandler<OpenRestaurantCommand>
     public override async Task<AppResult> Handle(
         OpenRestaurantCommand request, CancellationToken cancellationToken)
     {
-        var restarutant = await _unitOfWork.RestaurantRepository
+        var restaurant = await _unitOfWork.RestaurantRepository
             .GetByIdAsync(request.RestaurantId, Includes.None, cancellationToken);
 
-        if (restarutant is null)
+        if (restaurant is null)
         {
-            return WithError(nameof(restarutant), _localizer["Restaurant Not Found"]);
+            return WithError(nameof(restaurant), _localizer["Restaurant Not Found"]);
         }
 
-        restarutant.Open();
-        restarutant.AddDomainEvent(new OpenRestaurantEvent(restarutant.Id));
+        restaurant.Open();
+        restaurant.AddDomainEvent(new OpenRestaurantEvent(restaurant.Id));
 
-        await _unitOfWork.RestaurantRepository.UpdateAsync(restarutant, cancellationToken);
+        await _unitOfWork.RestaurantRepository.UpdateAsync(restaurant, cancellationToken);
         await _unitOfWork.CommitAsync();
 
-        return restarutant;
+        return restaurant;
     }
 }
