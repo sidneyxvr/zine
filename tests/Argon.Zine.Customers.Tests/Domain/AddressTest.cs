@@ -57,7 +57,7 @@ public class AddressTest
     {
         //Arrange
         var address = _addressFixture.GetAddressTestDTO();
-        var number = _faker.Lorem.Letter(_faker.Random.Int(min: 000_000_000));
+        var number = _faker.Lorem.Letter(_faker.Random.Int(min: 11, max: 20));
 
         //Act
         var result = Assert.Throws<DomainException>(() =>

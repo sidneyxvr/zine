@@ -23,7 +23,7 @@ services:
     container_name: webapi
     build:
       context: .
-      dockerfile: src/Apps/Argon.Zine.App.Api/Dockerfile
+      dockerfile: Apps/Argon.Zine.App.Api/Dockerfile
     environment:
       - ConnectionStrings__IdentityConnection=Server=host.docker.internal;Database=Identity;User Id=sa;Password=Teste@S3nha;
       - ConnectionStrings__CustomerConnection=Server=host.docker.internal;Database=Customer;User Id=admin;Password=Teste@S3nha;

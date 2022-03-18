@@ -68,7 +68,7 @@ services:
     command: [
       "dotnet",
       "test",
-      "./tests/Argon.Zine.App.Api.Tests/Argon.Zine.App.Api.Tests.csproj"
+      "../tests/Argon.Zine.App.Api.Tests/Argon.Zine.App.Api.Tests.csproj"
     ]
     environment:
       - ConnectionStrings__IdentityConnection=Server=host.docker.internal;Database=Identity;User Id=sa;Password=Teste@S3nha;
