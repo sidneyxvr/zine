@@ -3,10 +3,17 @@ name: Customer Service
 on:
   push:
     branches: [ main ]
+
+    pahts:
+    - src/Building/**
+    - src/Services/Customers/**
+    - tests/Argon.Zine.Customers.Tests/**
+    - .github/workflows/customer-service.yml
+
   pull_request:
     branches: [ main ]
 
-  pahts:
+    pahts:
     - src/Building/**
     - src/Services/Customers/**
     - tests/Argon.Zine.Customers.Tests/**

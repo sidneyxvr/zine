@@ -3,14 +3,21 @@ name: Catalog Service
 on:
   push:
     branches: [ main ]
+  
+    pahts:
+      - src/Building/**
+      - src/Services/Catalog/**
+      - tests/Argon.Zine.Catalog.Tests/
+      - .github/workflows/catalog-service.yml
+
   pull_request:
     branches: [ main ]
 
-  pahts:
-    - src/Building/**
-    - src/Services/Catalog/**
-    - tests/Argon.Zine.Catalog.Tests/
-    - .github/workflows/catalog-service.yml
+    pahts:
+      - src/Building/**
+      - src/Services/Catalog/**
+      - tests/Argon.Zine.Catalog.Tests/
+      - .github/workflows/catalog-service.yml
 
 jobs:
   build:
