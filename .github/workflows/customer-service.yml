@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
 
-    pahts:
+    paths:
     - src/BuildingBlocks/**
     - src/Services/Customers/**
     - tests/Argon.Zine.Customers.Tests/**
@@ -13,7 +13,7 @@ on:
   pull_request:
     branches: [ main ]
 
-    pahts:
+    paths:
     - src/BuildingBlocks/**
     - src/Services/Customers/**
     - tests/Argon.Zine.Customers.Tests/**

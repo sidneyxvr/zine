@@ -4,19 +4,19 @@ on:
   push:
     branches: [ main ]
   
-    pahts:
+    paths:
     - src/BuildingBlocks/**
-    - src/Services/Restaurant/**
-    - tests/Argon.Zine.Restaurant.Tests/
+    - src/Services/Restaurants/**
+    - tests/Argon.Zine.Restaurants.Tests/
     - .github/workflows/restaurant-service.yml
 
   pull_request:
     branches: [ main ]
 
-    pahts:
+    paths:
     - src/BuildingBlocks/**
-    - src/Services/Restaurant/**
-    - tests/Argon.Zine.Restaurant.Tests/
+    - src/Services/Restaurants/**
+    - tests/Argon.Zine.Restaurants.Tests/
     - .github/workflows/restaurant-service.yml
 
 jobs:
@@ -34,4 +34,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test ./tests/Argon.Zine.Restaurant.Tests/ --no-build --verbosity normal
+      run: dotnet test ./tests/Argon.Zine.Restaurants.Tests/ --no-build --verbosity normal
