@@ -17,7 +17,7 @@ public class BasketService : IBasketService
         _basketDao = basketDao;
     }
 
-    public async Task AddProductToBasketAsync(ProductToBasketDto product)
+    public async Task<CustomerBasket> AddProductToBasketAsync(ProductToBasketDto product)
     {
         var basket = await _basketDao.GetByCustomerIdAsync(_appUser.Id);
 
@@ -37,6 +37,8 @@ public class BasketService : IBasketService
         {
             await _basketDao.UpdateAsync(basket);
         }
+
+        return basket;
     }
 
     public async Task<BasketResponse?> GetBasketAsync(CancellationToken cancellationToken = default)

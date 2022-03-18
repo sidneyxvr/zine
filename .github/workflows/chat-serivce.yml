@@ -1,4 +1,4 @@
-name: Catalog Service
+name: Chat Service
 
 on:
   push:
@@ -6,18 +6,18 @@ on:
   
     pahts:
     - src/BuildingBlocks/**
-    - src/Services/Catalog/**
-    - tests/Argon.Zine.Catalog.Tests/
-    - .github/workflows/catalog-service.yml
+    - src/Services/Chat/**
+    - tests/Argon.Zine.Chat.Tests/
+    - .github/workflows/chat-service.yml
 
   pull_request:
     branches: [ main ]
 
     pahts:
     - src/BuildingBlocks/**
-    - src/Services/Catalog/**
-    - tests/Argon.Zine.Catalog.Tests/
-    - .github/workflows/catalog-service.yml
+    - src/Services/Basket/**
+    - tests/Argon.Zine.Basket.Tests/
+    - .github/workflows/basket-service.yml
 
 jobs:
   build:
@@ -34,4 +34,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test ./tests/Argon.Zine.Catalog.Tests/ --no-build --verbosity normal
+      run: dotnet test ./tests/Argon.Zine.Chat.Tests/ --no-build --verbosity normal

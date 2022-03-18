@@ -1,5 +1,4 @@
 ﻿using Argon.Zine.Commom.DomainObjects;
-using System.Collections.Generic;
 namespace Argon.Zine.Ordering.Domain;
 
 public class Address : ValueObject

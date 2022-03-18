@@ -9,7 +9,7 @@ public class Order : Entity, IAggregateRoot
     public Address Address { get; private set; }
     public DateTime OrderedAt { get; private set; }
     public Guid PaymentMethodId { get; private set; }
-
+    public decimal Total => _orderItems.Sum(p => p.UnitPrice * p.Units);
     public Guid RestaurantId { get; private set; }
 
     public OrderStatus? CurrentOrderStatus { get; private set; }

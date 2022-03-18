@@ -20,8 +20,9 @@ public class SubmitOrderHandler : RequestHandler<SubmitOrderCommand>
 
     public override async Task<AppResult> Handle(SubmitOrderCommand request, CancellationToken cancellationToken)
     {
-        var address = new Address(request.Street, request.Number, request.District, request.District,
-            request.State, request.Country, request.PostalCode, request.Complement);
+        var addressDto = request.Address;
+        var address = new Address(addressDto.Street, addressDto.Number, addressDto.District, addressDto.District,
+            addressDto.State, addressDto.Country, addressDto.PostalCode, addressDto.Complement);
 
         var orderItems = request.OrderItems
             .Select(o => new OrderItem(o.ProductId, o.ProductName, o.ProductImageUrl, o.UnitPrice, o.Units))

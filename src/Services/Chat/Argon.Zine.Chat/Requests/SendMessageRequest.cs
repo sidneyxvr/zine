@@ -8,11 +8,3 @@ public record SendMessageRequest(Guid RoomId, string Content)
     public void SetSender(Guid senderId, string senderName)
         => (SenderId, SenderName) = (senderId, senderName);
 }
-
-public record SendMessageDto
-{
-    public Guid RoomId { get; init; }
-    public Guid SenderId { get; init; }
-    public string SenderName { get; init; } = null!;
-    public string Content { get; init; } = null!;
-}

@@ -1,22 +1,21 @@
-﻿using Argon.Zine.Identity.Tests.Fixture;
-using Argon.Zine.Identity.Tests.Fixtures;
+﻿using Argon.Zine.Commom;
 using Argon.Zine.Commom.Communication;
 using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Commom.Messages.IntegrationCommands;
-using Argon.Zine.Commom.Utils;
 using Argon.Zine.Identity.Models;
 using Argon.Zine.Identity.Requests;
 using Argon.Zine.Identity.Services;
+using Argon.Zine.Identity.Tests.Fixture;
+using Argon.Zine.Identity.Tests.Fixtures;
 using Bogus;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using Moq.AutoMock;
-using Xunit;
-using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using Argon.Zine.Commom;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Argon.Zine.Identity.Tests.Services
 {

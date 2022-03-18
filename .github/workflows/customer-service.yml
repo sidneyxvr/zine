@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
     pahts:
-    - src/Building/**
+    - src/BuildingBlocks/**
     - src/Services/Customers/**
     - tests/Argon.Zine.Customers.Tests/**
     - .github/workflows/customer-service.yml
@@ -14,7 +14,7 @@ on:
     branches: [ main ]
 
     pahts:
-    - src/Building/**
+    - src/BuildingBlocks/**
     - src/Services/Customers/**
     - tests/Argon.Zine.Customers.Tests/**
     - .github/workflows/customer-service.yml
