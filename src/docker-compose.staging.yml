@@ -4,13 +4,14 @@ services:
   mongodb:
     image: mongo
     container_name: mongodb
-    restart: always
+    hostname: mongodb
     ports:
       - "27017:27017"
 
   eventstoredb:
     image: eventstore/eventstore:21.2.0-buster-slim
     container_name: eventstore
+    hostname: eventstore
     environment:
       - EVENTSTORE_CLUSTER_SIZE=1
       - EVENTSTORE_RUN_PROJECTIONS=All
@@ -27,12 +28,14 @@ services:
   redis:
     image: redis
     container_name: redis
+    hostname: redis
     ports:
       - "6379:6379"
 
   sqlserverdb:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sqlserver
+    container_name: sqlserverdb
+    hostname: sqlserverdb
     environment:
       - SA_PASSWORD=Teste@S3nha
       - ACCEPT_EULA=Y
@@ -42,7 +45,7 @@ services:
   postgresdb:
     image: postgis/postgis
     container_name: postgresdb
-    restart: always
+    hostname: postgresdb
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=Teste@S3nha
@@ -71,13 +74,13 @@ services:
       "../tests/Argon.Zine.App.Api.Tests/Argon.Zine.App.Api.Tests.csproj"
     ]
     environment:
-      - ConnectionStrings__IdentityConnection=Server=host.docker.internal;Database=Identity;User Id=sa;Password=Teste@S3nha;
-      - ConnectionStrings__CustomerConnection=Server=host.docker.internal;Database=Customer;User Id=admin;Password=Teste@S3nha;
-      - ConnectionStrings__RestaurantConnection=Server=host.docker.internal;Database=Restaurant;User Id=admin;Password=Teste@S3nha;
-      - ConnectionStrings__CatalogConnection=Server=host.docker.internal;Database=Catalog;User Id=sa;Password=Teste@S3nha;
-      - ConnectionStrings__OrderingConnection=Server=host.docker.internal;Database=Ordering;User Id=admin;Password=Teste@S3nha;
+      - ConnectionStrings__IdentityConnection=Server=sqlserverdb;Database=Identity;User Id=sa;Password=Teste@S3nha;
+      - ConnectionStrings__CustomerConnection=Server=postgresdb;Database=Customer;User Id=admin;Password=Teste@S3nha;
+      - ConnectionStrings__RestaurantConnection=Server=postgresdb;Database=Restaurant;User Id=admin;Password=Teste@S3nha;
+      - ConnectionStrings__CatalogConnection=Server=sqlserverdb;Database=Catalog;User Id=sa;Password=Teste@S3nha;
+      - ConnectionStrings__OrderingConnection=Server=postgresdb;Database=Ordering;User Id=admin;Password=Teste@S3nha;
       - ConnectionStrings__EventSourcingConnection=ConnectTo=tcp://admin:changeit@eventstore:1113
-      - ConnectionStrings__CatalogRedis=host.docker.internal:6379
+      - ConnectionStrings__CatalogRedis=reids:6379
       - RabbitMQ__HostName=rabbitmq
     depends_on:
       - sqlserverdb
