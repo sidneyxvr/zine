@@ -1,12 +1,14 @@
 ﻿using Argon.Restaurants.Application.Commands;
 using Argon.Zine.Catalog.QueryStack.Queries;
 using Argon.Zine.Commom.Communication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/restaurants")]
 [ApiController]
+[Authorize(Roles = "Restaurant")]
 public class RestaurantsController : BaseController
 {
     private readonly IBus _bus;

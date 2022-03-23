@@ -34,7 +34,6 @@ public class ProductCache : IProductQueries
                 return JsonSerializer.Deserialize<ProductDetailsResponse?>(
                     Encoding.UTF8.GetString(productCached));
             }
-
         }
         catch
         {

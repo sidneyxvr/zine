@@ -15,6 +15,10 @@ public class CustomerBasket : Entity
     public IReadOnlyCollection<BasketItem> Products
         => _products.AsReadOnly();
 
+#pragma warning disable CS8618 
+    private CustomerBasket() { }
+#pragma warning restore CS8618 
+
     public CustomerBasket(Guid restaurantId, string restaurantName,
         string? restaurantLogoUrl, Guid customerId)
     {

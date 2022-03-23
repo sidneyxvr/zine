@@ -4,12 +4,14 @@ using Argon.Zine.Catalog.QueryStack.Responses;
 using Argon.Zine.Commom.Communication;
 using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IRestaurantQueries = Argon.Zine.Restaurants.QueryStack.Queries.IRestaurantQueries;
 namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/products")]
 [ApiController]
+[Authorize]
 public class ProductsController : BaseController
 {
     private readonly IBus _bus;
@@ -30,6 +32,7 @@ public class ProductsController : BaseController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Restaurant")]
     public async Task<IActionResult> AddProductAsync([FromForm] CreateProductCommand command)
     {
         var restaurant = await _restaurantQueries.GetRestaurantByUserIdAsync(_appUser.Id);

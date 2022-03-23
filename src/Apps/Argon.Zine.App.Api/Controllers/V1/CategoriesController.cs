@@ -1,11 +1,13 @@
 ﻿using Argon.Zine.Catalog.Application.Commands;
 using Argon.Zine.Commom.Communication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/categories")]
 [ApiController]
+[Authorize]
 public class CategoriesController : BaseController
 {
     private readonly IBus _bus;

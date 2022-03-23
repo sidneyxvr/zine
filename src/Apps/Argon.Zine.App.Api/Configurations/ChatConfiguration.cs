@@ -11,6 +11,7 @@ public static class ChatConfiguration
         services.TryAddScoped<IUserService, UserService>();
         services.TryAddScoped<IMessageService, MessageService>();
         services.TryAddScoped<IRoomService, RoomService>();
+        services.TryAddScoped<IUserService, UserService>();
 
         services.TryAddScoped<IMessageRepository, MessageRepository>();
         services.TryAddScoped<IRoomRepository, RoomRepository>();

@@ -9,7 +9,6 @@ using Argon.Zine.Customers.Infra.Data;
 using Argon.Zine.Customers.Infra.Data.Queries;
 using Argon.Zine.Customers.Infra.Data.Repositories;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

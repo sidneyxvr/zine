@@ -14,11 +14,9 @@ public class Program
             {
                 webBuilder.UseStartup<Startup>();
             })
-#if !DEBUG
             .UseSerilog((context, loggerConfiguration) =>
             {
                 loggerConfiguration.ReadFrom.Configuration(context.Configuration, "Serilog");
             })
-#endif
         ;
 }

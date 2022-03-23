@@ -2,13 +2,14 @@
 using Argon.Zine.Chat.Models;
 using Argon.Zine.Chat.Requests;
 using Argon.Zine.Chat.Services;
+using Argon.Zine.Commom.DomainObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Argon.Zine.App.Api.Hubs;
 
-//[Authorize]
+[Authorize]
 public class ChatHub : Hub
 {
     private readonly IUserService _userService;
@@ -28,7 +29,7 @@ public class ChatHub : Hub
         _restaurantQueries = restaurantQueries;
     }
 
-    [HubMethodName("createRoom")]
+    [HubMethodName("create-room")]
     public async Task CreateRoomAsync(CreateRoomRequest request)
     {
         var restaurant =
@@ -43,7 +44,7 @@ public class ChatHub : Hub
         await _roomService.AddAsync(createRoom);
     }
 
-    [HubMethodName("sendMessage")]
+    [HubMethodName("send-message")]
     public async Task SendMessageAsync(SendMessageRequest request)
     {
         request.SetSender(Context.GetUserId(), Context.GetUserFullName());
@@ -55,7 +56,7 @@ public class ChatHub : Hub
             await _userService.GetConnectionIdByUserIdAsync(receiverId);
 
         await Clients.Clients(new[] { senderConnectionId, receiverConnectionId })
-            .SendAsync("receiveMessage", new
+            .SendAsync("receive-message", new
             {
                 request.RoomId,
                 request.Content,
@@ -66,19 +67,21 @@ public class ChatHub : Hub
     [HubMethodName("messages")]
     public async Task<IEnumerable<Message>> GetPagedMessageAsync(GetPagedMessagesRequest request)
         => await _messageService.GetPagedMessagesAsync(request);
+
+    [HubMethodName("rooms")]
+    public async Task<IEnumerable<Room>> GetPagedRoomAsync(GetPagedRoomsRequest request)
+        => await _roomService.GetPagedMessagesAsync(request);
 }
 
 public static class HubContextExtensions
 {
     public static Guid GetUserId(this HubCallerContext context)
-        => new Guid("E6615DE4-B01F-4760-5869-08D9FD972E54");
-    //=> context.User is { } user
-    //? new(user.FindFirstValue(ClaimTypes.NameIdentifier))
-    //: throw new NullReferenceException(nameof(user));
+        => context.User is { } user
+            ? new(user.FindFirstValue(ClaimTypes.NameIdentifier))
+            : throw new NullReferenceException(nameof(user));
 
     public static string GetUserFullName(this HubCallerContext context)
-        => "Sidney Xavier";
-        //=> context.User is { } user
-        //? $"{user.FindFirstValue(JwtRegisteredClaimNames.GivenName)} {user.FindFirstValue(JwtRegisteredClaimNames.FamilyName)}"
-        //: throw new NullReferenceException(nameof(user));
+        => context.User is { } user
+            ? $"{user.FindFirstValue(ClaimTypes.GivenName)} {user.FindFirstValue(ClaimTypes.Surname)}"
+            : throw new NullReferenceException(nameof(user));
 }

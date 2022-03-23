@@ -19,11 +19,12 @@ public static class IdentityConfiguration
         services.TryAddScoped<ITokenService, JwtService>();
         services.TryAddScoped<IRefreshTokenStore, RefreshTokenStore>();
 
-        services.TryAddSingleton<IConnection>(provider
-            => env.IsProduction() 
-            //TODO: refact
-            ? new ConnectionFactory { HostName = configuration.GetValue<string>("RabbitMQ:HostName") }.CreateConnection()
-            : new ConnectionFactory { HostName = configuration.GetValue<string>("RabbitMQ:HostName") }.CreateConnection());
+        //Health Check Requires
+        services.TryAddSingleton<IConnectionFactory>(_ 
+            => new ConnectionFactory { HostName = configuration.GetValue<string>("RabbitMQ:HostName") });
+
+        services.TryAddSingleton<IConnection>(provider 
+            => provider.GetRequiredService<IConnectionFactory>().CreateConnection());
 
         services.TryAddSingleton<IEmailService>(provider =>
         {
@@ -39,7 +40,10 @@ public static class IdentityConfiguration
             options.Password.RequiredLength = 8;
             options.Password.RequireNonAlphanumeric = false;
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-            options.SignIn.RequireConfirmedEmail = true;
+            if (!env.IsDevelopment())
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+            }
             options.User.RequireUniqueEmail = true;
         })
         .AddDefaultTokenProviders()

@@ -1,13 +1,28 @@
 version: '3.4'
 
 services:
+
   mongodb:
     image: mongo
     container_name: mongodb
+    hostname: mongodb
     ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express 
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@host.docker.internal/
+    depends_on:
+      - mongodb
 
   sqlserverdb:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -21,24 +36,32 @@ services:
   argon.zine.app.api:
     image: ${DOCKER_REGISTRY-}argonzineappapi
     container_name: webapi
+    hostname: webapi
     build:
       context: .
       dockerfile: Apps/Argon.Zine.App.Api/Dockerfile
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=5001
+      - $env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+      - $env:USERPROFILE\.aspnet\https:/root/.aspnet/https/
       - ConnectionStrings__IdentityConnection=Server=host.docker.internal;Database=Identity;User Id=sa;Password=Teste@S3nha;
       - ConnectionStrings__CustomerConnection=Server=host.docker.internal;Database=Customer;User Id=admin;Password=Teste@S3nha;
       - ConnectionStrings__RestaurantConnection=Server=host.docker.internal;Database=Restaurant;User Id=admin;Password=Teste@S3nha;
       - ConnectionStrings__CatalogConnection=Server=host.docker.internal;Database=Catalog;User Id=sa;Password=Teste@S3nha;
       - ConnectionStrings__OrderingConnection=Server=host.docker.internal;Database=Ordering;User Id=admin;Password=Teste@S3nha;
       - ConnectionStrings__EventSourcingConnection=ConnectTo=tcp://admin:changeit@eventstore:1113
-      - ConnectionStrings__CatalogRedis=host.docker.internal:6379
+      - ConnectionStrings__CatalogRedis=host.docker.internal:6379,password=Teste@S3nha
       - RabbitMQ__HostName=rabbitmq
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - BasketDatabaseSettings__ConnectionString=mongodb://mongodb:27017
-      - ChatDatabaseSettings__ConnectionString=mongodb://mongodb:27017
+      - BasketDatabaseSettings__ConnectionString=mongodb://root:example@host.docker.internal/
+      - ChatDatabaseSettings__ConnectionString=mongodb://root:example@host.docker.internal/
+      - Serilog__WriteTo__1__Args__url=http://loki:3100
+      - HealthChecksUI__HealthChecks__0__Uri=https://webapi/health
+      - OpenTelemetrySettings__HostName=jaeger
     ports:
-      - "5000:80"
+      - 5000:80 
+      - 5001:443
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -48,6 +71,7 @@ services:
       - rabbitnetwork
       - eventnetwork
       - "monitoring-network"
+      - jaegernetwork
 
   eventstore:
     image: eventstore/eventstore:21.2.0-buster-slim
@@ -91,20 +115,28 @@ services:
   redis:
     image: redis
     container_name: redis
+    environment:
+      - REDIS_PASSWORD=Teste@S3nha
     ports:
       - "6379:6379"
+
+  redismanager:
+    image: lukiya/redismanager
+    container_name: redismanager
+    ports:
+      - 16379:16379
   
-  #prometheus:
-  #  image: prom/prometheus
-  #  container_name: prometheus
-  #  depends_on:
-  #    - argon.zine.app.api
-  #  volumes:
-  #    - ./prometheus.yml:/etc/prometheus/prometheus.yml
-  #  ports:
-  #    - 9090:9090
-  #  networks:
-  #    - "monitoring-network"
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    #depends_on:
+    #  - argon.zine.app.api
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - "monitoring-network"
 
   loki:
     image: grafana/loki:2.3.0
@@ -112,15 +144,6 @@ services:
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
-    networks:
-      - loki
-
-  promtail:
-    image: grafana/promtail:2.3.0
-    container_name: promtail
-    volumes:
-      - /var/log:/var/log
-    command: -config.file=/etc/promtail/config.yml
     networks:
       - loki
 
@@ -168,6 +191,16 @@ services:
     networks:
       - postgres-network
 
+  jaeger: 
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    hostname: jaeger
+    ports:
+      - 6831:6831/udp
+      - 16686:16686
+    networks:
+      - jaegernetwork
+
 volumes:
   eventstore-volume-data:
     driver: local
@@ -184,4 +217,6 @@ networks:
   rabbitnetwork:
     driver: bridge
   eventnetwork:
+    driver: bridge
+  jaegernetwork:
     driver: bridge

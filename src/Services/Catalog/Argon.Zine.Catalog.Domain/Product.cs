@@ -20,7 +20,7 @@ public class Product : Entity, IAggregateRoot
     protected Product() { }
 #pragma warning restore CS8618
     public Product(string? name, string? description,
-        decimal price, bool active, string? imageUrl, Guid restaurantId)
+        decimal price, string? imageUrl, Guid restaurantId)
     {
         Check.NotEmpty(name, nameof(name));
         Check.NotEmpty(description, nameof(description));
@@ -33,6 +33,6 @@ public class Product : Entity, IAggregateRoot
         Price = price;
         RestaurantId = restaurantId;
         ImageUrl = imageUrl!;
-        IsActive = active;
+        IsActive = true;
     }
 }

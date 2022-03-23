@@ -16,7 +16,10 @@ using EventStore.ClientAPI;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson.Serialization;
-using StackExchange.Redis;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Security.Claims;
 
 namespace Argon.Zine.App.Api.Configurations;
 
@@ -32,9 +35,13 @@ public static class DependencyInjectionConfiguration
 
         services.AddScoped<IAppUser>(provider =>
         {
-            var httpContext = provider.GetRequiredService<IHttpContextAccessor>();
+            var httpContext = provider.GetRequiredService<IHttpContextAccessor>().HttpContext!;
 
-            return new AppUser(httpContext);
+            var id = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var firstName = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.GivenName);
+            var lastName = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.FamilyName);
+
+            return new AppUser(Guid.Parse(id), firstName, lastName);
         });
 
         services.AddScoped<IBasketService, BasketService>();
@@ -57,7 +64,16 @@ public static class DependencyInjectionConfiguration
 
         BsonClassMap.RegisterClassMap<CustomerBasket>(cm =>
         {
+            var ctor = typeof(CustomerBasket).GetConstructor(
+                BindingFlags.NonPublic | BindingFlags.Instance, Type.EmptyTypes)!;
+
+            var body = Expression.New(ctor);
+            var lambda = Expression.Lambda(body);
+
             cm.AutoMap();
+            cm.MapCreator(lambda.Compile());
+            cm.UnmapMember(b => b.Total);
+            cm.MapConstructor(ctor);
             cm.MapProperty(b => b.RestaurantLogoUrl)
                 .SetIgnoreIfNull(true);
             cm.MapField("_products")
@@ -67,11 +83,7 @@ public static class DependencyInjectionConfiguration
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = configuration.GetConnectionString("CatalogRedis");
-            options.ConfigurationOptions = new ConfigurationOptions
-            {
-                AsyncTimeout = 400,
-                SyncTimeout = 400
-            };
+            options.InstanceName = "catalog";
         });
 
         var s3SettingsSection = configuration.GetSection(nameof(S3Settings));
