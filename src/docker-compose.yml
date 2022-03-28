@@ -11,7 +11,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
+    networks:
+      - mongonetwork
+       
   mongo-express:
     image: mongo-express
     container_name: mongo-express 
@@ -23,6 +25,16 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://root:example@host.docker.internal/
     depends_on:
       - mongodb
+
+  mongodb-exporter:
+    container_name: mongodb-exporter
+    image: percona/mongodb_exporter:0.30
+    command: --mongodb.uri mongodb://root:example@host.docker.internal/ --compatible-mode
+    ports:
+      - 9216:9216
+      - 17001:17001
+    networks:
+      - mongonetwork
 
   sqlserverdb:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -112,13 +124,13 @@ services:
     networks:
       - rabbitnetwork
 
-  redis:
-    image: redis
-    container_name: redis
-    environment:
-      - REDIS_PASSWORD=Teste@S3nha
-    ports:
-      - "6379:6379"
+  #redis:
+  #  image: redis
+  #  container_name: redis
+  #  environment:
+  #    - REDIS_PASSWORD=Teste@S3nha
+  #  ports:
+  #    - "6379:6379"
 
   redismanager:
     image: lukiya/redismanager
@@ -137,6 +149,7 @@ services:
       - 9090:9090
     networks:
       - "monitoring-network"
+      - rabbitnetwork
 
   loki:
     image: grafana/loki:2.3.0
@@ -212,6 +225,7 @@ networks:
   monitoring-network:
     driver: bridge
   loki:
+  mongonetwork:
   postgres-network:
     driver: bridge
   rabbitnetwork:

@@ -7,7 +7,7 @@ namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/categories")]
 [ApiController]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class CategoriesController : BaseController
 {
     private readonly IBus _bus;

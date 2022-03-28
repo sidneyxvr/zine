@@ -27,9 +27,6 @@ public static class TracingConfiguration
 
         services.AddOpenTelemetryTracing(builder =>
         {
-            var connection = ConnectionMultiplexer.Connect(
-                configuration.GetConnectionString("CatalogRedis"));
-
             builder.AddJaegerExporter(options => options.AgentHost = jaegerSettings!.HostName)
                 .AddSource(typeof(Startup).Assembly.GetName().Name)
                 .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("WebApi"))
@@ -45,7 +42,10 @@ public static class TracingConfiguration
                 .Configure((sp, builder) =>
                 {
                     var cache = (RedisCache)sp.GetRequiredService<IDistributedCache>();
-                    builder.AddRedisInstrumentation(cache.GetConnection());
+                    if (cache.GetConnection() is not null)
+                    {
+                        builder.AddRedisInstrumentation(cache.GetConnection());
+                    }
                 })
                 .AddXRayTraceId()
                 .AddXRayTraceIdWithSampler(new AlwaysOnSampler())
@@ -55,14 +55,18 @@ public static class TracingConfiguration
         return services;
     }
 
-    public static ConnectionMultiplexer GetConnection(this RedisCache cache)
+    public static ConnectionMultiplexer? GetConnection(this RedisCache cache)
     {
-        typeof(RedisCache).InvokeMember("Connect",
-            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-            null, cache, Array.Empty<object>());
+        var field = typeof(RedisCache).GetField(
+            "_connection", BindingFlags.Instance | BindingFlags.NonPublic);
+        var connection = (ConnectionMultiplexer?)field!.GetValue(cache);
+        if (connection is not null)
+        {
+            typeof(RedisCache).InvokeMember("Connect",
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+                null, cache, Array.Empty<object>());
+        }
 
-        var field = typeof(RedisCache).GetField("_connection", BindingFlags.Instance | BindingFlags.NonPublic);
-        var connection = (ConnectionMultiplexer)field!.GetValue(cache)!;
         return connection;
     }
 

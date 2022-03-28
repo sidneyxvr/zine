@@ -3,9 +3,12 @@ using Argon.Zine.App.Api.Extensions;
 using Argon.Zine.Basket.Data;
 using Argon.Zine.Catalog.Infra.Data;
 using Argon.Zine.Chat.Data;
+using Argon.Zine.Commom.Data.EventSourcing;
 using Argon.Zine.Customers.Infra.Data;
+using Argon.Zine.EventSourcing;
 using Argon.Zine.Identity.Data;
 using Argon.Zine.Ordering.Infra.Data;
+using EventStore.ClientAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -41,6 +44,27 @@ public static class DbContextConfiguration
         services.TryAddScoped<RestaurantContext>();
         services.TryAddScoped<CatalogContext>();
         services.TryAddScoped<OrderingContext>();
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("CatalogRedis");
+            options.InstanceName = "catalog";
+        });
+
+        services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
+        services.AddSingleton<IEventStoreConnection>(provider =>
+        {
+            var settings = ConnectionSettings.Create()
+                .DisableTls()
+                .UseDebugLogger()
+                .SetMaxDiscoverAttempts(1)
+#if DEBUG
+                .EnableVerboseLogging()
+#endif
+                ;
+
+            return EventStoreConnection.Create(configuration.GetConnectionString("EventSourcingConnection"), settings);
+        });
 
         services.Configure<BasketDatabaseSettings>(
             configuration.GetSection(nameof(BasketDatabaseSettings)));
