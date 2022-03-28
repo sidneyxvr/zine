@@ -1,0 +1,38 @@
+name: Zine Unit Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+
+    paths-ignore:
+      - 'src/Apps/Argon.Zine.App.Web/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Basket Unit Test
+      run: dotnet test ./tests/Argon.Zine.Basket.Tests/ --no-build --verbosity normal
+    - name: Restaurants Unit Test
+      run: dotnet test ./tests/Argon.Zine.Restaurants.Tests/ --no-build --verbosity normal
+    - name: Ordering Unit Test
+      run: dotnet test ./tests/Argon.Zine.Ordering.Tests/ --no-build --verbosity normal
+    - name: Identity Unit Test
+      run: dotnet test ./tests/Argon.Zine.Identity.Tests/ --no-build --verbosity normal
+    - name: Catalog Unit Test
+      run: dotnet test ./tests/Argon.Zine.Catalog.Tests/ --no-build --verbosity normal
+    - name: Customers Unit Test
+      run: dotnet test ./tests/Argon.Zine.Customers.Tests/ --no-build --verbosity normal
+    - name: Chat Unit Test
+      run: dotnet test ./tests/Argon.Zine.Chat.Tests/ --no-build --verbosity normal
+    - name: Common Unit Tests
+      run: dotnet test ./tests/Argon.Zine.Common.Tests/ --no-build --verbosity normal

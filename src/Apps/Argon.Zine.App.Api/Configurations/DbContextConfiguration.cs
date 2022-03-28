@@ -1,13 +1,21 @@
 ﻿using Argon.Restaurants.Infra.Data;
+using Argon.Zine.App.Api.Extensions;
 using Argon.Zine.Basket.Data;
 using Argon.Zine.Catalog.Infra.Data;
 using Argon.Zine.Chat.Data;
+using Argon.Zine.Commom.Data.EventSourcing;
 using Argon.Zine.Customers.Infra.Data;
+using Argon.Zine.EventSourcing;
 using Argon.Zine.Identity.Data;
 using Argon.Zine.Ordering.Infra.Data;
+using EventStore.ClientAPI;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 
 namespace Argon.Zine.App.Api.Configurations;
 
@@ -18,9 +26,13 @@ public static class DbContextConfiguration
         IConfiguration configuration,
         IWebHostEnvironment env)
     {
+        var openTelemetrySettings = configuration
+            .GetSection(nameof(OpenTelemetrySettings))
+            .Get<OpenTelemetrySettings>();
+
         if (env.IsDevelopment())
         {
-            RegisterDevelopmentContexts(services, configuration);
+            RegisterDevelopmentContexts(services, configuration, openTelemetrySettings.Enable);
         }
         else
         {
@@ -33,6 +45,27 @@ public static class DbContextConfiguration
         services.TryAddScoped<CatalogContext>();
         services.TryAddScoped<OrderingContext>();
 
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("CatalogRedis");
+            options.InstanceName = "catalog";
+        });
+
+        services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
+        services.AddSingleton<IEventStoreConnection>(provider =>
+        {
+            var settings = ConnectionSettings.Create()
+                .DisableTls()
+                .UseDebugLogger()
+                .SetMaxDiscoverAttempts(1)
+#if DEBUG
+                .EnableVerboseLogging()
+#endif
+                ;
+
+            return EventStoreConnection.Create(configuration.GetConnectionString("EventSourcingConnection"), settings);
+        });
+
         services.Configure<BasketDatabaseSettings>(
             configuration.GetSection(nameof(BasketDatabaseSettings)));
 
@@ -41,7 +74,9 @@ public static class DbContextConfiguration
             var settings = configuration.GetSection(nameof(BasketDatabaseSettings))
                 .Get<BasketDatabaseSettings>();
 
-            var client = new MongoClient(settings.ConnectionString);
+            var client = new MongoClient(
+                GetMongoClientSettingsFromConnectionString(
+                    settings.ConnectionString, env, openTelemetrySettings.Enable));
             var database = client.GetDatabase(settings.DatabaseName);
 
             return new BasketContext(database);
@@ -52,7 +87,9 @@ public static class DbContextConfiguration
             var settings = configuration.GetSection(nameof(ChatDatabaseSettings))
                 .Get<ChatDatabaseSettings>();
 
-            var client = new MongoClient(settings.ConnectionString);
+            var client = new MongoClient(
+                GetMongoClientSettingsFromConnectionString(
+                    settings.ConnectionString, env, openTelemetrySettings.Enable));
             var database = client.GetDatabase(settings.DatabaseName);
 
             return new ChatContext(database);
@@ -61,44 +98,76 @@ public static class DbContextConfiguration
         return services;
     }
 
+    private static MongoClientSettings GetMongoClientSettingsFromConnectionString(
+        string connectionString, IWebHostEnvironment env, bool openTelemetryIsEnabled)
+    {
+        var clientSettings = MongoClientSettings.FromConnectionString(connectionString);
+        if (!env.IsDevelopment())
+        {
+            return clientSettings;
+        }
+
+        clientSettings.ClusterConfigurator = options =>
+        {
+            if (openTelemetryIsEnabled)
+            {
+                options.Subscribe(new DiagnosticsActivityEventSubscriber(
+                    new InstrumentationOptions { CaptureCommandText = true }));
+            }
+            else
+            {
+                options.Subscribe<CommandStartedEvent>(e 
+                    => Console.WriteLine($"{e.CommandName} - {e.Command.ToJson()}"));
+            }
+        };
+
+        return clientSettings;
+    }
+
     private static IServiceCollection RegisterDevelopmentContexts(
         IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        bool openTelemetryIsEnable)
     {
-        services.AddDbContext<IdentityContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"))
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging());
+        services.AddDbContext<IdentityContext>(options
+            => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"))
+                .LogIfOpenTelemetryIsNotEnable(openTelemetryIsEnable));
 
         services.AddDbContext<CustomerContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("CustomerConnection"), 
+            options.UseNpgsql(configuration.GetConnectionString("CustomerConnection"),
                 x => x.UseNetTopologySuite())
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging());
+                .LogIfOpenTelemetryIsNotEnable(openTelemetryIsEnable));
 
         services.AddDbContext<RestaurantContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("RestaurantConnection"), 
+            options.UseNpgsql(configuration.GetConnectionString("RestaurantConnection"),
                 x => x.UseNetTopologySuite())
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging());
+                .LogIfOpenTelemetryIsNotEnable(openTelemetryIsEnable)
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning)));
 
         services.AddDbContext<CatalogContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("CatalogConnection"), 
+            options.UseSqlServer(configuration.GetConnectionString("CatalogConnection"),
                 x => x.UseNetTopologySuite())
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging());
+                .LogIfOpenTelemetryIsNotEnable(openTelemetryIsEnable));
 
         services.AddDbContext<OrderingContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("OrderingConnection"))
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging());
+                .LogIfOpenTelemetryIsNotEnable(openTelemetryIsEnable));
 
         return services;
+    }
+
+    private static DbContextOptionsBuilder LogIfOpenTelemetryIsNotEnable(
+        this DbContextOptionsBuilder dbContextOptionsBuilder, bool openTelemetryIsEnabled)
+    {
+        if (openTelemetryIsEnabled)
+        {
+            return dbContextOptionsBuilder;
+        }
+
+        return dbContextOptionsBuilder
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging();
     }
 
     private static IServiceCollection RegisterProductionContexts(

@@ -25,6 +25,7 @@ public class CategoriesEndpointTest
         //Arrange
         var faker = new Faker("pt_BR");
         var request = new CreateCategoryCommand(faker.Lorem.Letter(20), faker.Lorem.Letter(20));
+        await _applicationFixture.SingInOrSetTokenAsync();
 
         //Act
         var response = await _applicationFixture.HttpClient!.PostAsJsonAsync("api/categories", request);
@@ -39,6 +40,7 @@ public class CategoriesEndpointTest
         //Arrange
         var faker = new Faker("pt_BR");
         var request = new CreateCategoryCommand("categoria", faker.Lorem.Letter(20));
+        await _applicationFixture.SingInOrSetTokenAsync();
 
         //Act
         var response = await _applicationFixture.HttpClient!.PostAsJsonAsync("api/categories", request);

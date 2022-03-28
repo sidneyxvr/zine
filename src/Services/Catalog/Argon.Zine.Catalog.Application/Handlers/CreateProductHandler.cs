@@ -39,7 +39,7 @@ public class CreateProductHandler : RequestHandler<CreateProductCommand>
             .UploadAsync(request.Image!.OpenReadStream(), request.Image.FileName, cancellationToken);
 
         var product = new Product(request.Name, request.Description,
-            request.Price, request.IsActive, imageUrl, request.RestaurantId);
+            request.Price, imageUrl, request.RestaurantId);
 
         product.AddDomainEvent(new ProductCreatedEvent(product.Id,
             product.Name, product.Price, product.ImageUrl,

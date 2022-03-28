@@ -18,24 +18,7 @@ public static class PrometheusConfiguration
             return next();
         });
 
-        app.Map("/metrics", app =>
-        {
-            app.Use(async (context, next) =>
-            {
-                var teste = context.Request.Headers["teste"];
-
-                if(teste.Count == 0)
-                {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    return;
-                }
-
-                await next();
-            });
-
-            app.UseMetricServer("");
-        });
-
+        app.UseMetricServer("/metrics");
         app.UseHttpMetrics();
 
         return app;

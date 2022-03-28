@@ -1,0 +1,11 @@
+name: "CodeQL Config"
+    
+disable-default-queries: true
+
+queries:
+- uses: security-and-quality
+
+paths:
+  - src/**
+paths-ignore: 
+  - tests/**

@@ -21,4 +21,7 @@ public class RoomService : IRoomService
 
         await _roomRepository.AddAsync(room);
     }
+
+    public async Task<IEnumerable<Room>> GetPagedMessagesAsync(GetPagedRoomsRequest request)
+        => await _roomRepository.GetPagedAsync(request);
 }

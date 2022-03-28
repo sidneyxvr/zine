@@ -3,12 +3,14 @@ using Argon.Zine.Commom.DomainObjects;
 using Argon.Zine.Customers.Application.Queries;
 using Argon.Zine.Ordering.Application.Commands;
 using Argon.Zine.Ordering.Application.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Argon.Zine.App.Api.Controllers.V1;
 
 [Route("api/buyers")]
 [ApiController]
+[Authorize]
 public class BuyersController : BaseController
 {
     private readonly IBus _bus;

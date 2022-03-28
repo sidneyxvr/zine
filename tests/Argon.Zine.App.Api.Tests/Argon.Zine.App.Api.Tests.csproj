@@ -4,8 +4,13 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
-		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Properties\**" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="34.0.1" />

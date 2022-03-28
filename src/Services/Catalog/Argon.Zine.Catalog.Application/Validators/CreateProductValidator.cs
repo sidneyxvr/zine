@@ -13,8 +13,8 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
             .NotEmpty().WithMessage(localizer["Required Name"])
             .MaximumLength(Product.NameMaxLength).WithMessage(localizer["Name's Max Length"]);
 
-        RuleFor(p => p.Name)
+        RuleFor(p => p.Description)
             .NotEmpty().WithMessage(localizer["Required Name"])
-            .MaximumLength(Product.NameMaxLength).WithMessage(localizer["Name's Max Length"]);
+            .MaximumLength(Product.DescriptionMaxLength).WithMessage(localizer["Name's Max Length"]);
     }
 }

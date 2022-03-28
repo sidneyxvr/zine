@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace Argon.Zine.App.Api;
 
@@ -56,13 +57,12 @@ public class Startup
         });
 
         services.AddLocalization(options => options.ResourcesPath = "Resources");
-#if !DEBUG
         services.RegisterHealthChecks(Configuration);
-#endif
         services.RegisterCatalog(Configuration)
             .RegisterCustomer()
             .RegisterSupplier()
             .RegisterOrdering()
+            .RegisterChat()
             .RegisterIdentity(Configuration, Environment)
             .RegisterJwt(Configuration)
             .RegisterDbContexts(Configuration, Environment)
@@ -71,7 +71,11 @@ public class Startup
         services.AddSignalR(options => options.EnableDetailedErrors = true)
             .AddMessagePackProtocol();
 
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(options => {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
 
         services.AddCors();
 
@@ -89,6 +93,8 @@ public class Startup
             options.GroupNameFormat = "'v'VVV";
             options.SubstituteApiVersionInUrl = true;
         });
+
+        services.AddTracing(Configuration);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -98,9 +104,7 @@ public class Startup
             app.UseDeveloperExceptionPage();
             app.UseSwaggerR();
         }
-#if !DEBUG
         app.UseSerilogRequestLogging();
-#endif
         app.UsePrometheus();
 
         var supportedCultures = new[] { "en-US", "pt-BR" };
@@ -125,8 +129,6 @@ public class Startup
             endpoints.MapHub<ChatHub>("/chathub");
         });
 
-#if !DEBUG
         app.UseHealthChecks();
-#endif
     }
 }

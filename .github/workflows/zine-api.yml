@@ -1,0 +1,15 @@
+name: Zine API
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+    
+      - name: Run integration tests
+        run: docker-compose -f ./src/docker-compose.staging.yml up --build --abort-on-container-exit

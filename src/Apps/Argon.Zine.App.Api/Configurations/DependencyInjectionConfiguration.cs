@@ -3,20 +3,13 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using Argon.Storage;
 using Argon.Zine.App.Api.Extensions;
-using Argon.Zine.Basket.Data;
-using Argon.Zine.Basket.Models;
-using Argon.Zine.Basket.Services;
 using Argon.Zine.Commom.Communication;
 using Argon.Zine.Commom.Data;
-using Argon.Zine.Commom.Data.EventSourcing;
 using Argon.Zine.Commom.DomainObjects;
-using Argon.Zine.EventSourcing;
 using Argon.Zine.Storage;
-using EventStore.ClientAPI;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using MongoDB.Bson.Serialization;
-using StackExchange.Redis;
+using System.Security.Claims;
 
 namespace Argon.Zine.App.Api.Configurations;
 
@@ -32,46 +25,18 @@ public static class DependencyInjectionConfiguration
 
         services.AddScoped<IAppUser>(provider =>
         {
-            var httpContext = provider.GetRequiredService<IHttpContextAccessor>();
+            var user = provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User;
 
-            return new AppUser(httpContext);
-        });
-
-        services.AddScoped<IBasketService, BasketService>();
-        services.AddSingleton<IBasketDao, BasketDao>();
-
-        services.AddSingleton<IEventSourcingStorage, EventSourcingStorage>();
-        services.AddSingleton<IEventStoreConnection>(provider =>
-        {
-            var settings = ConnectionSettings.Create()
-                .DisableTls()
-                .UseDebugLogger()
-                .SetMaxDiscoverAttempts(1)
-#if DEBUG
-                .EnableVerboseLogging()
-#endif
-                ;
-
-            return EventStoreConnection.Create(configuration.GetConnectionString("EventSourcingConnection"), settings);
-        });
-
-        BsonClassMap.RegisterClassMap<CustomerBasket>(cm =>
-        {
-            cm.AutoMap();
-            cm.MapProperty(b => b.RestaurantLogoUrl)
-                .SetIgnoreIfNull(true);
-            cm.MapField("_products")
-                .SetElementName("Products");
-        });
-
-        services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = configuration.GetConnectionString("CatalogRedis");
-            options.ConfigurationOptions = new ConfigurationOptions
+            if (user is null)
             {
-                AsyncTimeout = 400,
-                SyncTimeout = 400
-            };
+                throw new NullReferenceException(nameof(user));
+            }
+
+            var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var firstName = user.FindFirstValue(ClaimTypes.GivenName);
+            var lastName = user.FindFirstValue(ClaimTypes.Surname);
+
+            return new AppUser(Guid.Parse(id), firstName, lastName);
         });
 
         var s3SettingsSection = configuration.GetSection(nameof(S3Settings));

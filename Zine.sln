@@ -83,8 +83,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Identity.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Restaurants.Tests", "tests\Argon.Zine.Restaurants.Tests\Argon.Zine.Restaurants.Tests.csproj", "{10F7A062-441C-4E7A-B7E4-182682388592}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.App.Web", "src\Apps\Argon.Zine.App.Web\Argon.Zine.App.Web.csproj", "{9026566E-6D11-448D-A421-1E9CFA1DB99B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Identity.Notifications", "src\Services\Identity\Argon.Zine.Identity.Notifications\Argon.Zine.Identity.Notifications.csproj", "{62A9AC04-FEF9-4463-9E3B-F1A865CA4BFE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Shared", "src\BuildingBlocks\Argon.Zine.Shared\Argon.Zine.Shared.csproj", "{56A62C76-56A7-415B-A297-D965BF1359EB}"
@@ -101,13 +99,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Common.Tests", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\docker-compose.dcproj", "{E4C13476-DA53-45D6-B310-81406515BEE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Zine.Chat.Tests", "tests\Argon.Zine.Chat.Tests\Argon.Zine.Chat.Tests.csproj", "{79A5BD93-CC96-442F-BDA5-E530919F5955}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Chat.Tests", "tests\Argon.Zine.Chat.Tests\Argon.Zine.Chat.Tests.csproj", "{79A5BD93-CC96-442F-BDA5-E530919F5955}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Zine.Basket.Tests", "tests\Argon.Zine.Basket.Tests\Argon.Zine.Basket.Tests.csproj", "{F0977A21-F385-4A8B-BB65-20505DDB3569}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Basket.Tests", "tests\Argon.Zine.Basket.Tests\Argon.Zine.Basket.Tests.csproj", "{F0977A21-F385-4A8B-BB65-20505DDB3569}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{51338A72-171B-4D00-87C8-BCA602ECA2F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.Zine.Ordering.Tests", "tests\Argon.Zine.Ordering.Tests\Argon.Zine.Ordering.Tests.csproj", "{9C162B6E-88D9-4AD4-8E6D-D0B208699362}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Zine.Ordering.Tests", "tests\Argon.Zine.Ordering.Tests\Argon.Zine.Ordering.Tests.csproj", "{9C162B6E-88D9-4AD4-8E6D-D0B208699362}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -725,30 +723,6 @@ Global
 		{10F7A062-441C-4E7A-B7E4-182682388592}.Release|x64.Build.0 = Release|Any CPU
 		{10F7A062-441C-4E7A-B7E4-182682388592}.Release|x86.ActiveCfg = Release|Any CPU
 		{10F7A062-441C-4E7A-B7E4-182682388592}.Release|x86.Build.0 = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|arm64.Build.0 = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|x64.Build.0 = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Debug|x86.Build.0 = Debug|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|arm64.ActiveCfg = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|arm64.Build.0 = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|iPhone.Build.0 = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|x64.ActiveCfg = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|x64.Build.0 = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|x86.ActiveCfg = Release|Any CPU
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B}.Release|x86.Build.0 = Release|Any CPU
 		{62A9AC04-FEF9-4463-9E3B-F1A865CA4BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{62A9AC04-FEF9-4463-9E3B-F1A865CA4BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62A9AC04-FEF9-4463-9E3B-F1A865CA4BFE}.Debug|arm64.ActiveCfg = Debug|Any CPU
@@ -1055,7 +1029,6 @@ Global
 		{591058DC-5E6F-45AD-A541-51AB926BD200} = {7EFD43E0-2148-4342-A636-41B5B43D72F1}
 		{01BE185B-F171-4E79-9561-4EEF2826797A} = {55E27E9F-3E32-43BA-B289-7A8F14C9305B}
 		{10F7A062-441C-4E7A-B7E4-182682388592} = {D65B0A93-E879-4375-8424-7CC6E3943002}
-		{9026566E-6D11-448D-A421-1E9CFA1DB99B} = {38F7C4BE-56BE-4304-8B48-B5F6799D80E8}
 		{62A9AC04-FEF9-4463-9E3B-F1A865CA4BFE} = {55E27E9F-3E32-43BA-B289-7A8F14C9305B}
 		{56A62C76-56A7-415B-A297-D965BF1359EB} = {11432440-0BBA-4CEA-BF08-3D180F85D2C4}
 		{F67F73BE-4609-42E7-91E7-F8DA92CDC25B} = {488D104A-900D-43CC-8228-F9E1B98A3A96}
