@@ -40,6 +40,6 @@ public class CustomerQueries : ICustomerQueries
     public async Task<CustomerNameResponse?> GetCustomerNameByIdAsync(Guid id)
         => await _context.Customers
         .AsNoTracking()
-        .Select(c => new CustomerNameResponse(c.Id, c.Name.FirstName, c.Name.LastName))
+        .Select(c => new CustomerNameResponse(c.Id, c.Name.FirstName, c.Name.Surname))
         .FirstOrDefaultAsync(c => c.Id == id);
 }

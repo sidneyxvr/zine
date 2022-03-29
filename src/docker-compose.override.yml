@@ -1,0 +1,189 @@
+version: '3.4'
+
+services:
+
+  mongodb:
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - mongonetwork
+       
+  mongo-express:
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@host.docker.internal/
+    depends_on:
+      - mongodb
+
+  mongodb-exporter:
+    ports:
+      - 9216:9216
+      - 17001:17001
+    networks:
+      - mongonetwork
+
+  sqlserverdb:
+    environment:
+      - SA_PASSWORD=Teste@S3nha
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+
+  argon.zine.app.api:
+    build:
+      context: .
+      dockerfile: Apps/Argon.Zine.App.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=5001
+      - $env:APPDATA\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+      - $env:USERPROFILE\.aspnet\https:/root/.aspnet/https/
+      - ConnectionStrings__IdentityConnection=Server=host.docker.internal;Database=Identity;User Id=sa;Password=Teste@S3nha;
+      - ConnectionStrings__CustomerConnection=Server=host.docker.internal;Database=Customer;User Id=admin;Password=Teste@S3nha;
+      - ConnectionStrings__RestaurantConnection=Server=host.docker.internal;Database=Restaurant;User Id=admin;Password=Teste@S3nha;
+      - ConnectionStrings__CatalogConnection=Server=host.docker.internal;Database=Catalog;User Id=sa;Password=Teste@S3nha;
+      - ConnectionStrings__OrderingConnection=Server=host.docker.internal;Database=Ordering;User Id=admin;Password=Teste@S3nha;
+      - ConnectionStrings__EventSourcingConnection=ConnectTo=tcp://admin:changeit@eventstore:1113
+      - ConnectionStrings__CatalogRedis=host.docker.internal:6379,password=Teste@S3nha
+      - RabbitMQ__HostName=rabbitmq
+      - BasketDatabaseSettings__ConnectionString=mongodb://root:example@host.docker.internal/
+      - ChatDatabaseSettings__ConnectionString=mongodb://root:example@host.docker.internal/
+      - Serilog__WriteTo__1__Args__url=http://loki:3100
+      - HealthChecksUI__HealthChecks__0__Uri=https://webapi/health
+      - OpenTelemetrySettings__HostName=jaeger
+    ports:
+      - 5000:80 
+      - 5001:443
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - sqlserverdb
+    networks:
+      - rabbitnetwork
+      - eventnetwork
+      - monitoringnetwork
+      - jaegernetwork
+
+  eventstore:
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - "1113:1113"
+      - "2113:2113"
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+    networks:
+      - eventnetwork
+
+  rabbitmq:
+    volumes:
+      - ${APPDATA}/rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ${APPDATA}/rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ${APPDATA}/rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ${APPDATA}/rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbitnetwork
+
+  redis:
+    environment:
+      - REDIS_PASSWORD=Teste@S3nha
+    ports:
+      - "6379:6379"
+
+  redismanager:
+    image: lukiya/redismanager
+    container_name: redismanager
+    ports:
+      - 16379:16379
+  
+  prometheus:
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - monitoringnetwork
+      - rabbitnetwork
+
+  loki:
+    ports:
+      - "3100:3100"
+    networks:
+      - lokinetwork
+
+  grafana:
+    ports:
+      - "3000:3000"
+    networks:
+      - lokinetwork
+
+  alertmanager:
+    ports:
+      - 9093:9093
+    networks:
+      - monitoringnetwork
+  
+  postgresdb:
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Teste@S3nha
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
+    ports:
+      - "5432:5432" 
+    volumes:
+      - ${APPDATA}/postgres:/var/lib/postgresql
+    networks:
+      - postgresnetwork
+
+  pgadmin:
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=sidneyxvr@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=Teste@S3nha
+    ports:
+      - "5050:80"
+    networks:
+      - postgresnetwork
+
+  jaeger: 
+    ports:
+      - 6831:6831/udp
+      - 16686:16686
+    networks:
+      - jaegernetwork
+
+volumes:
+  eventstore-volume-data:
+  eventstore-volume-logs:
+  mongo_data:
+    
+networks:
+  monitoringnetwork:
+  lokinetwork:
+  mongonetwork:
+  postgresnetwork:
+  rabbitnetwork:
+  eventnetwork:
+  jaegernetwork:

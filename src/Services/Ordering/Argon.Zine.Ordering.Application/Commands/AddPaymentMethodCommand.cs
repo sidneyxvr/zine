@@ -6,7 +6,7 @@ public record AddPaymentMethodCommand : Command
 {
     public Guid CustomerId { get; set; }
     public string CustomerFirstName { get; set; } = null!;
-    public string CustomerLastName { get; set; } = null!;
+    public string CustomerSurname { get; set; } = null!;
     public string Alias { get; init; } = null!;
     public string CardNamber { get; init; } = null!;
     public string CardHolderName { get; init; } = null!;

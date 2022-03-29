@@ -1,0 +1,48 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "alertmanager": "StartWithoutDebugging",
+        "argon.zine.app.api": "StartDebugging",
+        "eventstore": "StartWithoutDebugging",
+        "grafana": "StartWithoutDebugging",
+        "jaeger": "StartWithoutDebugging",
+        "loki": "StartWithoutDebugging",
+        "mongodb": "StartWithoutDebugging",
+        "mongodb-exporter": "StartWithoutDebugging",
+        "mongo-express": "StartWithoutDebugging",
+        "pgadmin": "StartWithoutDebugging",
+        "postgresdb": "StartWithoutDebugging",
+        "prometheus": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "redis": "StartWithoutDebugging",
+        "redismanager": "StartWithoutDebugging",
+        "sqlserverdb": "StartWithoutDebugging"
+      }
+    },
+    "Database Only": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "alertmanager": "DoNotStart",
+        "argon.zine.app.api": "DoNotStart",
+        "eventstore": "StartWithoutDebugging",
+        "grafana": "DoNotStart",
+        "jaeger": "DoNotStart",
+        "loki": "DoNotStart",
+        "mongodb": "StartWithoutDebugging",
+        "mongodb-exporter": "DoNotStart",
+        "mongo-express": "DoNotStart",
+        "pgadmin": "DoNotStart",
+        "postgresdb": "StartWithoutDebugging",
+        "prometheus": "DoNotStart",
+        "rabbitmq": "StartWithoutDebugging",
+        "redis": "StartWithoutDebugging",
+        "redismanager": "DoNotStart",
+        "sqlserverdb": "StartWithoutDebugging"
+      }
+    }
+  }
+}

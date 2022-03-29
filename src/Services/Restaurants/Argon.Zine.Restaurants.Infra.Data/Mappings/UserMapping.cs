@@ -34,9 +34,9 @@ public class UserMapping : IEntityTypeConfiguration<User>
                 .HasColumnName("FirstName")
                 .HasColumnType($"varchar({Name.MaxLengthFirstName})");
 
-            c.Property(p => p.LastName)
-                .HasColumnName("LastName")
-                .HasColumnType($"varchar({Name.MaxLengthLastName})");
+            c.Property(p => p.Surname)
+                .HasColumnName("Surname")
+                .HasColumnType($"varchar({Name.MaxLengthSurname})");
         });
     }
 }

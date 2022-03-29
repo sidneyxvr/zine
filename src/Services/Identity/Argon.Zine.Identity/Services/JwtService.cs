@@ -31,7 +31,7 @@ public class JwtService : ITokenService
         claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
         claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
         claims.Add(new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName));
-        claims.Add(new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName));
+        claims.Add(new Claim(JwtRegisteredClaimNames.FamilyName, user.Surname));
         claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
         claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, notValidBefore));
         claims.Add(new Claim(JwtRegisteredClaimNames.Iat, tokenCreatedAt, ClaimValueTypes.Integer64));

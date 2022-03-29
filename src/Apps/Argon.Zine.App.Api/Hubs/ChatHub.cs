@@ -2,7 +2,6 @@
 using Argon.Zine.Chat.Models;
 using Argon.Zine.Chat.Requests;
 using Argon.Zine.Chat.Services;
-using Argon.Zine.Commom.DomainObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;

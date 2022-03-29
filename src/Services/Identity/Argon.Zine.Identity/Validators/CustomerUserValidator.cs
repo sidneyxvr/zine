@@ -14,9 +14,9 @@ public class CustomerUserValidator : AbstractValidator<CustomerUserRequest>
             .NotEmpty().WithMessage(localizer["Required First Name"])
             .MaximumLength(Name.MaxLengthFirstName).WithMessage(localizer["First Name's Max Length"]);
 
-        RuleFor(c => c.LastName)
+        RuleFor(c => c.Surname)
             .NotEmpty().WithMessage(localizer["Required Last Name"])
-            .MaximumLength(Name.MaxLengthLastName).WithMessage(localizer["Last Name's Max Length"]);
+            .MaximumLength(Name.MaxLengthSurname).WithMessage(localizer["Last Name's Max Length"]);
 
         RuleFor(c => c.Cpf)
             .NotEmpty().WithMessage(localizer["Required CPF"])

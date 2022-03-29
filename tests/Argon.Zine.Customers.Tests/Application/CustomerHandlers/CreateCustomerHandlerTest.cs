@@ -42,7 +42,7 @@ public class CreateCustomerHandlerTest
         {
             UserId = Guid.NewGuid(),
             FirstName = props.FirstName,
-            LastName = props.LastName,
+            Surname = props.Surname,
             Email = props.Email,
             Phone = props.Phone,
             Cpf = props.Cpf,
@@ -93,7 +93,7 @@ public class CreateCustomerHandlerTest
         {
             UserId = Guid.Empty,
             FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
-            LastName = _faker.Random.String2(Name.MaxLengthLastName + 1),
+            Surname = _faker.Random.String2(Name.MaxLengthSurname + 1),
             Email = "a@b",
             Phone = "999",
             Cpf = "12345678900",
@@ -109,7 +109,7 @@ public class CreateCustomerHandlerTest
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
             $"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
-            $"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
+            $"O sobrenome deve ter no máximo {Name.MaxLengthSurname} caracteres"));
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("CPF inválido"));
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals(
             $"O email deve ter entre {Email.MinLength} e {Email.MaxLength} caracteres"));
@@ -126,7 +126,7 @@ public class CreateCustomerHandlerTest
         {
             UserId = Guid.NewGuid(),
             FirstName = props.FirstName,
-            LastName = props.LastName,
+            Surname = props.Surname,
             Email = _faker.Person.FullName,
             Cpf = props.Cpf,
             BirthDate = props.BirthDate,

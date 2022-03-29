@@ -3,7 +3,7 @@
 public record CustomerReponse
 {
     public string FirstName { get; init; } = null!;
-    public string? LastName { get; init; }
+    public string? Surname { get; init; }
     public string Email { get; init; } = null!;
     public string Cpf { get; init; } = null!;
     public DateTime BirthDate { get; init; }

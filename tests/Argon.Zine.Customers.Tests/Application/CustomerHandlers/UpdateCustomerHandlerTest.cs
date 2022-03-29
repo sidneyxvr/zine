@@ -41,7 +41,7 @@ public class UpdateCustomerHandlerTest
         var command = new UpdateCustomerCommand
         {
             FirstName = props.FirstName,
-            LastName = props.LastName,
+            Surname = props.Surname,
             Phone = props.Phone,
             BirthDate = props.BirthDate,
         };
@@ -92,7 +92,7 @@ public class UpdateCustomerHandlerTest
         var command = new UpdateCustomerCommand
         {
             FirstName = _faker.Random.String2(Name.MaxLengthFirstName + 1),
-            LastName = _faker.Random.String2(Name.MaxLengthLastName + 1),
+            Surname = _faker.Random.String2(Name.MaxLengthSurname + 1),
             Phone = _faker.Person.Email,
             BirthDate = DateTime.Now,
         };
@@ -104,7 +104,7 @@ public class UpdateCustomerHandlerTest
         Assert.False(result.IsValid);
         Assert.Equal(4, result.Errors.Count);
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O nome deve ter no máximo {Name.MaxLengthFirstName} caracteres"));
-        Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthLastName} caracteres"));
+        Assert.Contains(result.Errors, a => a.ErrorMessage.Equals($"O sobrenome deve ter no máximo {Name.MaxLengthSurname} caracteres"));
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Data de Nascimento inválida"));
         Assert.Contains(result.Errors, a => a.ErrorMessage.Equals("Número de celular inválido"));
     }

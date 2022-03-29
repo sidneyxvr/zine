@@ -22,7 +22,7 @@ public class CustomerTest
 
         //Act
         var result = new Customer(
-            Guid.NewGuid(), new(customer.FirstName, customer.LastName),
+            Guid.NewGuid(), new(customer.FirstName, customer.Surname),
             customer.Email, customer.Cpf, customer.BirthDate, customer.Phone);
 
         //Assert
@@ -104,11 +104,11 @@ public class CustomerTest
         var validCustomer = _customerFixture.CreateValidCustomer();
 
         //Act
-        validCustomer.Update(new(customer.FirstName, customer.LastName), customer.BirthDate);
+        validCustomer.Update(new(customer.FirstName, customer.Surname), customer.BirthDate);
 
         //Assert
         Assert.Equal(customer.FirstName, validCustomer.Name.FirstName);
-        Assert.Equal(customer.LastName, validCustomer.Name.LastName);
+        Assert.Equal(customer.Surname, validCustomer.Name.Surname);
         Assert.Equal(customer.BirthDate, validCustomer.BirthDate);
         Assert.Equal(customer.BirthDate.Day, validCustomer.BirthDate.Birthday);
     }
@@ -119,7 +119,7 @@ public class CustomerTest
         //Arrange
         var customer1 = _customerFixture.CreateValidCustomer();
         var customer2 = new Customer(customer1.Id, 
-            new(customer1.Name.FirstName, customer1.Name.LastName), 
+            new(customer1.Name.FirstName, customer1.Name.Surname), 
             customer1.Email.Address, customer1.Cpf.Number,
             customer1.BirthDate, customer1.Phone.Number);
 
@@ -138,7 +138,7 @@ public class CustomerTest
         //Arrange
         var customer1 = _customerFixture.CreateValidCustomer();
         var customer2 = new Customer(Guid.NewGuid(), 
-            new(customer1.Name.FirstName, customer1.Name.LastName), 
+            new(customer1.Name.FirstName, customer1.Name.Surname), 
             customer1.Email.Address, customer1.Cpf.Number,
             customer1.BirthDate, customer1.Phone.Number);
 

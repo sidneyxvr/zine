@@ -15,7 +15,7 @@ public class CreateCustomerHandler : RequestHandler<CreateCustomerCommand>
 
     public override async Task<AppResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        var name = new Name(request.FirstName!, request.LastName!);
+        var name = new Name(request.FirstName!, request.Surname!);
         var customer = new Customer(request.UserId, name,
             request.Email, request.Cpf, new BirthDate(request.BirthDate), request.Phone);
 

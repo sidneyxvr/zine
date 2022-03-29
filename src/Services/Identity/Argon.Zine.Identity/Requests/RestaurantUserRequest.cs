@@ -17,7 +17,7 @@ public record RestaurantUserRequest : BaseRequest
 
     //User
     public string? FirstName { get; init; }
-    public string? LastName { get; init; }
+    public string? Surname { get; init; }
     public string? Email { get; set; }
     public string? Password { get; set; }
 

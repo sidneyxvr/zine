@@ -46,7 +46,7 @@ public class AccountService : BaseService, IAccountService
             Email = request.Email,
             UserName = request.Email,
             FirstName = request.FirstName!,
-            LastName = request.LastName!,
+            Surname = request.Surname!,
             LockoutEnabled = true,
             IsActive = true
         };
@@ -92,7 +92,7 @@ public class AccountService : BaseService, IAccountService
             UserName = request.Email,
             PhoneNumber = request.Phone,
             FirstName = request.FirstName!,
-            LastName = request.LastName!,
+            Surname = request.Surname!,
             LockoutEnabled = true,
             IsActive = true
         };
@@ -109,7 +109,7 @@ public class AccountService : BaseService, IAccountService
         {
             UserId = user.Id,
             FirstName = request.FirstName,
-            LastName = request.LastName,
+            Surname = request.Surname,
             Email = request.Email,
             Phone = request.Phone,
             Cpf = request.Cpf,

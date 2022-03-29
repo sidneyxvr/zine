@@ -267,3 +267,4 @@ __pycache__/
 /src/Apps/Argon.Zine.App.Api/healthchecks.db-shm
 /src/Apps/Argon.Zine.App.Api/healthchecks.db-wal
 /tests/Argon.Zine.App.Api.Tests/Properties
+/scripts

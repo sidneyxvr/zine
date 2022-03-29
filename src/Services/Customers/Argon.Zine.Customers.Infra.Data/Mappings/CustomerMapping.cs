@@ -28,11 +28,11 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
                 .IsUnicode(false)
                 .HasMaxLength(Name.MaxLengthFirstName);
 
-            c.Property(p => p.LastName)
-                .HasColumnName("LastName")
+            c.Property(p => p.Surname)
+                .HasColumnName("Surname")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(Name.MaxLengthLastName);
+                .HasMaxLength(Name.MaxLengthSurname);
         });
 
         builder.OwnsOne(c => c.BirthDate, e =>

@@ -43,7 +43,7 @@ public class AccountEndpointTest
             Cpf = person.Cpf(),
             Email = person.Email,
             FirstName = person.FirstName,
-            LastName = person.LastName,
+            Surname = person.LastName,
             Password = faker.Internet.Password(prefix: "@12Ab")
         };
 
@@ -66,7 +66,7 @@ public class AccountEndpointTest
             Cpf = "test",
             Email = person.Email,
             FirstName = person.FirstName,
-            LastName = person.LastName,
+            Surname = person.LastName,
             Password = faker.Internet.Password(prefix: "@12Ab")
         };
 
@@ -99,7 +99,7 @@ public class AccountEndpointTest
             TradeName = faker.Company.CompanyName(),
             Email = person.Email,
             FirstName = person.FirstName,
-            LastName = person.LastName,
+            Surname = person.LastName,
             Password = faker.Internet.Password(prefix: "@12Ab")
         };
 
@@ -131,7 +131,7 @@ public class AccountEndpointTest
             TradeName = faker.Company.CompanyName(),
             Email = person.Email,
             FirstName = person.FirstName,
-            LastName = person.LastName,
+            Surname = person.LastName,
             Password = faker.Internet.Password(prefix: "@12Ab")
         };
 

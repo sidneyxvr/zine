@@ -36,7 +36,7 @@ public class BuyersController : BaseController
         {
             CustomerId = customer.Id,
             CustomerFirstName = customer.FirstName,
-            CustomerLastName = customer.LastName,
+            CustomerSurname = customer.Surname,
             Alias = request.Alias,
             CardHolderName = request.CardHolderName,
             CardNamber = request.CardNamber,

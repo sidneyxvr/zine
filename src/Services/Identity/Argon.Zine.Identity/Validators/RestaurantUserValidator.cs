@@ -38,9 +38,9 @@ public class RestaurantUserValidator : AbstractValidator<RestaurantUserRequest>
             .NotEmpty().WithMessage(localizer["Empty First Name"])
             .MaximumLength(Name.MaxLengthFirstName).WithMessage(localizer["MaxLengthFirstName"]);
 
-        RuleFor(c => c.LastName)
-            .NotEmpty().WithMessage(localizer["EmptyLastName"])
-            .MaximumLength(Name.MaxLengthLastName).WithMessage(localizer["MaxLengthLastName"]);
+        RuleFor(c => c.Surname)
+            .NotEmpty().WithMessage(localizer["EmptySurname"])
+            .MaximumLength(Name.MaxLengthSurname).WithMessage(localizer["MaxLengthSurname"]);
 
         RuleFor(c => c.Email)
             .NotEmpty().WithMessage(localizer["Empty Email"])

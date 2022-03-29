@@ -20,7 +20,7 @@ public class AddPaymentMethodHandler : RequestHandler<AddPaymentMethodCommand>
 
         var buyerWasNull = buyer is null;
 
-        buyer ??= new(request.CustomerId, request.CustomerFirstName, request.CustomerLastName);
+        buyer ??= new(request.CustomerId, request.CustomerFirstName, request.CustomerSurname);
 
         var paymentMethod = new PaymentMethod(request.Alias, request.CardNamber, request.CardHolderName, request.Expiration);
 

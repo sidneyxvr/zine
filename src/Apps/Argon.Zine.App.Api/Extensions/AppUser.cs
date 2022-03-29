@@ -8,11 +8,11 @@ public class AppUser : IAppUser
     {
         Id = id;
         FirstName = firstName;
-        LastName = lastName;
+        Surname = lastName;
     }
     
     public Guid Id { get; init; }
     public string FirstName { get; init; } = null!;
-    public string LastName { get; init; } = null!;
-    public string FullName => $"{FirstName} {LastName}";
+    public string Surname { get; init; } = null!;
+    public string FullName => $"{FirstName} {Surname}";
 }

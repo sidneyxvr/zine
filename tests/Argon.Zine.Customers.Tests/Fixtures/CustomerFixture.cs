@@ -19,25 +19,25 @@ public class CustomerFixture
     public CustomerTestDTO GetCustomerTestDTO()
     {
         var firstName = _faker.Person.FirstName;
-        var LastName = _faker.Person.LastName;
+        var Surname = _faker.Person.LastName;
         var email = _faker.Person.Email;
         var cpf = _faker.Person.Cpf(false);
         var birthDate = DateTime.UtcNow.AddYears(-_faker.Random.Int(18, 99)).AddSeconds(-2);
         var phone = $"{_faker.Random.Int(1, 9)}{_faker.Random.Int(1, 9)}{_faker.Random.Int(910000000, 999999999)}";
 
-        return new CustomerTestDTO(firstName, LastName, email, cpf, birthDate, phone);
+        return new CustomerTestDTO(firstName, Surname, email, cpf, birthDate, phone);
     }
 
     public Customer CreateValidCustomer()
     {
         var firstName = _faker.Person.FirstName;
-        var LastName = _faker.Person.LastName;
+        var Surname = _faker.Person.LastName;
         var email = _faker.Person.Email;
         var cpf = _faker.Person.Cpf(false);
         var birthDate = DateTime.UtcNow.AddYears(-_faker.Random.Int(18, 99)).AddSeconds(-2);
         var phone = $"{_faker.Random.Int(1, 9)}{_faker.Random.Int(1, 9)}{_faker.Random.Int(910000000, 999999999)}";
 
-        return new Customer(Guid.NewGuid(), new(firstName, LastName), email, cpf, birthDate, phone);
+        return new Customer(Guid.NewGuid(), new(firstName, Surname), email, cpf, birthDate, phone);
     }
 
     public Customer CreateValidCustomerWithAddresses()
@@ -58,4 +58,4 @@ public class CustomerFixture
     }
 }
 
-public record CustomerTestDTO(string FirstName, string LastName, string Email, string Cpf, DateTime BirthDate, string Phone);
+public record CustomerTestDTO(string FirstName, string Surname, string Email, string Cpf, DateTime BirthDate, string Phone);

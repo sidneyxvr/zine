@@ -3,29 +3,29 @@
 public class Name : ValueObject
 {
     public const int MaxLengthFirstName = 50;
-    public const int MaxLengthLastName = 50;
+    public const int MaxLengthSurname = 50;
     public string FirstName { get; private set; }
-    public string LastName { get; private set; }
+    public string Surname { get; private set; }
 #pragma warning disable CS8618
     protected Name() { }
 #pragma warning restore CS8618
 
-    public string FullName => $"{FirstName} {LastName}";
+    public string FullName => $"{FirstName} {Surname}";
 
     public Name(string firstName, string lastName)
     {
         Check.NotEmpty(firstName, nameof(firstName));
         Check.NotEmpty(lastName, nameof(lastName));
         Check.MaxLength(firstName, MaxLengthFirstName, nameof(firstName));
-        Check.MaxLength(lastName, MaxLengthLastName, nameof(lastName));
+        Check.MaxLength(lastName, MaxLengthSurname, nameof(lastName));
 
         FirstName = firstName!;
-        LastName = lastName!;
+        Surname = lastName!;
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return FirstName;
-        yield return LastName;
+        yield return Surname;
     }
 }
