@@ -1,12 +1,18 @@
 using Argon.Zine.Identity.Notifications.Commands;
+using OpenTelemetry;
+using OpenTelemetry.Context.Propagation;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Diagnostics;
 using System.Text;
 
 namespace Argon.Zine.Identity.Notifications
 {
     internal class Worker : BackgroundService
     {
+        private static readonly ActivitySource _activitySource = new("RabbitMQ");
+        private static readonly TextMapPropagator _propagator = Propagators.DefaultTextMapPropagator;
+
         private IModel? _channel;
         private IConnection? _connection;
         private readonly ILogger<Worker> _logger;
@@ -36,16 +42,28 @@ namespace Argon.Zine.Identity.Notifications
             return base.StartAsync(cancellationToken);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            stoppingToken.ThrowIfCancellationRequested();
-
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += async (model, ea) =>
             {
+                var parentContext = _propagator.Extract(
+                    default,
+                    ea.BasicProperties,
+                    (props, key) =>
+                        props.Headers.TryGetValue(key, out var value)
+                            ? new[] { Encoding.UTF8.GetString((byte[])value) }
+                            : Enumerable.Empty<string>()
+                    );
+
+                Baggage.Current = parentContext.Baggage;
+                var activityName = $"{ea.RoutingKey} receive";
+                using var activity = _activitySource.StartActivity(activityName, ActivityKind.Consumer, parentContext.ActivityContext);
                 var body = ea.Body.ToArray();
 
                 var message = Encoding.UTF8.GetString(body);
+
+                activity?.SetTag("message", message);
 
                 try
                 {
@@ -55,7 +73,8 @@ namespace Argon.Zine.Identity.Notifications
 
                     var handler = _handlerFactory(command.GetType());
 
-                    await (Task)handler.GetType().GetMethod("HandleAsync")!.Invoke(handler, new[] { command })!;
+                    await Task.Delay(100);
+                    //await (Task)handler.GetType().GetMethod("HandleAsync")!.Invoke(handler, new[] { command })!;
 
                     _channel!.BasicAck(ea.DeliveryTag, multiple: false);
                 }
@@ -71,7 +90,7 @@ namespace Argon.Zine.Identity.Notifications
                 autoAck: false,
                 consumer: consumer);
 
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)

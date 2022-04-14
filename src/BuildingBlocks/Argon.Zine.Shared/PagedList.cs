@@ -10,7 +10,4 @@ public record PagedList<T>
     [JsonConstructor]
     public PagedList(IEnumerable<T> list, int count)
         => (List, Count) = (list, count);
-
-    public PagedList(IEnumerable<T> list, long count)
-        => (List, Count) = (list, (int)count);
 }

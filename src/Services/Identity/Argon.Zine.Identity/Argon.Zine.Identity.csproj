@@ -23,6 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenTelemetry" Version="1.2.0-rc4" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
   </ItemGroup>
 

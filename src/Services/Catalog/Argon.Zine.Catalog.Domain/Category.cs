@@ -13,9 +13,9 @@ public class Category : Entity, IAggregateRoot
     public bool IsActive { get; private set; }
     public bool IsDeleted { get; private set; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618
     protected Category() { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning restore CS8618
 
     public Category(string? name, string? description)
     {

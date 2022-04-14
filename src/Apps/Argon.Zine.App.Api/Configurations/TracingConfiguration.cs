@@ -29,6 +29,7 @@ public static class TracingConfiguration
         {
             builder.AddJaegerExporter(options => options.AgentHost = jaegerSettings!.HostName)
                 .AddSource(typeof(Startup).Assembly.GetName().Name)
+                .AddSource("RabbitMQ")
                 .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("WebApi"))
                 .AddAspNetCoreInstrumentation(options =>
                 {

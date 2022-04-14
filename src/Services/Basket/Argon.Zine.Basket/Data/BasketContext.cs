@@ -9,6 +9,6 @@ public class BasketContext
 
     public BasketContext(IMongoDatabase mongoDatabase)
     {
-        CustomerBaskets = mongoDatabase.GetCollection<CustomerBasket>("Baskets");
+        CustomerBaskets = mongoDatabase.GetCollection<CustomerBasket>("CustomerBaskets");
     }
 }

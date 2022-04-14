@@ -11,11 +11,13 @@ public class ProductCache : IProductQueries
 {
     private readonly IDistributedCache _cache;
     private readonly IProductQueries _productQueries;
+    private readonly static DistributedCacheEntryOptions s_distributedCacheEntryOptions = new();
 
     public ProductCache(IDistributedCache cache, IProductQueries productQueries)
     {
         _cache = cache;
         _productQueries = productQueries;
+        s_distributedCacheEntryOptions.SlidingExpiration = TimeSpan.FromMinutes(15);
     }
 
     public Task<ProductBasketResponse?> GetProductBasketByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -25,6 +27,7 @@ public class ProductCache : IProductQueries
     {
         byte[]? productCached;
         var caheAvailable = true;
+
         try
         {
             productCached = await _cache.GetAsync(id.ToString(), cancellationToken);
@@ -46,10 +49,7 @@ public class ProductCache : IProductQueries
         {
             await _cache.SetAsync(id.ToString(),
                 JsonSerializer.SerializeToUtf8Bytes(product),
-                new DistributedCacheEntryOptions
-                {
-                    SlidingExpiration = TimeSpan.FromMinutes(15),
-                },
+                s_distributedCacheEntryOptions,
                 cancellationToken);
         }
 

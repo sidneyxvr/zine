@@ -19,7 +19,7 @@ public class Product : Entity, IAggregateRoot
 #pragma warning disable CS8618
     protected Product() { }
 #pragma warning restore CS8618
-    public Product(string? name, string? description,
+    public Product(string name, string description,
         decimal price, string? imageUrl, Guid restaurantId)
     {
         Check.NotEmpty(name, nameof(name));
@@ -28,8 +28,8 @@ public class Product : Entity, IAggregateRoot
         Check.NotEmpty(restaurantId, nameof(restaurantId));
         Check.NotEmpty(imageUrl, nameof(imageUrl));
 
-        Name = name!;
-        Description = description!;
+        Name = name;
+        Description = description;
         Price = price;
         RestaurantId = restaurantId;
         ImageUrl = imageUrl!;

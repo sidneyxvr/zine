@@ -32,7 +32,7 @@ public class BaseController : ControllerBase
                 : char.ToLower(e.Key[0]) + e.Key[1..], e => e.Select(m => m.ErrorMessage).ToArray());
 
         var problemDetails = new ValidationProblemDetails(errorsDictionary);
-        problemDetails.Extensions["traceId"] = HttpContext.TraceIdentifier;
+        problemDetails.Extensions["traceId"] = Activity.Current?.TraceId.ToString() ?? HttpContext.TraceIdentifier;
 
         return problemDetails;
     }

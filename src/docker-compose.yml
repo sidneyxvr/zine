@@ -35,6 +35,19 @@ services:
       - rabbitmq
       - redis
 
+  argon.zine.identity.notifications:
+    image: ${DOCKER_REGISTRY-}argonzineidentitynotifications
+    container_name: identitynotifications
+    hostname: identitynotifications
+    build:
+      context: .
+      dockerfile: Services/Identity/Argon.Zine.Identity.Notifications/Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - rabbitnetwork
+      - jaegernetwork
+
   eventstore:
     image: eventstore/eventstore:21.2.0-buster-slim
     container_name: eventstore
